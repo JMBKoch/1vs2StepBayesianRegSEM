@@ -72,16 +72,17 @@ bibliography      : ["refs.bib"]
 
 ## A Promising Candidate: The Regularized Horseshoe Prior
 
-- Extension of Horseshoe Prior [@carvalho_horseshoe_2010]
+- Extension of *Horseshoe Prior* [@carvalho_horseshoe_2010]
 - Main idea: global shrinkage parameter (shrinking all cross-loadings to zero) and local shrinkage parameter (allowing the relevant cross-loadings to escape the shrinkage) [@piironen_sparsity_2017]
+- Regularized adds the slab [@piironen_sparsity_2017], which shrinks ALL cross-loadings at least a little bit, to avoid identification issues [see @ghosh_use_2018]
 - Formally:
-- Regularized adds the slab, which shrinks ALL cross-loadings at least a little bit, to avoid identification issues [see @ghosh_use_2018]
+
 
 ## The present study
 
 <center>
 
-![](~/1vs2StepBayesianRegSEM/Rmd/figures/model.png)
+![](~/OneDrive/ms/thesis/Rmd/figures/model.png)
 
 </center>
 
