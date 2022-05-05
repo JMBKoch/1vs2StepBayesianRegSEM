@@ -226,7 +226,7 @@ saveResults <- function(rstanObj, condPrior, condPop, modelPars){
                biasMainMean,
                biasMainMed,
                crossEstMean,
-               crossEstMed,e
+               crossEstMed,
                crossEstVar,
                biasCrossMean,
                biasCrossMed,
