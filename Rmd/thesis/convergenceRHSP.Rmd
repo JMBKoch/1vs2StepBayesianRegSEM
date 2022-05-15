@@ -103,14 +103,16 @@ totalSumDiv
 totalSumDiv / (2000*nrow(convRHSP))
 ```
 
-In total, there are a gazillion divergent transition, but only a fraction of all transitions were divergent. Let's start by computing the percentage, per individual replication. And then we can check how big that is on average per set of conditions.
+In total, there are a gazillion divergent transition, but only a fraction of all transitions were divergent. Let's start by computing the percentage per individual replication. And then we can check how big that is on average per set of conditions.
 
 ```{r}
+meanPercDiv <- 
 convRHSP %>% 
   filter(parameter == "Rhat") %>% # doesn't matter which you pick here
   mutate(percDiv = sumDiv/ samplePars$nSampling) %>% 
   group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
   summarise(meanPercDiv = mean(percDiv)*100)
+meanPercDiv
 ```
 
 ## Effective Sample Size

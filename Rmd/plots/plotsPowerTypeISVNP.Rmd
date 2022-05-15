@@ -25,7 +25,7 @@ source('~/OneDrive/ms/thesis/R/parameters.R')
 resultsSVNP <- read.csv("~/1vs2StepBayesianRegSEM/output/resultsSVNP.csv", 
                         sep = " ", 
                         header = TRUE)
-convSVNP <- read.csv("~~/1vs2StepBayesianRegSEM/output/convSVNP.csv",
+convSVNP <- read.csv("~/1vs2StepBayesianRegSEM/output/convSVNP.csv",
                      sep = " ",
                      header = TRUE)
 ```
@@ -43,8 +43,7 @@ resultsSVNP <-
          biasCrossMean_3 = abs(crossEstMean_3 - 0),
          biasCrossMean_4 = abs(crossEstMean_4 - 0),
          biasCrossMean_5 = abs(crossEstMean_5 - 0),
-         biasCrossMean_6 = abs(crossEstMean_6 - cross),
-         condID = rep(1:(nrow(condPop)*nrow(condSVNP)), each = nIter) 
+         biasCrossMean_6 = abs(crossEstMean_6 - cross) 
 ) 
   
 ```
@@ -132,9 +131,7 @@ PowerSVNP <-
         cross = mean(cross),
         sigmaSqu = mean(sigmaSqu), 
         X2.5._1 = mean(X2.5._1),
-        X97.5._1 = mean(X97.5._1)) %>% 
-  select(N, sigmaSqu, cross, powerCI95Mean_1, powerCI95Mean_6)
-papaja::apa_table(PowerSVNP)
+        X97.5._1 = mean(X97.5._1)) 
 ```
 
 
