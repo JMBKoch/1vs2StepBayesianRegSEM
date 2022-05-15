@@ -213,7 +213,7 @@ resultsSVNP %>%
   ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group = label, col = label))+
   geom_point()+
   geom_line()+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "Mean Absolute Bias",
       title = "Factor Correlation")+
   ylim(0, 0.5)+

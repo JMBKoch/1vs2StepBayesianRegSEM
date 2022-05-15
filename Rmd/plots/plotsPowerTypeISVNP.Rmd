@@ -30,7 +30,6 @@ convSVNP <- read.csv("~/1vs2StepBayesianRegSEM/output/convSVNP.csv",
                      header = TRUE)
 ```
 
-
 ## Post-process
 
 ```{r}
@@ -138,47 +137,130 @@ PowerSVNP <-
 PowerSVNP
 ```
 
-
 # Plots
-
-## Ratio of correct identification
-
-See Figure 5 p.7 Zhang et al. 
-
-## ROC
-
-Stappen:
-- TypeI error rate &  Power (True Positive rate) middelen over de 4, ofwel 2 items. 
-- Op X-as type I (false pos), op Y-as power (true-pos)
-- Group/ col = sigma^2
-- N = facet-wrap
-
-=> ff kijken wat er gebeurd
-=> Kan straks makkelijk uitgebreid worden op basis van andere selectiecriteria
 
 ```{r}
 AvgTypeIAndPower <- 
 TypeISVNP %>% 
   left_join(PowerSVNP, by = c("N", "sigmaSqu", "cross")) %>% 
-  transmute(avgPowerTres0.15 = (powerTres0.15Mean_1 + powerTres0.15Mean_6)/2, 
-            avgPowerTres0.10 = (powerTres0.10Mean_1 + powerTres0.10Mean_6)/2, 
-            avgPowerTres0.05 = (powerTres0.05Mean_1 + powerTres0.05Mean_6)/2, 
-            avgPowerTres0 = (powerTres0Mean_1 + powerTres0Mean_6)/2, 
-            avgPowerCI95 = (powerCI95Mean_1 + powerCI95Mean_6)/2, 
-            avgPowerCI90 = (powerCI90Mean_1 + powerCI90Mean_6)/2, 
-            avgPowerCI80 = (powerCI80Mean_1 + powerCI80Mean_6)/2, 
-            avgPowerCI50 = (powerCI50Mean_1 + powerCI50Mean_6)/2, 
-            avgTypeITres0.15 = (typeITres0.15Mean_2 + typeITres0.15Mean_3 + typeITres0.15Mean_4 + typeITres0.15Mean_5)/ 4,
-            avgTypeITres0.10 = (typeITres0.10Mean_2 + typeITres0.10Mean_3 + typeITres0.10Mean_4 + typeITres0.10Mean_5)/ 4,
-            avgTypeITres0.05 = (typeITres0.05Mean_2 + typeITres0.05Mean_3 + typeITres0.05Mean_4 + typeITres0.05Mean_5)/ 4,
-            avgTypeITres0 = (typeITres0Mean_2 + typeITres0Mean_3 + typeITres0Mean_4 + typeITres0Mean_5)/ 4,
-            avgTypeICI95 = (typeICI95Mean_2 + typeICI95Mean_3 + typeICI95Mean_4 + typeICI95Mean_5) / 4,
-            avgTypeICI90 = (typeICI90Mean_2 + typeICI90Mean_3 + typeICI90Mean_4 + typeICI90Mean_5) / 4,
-            avgTypeICI80 = (typeICI80Mean_2 + typeICI80Mean_3 + typeICI80Mean_4 + typeICI80Mean_5) / 4,
-            avgTypeICI50 = (typeICI50Mean_2 + typeICI50Mean_3 + typeICI50Mean_4 + typeICI50Mean_5) / 4,
+  transmute(avgPower_0.15 = (powerTres0.15Mean_1 + powerTres0.15Mean_6)/2, 
+            avgPower_0.10 = (powerTres0.10Mean_1 + powerTres0.10Mean_6)/2, 
+            avgPower_0.05 = (powerTres0.05Mean_1 + powerTres0.05Mean_6)/2, 
+            avgPower_0 = (powerTres0Mean_1 + powerTres0Mean_6)/2, 
+            avgPower_95 = (powerCI95Mean_1 + powerCI95Mean_6)/2, 
+            avgPower_90 = (powerCI90Mean_1 + powerCI90Mean_6)/2, 
+            avgPower_80 = (powerCI80Mean_1 + powerCI80Mean_6)/2, 
+            avgPower_50 = (powerCI50Mean_1 + powerCI50Mean_6)/2, 
+            avgTypeI_0.15 = (typeITres0.15Mean_2 + typeITres0.15Mean_3 + typeITres0.15Mean_4 + typeITres0.15Mean_5)/ 4,
+            avgTypeI_0.10 = (typeITres0.10Mean_2 + typeITres0.10Mean_3 + typeITres0.10Mean_4 + typeITres0.10Mean_5)/ 4,
+            avgTypeI_0.05 = (typeITres0.05Mean_2 + typeITres0.05Mean_3 + typeITres0.05Mean_4 + typeITres0.05Mean_5)/ 4,
+            avgTypeI_0 = (typeITres0Mean_2 + typeITres0Mean_3 + typeITres0Mean_4 + typeITres0Mean_5)/ 4,
+            avgTypeI_95 = (typeICI95Mean_2 + typeICI95Mean_3 + typeICI95Mean_4 + typeICI95Mean_5) / 4,
+            avgTypeI_90 = (typeICI90Mean_2 + typeICI90Mean_3 + typeICI90Mean_4 + typeICI90Mean_5) / 4,
+            avgTypeI_80 = (typeICI80Mean_2 + typeICI80Mean_3 + typeICI80Mean_4 + typeICI80Mean_5) / 4,
+            avgTypeI_50 = (typeICI50Mean_2 + typeICI50Mean_3 + typeICI50Mean_4 + typeICI50Mean_5) / 4,
             cross = cross
          ) %>% 
-  select(N, sigmaSqu, cross, avgPowerTres0.15:avgTypeICI50)
+  select(N, sigmaSqu, cross, avgPower_0.15:avgTypeI_50)
 AvgTypeIAndPower
 ```
 
+No recode to long to allow making nice plots inspired by Zhang et al.
+
+```{r}
+AvgTypeIAndPowerLong <- 
+AvgTypeIAndPower %>% 
+  pivot_longer(cols = avgPower_0.15:avgTypeI_50, 
+               names_to = "Criterion",
+               names_prefix = "_") %>% 
+  mutate(outcome = as.factor(ifelse(str_detect(Criterion, "Power"), "power", "typeI")),
+         criterion = as.factor(str_replace_all(Criterion, c("avgPower_0.15" = "Treshold 0.15", 
+                                                            "avgPower_0.10" = "Treshold 0.10", 
+                                                            "avgPower_0.05" = "Treshold 0.05", 
+                                                            "avgPower_0" = "Treshold 0", 
+                                                            "avgPower_95" = "95% Credibel Interval", 
+                                                            "avgPower_90" = "90% Credibel Interval",
+                                                            "avgPower_80" = "80% Credibel Interval",
+                                                            "avgPower_50" = "50% Credibel Interval",
+                                                            "avgTypeI_0.15" = "Treshold 0.15", 
+                                                            "avgTypeI_0.10" = "Treshold 0.10", 
+                                                            "avgTypeI_0.05" = "Treshold 0.05", 
+                                                            "avgTypeI_0" = "Treshold 0", 
+                                                            "avgTypeI_95" = "95% Credibel Interval", 
+                                                            "avgTypeI_90" = "90% Credibel Interval",
+                                                            "avgTypeI_80" = "80% Credibel Interval",
+                                                            "avgTypeI_50" = "50% Credibel Interval" )))) %>% 
+  select(N, sigmaSqu, cross, outcome, criterion, value)
+```
+
+
+# Power: Replicating Figure 3 Zhang et al. (p. 6)
+
+```{r}
+Power <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion))+
+  geom_line()+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       col = "Selection Criteria",
+       linetype = NULL
+       )+
+  guides(linetype = FALSE)+
+  facet_grid(cols = vars(sigmaSqu),
+             rows = vars(N))+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+Power
+```
+
+## Type-I Error Rate: Replicating Figure 4 Zhang et al. (p. 7)
+
+```{r}
+TypeI <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "typeI") %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
+  geom_line()+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       col = "Selection Criteria",
+       linetype = NULL
+       )+
+  guides(linetype = FALSE)+
+  facet_grid(cols = vars(sigmaSqu),
+             rows = vars(N))+
+  theme_apa( )+
+  theme(panel.border = element_rect(fill = NA))
+TypeI
+```
+
+## ROC
+
+### ROC: Treshold 0.10
+
+```{r}
+ROCTres0.10 <- 
+  filter(outcome == "typeI") %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion))+
+  geom_line(aes(linetype = criterion))+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       col = "Selection Criteria",
+       )+
+  guides(linetype = FALSE)+
+  facet_grid(cols = vars(sigmaSqu),
+             rows = vars(N))+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+ROCTres0.10
+```
+
+### ROC: 95% CI
+
+## Ratio of correct identification
+
+See Figure 5 p.7 Zhang et al. 
+
+vaag??? -> ff met Sara over hebben

@@ -90,6 +90,12 @@ resultsRHSP <-
   filter(pos > 200)
 ```
 
+```{r}
+convRHSO <- 
+  resultsRHSP %>% 
+  filter(pos > 200)
+```
+
 
 # Convergence
 
@@ -121,7 +127,10 @@ meanPercDiv
 convRHSP %>% 
   filter(parameter == "n_eff") %>% 
   group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
-  map_df(mean)
+  #map_df(as.numeric) %>% 
+  select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, lambdaMainC.1.:theta.6.) %>% 
+  
+  summarise_all(mean)
 ```
 
 
