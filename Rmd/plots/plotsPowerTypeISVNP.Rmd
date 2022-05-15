@@ -77,6 +77,7 @@ TypeISVNP <-
             typeITres0.05Mean_2 = mean(isZeroTres0.05Mean_2),
             typeITres0.05Mean_3 = mean(isZeroTres0.05Mean_3),
             typeITres0.05Mean_4 = mean(isZeroTres0.05Mean_4),
+            typeITres0.05Mean_5 = mean(isZeroTres0.05Mean_5),
             typeITres0Mean_5 = mean(isZeroTres0Mean_5),
             typeITres0Mean_2 = mean(isZeroTres0Mean_2),
             typeITres0Mean_3 = mean(isZeroTres0Mean_3),
@@ -156,9 +157,25 @@ Stappen:
 => Kan straks makkelijk uitgebreid worden op basis van andere selectiecriteria
 
 ```{r}
-#TypeIAndPower <- 
+AvgTypeIAndPower <- 
 TypeISVNP %>% 
-  left_join(PowerSVNP) %>% 
-  mutate()
+  left_join(PowerSVNP, by = c("N", "sigmaSqu", "cross")) %>% 
+  transmute(avgPowerTres0.15 = (powerTres0.15Mean_1 + powerTres0.15Mean_6)/2, 
+            avgPowerTres0.10 = (powerTres0.10Mean_1 + powerTres0.10Mean_6)/2, 
+            avgPowerTres0.05 = (powerTres0.05Mean_1 + powerTres0.05Mean_6)/2, 
+            avgPowerTres0 = (powerTres0Mean_1 + powerTres0Mean_6)/2, 
+            avgPowerCI95 = (powerCI95Mean_1 + powerCI95Mean_6)/2, 
+            avgPowerCI90 = (powerCI90Mean_1 + powerCI90Mean_6)/2, 
+            avgPowerCI80 = (powerCI80Mean_1 + powerCI80Mean_6)/2, 
+            avgPowerCI50 = (powerCI50Mean_1 + powerCI50Mean_6)/2, 
+            avgTypeITres0.15 = (typeITres0.15Mean_2 + typeITres0.15Mean_3 + typeITres0.15Mean_4 + typeITres0.15Mean_5)/ 4,
+            avgTypeITres0.10 = (typeITres0.10Mean_2 + typeITres0.10Mean_3 + typeITres0.10Mean_4 + typeITres0.10Mean_5)/ 4,
+            avgTypeITres0.05 = (typeITres0.05Mean_2 + typeITres0.05Mean_3 + typeITres0.05Mean_4 + typeITres0.05Mean_5)/ 4,
+            avgTypeITres0 = (typeITres0Mean_2 + typeITres0Mean_3 + typeITres0Mean_4 + typeITres0Mean_5)/ 4,
+            avgTypeICI95 = (typeICI95Mean_2 + typeICI95Mean_3 + typeICI95Mean_4 + typeICI95Mean_5) / 4,
+            avgTypeICI90 = (typeICI90Mean_2 + typeICI90Mean_3 + typeICI90Mean_4 + typeICI90Mean_5) / 4,
+            avgTypeICI80 = (typeICI80Mean_2 + typeICI80Mean_3 + typeICI80Mean_4 + typeICI80Mean_5) / 4,
+            avgTypeICI50 = (typeICI50Mean_2 + typeICI50Mean_3 + typeICI50Mean_4 + typeICI50Mean_5) / 4
+         )
 ```
 
