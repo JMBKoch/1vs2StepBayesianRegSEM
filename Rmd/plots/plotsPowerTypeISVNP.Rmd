@@ -175,7 +175,10 @@ TypeISVNP %>%
             avgTypeICI95 = (typeICI95Mean_2 + typeICI95Mean_3 + typeICI95Mean_4 + typeICI95Mean_5) / 4,
             avgTypeICI90 = (typeICI90Mean_2 + typeICI90Mean_3 + typeICI90Mean_4 + typeICI90Mean_5) / 4,
             avgTypeICI80 = (typeICI80Mean_2 + typeICI80Mean_3 + typeICI80Mean_4 + typeICI80Mean_5) / 4,
-            avgTypeICI50 = (typeICI50Mean_2 + typeICI50Mean_3 + typeICI50Mean_4 + typeICI50Mean_5) / 4
-         )
+            avgTypeICI50 = (typeICI50Mean_2 + typeICI50Mean_3 + typeICI50Mean_4 + typeICI50Mean_5) / 4,
+            cross = cross
+         ) %>% 
+  select(N, sigmaSqu, cross, avgPowerTres0.15:avgTypeICI50)
+AvgTypeIAndPower
 ```
 
