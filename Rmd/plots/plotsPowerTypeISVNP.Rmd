@@ -55,7 +55,7 @@ resultsSVNP <-
 ```{r}
 # For Tresholdvariables: 1 = nonZero, 0 = zero
 # For CI variables: 0 = nonZero, 1 = zero
-#TypeISVNP <- 
+TypeISVNP <- 
  resultsSVNP %>% 
   select(
         isZeroTres0.10Mean_1:isZero50CI_6,
@@ -101,6 +101,7 @@ resultsSVNP <-
         N = mean(N),
         cross = mean(cross),
         sigmaSqu = mean(sigmaSqu))
+TypeISVNP
 ```
 
 ## Power
@@ -129,9 +130,11 @@ PowerSVNP <-
             powerCI50Mean_6 = mean(isZero50CI_6 == 0),
         N = mean(N),
         cross = mean(cross),
-        sigmaSqu = mean(sigmaSqu), 
-        X2.5._1 = mean(X2.5._1),
-        X97.5._1 = mean(X97.5._1)) 
+        sigmaSqu = mean(sigmaSqu) 
+        #,X2.5._1 = mean(X2.5._1),
+        #X97.5._1 = mean(X97.5._1)
+  )
+PowerSVNP
 ```
 
 
@@ -152,4 +155,10 @@ Stappen:
 => ff kijken wat er gebeurd
 => Kan straks makkelijk uitgebreid worden op basis van andere selectiecriteria
 
-KLAAR
+```{r}
+#TypeIAndPower <- 
+TypeISVNP %>% 
+  left_join(PowerSVNP) %>% 
+  mutate()
+```
+
