@@ -202,12 +202,12 @@ AvgTypeIAndPowerLong %>%
   filter(outcome == "power") %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion))+
   geom_line()+
+  geom_point(shape = 4, alpha = .8)+
   labs(x = "Size Cross-Loading",
        y = "Power",
        col = "Selection Criteria",
-       linetype = NULL
+       linetype = "Selection Criteria"
        )+
-  guides(linetype = FALSE)+
   facet_grid(cols = vars(sigmaSqu),
              rows = vars(N))+
   theme_apa()+
@@ -223,12 +223,12 @@ AvgTypeIAndPowerLong %>%
   filter(outcome == "typeI") %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
   geom_line()+
+  geom_point(shape = 4, alpha = .8)+
   labs(x = "Size Cross-Loading",
        y = "Power",
        col = "Selection Criteria",
-       linetype = NULL
+       linetype = "Selection Criteria"
        )+
-  guides(linetype = FALSE)+
   facet_grid(cols = vars(sigmaSqu),
              rows = vars(N))+
   theme_apa( )+
@@ -242,7 +242,7 @@ TypeI
 
 ```{r}
 ROCTres0.10 <- 
-  filter(outcome == "typeI") %>% 
+  select() %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion))+
   geom_line(aes(linetype = criterion))+
   labs(x = "Size Cross-Loading",
