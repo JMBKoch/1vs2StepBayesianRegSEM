@@ -225,7 +225,7 @@ AvgTypeIAndPowerLong %>%
   geom_line()+
   geom_point(shape = 4, alpha = .8)+
   labs(x = "Size Cross-Loading",
-       y = "Power",
+       y = "Type-I Error Rate",
        col = "Selection Criteria",
        linetype = "Selection Criteria"
        )+

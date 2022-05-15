@@ -126,11 +126,11 @@ meanPercDiv
 ```{r}
 convRHSP %>% 
   filter(parameter == "n_eff") %>% 
-  group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
+  select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos, lambdaMainC.1.:theta.6.) %>% 
+  group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos) %>%
   #map_df(as.numeric) %>% 
-  select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, lambdaMainC.1.:theta.6.) %>% 
-  
-  summarise_all(mean)
+  summarise_all(mean) %>% 
+  mutate_at(.vars = 10:28, .funs = function(x){x/samplePars$nSampling} ) 
 ```
 
 
