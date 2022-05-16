@@ -1,0 +1,72 @@
+---
+title: "Plots Relative Bias"
+author: "Koch, J.M.B. (Michael)"
+date: '2022-05-02'
+output: html_document
+---
+```{r, echo=F}
+knitr::opts_chunk$set(echo = F, message = F)
+```
+
+
+```{r, message = F, warning = F}
+# load packages outside of simulation
+library(papaja)
+library(patchwork)
+#source required functions & parameters
+source('~/OneDrive/ms/thesis/R/functions.R')
+source('~/OneDrive/ms/thesis/R/parameters.R')
+```
+
+```{r}
+# load results  (already filtered and post-processed)
+resultsRHSP <- readRDS("~/1vs2StepBayesianRegSEM/output/resultsRHSPFilter.Rds")
+nrow(resultsRHSP)
+```
+
+
+```{r}
+relBiasRHSP <- 
+ resultsRHSP %>% 
+      mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+      mutate(
+        relBiasMainMean_1 =  abs(mainEstMean_1 - modelPars$main[1]) /modelPars$main[1],
+        relBiasMainMean_2 =  abs(mainEstMean_2 - modelPars$main[2]) /modelPars$main[2],
+        relBiasMainMean_3 =  abs(mainEstMean_3 - modelPars$main[3]) /modelPars$main[3],
+        relBiasMainMean_4 =  abs(mainEstMean_4 - modelPars$main[4]) /modelPars$main[4],
+        relBiasMainMean_5 =  abs(mainEstMean_5 - modelPars$main[5]) /modelPars$main[5],
+        relBiasMainMean_6 =  abs(mainEstMean_6 - modelPars$main[6]) /modelPars$main[6],
+        relBiasCrossMean_1 = abs(crossEstMean_1 - cross)/ cross,
+        relBiasCrossMean_2 = abs(crossEstMean_2 - 0), # is true par 0, rel bias = bias
+        relBiasCrossMean_3 = abs(crossEstMean_3 - 0), 
+        relBiasCrossMean_4 = abs(crossEstMean_4 - 0), 
+        relBiasCrossMean_5 = abs(crossEstMean_5 - 0),
+        relBiasCrossMean_6 = abs(crossEstMean_6 - cross)/cross, 
+        relBiasFactCorrEstMean = abs(factCorrEstMean - modelPars$Psi[1, 2])/modelPars$Psi[1, 2]) %>% 
+      group_by(N, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>% 
+      summarise(
+        relBiasMainMean_1 =  mean(relBiasMainMean_1),
+        relBiasMainMean_2 =  mean(relBiasMainMean_2),
+        relBiasMainMean_3 =  mean(relBiasMainMean_3),
+        relBiasMainMean_4 =  mean(relBiasMainMean_4),
+        relBiasMainMean_5 =  mean(relBiasMainMean_5),
+        relBiasMainMean_6 =  mean(relBiasMainMean_6),
+        relBiasCrossMean_1 = mean(relBiasCrossMean_1),
+        relBiasCrossMean_2 = mean(relBiasCrossMean_2),
+        relBiasCrossMean_3 = mean(relBiasCrossMean_3),
+        relBiasCrossMean_4 = mean(relBiasCrossMean_4),
+        relBiasCrossMean_5 = mean(relBiasCrossMean_5),
+        relBiasCrossMean_6 = mean(relBiasCrossMean_6),
+        relBiasFactCorrEstMean = mean(relBiasFactCorrEstMean)
+      )
+relBiasRHSP
+
+```
+
