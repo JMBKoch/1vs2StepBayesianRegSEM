@@ -58,7 +58,20 @@ The art of statistical modeling revolves around coming up with an appropriate si
 
 ## Regularization 
 
-A classic method of trying to find a balance between model complexity and model simplicity is *regularization* [@hastie_statistical_2015]. Regularization entails adding some bias to a model on purpose to reduce its variance. This helps to make models easier to interpret and more generalizable. In a frequentist context, regularization is achieved by adding a penality term to the cost function of a model. This ensures that model parameters that are irrelevant, e.g. small regression coefficients in a regression model with a large number of predictors, are shrunken to (or towards) zero. In general terms, for a regression model
+A classic method of trying to find a balance between model complexity and model simplicity is *regularization* [@hastie_statistical_2015]. Regularization entails adding some bias to a model on purpose to reduce its variance. This helps to make models easier to interpret and more generalizable. In a frequentist context, regularization is achieved by adding a penality term to the cost function of a model. This ensures that model parameters that are irrelevant, e.g. small regression coefficients in a regression model with a large number of predictors, are shrunken to (or towards) zero. In general terms, for a regression model:
+
+$$Y = \mathbf{\beta} X + \mathbf{e}$$, where 
+$$$$, 
+
+the sum-of squared residuals are minimized 
+
+$$argmin $$. 
+
+Penalized regression adds a a penality term to this cost function 
+
+When ... ridge, when.. lasso. 
+
+Hier ook alvast ingaan op @jacobucci_regularized_2016
 
 
 In a Bayesian context, instead of adding a penalty to the cost function of a model, so-called shrinkage-priors are set for the parameters [@van_erp_shrinkage_2019]. I
@@ -71,7 +84,6 @@ In a Bayesian context, instead of adding a penalty to the cost function of a mod
 The well-known ridge- [@hoerl_ridge_2000] and lasso-penalization [@tibshirani_regression_1996] in regression resembles to setting a ridge-prior [@hsiang_bayesian_1975] or a Laplace-prior [@park_bayesian_2008] for regression coefficients respectively.
 
 
-Hier ook alvast ingaan op @jacobucci_regularized_2016
 
 
 
