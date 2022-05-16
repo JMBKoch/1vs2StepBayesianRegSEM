@@ -27,22 +27,6 @@ convRHSP <- read.csv("~/OneDrive/ms/thesis/output/convRHSP.csv",
                      header = TRUE)
 ```
 
-# Post-process
-
-```{r}
-resultsRHSP <- 
-  resultsRHSP %>% 
-  arrange(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, iteration) %>% 
-  mutate(biasCrossMean_1 = abs(crossEstMean_1 - cross),
-         biasCrossMean_2 = abs(crossEstMean_2 - 0),
-         biasCrossMean_3 = abs(crossEstMean_3 - 0),
-         biasCrossMean_4 = abs(crossEstMean_4 - 0),
-         biasCrossMean_5 = abs(crossEstMean_5 - 0),
-         biasCrossMean_6 = abs(crossEstMean_6 - cross)
-) 
-  
-```
-
 ```{r}
 # inspect a bit
 nrow(resultsRHSP)
@@ -61,14 +45,13 @@ length(failedChainIndex)
 failedChainIndex
 ```
 
-These indicices are all from the first 200 iterations. We can simply find the set of conditions belong to thi sby subsetting the first row of results
+These indicices are all from the first 200 iterations. We can simply find the set of conditions belong to this by subsetting the first row of the results object.
 
 ```{r}
 resultsRHSP %>% 
   select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, iteration) %>%
   head(1)
 ```
-
 
 Thus, with N = 100, cross = 0.2 and the hyper-parameters all on their lowest vaslue (0.1 for scales, and 1 for df's) the chains don't converge in the majority of the cases.
 
@@ -104,22 +87,39 @@ Let's explore the convergence a bit (of the remaining set of conditions).
 ## Divergent transitions
 
 ```{r}
-totalSumDiv <- sum(convRHSP$sumDiv)
+totalSumDiv <- sum(convRHSP$sumDiv)/2
 totalSumDiv
-totalSumDiv / (2000*nrow(convRHSP))
+totalSumDiv / (2000*nrow(convRHSP)/2)
 ```
 
 In total, there are a gazillion divergent transition, but only a fraction of all transitions were divergent. Let's start by computing the percentage per individual replication. And then we can check how big that is on average per set of conditions.
 
 ```{r}
-meanPercDiv <- 
+meanPropDiv <- 
 convRHSP %>% 
   filter(parameter == "Rhat") %>% # doesn't matter which you pick here
-  mutate(percDiv = sumDiv/ samplePars$nSampling) %>% 
+  mutate(propDiv = sumDiv/ samplePars$nSampling) %>% 
   group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
-  summarise(meanPercDiv = mean(percDiv)*100)
-meanPercDiv
+  summarise(meanPropDiv = mean(propDiv))
+meanPropDiv
 ```
+
+On average, they appear to be quite low. There appears to be no set of conditions where the proportion of divergent transition is lager than 0.09. 
+
+Let's find the indices of the runs where the divergent transitions exceeded 5%.
+
+```{r}
+indicesDIVTooHigh <- 
+convRHSP %>% 
+  filter(parameter == "Rhat") %>% # doesn't matter which you pick here
+  mutate(propDIV = sumDiv/ samplePars$nSampling) %>% 
+  filter(propDIV >= convCriteria$strict$maxPropDIV) %>% 
+  select(pos) %>% 
+  pull()
+length(indicesDIVTooHigh)
+```
+
+This would remove 4474 rows.
 
 ## Effective Sample Size
 
@@ -152,7 +152,7 @@ convRHSP %>%
   filter(parameter == "Rhat") %>% 
   select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos, lambdaMainC.1.:theta.6.) %>% 
   # get indices of all iterations where for any parameter 
-  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x >= 1.05) %>% 
+  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x >= convCriteria$strict$maxRhat) %>% 
   select(pos) %>% 
   pull()
 ```
@@ -165,12 +165,13 @@ length(indicesRHatTooSmall)
 This technically removes 15 rows...
 
 ```{r}
-indicesCombined <- unique(c(indicesRHatTooSmall, indicesNEffTooSmall))
+indicesCombined <- unique(c(indicesRHatTooSmall, indicesNEffTooSmall
+                            #, indicesDIVTooHigh
+                            ))
 length(indicesCombined)
 ```
 
-.. but they were all part of the rows with too little n_samp.
-
+.. but they were all part of the rows with too little n_samp. 
 
 It's interesting to check, where we lost the rows specifically (under what conditions).
 
@@ -181,7 +182,6 @@ resultsRHSP %>%
 
 ```
 
-
 # Post-process
 
 Here, I can subset the data based on the indices accquired above.
@@ -191,12 +191,13 @@ Next, I arrange the data based on conditions and iterations and recaculate the b
 ```{r}
 resultsRHSPFiltered <- 
   resultsRHSP %>% 
-  filter( !(pos%in% indicesCombined)) %>% 
-  arrange(scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab, N, cross, iteration) %>%          mutate(biasCrossMean_1 =abs(crossEstMean_1 - cross),
-                biasCrossMean_2 = abs(crossEstMean_2 - 0),
-                biasCrossMean_3 = abs(crossEstMean_3 - 0),
-                biasCrossMean_4 = abs(crossEstMean_4 - 0),
-                biasCrossMean_5 = abs(crossEstMean_5 - 0),
-                biasCrossMean_6 = abs(crossEstMean_6 - cross))
+  filter(!(pos%in% indicesCombined)) %>% 
+  arrange(scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab, N, cross, iteration) %>%  
+  mutate(biasCrossMean_1 =abs(crossEstMean_1 - cross),
+         biasCrossMean_2 = abs(crossEstMean_2 - 0),
+         biasCrossMean_3 = abs(crossEstMean_3 - 0),
+         biasCrossMean_4 = abs(crossEstMean_4 - 0),
+         biasCrossMean_5 = abs(crossEstMean_5 - 0),
+         biasCrossMean_6 = abs(crossEstMean_6 - cross))
 nrow(resultsRHSPFiltered) + length(indicesCombined)
 ```
