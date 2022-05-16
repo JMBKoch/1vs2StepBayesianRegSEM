@@ -294,7 +294,17 @@ A particularly promising candidate is the so-called \emph{Regularized Horseshoe 
 \[\lambda_{c,jk} | \omega_{jk}, \tau, c\sim \mathcal{N}(0, \ \omega^2_{jk} \tau^2)\]
 \[\omega_{jk} \sim \mathcal{C^+}(0, 1).\]
 
-The name-giving intuition behind the horseshoe prior\ldots.
+\(\tau\) hyper-parameter: the larger, the larger global shrinkage
+
+\(\omega_{jk}\): thick Cauchy tails allowing to escape shrinkage.
+
+The name-giving intuition behind the horseshoe prior becomes clear when considering the finding that (Piironen \& Vehtari, 2017b):
+
+\[\bar{\lambda}_{c,jk} = (1 \ - \ k_{jk}) \hat{\lambda}_{c,jk}\], where
+\[k_{jk} = \frac{1}{1 + n \sigma^{-2}\tau^2s_{jk}\omega^2_{jk}}\].
+
+Here \(k_{jk}\), denotes the so-called \emph{shrinkage factor} for cross-loading \(\lambda_{c,jk}\).
+When plotting \(k_{jk}\) \ldots{}
 
 \begin{itemize}
 \tightlist
@@ -345,8 +355,6 @@ The datasets were simulated based on a true 2-factor model, with three items per
 \includegraphics{~/1vs2StepBayesianRegSEM/Rmd/figures/model.png}
 \caption{Graphical Representation of the True Model.}
 \end{figure}
-
-Add Table(s) summarizing all conditions for both priors. Even nadenken wat handig is
 
 \hypertarget{outcomes}{%
 \subsection{Outcomes}\label{outcomes}}

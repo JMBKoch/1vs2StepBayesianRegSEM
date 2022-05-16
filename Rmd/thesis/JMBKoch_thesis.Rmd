@@ -195,10 +195,6 @@ The datasets were simulated based on a true 2-factor model, with three items per
 
 ![Graphical Representation of the True Model.](~/1vs2StepBayesianRegSEM/Rmd/figures/model.png)
 
-
-Add Table(s) summarizing all conditions for both priors. Even nadenken wat handig is
-
-
 ## Outcomes
 
 We focus^[We also computed the Mean Squared Error and Relative Bias of the posterior mean estimates, the Power in selecting truly non-zero cross-loadings as non-zero (see also Appendix B) and the Type-I-Error-Rate in selecting truly zero cross-loadings as non-zero (based on several selection criteria). Outcomes were also computed for median posterior estimates. Summaries of all outcomes can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/plots.] on the Mean (Absolute) Bias of the posterior mean estimates of all model parameters, per set of conditions ($\bar{\theta} | conditions$). 

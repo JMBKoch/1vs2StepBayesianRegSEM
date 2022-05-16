@@ -200,4 +200,11 @@ resultsRHSPFiltered <-
          biasCrossMean_5 = abs(crossEstMean_5 - 0),
          biasCrossMean_6 = abs(crossEstMean_6 - cross))
 nrow(resultsRHSPFiltered) + length(indicesCombined)
+# Save filtered data as .Rds file for further analysis
+saveRDS(resultsRHSPFiltered, file = "~/1vs2StepBayesianRegSEM/output/resultsRHSPFilter.Rds")
 ```
+
+```{r}
+nrow(resultsRHSPFiltered)
+```
+

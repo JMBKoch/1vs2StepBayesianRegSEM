@@ -103,7 +103,7 @@ convCriteria <- list(
   strict = list(
     minPropNEFF = .10,
     maxRhat = 1.05,
-    maxPropDIV = .005
+    maxPropDIV = .05
   )
 )
 
