@@ -178,6 +178,7 @@ It's interesting to check, where we lost the rows specifically (under what condi
 resultsRHSP %>% 
   filter(pos %in% indicesCombined) %>% 
   select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos)
+
 ```
 
 
@@ -188,12 +189,14 @@ Next, I arrange the data based on conditions and iterations and recaculate the b
 
 
 ```{r}
-resultsRHSP <- 
+resultsRHSPFiltered <- 
   resultsRHSP %>% 
-  arrange(scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab, N, cross, iteration) %>%          mutate(biasCrossMean_1 =     abs(crossEstMean_1 - cross),
-         biasCrossMean_2 = abs(crossEstMean_2 - 0),
-         biasCrossMean_3 = abs(crossEstMean_3 - 0),
-         biasCrossMean_4 = abs(crossEstMean_4 - 0),
-         biasCrossMean_5 = abs(crossEstMean_5 - 0),
-         biasCrossMean_6 = abs(crossEstMean_6 - cross))
+  filter( !(pos%in% indicesCombined)) %>% 
+  arrange(scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab, N, cross, iteration) %>%          mutate(biasCrossMean_1 =abs(crossEstMean_1 - cross),
+                biasCrossMean_2 = abs(crossEstMean_2 - 0),
+                biasCrossMean_3 = abs(crossEstMean_3 - 0),
+                biasCrossMean_4 = abs(crossEstMean_4 - 0),
+                biasCrossMean_5 = abs(crossEstMean_5 - 0),
+                biasCrossMean_6 = abs(crossEstMean_6 - cross))
+nrow(resultsRHSPFiltered) + length(indicesCombined)
 ```

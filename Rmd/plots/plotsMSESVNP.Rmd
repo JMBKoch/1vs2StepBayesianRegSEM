@@ -106,7 +106,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
       y = "MSE",
       title = "Cross-Loading 1")+
   theme_apa()
@@ -126,7 +126,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
       y = "MSE",
       title = "Cross-Loading 2")+
   theme_apa()
@@ -147,7 +147,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
       y = "MSE",
       title = "Cross-Loading 3")+
   theme_apa()
@@ -167,7 +167,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
       y = "MSE",
       title = "Cross-Loading 4")+
   theme_apa()
@@ -187,7 +187,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
       y = "MSE",
       title = "Cross-Loading 5")+
   theme_apa()
@@ -207,7 +207,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
       y = "MSE",
       title = "Cross-Loading 6")+
   theme_apa()
@@ -231,7 +231,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
       title = "Factor Correlation")+
   ylim(0, 0.25)+
@@ -239,7 +239,7 @@ mseMeanSVNP %>%
 factCorr
 ```
 
-### Main Loadings
+### Main-Loadings
 
 ```{r}
 mainLoading1 <- 
@@ -254,9 +254,9 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
-      title = "Main Loading 1")+
+      title = "Main-Loading 1")+
   theme_apa()
 mainLoading1
 ```
@@ -275,9 +275,9 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
-      title = "Main Loading 2")+
+      title = "Main-Loading 2")+
   theme_apa()
 mainLoading2
 ```
@@ -295,9 +295,9 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
-      title = "Main Loading 3")+
+      title = "Main-Loading 3")+
   theme_apa()
 mainLoading3
 ```
@@ -316,9 +316,9 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
-      title = "Main Loading 4")+
+      title = "Main-Loading 4")+
   theme_apa()
 mainLoading4
 ```
@@ -336,9 +336,9 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
-      title = "Main Loading 5")+
+      title = "Main-Loading 5")+
   theme_apa()
 mainLoading5
 ```
@@ -356,9 +356,9 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
-      title = "Main Loading 6")+
+      title = "Main-Loading 6")+
   theme_apa()
 mainLoading6
 ```
@@ -379,7 +379,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
       title = "Residual Variance 1")+
   theme_apa()
@@ -398,7 +398,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
       title = "Residual Variance 2")+
   theme_apa()
@@ -418,7 +418,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
       title = "Residual Variance 3")+
   theme_apa()
@@ -438,7 +438,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
       title = "Residual Variance 4")+
   theme_apa()
@@ -458,7 +458,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
       title = "Residual Variance 5")+
   theme_apa()
@@ -478,7 +478,7 @@ mseMeanSVNP %>%
   geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.25)+
-  labs(x = "Size Cross Loading",
+  labs(x = "Size Cross-Loading",
        y = "MSE",
       title = "Residual Variance 6")+
   theme_apa()
