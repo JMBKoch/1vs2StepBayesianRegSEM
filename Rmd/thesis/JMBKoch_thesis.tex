@@ -262,7 +262,14 @@ on item k, the Spike-and-Slab Prior can be specified as (Lu et al., 2016):
 \[\lambda_{c,jk} |r_{jk} \sim (1 \ - \ r_{jk})\delta_0 + r_{jk} \mathcal{N}(0, c^2_{jk}) , \]
 with
 \[r_{jk} \sim \mathcal{Bernoulli}(p_{jk}).\]
-The basic intuition is as follows. When \(r_{jk} = 1\), \(\lambda_{c,jk} \sim \mathcal{N}(0, c^2)\), hence \(\lambda_{c,jk}\) is assigned to the slab. When \(r_{jk} = 0\), \(\lambda_{c,jk} \sim \delta_0\), and is thus assigned to the spike. This ensures that large cross-loadings, that are are relevant are not shrunken while small, neglegible cross-loadings are shrunken to zero.
+
+The basic intuition is as follows. When \(r_{jk} = 1\), \(\lambda_{c,jk} \sim \mathcal{N}(0, c^2)\), hence \(\lambda_{c,jk}\) is assigned to the slab. When \(r_{jk} = 0\), \(\lambda_{c,jk} \sim \delta_0\), and is thus assigned to the spike. This ensures that large cross-loadings, that are are relevant are not shrunken while small, negligible cross-loadings are shrunken to zero.
+
+\begin{itemize}
+\tightlist
+\item
+  Alinea onderaan moet uitgebreider/ genuanceerder. FF GOED opzoeken
+\end{itemize}
 
 Lu et al.~(2016) found that this prior is performing well in shrinking truly zero
 cross-loadings to zero, while not shrinking (relevant) large cross-loadings to avoid bias.
@@ -280,12 +287,19 @@ Stan Development Team, 2021).
 \hypertarget{the-regularized-horseshoe-prior-rhsp}{%
 \subsection{The Regularized Horseshoe Prior (RHSP)}\label{the-regularized-horseshoe-prior-rhsp}}
 
-A particularly promising candidate is the so-called \emph{Regularized Horseshoe Prior} (RHSP, Piironen \& Vehtari, 2017a, 2017b). This prior is an extension of the Horseshoe Prior (Carvalho, Polson, \& Scott, 2010). The main idea of this prior is that there is a \emph{global shrinkage parameter} \(\tau\), shrinking all cross-loadings to zero, and a \emph{local shrinkage parameter} \(\bar{\omega}_{jk}\)\footnote{We deviate from the common notation of the local shrinkage parameter as \(\bar{\lambda}\), as this letter is commonly used to denote factor loadings in CFA.} that allows truly large cross-loadings to escape the shrinkage.
+A particularly promising candidate is the so-called \emph{Regularized Horseshoe Prior} (RHSP, Piironen \& Vehtari, 2017a, 2017b). This prior is an extension of the Horseshoe Prior (Carvalho, Polson, \& Scott, 2010). The main idea of this prior is that there is a \emph{global shrinkage parameter} \(\tau\), shrinking all cross-loadings to zero, and a \emph{local shrinkage parameter} \(\bar{\omega}_{jk}\)\footnote{We deviate from the common notation of the local shrinkage parameter as \(\bar{\lambda}\), as this letter is commonly used to denote factor loadings in CFA.} that allows truly large cross-loadings to escape the shrinkage. Formally, the Horseshoe prior for every cross-loading of factor j on item k is specified as follows:
+
+\[\lambda_{c,jk} | \bar{\omega}_{jk}, \tau, c\sim \mathcal{N}(0, \ \bar{\omega}^2_{jk} \tau^2), \ with \ \bar{\omega}^2_{jk} = \frac{c^2\omega_{jk}^2}{c^2 + \tau^2 \omega_{jk}^2},\]
+\[\tau | df_{global}, s_{global} \sim half-t_{df_{global}}(0,\  s_{global}^2), \ with \  s_{global} = \frac{p_0}{p-p_0}\frac{\sigma}{\sqrt{N}},\]
+\[\omega_{jk}| df_{local}, s_{local} \sim half-t_{df_{local}}(0, \ s_{local}^2),\]
+\[c^2 | df_{slab}, s_{slab} \sim \mathcal{IG}(\frac{df_{slab}}{2}, \  df_{slab} \times \frac{s_{slab}^2}{2}),\]
+
+The name-giving intuition behind the horseshoe prior\ldots.
 
 \begin{itemize}
 \tightlist
 \item
-  Uitgebreide Definitie Horseshoe Prior
+  Horseshoe Plot
 \end{itemize}
 
 The issue with the original Horseshoe Prior is that not shrinking large parameters at all can lead to identification issues (see Ghosh, Li, \& Mitra, 2018). The RHSP overcomes this by shrinking also large parameters a little bit, as it is designed such that for large parameters the prior approaches a normal (slab) prior with mean zero and variance \(c^2\) (Piironen \& Vehtari, 2017b).
