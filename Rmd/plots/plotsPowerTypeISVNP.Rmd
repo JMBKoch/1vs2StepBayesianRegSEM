@@ -201,6 +201,8 @@ AvgTypeIAndPower %>%
 Power <- 
 AvgTypeIAndPowerLong %>% 
   filter(outcome == "power") %>% 
+  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu)),
+         N = as.factor(paste0("N = ", N))) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion))+
   geom_line()+
   geom_point(shape = 4, alpha = .8)+
@@ -225,6 +227,8 @@ upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
 TypeI <- 
 AvgTypeIAndPowerLong %>% 
   filter(outcome == "typeI") %>% 
+  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu)),
+  N = as.factor(paste0("N = ", N))) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
   geom_line()+
   geom_point(shape = 4, alpha = .8)+
