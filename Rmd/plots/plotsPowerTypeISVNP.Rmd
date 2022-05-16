@@ -221,8 +221,7 @@ Power
 
 ```{r}
 # compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
-upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter)
-
+upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
 TypeI <- 
 AvgTypeIAndPowerLong %>% 
   filter(outcome == "typeI") %>% 
@@ -241,8 +240,6 @@ AvgTypeIAndPowerLong %>%
   theme(panel.border = element_rect(fill = NA))
 TypeI
 ```
-
-
 
 ## Ratio of correct identification
 

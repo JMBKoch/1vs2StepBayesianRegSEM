@@ -98,6 +98,7 @@ $$r_{jk} \sim \mathcal{Bernoulli}(p_{jk}).$$
 
 The basic intuition is as follows. When $r_{jk} = 1$, $\lambda_{c,jk} \sim \mathcal{N}(0, c^2)$, hence $\lambda_{c,jk}$ is assigned to the slab. When $r_{jk} = 0$, $\lambda_{c,jk} \sim \delta_0$, and is thus assigned to the spike. This ensures that large cross-loadings, that are are relevant are not shrunken while small, negligible cross-loadings are shrunken to zero. 
 
+- In hoeverre ingaan op hyper-parameter $c^2$?
 - Alinea onderaan moet uitgebreider/ genuanceerder. FF GOED opzoeken
 
 
@@ -114,18 +115,29 @@ Stan Development Team, 2021).
 
 A particularly promising candidate is the so-called *Regularized Horseshoe Prior* [RHSP, @piironen_hyperprior_2017; @piironen_sparsity_2017]. This prior is an extension of the Horseshoe Prior [@carvalho_horseshoe_2010]. The main idea of this prior is that there is a *global shrinkage parameter* $\tau$, shrinking all cross-loadings to zero, and a *local shrinkage parameter*  $\bar{\omega}_{jk}$^[We deviate from the common notation of the local shrinkage parameter as $\bar{\lambda}$, as this letter is commonly used to denote factor loadings in CFA.] that allows truly large cross-loadings to escape the shrinkage. Formally, the Horseshoe prior for every cross-loading of factor j on item k is specified as follows:
 
-$$\lambda_{c,jk} | \bar{\omega}_{jk}, \tau, c\sim \mathcal{N}(0, \ \bar{\omega}^2_{jk} \tau^2), \ with \ \bar{\omega}^2_{jk} = \frac{c^2\omega_{jk}^2}{c^2 + \tau^2 \omega_{jk}^2},$$
-$$\tau | df_{global}, s_{global} \sim half-t_{df_{global}}(0,\  s_{global}^2), \ with \  s_{global} = \frac{p_0}{p-p_0}\frac{\sigma}{\sqrt{N}},$$
-$$\omega_{jk}| df_{local}, s_{local} \sim half-t_{df_{local}}(0, \ s_{local}^2),$$
-$$c^2 | df_{slab}, s_{slab} \sim \mathcal{IG}(\frac{df_{slab}}{2}, \  df_{slab} \times \frac{s_{slab}^2}{2}),$$
+$$\lambda_{c,jk} | \omega_{jk}, \tau, c\sim \mathcal{N}(0, \ \omega^2_{jk} \tau^2)$$
+$$\omega_{jk} \sim \mathcal{C^+}(0, 1).$$
 
-The name-giving intuition behind the horseshoe prior....
+$\tau$ hyper-parameter: the larger, the larger global shrinkage
+
+$\omega_{jk}$: thick Cauchy tails allowing to escape shrinkage. 
+
+The name-giving intuition behind the horseshoe prior becomes clear when considering the finding that [@piironen_sparsity_2017]:
+
+$$\bar{\lambda}_{c,jk} = (1 \ - \ k_{jk}) \hat{\lambda}_{c,jk}$$, where
+$$k_{jk} = \frac{1}{1 + n \sigma^{-2}\tau^2s_{jk}\omega^2_{jk}}$$. 
+
+Here $k_{jk}$, denotes the so-called *shrinkage factor* for cross-loading $\lambda_{c,jk}$. 
+When plotting $k_{jk}$ ...
 
 
 - Horseshoe Plot
 
+While the Horseshoe Prior shows to possess these desired theoretical properties in practice (Carvalho, Polson and
+Scott, 2009, 2010; Polson and Scott, 2011; Datta and Ghosh, 2013; van der
+Pas, Kleijn and van der Vaart, 2014), not shrinking large parameters at all can lead to identification issues [see @ghosh_use_2018]. (HOEVEEL UITLEG IS HIER NOG NODIG?).
 
-The issue with the original Horseshoe Prior is that not shrinking large parameters at all can lead to identification issues [see @ghosh_use_2018]. The RHSP overcomes this by shrinking also large parameters a little bit, as it is designed such that for large parameters the prior approaches a normal (slab) prior with mean zero and variance $c^2$ [@piironen_sparsity_2017]. 
+The RHSP overcomes this by shrinking also large parameters a little bit, as it is designed such that for large parameters the prior approaches a normal (slab) prior with mean zero and variance $c^2$ [@piironen_sparsity_2017]. 
 
 For every cross-loading of factor j on item k:
 
@@ -187,7 +199,6 @@ The datasets were simulated based on a true 2-factor model, with three items per
 Add Table(s) summarizing all conditions for both priors. Even nadenken wat handig is
 
 
-
 ## Outcomes
 
 We focus^[We also computed the Mean Squared Error and Relative Bias of the posterior mean estimates, the Power in selecting truly non-zero cross-loadings as non-zero (see also Appendix B) and the Type-I-Error-Rate in selecting truly zero cross-loadings as non-zero (based on several selection criteria). Outcomes were also computed for median posterior estimates. Summaries of all outcomes can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/plots.] on the Mean (Absolute) Bias of the posterior mean estimates of all model parameters, per set of conditions ($\bar{\theta} | conditions$). 
@@ -195,7 +206,6 @@ We focus^[We also computed the Mean Squared Error and Relative Bias of the poste
 For every model parameter $\theta$ and for every set of conditions that has been sampled from for $N_{rep}$ replications:
 
 $$\bar{Bias}_{\bar{\theta} | conditions} = \frac{1}{N} \Sigma_{i = 1}^{N_{rep}} |\bar{\theta_i} - \theta_{true}|.$$
-
 
 # Results
 

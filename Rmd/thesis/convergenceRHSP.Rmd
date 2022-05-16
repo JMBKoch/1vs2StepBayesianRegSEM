@@ -126,25 +126,59 @@ meanPercDiv
 Let's find the indices of all transitions where the effective sample size is less than 10% of the chain-length.
 
 ```{r}
+indicesNEffTooSmall <- 
 convRHSP %>% 
   filter(parameter == "n_eff") %>% 
   select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos, lambdaMainC.1.:theta.6.) %>% 
-  group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos) %>%
-  summarise_all(mean) %>% 
-  mutate_at(.vars = 10:28, .funs = function(x){x/samplePars$nSampling} )
+  mutate_at(.vars = vars(-(scaleGlobal:pos)), .funs = function(x){x/samplePars$nSampling}) %>% 
+  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x < .10) %>% 
+  select(pos) %>% 
+  pull()
 ```
 
+```{r}
+length(indicesNEffTooSmall)
+```
+
+By this you would lose 542 rows, which does not seem so bad.
 
 ### R-Hat
 
+Let's find the indices of all transitions where the R-hat is smaller than 1.05.
+
 ```{r}
+indicesRHatTooSmall <- 
 convRHSP %>% 
   filter(parameter == "Rhat") %>% 
-  map_df(mean) %>% 
-  map_df(function(x){x < 1.01})
+  select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos, lambdaMainC.1.:theta.6.) %>% 
+  # get indices of all iterations where for any parameter 
+  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x >= 1.05) %>% 
+  select(pos) %>% 
+  pull()
 ```
 
-Not a single parameter where the MAXIMUM Rhat IS NOT < 1.005
+
+```{r}
+length(indicesRHatTooSmall)
+```
+
+This technically removes 15 rows...
+
+```{r}
+indicesCombined <- unique(c(indicesRHatTooSmall, indicesNEffTooSmall))
+length(indicesCombined)
+```
+
+.. but they were all part of the rows with too little n_samp.
+
+
+It's interesting to check, where we lost the rows specifically (under what conditions).
+
+```{r}
+resultsRHSP %>% 
+  filter(pos %in% indicesCombined) %>% 
+  select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos)
+```
 
 
 # Post-process
