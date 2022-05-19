@@ -28,7 +28,6 @@ appendix:
   - "appendixB.Rmd"
 ---
 
-
 ```{r setup, include = FALSE, cache=T}
 library("papaja")
 library(LaplacesDemon) # for horseshoe density 
@@ -58,36 +57,22 @@ The art of statistical modeling revolves around coming up with an appropriate si
 
 ## Regularization 
 
-A classic method of trying to find a balance between model complexity and model simplicity is *regularization* [@hastie_statistical_2015]. Regularization entails adding some bias to a model on purpose to reduce its variance. This helps to make models easier to interpret and more generalizable. In a frequentist context, regularization is achieved by adding a penality term to the cost function of a model. This ensures that model parameters that are irrelevant, e.g. small regression coefficients in a regression model with a large number of predictors, are shrunken to (or towards) zero. In general terms, for a regression model:
+A classic method of trying to find a balance between model complexity and model simplicity is *regularization* [@hastie_statistical_2015]. Regularization entails adding some bias to a model on purpose to reduce its variance. This helps to make models easier to interpret and more generalizable. In a frequentist context, regularization is achieved by adding a penality term to the cost function of a model. This ensures that model parameters that are irrelevant, e.g. small regression coefficients in a regression model with a large number of predictors, are shrunken to (or towards) zero. In general, for a regression model:
+$$y_i = \beta \mathbf{x_i} + e_i, \ where $$
+$$e_i \sim \mathcal{N}(0, \sigma^2). $$,
 
-$$Y = \mathbf{\beta} X + \mathbf{e}$$, where 
-$$$$, 
-
-the sum-of squared residuals are minimized 
-
-$$argmin $$. 
-
-Penalized regression adds a a penality term to this cost function 
-
-When ... ridge, when.. lasso. 
+In Least Squared Residuals estimation the estimates of $\beta$ are obtained by minimizing the sum of squared residuals.
+$$ \hat{\beta} = \underset{\beta}{argmin} \{ \Sigma_{i=1}^N(y_i - \mathbf{x_{i}} \beta)^2 \}.$$ Penalized regression adds a a penalty term to this cost function, which is generally denoted as $||\beta||_L$:
+$$ \hat{\beta} = \underset{\beta}{argmin} \{ \Sigma_{i=1}^N(y_i - \mathbf{x_{i}} \beta )^2 + ||\beta||_{L} \}.$$ 
+When L = 1, the so-called L-1 norm, $||\beta||_1 = \Sigma_{j=1}^p |\beta_j|$ the well-known LASSO penality [@tibshirani_regression_1996; @tibshirani_regression_2011]. When, L = 2, the L2-norm, $||\beta||_2 = \sqrt{\Sigma_{j=1}^p \beta_j^2}$. This is the famous ridge penalty [@hoerl_ridge_2000]. 
 
 Hier ook alvast ingaan op @jacobucci_regularized_2016
 
-
-In a Bayesian context, instead of adding a penalty to the cost function of a model, so-called shrinkage-priors are set for the parameters [@van_erp_shrinkage_2019]. I
-
-- Bayesian Estimatation: Joint Posterior ~ Prior x Data
-- Thereby prior set for parameter allows to . 
-- Simple case: setting normal prior for regression coefficients, which corresponds. 
-- RESEMBLESthen lasso (...) > 
-
-The well-known ridge- [@hoerl_ridge_2000] and lasso-penalization [@tibshirani_regression_1996] in regression resembles to setting a ridge-prior [@hsiang_bayesian_1975] or a Laplace-prior [@park_bayesian_2008] for regression coefficients respectively.
-
-
-
-
+In a Bayesian context, instead of adding a penalty to the cost function of a model, so-called shrinkage-priors are set for the parameters [see @van_erp_shrinkage_2019 for an overview]. In general in Bayesian model estimation, the so-called Joint Posterior Distribution of the model-parameters given the data $P(\mathbf{\theta} | data)$ is a combination of the data and the prior. Priors can not only be set to steer model estimates towards expected outcomes, for instance based on previous research. Also shrinking model parameters to(wards) zero can be achieved by setting priors that, in general, attach a lot of prior mass to the parameter in question being zero model. In the most simple case one can simply set a normal prior for regression coefficients that is centered around zero, which resembles the ridge-penalty [@hoerl_ridge_2000]. The lasso penalty can be mirrored by setting a Laplace-prior for the regression coefficients [@park_bayesian_2008; see @van_erp_shrinkage_2019 for the Bayesian equivalents of other relevant penalties]. 
 
 ## Bayesian CFA: The Small Variance Normal Prior (SVNP)
+
+Beginnen met algemene specificatie model. 
 
 In confirmatory factor analysis [CFA, @bollen_structural_1989] it is common practice to deal with the bias-variance trade-off in a brute-force manner, by imposing a so-called simple structure. Here, cross-loadings, factor loadings that relate items to factors that they theoretically do not belong to, are fixed to zero to yield an identified and interpretable model. This often leads to poor model fit, which forces researchers to free some cross-loadings after the fact based on empirical grounds (modification indices) to improve fit. This procedure is flawed, as it risks capitalization on chance and thereby over-fitting [@maccallum_model_1992].
 
@@ -110,23 +95,12 @@ $$r_{jk} \sim \mathcal{Bernoulli}(p_{jk}).$$
 
 The basic intuition is as follows. When $r_{jk} = 1$, $\lambda_{c,jk} \sim \mathcal{N}(0, c^2)$, hence $\lambda_{c,jk}$ is assigned to the slab. When $r_{jk} = 0$, $\lambda_{c,jk} \sim \delta_0$, and is thus assigned to the spike. This ensures that large cross-loadings, that are are relevant are not shrunken while small, negligible cross-loadings are shrunken to zero. 
 
-- In hoeverre ingaan op hyper-parameter $c^2$?
-- Alinea onderaan moet uitgebreider/ genuanceerder. FF GOED opzoeken
-
-
 Lu et al. (2016) found that this prior is performing well in shrinking truly zero
-cross-loadings to zero, while not shrinking (relevant) large cross-loadings to avoid bias.
-
-- Alinea onderaan moet uitgebreider/ genuanceerder. FF GOED opzoeken
-
-However, the big caveat of this prior is that it cannot be implemented in standard MCMC
-sampling software, such as STAN, due to being a discrete mixture prior (Betancourt, 2018;
-Stan Development Team, 2021).
+cross-loadings to zero, while not shrinking (relevant) large cross-loadings to avoid bias.  However, the big caveat of this prior is that it cannot be implemented in STAN [@stan_development_team_stan_2021], the most advisable MCMC-package for complex, highly-dimensional Bayesian models, due to being a discrete mixture prior (Betancourt, 2018; Stan Development Team, 2021). This calls for non-discrete alternative shrinkage-prior
 
 ## The Regularized Horseshoe Prior (RHSP)
 
-A particularly promising candidate is the so-called *Regularized Horseshoe Prior* [RHSP, @piironen_hyperprior_2017; @piironen_sparsity_2017]. This prior is an extension of the Horseshoe Prior [@carvalho_horseshoe_2010]. The main idea of this prior is that there is a *global shrinkage parameter* $\tau$, shrinking all cross-loadings to zero, and a *local shrinkage parameter*  $\bar{\omega}_{jk}$^[We deviate from the common notation of the local shrinkage parameter as $\bar{\lambda}$, as this letter is commonly used to denote factor loadings in CFA.] that allows truly large cross-loadings to escape the shrinkage. Formally, the Horseshoe prior for every cross-loading of factor j on item k is specified as follows:
-
+A particularly promising candidate is the so-called *Regularized Horseshoe Prior* [RHSP, @piironen_hyperprior_2017; @piironen_sparsity_2017]. This prior is an extension of the Horseshoe Prior [@carvalho_horseshoe_2010]. The main idea of the original Horseshoe Prior is that there is a *global shrinkage parameter* $\tau$, shrinking all cross-loadings to zero, and a *local shrinkage parameter*  $\bar{\omega}_{jk}$^[We deviate from the common notation of the local shrinkage parameter as $\bar{\lambda}$, as this letter is commonly used to denote factor loadings in CFA.] that allows truly large cross-loadings to escape the shrinkage. Formally, the Horseshoe prior for every cross-loading of factor j on item k is specified as follows:
 $$\lambda_{c,jk} | \omega_{jk}, \tau, c\sim \mathcal{N}(0, \ \omega^2_{jk} \tau^2)$$
 $$\omega_{jk} \sim \mathcal{C^+}(0, 1).$$
 
@@ -135,24 +109,14 @@ $\tau$ hyper-parameter: the larger, the larger global shrinkage
 $\omega_{jk}$: thick Cauchy tails allowing to escape shrinkage. 
 
 The name-giving intuition behind the horseshoe prior becomes clear when considering the finding that [@piironen_sparsity_2017]:
-
-$$\bar{\lambda}_{c,jk} = (1 \ - \ k_{jk}) \hat{\lambda}_{c,jk}$$, where
-$$k_{jk} = \frac{1}{1 + n \sigma^{-2}\tau^2s_{jk}\omega^2_{jk}}$$. 
-
+$$\bar{\lambda}_{c,jk} = (1 \ - \ k_{jk}) \hat{\lambda}_{c,jk}, \ where$$
+$$k_{jk} = \frac{1}{1 + n \sigma^{-2}\tau^2s_{jk}\omega^2_{jk}}.$$ 
 Here $k_{jk}$, denotes the so-called *shrinkage factor* for cross-loading $\lambda_{c,jk}$. 
-When plotting $k_{jk}$ ...
+When plotting the density of $k_{jk}$ there is a very high peak at low values around... and a very high peak of high values, resulting in a plot that resembles a horseshoe. This illustrates that the horseshoe prior possesses the desired property of either shrinking parameters very little, or very much, with very few parameters that are shrunken in a non-extreme fashion.
 
-
-- Horseshoe Plot
-
-While the Horseshoe Prior shows to possess these desired theoretical properties in practice (Carvalho, Polson and
-Scott, 2009, 2010; Polson and Scott, 2011; Datta and Ghosh, 2013; van der
-Pas, Kleijn and van der Vaart, 2014), not shrinking large parameters at all can lead to identification issues [see @ghosh_use_2018]. (HOEVEEL UITLEG IS HIER NOG NODIG?).
-
-The RHSP overcomes this by shrinking also large parameters a little bit, as it is designed such that for large parameters the prior approaches a normal (slab) prior with mean zero and variance $c^2$ [@piironen_sparsity_2017]. 
+While the Horseshoe Prior shows to possess these desired theoretical properties in practice [@carvalho_horseshoe_2010; @polson_shrink_2010; @datta_asymptotic_2013; @van_der_pas_horseshoe_2014], not shrinking large parameters at all can lead to identification issues [see @ghosh_use_2018]. The RHSP overcomes this by shrinking also large parameters a little bit, as it is designed such that for large parameters the prior approaches a normal (slab) prior with mean zero and variance $c^2$ [@piironen_sparsity_2017]. 
 
 For every cross-loading of factor j on item k:
-
 $$\lambda_{c,jk} | \bar{\omega}_{jk}, \tau, c\sim \mathcal{N}(0, \ \bar{\omega}^2_{jk} \tau^2), \ with \ \bar{\omega}^2_{jk} = \frac{c^2\omega_{jk}^2}{c^2 + \tau^2 \omega_{jk}^2},$$
 $$\tau | df_{global}, s_{global} \sim half-t_{df_{global}}(0,\  s_{global}^2), \ with \  s_{global} = \frac{p_0}{p-p_0}\frac{\sigma}{\sqrt{N}},$$
 $$\omega_{jk}| df_{local}, s_{local} \sim half-t_{df_{local}}(0, \ s_{local}^2),$$
@@ -199,7 +163,7 @@ While the Regularized Horseshoe Prior has been shown to perform excellently in t
 
 ## Study Procedure and Parameters
 
-A Monte Carlo simulation study was conducted using STAN [@stan_development_team_stan_2021]. All code that was used to run the simulations can be openly accessed on the author's [**github**](https://github.com/JMBKoch/1vs2StepBayesianRegSEM)^[Specifically, the R-scripts needed to run the simulation can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/R. `parameters.R` can be adjusted to adjust study parameters, and `main.R` is used to run the main simulation. Required packages are listed at the top of `parameters.R`.]. The models were sampled using the No-U-Turn-Sampler [@homan_no-u-turn_2014], with two chains, a burnin-period of 2000 and a chain-length of 4000. These sampling parameters were identified in pilot runs to be required for the RHSP to reach convergence, and were therefore also used for the SVNP in order to ensure a fair comparison. 
+A Monte Carlo simulation study was conducted using STAN [@stan_development_team_stan_2021] and R [@r_core_team_r_2021]. All code that was used to run the simulations can be openly accessed on the author's [**github**](https://github.com/JMBKoch/1vs2StepBayesianRegSEM)^[Specifically, the R-scripts needed to run the simulation can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/R. `parameters.R` can be adjusted to adjust study parameters, and `main.R` is used to run the main simulation. Required packages are listed at the top of `parameters.R`.]. The models were sampled using the No-U-Turn-Sampler [@homan_no-u-turn_2014], with two chains, a burnin-period of 2000 and a chain-length of 4000. These sampling parameters were identified in pilot runs to be required for the RHSP to reach convergence, and were therefore also used for the SVNP in order to ensure a fair comparison. 
 
 ## True Model and Conditions
 
@@ -217,11 +181,11 @@ $$\bar{Bias}_{\bar{\theta} | conditions} = \frac{1}{N} \Sigma_{i = 1}^{N_{rep}} 
 
 # Results
 
-## Convergence
+## SVNP: Convergence
 
 In terms of convergence, the SVNP shows excellent performance. Across all 2400 replications there is no single parameter for which $\hat{R} > 1.05$. Across all parameters, the minimum value of the Effective Sample Size $N_{eff}$ is 39.4% of the chain length. For the largest majority of runs $N_{eff}$ even exceeds 50% of the chain length. Moreover, across all runs there is not a single divergent transition. All 2400 replications are therefore included in the results.
 
-## Main Results
+## SVNP: Main Results
 
 The Mean Absolute Bias of all parameters is summarized in Figure 3. For parameter estimates that show an identical pattern ($\bar{\lambda}_{c 2-5}$, $\bar{\lambda}_{c 1, 6}$, $\bar{\lambda}_{m 1, 2, 5, 6}$, $\bar{\lambda}_{m 3-4}$, and $\bar{\theta}_{1-6}$), the first respecting estimate is presented representative for all, both in Figure 3 and in the numbers presented below. As results are almost identical for the two sample sizes, we focus on presenting the findings for N = 100, to not distract from our main conclusions.^[The Mean Absolute Bias visualized for the different sample sizes separately can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/plots/plotsBiasSVNP.html.] 
 
@@ -235,6 +199,7 @@ In the factor correlation the bias is also relatively small and approximately th
 
 The bias in the estimates of the residual variances $\bar{\theta}_{1-6}$ is not large across different conditions, although also here a noticeable increase occurs between true cross-loadings of 0.2 and 0.5 when $\sigma^2 = 0.001$.
 
+## RHSP: Convergence
 
 # Conclusions and Discussion
 
@@ -246,6 +211,8 @@ The high bias of the SVNP under large true cross-loadings and low values of $\si
 
 The RHSP is expected to show less bias in the parameter estimates of the model within a single estimation step, even with true cross-loadings of 0.5. Estimates of these larger cross-loadings are expected to escape the shrinkage, which also prevents bias in other parameter estimates. 
 
+Future Research:
+
 \clearpage
 
 ```{tex}
@@ -253,7 +220,7 @@ The RHSP is expected to show less bias in the parameter estimates of the model w
 ```
 
 # References 
-\ 
+
 ```{=tex}
 \begingroup
 \setlength{\parindent}{-0.5in}

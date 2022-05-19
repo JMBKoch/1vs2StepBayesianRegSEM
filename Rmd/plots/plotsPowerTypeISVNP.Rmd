@@ -51,7 +51,7 @@ resultsSVNP <-
 
 ## Type I error rate
 
-```{r}
+```{r, echo = F, include = F}
 # For Tresholdvariables: 1 = nonZero, 0 = zero
 # For CI variables: 0 = nonZero, 1 = zero
 TypeISVNP <- 
@@ -106,7 +106,7 @@ TypeISVNP
 
 ## Power
 
-```{r}
+```{r, echo = F, include = F}
 # For Tresholdvariables: 1 = nonZero, 0 = zero
 # For CI variables: 0 = nonZero, 1 = zero
 PowerSVNP <- 
@@ -139,7 +139,7 @@ PowerSVNP
 
 # Plots
 
-```{r}
+```{r, include=F, echo=F}
 AvgTypeIAndPower <- 
 TypeISVNP %>% 
   left_join(PowerSVNP, by = c("N", "sigmaSqu", "cross")) %>% 
@@ -168,7 +168,7 @@ AvgTypeIAndPower
 
 No recode to long to allow making nice plots inspired by Zhang et al.
 
-```{r}
+```{r, echo=F, include=F}
 AvgTypeIAndPowerLong <- 
 AvgTypeIAndPower %>% 
   pivot_longer(cols = avgPower_0.15:avgTypeI_50, 
@@ -179,18 +179,18 @@ AvgTypeIAndPower %>%
                                                             "avgPower_0.10" = "Treshold 0.10", 
                                                             "avgPower_0.05" = "Treshold 0.05", 
                                                             "avgPower_0" = "Treshold 0", 
-                                                            "avgPower_95" = "95% Credibel Interval", 
-                                                            "avgPower_90" = "90% Credibel Interval",
-                                                            "avgPower_80" = "80% Credibel Interval",
-                                                            "avgPower_50" = "50% Credibel Interval",
+                                                            "avgPower_95" = "95% Credible Interval", 
+                                                            "avgPower_90" = "90% Credible Interval",
+                                                            "avgPower_80" = "80% Credible Interval",
+                                                            "avgPower_50" = "50% Credible Interval",
                                                             "avgTypeI_0.15" = "Treshold 0.15", 
                                                             "avgTypeI_0.10" = "Treshold 0.10", 
                                                             "avgTypeI_0.05" = "Treshold 0.05", 
                                                             "avgTypeI_0" = "Treshold 0", 
-                                                            "avgTypeI_95" = "95% Credibel Interval", 
-                                                            "avgTypeI_90" = "90% Credibel Interval",
-                                                            "avgTypeI_80" = "80% Credibel Interval",
-                                                            "avgTypeI_50" = "50% Credibel Interval" )))) %>% 
+                                                            "avgTypeI_95" = "95% Credible Interval", 
+                                                            "avgTypeI_90" = "90% Credible Interval",
+                                                            "avgTypeI_80" = "80% Credible Interval",
+                                                            "avgTypeI_50" = "50% Credible Interval" )))) %>% 
   select(N, sigmaSqu, cross, outcome, criterion, value)
 ```
 

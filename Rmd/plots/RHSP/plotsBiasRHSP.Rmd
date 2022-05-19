@@ -28,63 +28,7 @@ nrow(resultsRHSP)
 
 # Plots
 
-## Cross-Loadings
 
-### ScaleGlobal
-
-```{r}
-crossLoading1 <- 
-resultsRHSP %>% 
-  mutate(N = as.factor(paste0("N = ", N)),
-         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
-         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
-         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
-         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
-         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
-         dfSlab = as.factor(paste0("Df Slab = ", nu))
-         ) %>% 
-  select(N, biasCrossMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
-  group_by(N, 
-           cross, 
-           scaleGlobal) %>% 
-  summarise(meanBiasCrossMean_1 =  mean(biasCrossMean_1)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_1, group  = as.factor(scaleGlobal), col =  as.factor(scaleGlobal)))+
-  geom_point()+
-  geom_line()+
-  facet_wrap(~N)+
-  labs(x = "Size Cross-Loading",
-      y =  "Mean Absolute Bias",
-      title = "Cross-Loading 1 & 6")+
-  theme_apa()
-crossLoading1
-```
-
-```{r}
-crossLoading2 <- 
-resultsRHSP %>% 
-  mutate(N = as.factor(paste0("N = ", N)),
-         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
-         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
-         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
-         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
-         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
-         dfSlab = as.factor(paste0("Df Slab = ", nu))
-         ) %>% 
-  select(N, biasCrossMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
-  group_by(N, 
-           cross, 
-           scaleGlobal) %>% 
-  summarise(meanBiasCrossMean_2 =  mean(biasCrossMean_2)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_2, group  = as.factor(scaleGlobal), col =  as.factor(scaleGlobal)))+
-  geom_point()+
-  geom_line()+
-  facet_wrap(~N)+
-  labs(x = "Size Cross-Loading",
-      y =  "Mean Absolute Bias",
-      title = "Cross-Loading 2-5")+
-  theme_apa()
-crossLoading2
-```
 ### Factor Correlation
 
 ## scaleGlobal
@@ -105,7 +49,7 @@ resultsRHSP %>%
            cross, 
            scaleGlobal) %>% 
   summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(scaleGlobal), col =  as.factor(scaleGlobal)))+
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -115,6 +59,7 @@ resultsRHSP %>%
   theme_apa()
 factCorrscaleGlobal
 ```
+
 ## dfGlobal
 
 ```{r}
@@ -133,7 +78,7 @@ resultsRHSP %>%
            cross, 
            dfGlobal) %>% 
   summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(dfGlobal), col =  as.factor(dfGlobal)))+
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(dfGlobal), col =  dfGlobal))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -163,7 +108,7 @@ resultsRHSP %>%
            cross, 
            scaleLocal) %>% 
   summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(scaleLocal), col =  as.factor(scaleLocal)))+
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(scaleLocal), col =  scaleLocal))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -193,7 +138,7 @@ resultsRHSP %>%
            cross, 
            dfLocal) %>% 
   summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(dfLocal), col =  as.factor(dfLocal)))+
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(dfLocal), col =  dfLocal))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -203,6 +148,7 @@ resultsRHSP %>%
   theme_apa()
 factCorrdfLocal
 ```
+
 ## scaleSlab
 
 ```{r}
@@ -221,7 +167,7 @@ resultsRHSP %>%
            cross, 
            scaleSlab) %>% 
   summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(scaleSlab), col =  as.factor(scaleSlab)))+
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(scaleSlab), col =  scaleSlab))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -231,6 +177,9 @@ resultsRHSP %>%
   theme_apa()
 factCorrscaleSlab
 ```
+
+
+## DfSlab
 
 ```{r}
 factCorrDFSlab <- 
@@ -247,7 +196,7 @@ resultsRHSP %>%
            cross, 
            dfSlab) %>% 
   summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(dfSlab), col =  as.factor(dfSlab)))+
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(dfSlab), col =  dfSlab))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+

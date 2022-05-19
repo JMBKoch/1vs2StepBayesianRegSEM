@@ -55,17 +55,9 @@ resultsRHSP %>%
 
 Thus, with N = 100, cross = 0.2 and the hyper-parameters all on their lowest vaslue (0.1 for scales, and 1 for df's) the chains don't converge in the majority of the cases.
 
-Let's check the convergence diagnostics for those few replications under these conditions that did yield any output at all. We can assume that the convergence diagnostics do not not look good here
+These are 156 rows. Interestingly, the chains that did not fail show good convergence, which is sort of puzzling, but maybe not?
 
-```{r}
-convRHSP %>% 
-  filter(pos <= 200) %>% 
-  arrange(pos)
-```
-
-These are 156 rows, hence the 200-122 = 78 (times too because of the output format) chains under the first set of conditions that did not fail. Interestingly, the chains that did not fail show good convergence, which is sort of puzzling, but maybe not?
-
-I will however, remove them from the analysis, as there are too few iterations for a reliable picture of this set of conditions (Discuss with Sara). 
+I will however, remove them from the analysis, as there are too few iterations for a reliable picture of this set of conditions (FF met Sara bespreken dit). 
 
 ```{r}
 resultsRHSP <- 
@@ -99,9 +91,10 @@ meanPropDiv <-
 convRHSP %>% 
   filter(parameter == "Rhat") %>% # doesn't matter which you pick here
   mutate(propDiv = sumDiv/ samplePars$nSampling) %>% 
-  group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
+  group_by(scaleGlobal
+           #, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
   summarise(meanPropDiv = mean(propDiv))
-meanPropDiv
+#meanPropDiv
 ```
 
 On average, they appear to be quite low. There appears to be no set of conditions where the proportion of divergent transition is lager than 0.09. 
@@ -179,7 +172,6 @@ It's interesting to check, where we lost the rows specifically (under what condi
 resultsRHSP %>% 
   filter(pos %in% indicesCombined) %>% 
   select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos)
-
 ```
 
 # Post-process

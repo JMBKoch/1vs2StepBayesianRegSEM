@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  16 MAY 2022 17:20
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  19 MAY 2022 14:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -973,49 +973,46 @@ Package fancyhdr Warning: \headheight is too small (15.2pt):
 (fancyhdr)                \addtolength{\topmargin}{-12.21803pt}.
 
 LaTeX Info: Completed page discarded.
-[1] [2
-
-
-]
+[1]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 8.4pt on input line 248.
+(Font)              scaled to size 8.4pt on input line 224.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 6.0pt on input line 248.
+(Font)              scaled to size 6.0pt on input line 224.
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
-48.
+24.
 (/usr/share/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 12.0011pt on input line 248.
+(Font)              scaled to size 12.0011pt on input line 224.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 8.40076pt on input line 248.
+(Font)              scaled to size 8.40076pt on input line 224.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 6.00055pt on input line 248.
+(Font)              scaled to size 6.00055pt on input line 224.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 11.99872pt on input line 248.
+(Font)              scaled to size 11.99872pt on input line 224.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 8.3991pt on input line 248.
+(Font)              scaled to size 8.3991pt on input line 224.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 5.99936pt on input line 248.
+(Font)              scaled to size 5.99936pt on input line 224.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
-48.
+24.
 (/usr/share/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-248.
+224.
 (/usr/share/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 248
+LaTeX Font Info:    Trying to load font information for U+msa on input line 224
 .
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/share/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 248
+LaTeX Font Info:    Trying to load font information for U+msb on input line 224
 .
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1023,41 +1020,53 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) (/usr/share/texmf-dist/tex/latex/microtype/mt-eur.cfg
 File: mt-eur.cfg 2006/07/31 v1.1 microtype config. file: AMS Euler Roman (RS)
-) [3] [4]
+) [2
+
+
+]
+Missing character: There is no 𝜃 (U+1D703) in font [lmroman12-bold]:mapping=tex
+-text;!
+[3]
+Underfull \vbox (badness 4752) has occurred while \output is active []
+
+[4] [5]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 292.
+(Font)              scaled to size 10.0pt on input line 267.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 292.
+(Font)              scaled to size 7.0pt on input line 267.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 292.
+(Font)              scaled to size 5.0pt on input line 267.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 292.
+(Font)              scaled to size 10.00092pt on input line 267.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 292.
+(Font)              scaled to size 7.00064pt on input line 267.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 292.
+(Font)              scaled to size 5.00046pt on input line 267.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 292.
+(Font)              scaled to size 9.99893pt on input line 267.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 292.
+(Font)              scaled to size 6.99925pt on input line 267.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 292.
-[5] [6]
+(Font)              scaled to size 4.99947pt on input line 267.
+[6]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf>
-[7]
-Underfull \vbox (badness 1112) has occurred while \output is active []
-
-[8]
+[7] [8] [9]
 File: ~/1vs2StepBayesianRegSEM/Rmd/figures/model.png Graphic file (type bmp)
 <~/1vs2StepBayesianRegSEM/Rmd/figures/model.png>
-[9] [10]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[10] [11]
 File: ~/1vs2StepBayesianRegSEM/Rmd/figures/BiasAllPars.png Graphic file (type b
 mp)
 <~/1vs2StepBayesianRegSEM/Rmd/figures/BiasAllPars.png>
-[11] [12] [13] [14] [15]
-Underfull \vbox (badness 1028) has occurred while \output is active []
+
+Underfull \vbox (badness 1681) has occurred while \output is active []
+
+[12] [13] [14] [15]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [16
 
@@ -1072,12 +1081,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ] (./JMBKoch_thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 23722 strings out of 476180
- 433307 string characters out of 5815297
- 946002 words of memory out of 5000000
- 44074 multiletter control sequences out of 15000+600000
- 501974 words of font info for 103 fonts, out of 8000000 for 9000
+ 23736 strings out of 476180
+ 433648 string characters out of 5815297
+ 946056 words of memory out of 5000000
+ 44082 multiletter control sequences out of 15000+600000
+ 501998 words of font info for 106 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 86i,12n,121p,2253b,627s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,12n,121p,2253b,625s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on JMBKoch_thesis.pdf (20 pages).
