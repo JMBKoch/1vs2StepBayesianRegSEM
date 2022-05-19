@@ -247,6 +247,11 @@ allAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = 
 dev.off()
 ```
 
+```{r}
+biasAllPars <- allAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank())
+saveRDS(biasAllPars, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/BiasAllPars.Rds")
+```
+
 
 
 ## Making sense of the plots

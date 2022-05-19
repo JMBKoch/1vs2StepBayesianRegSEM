@@ -222,16 +222,15 @@ The art of statistical modeling revolves around coming up with an appropriate si
 
 A classic method of trying to find a balance between model complexity and model simplicity is \emph{regularization} (Hastie, Tibshirani, \& Wainwright, 2015). Regularization entails adding some bias to a model on purpose to reduce its variance. This helps to make models easier to interpret and more generalizable. In a frequentist context, regularization is achieved by adding a penality term to the cost function of a model. This ensures that model parameters that are irrelevant, e.g.~small regression coefficients in a regression model with a large number of predictors, are shrunken to (or towards) zero. In general, for a regression model:
 \[y_i = \beta \mathbf{x_i} + e_i, \ where \]
-\[e_i \sim \mathcal{N}(0, \sigma^2). \],
-
-In Least Squared Residuals estimation the estimates of \(\beta\) are obtained by minimizing the sum of squared residuals.
+\[e_i \sim \mathcal{N}(0, \sigma^2), \]
+the Least Squared Residuals estimates of \(\beta\) are obtained by minimizing the sum of squared residuals:
 \[ \hat{\beta} = \underset{\beta}{argmin} \{ \Sigma_{i=1}^N(y_i - \mathbf{x_{i}} \beta)^2 \}.\] Penalized regression adds a a penalty term to this cost function, which is generally denoted as \(||\beta||_L\):
 \[ \hat{\beta} = \underset{\beta}{argmin} \{ \Sigma_{i=1}^N(y_i - \mathbf{x_{i}} \beta )^2 + ||\beta||_{L} \}.\]
 When L = 1, the so-called L-1 norm, \(||\beta||_1 = \Sigma_{j=1}^p |\beta_j|\) the well-known LASSO penality (Tibshirani, 1996, 2011). When, L = 2, the L2-norm, \(||\beta||_2 = \sqrt{\Sigma_{j=1}^p \beta_j^2}\). This is the famous ridge penalty (Hoerl \& Kennard, 2000).
 
 Hier ook alvast ingaan op Jacobucci, Grimm, and McArdle (2016)
 
-In a Bayesian context, instead of adding a penalty to the cost function of a model, so-called shrinkage-priors are set for the parameters (see Van Erp, Oberski, \& Mulder, 2019 for an overview). In Bayesian model estimation, the so-called Joint Posterior Distribution of the model-parameters given the data \(P(\mathbf{\theta} | data)\) is a combination of the data and the prior. Priors can not only be set to steer model estimates towards expected outcomes, for instance based on previous research. Also shrinking model parameters to(wards) zero can be achieved by setting priors that, in general, attach a lot of prior mass to the parameter in question being zero. In the most simple case one can simply set a normal prior for regression coefficients that is centered around zero, which resembles the ridge-penalty (Hoerl \& Kennard, 2000). The lasso penalty can be mirrored by setting a Laplace-prior for the regression coefficients (Park \& Casella, 2008; see Van Erp et al., 2019 for the Bayesian equivalents of other relevant penalties).
+In a Bayesian context, instead of adding a penalty to the cost function of a model, so-called shrinkage-priors are set for the parameters (see Van Erp, Oberski, \& Mulder, 2019 for an overview). In Bayesian model estimation, the so-called Joint Posterior Distribution of the model-parameters given the data \(P({\theta} | data)\) is a combination of the data and the prior. Priors can not only be set to steer model estimates towards expected outcomes, for instance based on previous research. Also shrinking model parameters to(wards) zero can be achieved by setting priors that, in general, attach a lot of prior mass to the parameter in question being zero. In the most simple case one can simply set a normal prior for regression coefficients that is centered around zero, which resembles the ridge-penalty (Hoerl \& Kennard, 2000). The lasso penalty can be mimicked by setting a Laplace-prior for the regression coefficients (Park \& Casella, 2008; see Van Erp et al., 2019 for the Bayesian equivalents of other relevant penalties).
 
 \hypertarget{bayesian-cfa-the-small-variance-normal-prior-svnp}{%
 \subsection{Bayesian CFA: The Small Variance Normal Prior (SVNP)}\label{bayesian-cfa-the-small-variance-normal-prior-svnp}}
@@ -282,7 +281,7 @@ The name-giving intuition behind the horseshoe prior becomes clear when consider
 \[k_{jk} = \frac{1}{1 + n \sigma^{-2}\tau^2s_{jk}\omega^2_{jk}}.\]
 
 Here \(k_{jk}\), denotes the so-called \emph{shrinkage factor} for cross-loading \(\lambda_{c,jk}\).
-When plotting the density of \(k_{jk}\) there is a very high peak at low values around\ldots{} and a very high peak of high values around\ldots, resulting in a plot that resembles a horseshoe (See Figure\ldots). This illustrates that the horseshoe prior possesseshas the desired property of either shrinking parameters very little, or very much, with very few parameters that are shrunken in a non-extreme fashion.
+When plotting the density of \(k_{jk}\) there is a very high peak at low values around\ldots{} and a very high peak of high values around\ldots, resulting in a plot that resembles a horseshoe (See Figure\ldots). This illustrates that the Horseshoe Prior has the desired property of either shrinking parameters very little, or very much, with very few parameters that are shrunken in a non-extreme fashion.
 
 The Horseshoe Prior was found consistently to possess the theoretical properties outlined above in practice (Carvalho et al., 2010; Datta \& Ghosh, 2013; Polson \& Scott, 2010; Van Der Pas, Kleijn, \& Van Der Vaart, 2014). However, due to it's Cauchy tails it suffers from the same issues as a Cauchy prior. Specifically, not shrinking large parameters at all can lead to estimation issues, especially when parameters are weakly identified. This, for instance, happens in logistic regression with separable data, where a flat likelihood and thereby a weakly identified model arises (Ghosh, Li, \& Mitra, 2018). The RHSP prevents such issues by shrinking also large parameters a little bit. For every cross-loading of factor j on item k:
 \[\lambda_{c,jk} | \bar{\omega}_{jk}, \tau, c\sim \mathcal{N}(0, \ \bar{\omega}^2_{jk} \tau^2), \ with \ \bar{\omega}^2_{jk} = \frac{c^2\omega_{jk}^2}{c^2 + \tau^2 \omega_{jk}^2},\]
@@ -290,9 +289,9 @@ The Horseshoe Prior was found consistently to possess the theoretical properties
 \[\omega_{jk}| df_{local}, s_{local} \sim half-t_{df_{local}}(0, \ s_{local}^2),\]
 \[c^2 | df_{slab}, s_{slab} \sim \mathcal{IG}(\frac{df_{slab}}{2}, \  df_{slab} \times \frac{s_{slab}^2}{2}),\]
 
-where \(p_0\) represents a prior guess of the number of relevant cross-loadings. It is, however, not necessary to use \(p_0\). One can simply set \(s_{global}\) manually, whereby it is worth to consider that a \(s_{global}\) created based on a \(p_0\) will typically be much lower than 1 (Piironen \& Vehtari, 2017b). Note that we specify the RHSP in its most general form. Setting the degrees of freedoms of the half-t-distributions to 1 results in half-Cauchy distributions. Strictly speaking, the prior is only a Regularized \emph{Horseshoe} Prior when this is the case. In the current study we vary the degrees of freedoms of all scale parameters to assess the extent to which the sparcifying properties as well as the convergence of the RHSP are influenced by these parameters.
+where \(p_0\) represents a prior guess of the number of relevant cross-loadings. It is not necessary to use \(p_0\). One can simply set \(s_{global}\) manually, whereby it is worth to consider that a \(s_{global}\) created based on a \(p_0\) will typically be much lower than 1 (Piironen \& Vehtari, 2017b). Note that we specify the RHSP in its most general form. Setting the degrees of freedoms of the half-t-distributions to 1 results in half-Cauchy distributions. Strictly speaking, the prior is only a Regularized \emph{Horseshoe} Prior when this is the case. In the current study we vary the degrees of freedoms of all scale parameters to assess the extent to which the sparcifying properties as well as the convergence of the RHSP are influenced by these parameters.
 
-The intuition of how the RHSP shrinks large parameters a little bit becomes clear by assuming that c is a given constant. Now, When \(\tau^2 \omega^2_{jk} < c^2\), which is the case under small cross-loadings, \(\bar{\omega}^2_{jk} \to \omega^2_{jk}\). Hence, in this case the RHSP approaches the original Horseshoe Prior, with equally pronounced shrinkage to zero. However, when \(\tau\) is far from zero, hence with large cross-loadings, \(\tau^2 \omega^2_{jk} > c^2\), and \(\bar{\omega}^2_{jk} \to \frac{c^2}{\tau^2}\). Then, the prior of \(\lambda_{c,jk}\) approaches a slab \(\mathcal{N}(0, c^2)\). Under the above specification, when c is no constant but a parameter for which an Inverse-Gamma hyper-prior is set, the slab becomes a t-distribution with \(df_{slab}\) degrees of freedom, a mean of zero and a scale of \(scale_{slab}^2\) (Piironen \& Vehtari, 2017b).
+The intuition of how the RHSP shrinks large parameters a little bit is best illustrated by assuming that c is a given constant. Now, When \(\tau^2 \omega^2_{jk} < c^2\), which is the case under small cross-loadings, \(\bar{\omega}^2_{jk} \to \omega^2_{jk}\). Hence, in this case the RHSP approaches the original Horseshoe Prior, with equally pronounced shrinkage to zero. However, when \(\tau\) is far from zero, hence with large cross-loadings, \(\tau^2 \omega^2_{jk} > c^2\), and \(\bar{\omega}^2_{jk} \to \frac{c^2}{\tau^2}\). Then, the prior of \(\lambda_{c,jk}\) approaches a slab \(\mathcal{N}(0, c^2)\). Under the above specification, when c is no constant but a parameter for which an Inverse-Gamma hyper-prior is set, the slab becomes a t-distribution with \(df_{slab}\) degrees of freedom, a mean of zero and a scale of \(scale_{slab}^2\) (Piironen \& Vehtari, 2017b).
 
 \begin{figure}
 \centering
@@ -354,16 +353,38 @@ We varied the hyper-of the SVNP \(\sigma^2\) between 0.001, 0.01 and 0.1, based 
 \hypertarget{rhsp-prior-conditions}{%
 \subsection{RHSP: Prior Conditions}\label{rhsp-prior-conditions}}
 
-The RHSP,has six hyper-parameters in the specification that we apply. We varied the scales of both the global shrinkage parameter \(\tau\), \(s_{global}\), and the scale of the local shrinkage parameter \(\omega_{jk}\) between, 0.1 and 1. The degrees of freedoms of these two parameters, \(df_{local}\) and \(df_{global}\) were varied between 1 and 3. Finally, for the scale of the distribution of \(c^2\), \(scale_sab\) was varied between 0.1, 1 and 5, and \(df_slab\) between 1 and 3. This left a total of 96 individual hyperparameter conditions for the RHSP. In combination with the 2x2 population conditions we were left with 384 individual sets of conditions for this prior. In total there were thus \(384 \times 200 = 76800\) replications run for this prior.
+The RHSP,has six hyper-parameters in the specification that we apply. We varied the scales of both the global shrinkage parameter \(\tau\), \(s_{global}\), and the scale of the local shrinkage parameter \(\omega_{jk}\) between, 0.1 and 1. The degrees of freedoms of these two parameters, \(df_{local}\) and \(df_{global}\) were varied between 1 and 3. Finally, for the scale of the distribution of \(c^2\), \(scale_{slab}\) was varied between 0.1, 1 and 5, and \(df_{slab}\) between 1 and 3. This left a total of 96 individual hyperparameter conditions for the RHSP. In combination with the 2x2 population conditions we were left with 384 individual sets of conditions for this prior. In total there were thus \(384 \times 200 = 76800\) replications run for this prior.
 
 \hypertarget{outcomes}{%
 \subsection{Outcomes}\label{outcomes}}
 
-We focus\footnote{We also computed the Mean Squared Error and Relative Bias of the posterior mean estimates, the Power in selecting truly non-zero cross-loadings as non-zero (see also Appendix B) and the Type-I-Error-Rate in selecting truly zero cross-loadings as non-zero (based on several selection criteria). Outcomes were also computed for median posterior estimates. Summaries of all outcomes can be found on \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/plots}.} on the Mean (Absolute) Bias of the posterior mean estimates of all model parameters, per set of conditions (\(\bar{\theta} | conditions\)).
+All outcomes were computed based on both mean and median posterior estimates of the model paramters. We only present the results of the mean estimates, but those concerning the median estimates (which do not differe relevantly from those of the mean estimates) can be accessed on github\footnote{see TBA LINK for the SVNP and TBA LINK for the RHSP}.
 
-For every model parameter \(\theta\) and for every set of conditions that has been sampled from for \(N_{rep}\) replications:
+\hypertarget{mean-absolute-bias}{%
+\subsubsection{Mean Absolute Bias}\label{mean-absolute-bias}}
+
+For every model parameter \(\theta\) and for every set of conditions that has been sampled from for \(N_{rep}\) replications, we computed the Mean Absolute Bias:
 
 \[\bar{Bias}_{\bar{\theta}} = \frac{1}{N} \Sigma_{i = 1}^{N_{rep}} |\bar{\theta_i} - \theta_{true}|.\]
+
+We focus\footnote{ Summaries of all outcomes can be found on \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/plots}.} on the Mean (Absolute) Bias of the posterior mean estimates of all model parameters, per set of conditions (\(\bar{\theta} | conditions\)).
+
+\hypertarget{relative-bias}{%
+\subsubsection{Relative Bias}\label{relative-bias}}
+
+The (Mean) Relative Bias was computed per model parameter and set of conditions as: . This outcome gives. However, given the scale of the true model, the Mean Absolute Bias is generally a quantity that can be interpreted intuitively. We therefore do not and refer the interested reader to the study repository on github.
+
+\hypertarget{mean-squared-error}{%
+\subsubsection{Mean Squared Error:}\label{mean-squared-error}}
+
+The Mean Squared Error was computed per model parameter and set of conditions as:
+
+As with the Relative Bias we refrain from presenting results here as they do not add to those of the Mean Absolute Bias\footnote{MSE estimates and plots can be found on TBA Link for the SVNP and TBA LINK for the RHSP}.
+
+\hypertarget{power-and-type-i-error-rate}{%
+\subsubsection{Power and Type-I-Error Rate}\label{power-and-type-i-error-rate}}
+
+For the two truly non-zero cross-loadings Power in selecting truly non-zero cross-loadings as non-zero (see also Appendix B) and the Type-I-Error-Rate in selecting truly zero cross-loadings as non-zero (based on several selection criteria).
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -376,15 +397,15 @@ In terms of convergence, the SVNP shows excellent performance. Across all 2400 r
 \hypertarget{svnp-main-results}{%
 \subsection{SVNP: Main Results}\label{svnp-main-results}}
 
-\hypertarget{mean-absolute-bias}{%
-\subsubsection{Mean Absolute Bias}\label{mean-absolute-bias}}
+\hypertarget{mean-absolute-bias-1}{%
+\subsubsection{Mean Absolute Bias}\label{mean-absolute-bias-1}}
 
 The Mean Absolute Bias of the SVNP for all parameters is summarized in Figure 3. For parameter estimates that show an identical pattern (\(\bar{\lambda}_{c 2-5}\), \(\bar{\lambda}_{c 1, 6}\), \(\bar{\lambda}_{m 1, 2, 5, 6}\), \(\bar{\lambda}_{m 3-4}\), and \(\bar{\theta}_{1-6}\)), the first respecting estimate is presented representative for all, both in Figure 3 and in the numbers presented below. As results are almost identical for the two sample sizes, we focus on presenting the findings for N = 100, to not distract from our main conclusions.\footnote{The Mean Absolute Bias visualized for the different sample sizes separately can be found on \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/plots/plotsBiasSVNP.html}.}
 
 \begin{figure}
 \centering
-\includegraphics{~/1vs2StepBayesianRegSEM/Rmd/figures/BiasAllPars.png}
-\caption{Main Results: Mean Absolute Bias in the Model Parameters (N = 100).}
+\includegraphics{JMBKoch_thesis_files/figure-latex/unnamed-chunk-3-1.pdf}
+\caption{\label{fig:unnamed-chunk-3}SVNP: Mean Absolute Bias in the Model Parameters (N = 100).}
 \end{figure}
 
 Figure 3 shows that, as expected, there is substantial bias in some parameter estimates. While the bias in the posterior means of the truly zero cross-loadings \(\bar{\lambda}_{c 2-5}\) is relatively small, it is pronounced in the estimates of the truly non-zero cross-loadings \(\bar{\lambda}_{c 1}\) and \(\bar{\lambda}_{c 6}\). Particularly with a large true cross-loading of 0.5 and \(\sigma^2 = 0.001\) the bias is very large, e.g.~\(\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.49\), since the estimates of the true cross-loadings of 0.5 are shrunken almost entirely to zero (e.g.~\(\bar{\lambda}_{c 1} = 0.01\)). The choice of \(\sigma^2\) plays a crucial role here. Also with \(\sigma^2 = 0.01\) (and true cross-loadings of 0.5) substantial bias occurs (e.g.~\(\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.35\)), as the cross-loading are still under-estimated considerably (\(\bar{\lambda}_{c 1} = 0.15\)), though not entirely shrunken to zero. With \(\sigma^2 = 0.1\) the bias in the estimates of the cross-loadings is less pronounced (e.g.~\(\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.14\)). Here \(\sigma^2\) is large enough to estimate the cross-loadings closer to their true value, \(\bar{\lambda}_{c 1} = 0.37\).
@@ -395,8 +416,24 @@ In the factor correlation the bias is also relatively small and approximately th
 
 The bias in the estimates of the residual variances \(\bar{\theta}_{1-6}\) is not large across different conditions, although also here a noticeable increase occurs between true cross-loadings of 0.2 and 0.5 when \(\sigma^2 = 0.001\).
 
-\hypertarget{power-and-type-i-error-rate}{%
-\subsubsection{Power and Type-I-Error Rate}\label{power-and-type-i-error-rate}}
+\hypertarget{power-and-type-i-error-rate-1}{%
+\subsubsection{Power and Type-I-Error Rate}\label{power-and-type-i-error-rate-1}}
+
+Figure 5 summarizes the mean power of the SVNP, per set of conditions and selection criterion.
+
+\begin{figure}
+\centering
+\includegraphics{JMBKoch_thesis_files/figure-latex/unnamed-chunk-4-1.pdf}
+\caption{\label{fig:unnamed-chunk-4}SVNP: Mean Power (True Positive Rate in Selecting non-Zero Crossloadings.}
+\end{figure}
+
+The results of the Mean Type-I error rate are very similar to those of the Power (see Figure 6).
+
+\begin{figure}
+\centering
+\includegraphics{JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf}
+\caption{\label{fig:unnamed-chunk-5}SVNP: Mean Type-I-Error (False-Positive) Rate in Selecting zero Crossloadings as non-zero.}
+\end{figure}
 
 \hypertarget{rhsp-convergence}{%
 \subsection{RHSP: Convergence}\label{rhsp-convergence}}
@@ -404,11 +441,11 @@ The bias in the estimates of the residual variances \(\bar{\theta}_{1-6}\) is no
 \hypertarget{rhsp-main-results}{%
 \subsection{RHSP: Main Results}\label{rhsp-main-results}}
 
-\hypertarget{mean-absolute-bias-1}{%
-\subsubsection{Mean Absolute Bias}\label{mean-absolute-bias-1}}
+\hypertarget{mean-absolute-bias-2}{%
+\subsubsection{Mean Absolute Bias}\label{mean-absolute-bias-2}}
 
-\hypertarget{power-and-type-i-error-rate-1}{%
-\subsubsection{Power and Type-I-Error Rate}\label{power-and-type-i-error-rate-1}}
+\hypertarget{power-and-type-i-error-rate-2}{%
+\subsubsection{Power and Type-I-Error Rate}\label{power-and-type-i-error-rate-2}}
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
@@ -580,7 +617,7 @@ For every individual i in i = 1,\ldots, N:
 \begin{center}
 \begin{threeparttable}
 
-\caption{\label{tab:unnamed-chunk-7}Power in selecting non-zero cross-loadings.}
+\caption{\label{tab:unnamed-chunk-10}Power in selecting non-zero cross-loadings.}
 
 \begin{tabular}{lllll}
 \toprule

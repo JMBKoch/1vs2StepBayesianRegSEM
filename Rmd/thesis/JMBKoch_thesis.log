@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  19 MAY 2022 17:05
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  19 MAY 2022 18:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1020,34 +1020,34 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) (/usr/share/texmf-dist/tex/latex/microtype/mt-eur.cfg
 File: mt-eur.cfg 2006/07/31 v1.1 microtype config. file: AMS Euler Roman (RS)
-) [2
+)
+Underfull \vbox (badness 1509) has occurred while \output is active []
+
+[2
 
 
-]
-Missing character: There is no 𝜃 (U+1D703) in font [lmroman12-bold]:mapping=tex
--text;!
-[3]
+] [3]
 Missing character: There is no 𝜇 (U+1D707) in font [lmroman12-bold]:mapping=tex
 -text;!
 [4] [5]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 276.
+(Font)              scaled to size 10.0pt on input line 275.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 276.
+(Font)              scaled to size 7.0pt on input line 275.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 276.
+(Font)              scaled to size 5.0pt on input line 275.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 276.
+(Font)              scaled to size 10.00092pt on input line 275.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 276.
+(Font)              scaled to size 7.00064pt on input line 275.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 276.
+(Font)              scaled to size 5.00046pt on input line 275.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 276.
+(Font)              scaled to size 9.99893pt on input line 275.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 276.
+(Font)              scaled to size 6.99925pt on input line 275.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 276.
+(Font)              scaled to size 4.99947pt on input line 275.
 [6] [7]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (typ
 e pdf)
@@ -1061,35 +1061,54 @@ File: ~/1vs2StepBayesianRegSEM/Rmd/figures/model.png Graphic file (type bmp)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[11] [12]
-File: ~/1vs2StepBayesianRegSEM/Rmd/figures/BiasAllPars.png Graphic file (type b
-mp)
-<~/1vs2StepBayesianRegSEM/Rmd/figures/BiasAllPars.png>
-[13] [14] [15] [16] [17]
+[11]
+Underfull \vbox (badness 1377) has occurred while \output is active []
+
+[12]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[18
+[13]
+File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (typ
+e pdf)
+<use JMBKoch_thesis_files/figure-latex/unnamed-chunk-3-1.pdf>
+
+LaTeX Warning: Float too large for page by 34.00887pt on input line 409.
+
+[14] [15]
+File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (typ
+e pdf)
+<use JMBKoch_thesis_files/figure-latex/unnamed-chunk-4-1.pdf>
+File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (typ
+e pdf)
+<use JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf>
+
+Underfull \vbox (badness 7722) has occurred while \output is active []
+
+[16] [17] [18] [19]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[20
 
 ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[19]
+[21]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[20] [21] [22
+[22] [23] [24
 
 
-] AED endfloat: Processing end Figures and Tables [23
+] AED endfloat: Processing end Figures and Tables [25
 
 
 ] (./JMBKoch_thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 23751 strings out of 476180
- 433858 string characters out of 5815297
- 947419 words of memory out of 5000000
- 44097 multiletter control sequences out of 15000+600000
+ 23778 strings out of 476180
+ 434991 string characters out of 5815297
+ 947917 words of memory out of 5000000
+ 44122 multiletter control sequences out of 15000+600000
  501998 words of font info for 106 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  86i,12n,121p,2253b,626s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on JMBKoch_thesis.pdf (23 pages).
+Output written on JMBKoch_thesis.pdf (25 pages).
