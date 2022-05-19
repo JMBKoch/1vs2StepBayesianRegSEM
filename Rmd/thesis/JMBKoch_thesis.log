@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  19 MAY 2022 16:27
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  19 MAY 2022 17:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1053,21 +1053,18 @@ File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf>
 [8]
-Underfull \vbox (badness 1112) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[9]
+[9] [10]
 File: ~/1vs2StepBayesianRegSEM/Rmd/figures/model.png Graphic file (type bmp)
 <~/1vs2StepBayesianRegSEM/Rmd/figures/model.png>
-[10]
-Underfull \vbox (badness 5787) has occurred while \output is active []
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [11] [12]
 File: ~/1vs2StepBayesianRegSEM/Rmd/figures/BiasAllPars.png Graphic file (type b
 mp)
 <~/1vs2StepBayesianRegSEM/Rmd/figures/BiasAllPars.png>
-
-Underfull \vbox (badness 1681) has occurred while \output is active []
-
 [13] [14] [15] [16] [17]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1087,12 +1084,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ] (./JMBKoch_thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 23750 strings out of 476180
- 433837 string characters out of 5815297
- 947364 words of memory out of 5000000
- 44096 multiletter control sequences out of 15000+600000
+ 23751 strings out of 476180
+ 433858 string characters out of 5815297
+ 947419 words of memory out of 5000000
+ 44097 multiletter control sequences out of 15000+600000
  501998 words of font info for 106 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 86i,12n,121p,2253b,625s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,12n,121p,2253b,626s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on JMBKoch_thesis.pdf (23 pages).

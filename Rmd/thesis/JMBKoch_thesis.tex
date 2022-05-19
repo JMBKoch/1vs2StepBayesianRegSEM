@@ -280,6 +280,7 @@ A fully continuous alternative to the Spike and Slab prior that is implementable
 The name-giving intuition behind the horseshoe prior becomes clear when considering the finding that (Carvalho et al., 2010; Piironen \& Vehtari, 2017b):
 \[\bar{\lambda}_{c,jk} = (1 \ - \ k_{jk}) \hat{\lambda}_{c,jk}, \ where\]
 \[k_{jk} = \frac{1}{1 + n \sigma^{-2}\tau^2s_{jk}\omega^2_{jk}}.\]
+
 Here \(k_{jk}\), denotes the so-called \emph{shrinkage factor} for cross-loading \(\lambda_{c,jk}\).
 When plotting the density of \(k_{jk}\) there is a very high peak at low values around\ldots{} and a very high peak of high values around\ldots, resulting in a plot that resembles a horseshoe (See Figure\ldots). This illustrates that the horseshoe prior possesseshas the desired property of either shrinking parameters very little, or very much, with very few parameters that are shrunken in a non-extreme fashion.
 
@@ -289,9 +290,9 @@ The Horseshoe Prior was found consistently to possess the theoretical properties
 \[\omega_{jk}| df_{local}, s_{local} \sim half-t_{df_{local}}(0, \ s_{local}^2),\]
 \[c^2 | df_{slab}, s_{slab} \sim \mathcal{IG}(\frac{df_{slab}}{2}, \  df_{slab} \times \frac{s_{slab}^2}{2}),\]
 
-where \(p_0\) represents a prior guess of the number of relevant cross-loadings. It is, however, not necessary to use \(p_0\). One can simply set \(s_{global}\) manually, whereby it is worth to consider that a \(s_{global}\) created based on a \(p_0\) will typically be much lower than 1 (Piironen \& Vehtari, 2017b). Note that we specify the RHSP in its most general form. Setting the degrees of freedoms of the half-t-distributions to 1 results in half-Cauchy distributions. Strictly speaking, the prior is only a Regularized \emph{Horseshoe} Prior when this is the case. In the current study we vary the degrees of freedoms of all scale parameters to assess the extent to which the specifying properties as well as the convergence of the RHSP are influenced by these parameters.
+where \(p_0\) represents a prior guess of the number of relevant cross-loadings. It is, however, not necessary to use \(p_0\). One can simply set \(s_{global}\) manually, whereby it is worth to consider that a \(s_{global}\) created based on a \(p_0\) will typically be much lower than 1 (Piironen \& Vehtari, 2017b). Note that we specify the RHSP in its most general form. Setting the degrees of freedoms of the half-t-distributions to 1 results in half-Cauchy distributions. Strictly speaking, the prior is only a Regularized \emph{Horseshoe} Prior when this is the case. In the current study we vary the degrees of freedoms of all scale parameters to assess the extent to which the sparcifying properties as well as the convergence of the RHSP are influenced by these parameters.
 
-The intuiting of how the RHSP shrinks large parameters a little bit becomes clear by assuming that c is a given constant. Now, When \(\tau^2 \omega^2_{jk} < c^2\), which is the case under small cross-loadings \(\bar{\omega}^2_{jk} \to \omega^2_{jk}\). Hence, in this case the RHSP approaches the original Horseshoe Prior, with equally pronounced shrinkage to zero. However, when \(\tau\) is far from zero, hence with large cross-loadings, \(\tau^2 \omega^2_{jk} > c^2\), and \(\bar{\omega}^2_{jk} \to \frac{c^2}{\tau^2}\). Then, the prior approaches a slab \(\mathcal{N}(0, c^2)\). Under the above specification, when c is no constant but a parameter for which an Inverse-Gamma hyper-prior is set, the slab becomes a t-distribution with \(df_{slab}\) degrees of freedom, a mean of zero and a scale of \(scale_{slab}^2\) (@ Piironen \& Vehtari, 2017b).
+The intuition of how the RHSP shrinks large parameters a little bit becomes clear by assuming that c is a given constant. Now, When \(\tau^2 \omega^2_{jk} < c^2\), which is the case under small cross-loadings, \(\bar{\omega}^2_{jk} \to \omega^2_{jk}\). Hence, in this case the RHSP approaches the original Horseshoe Prior, with equally pronounced shrinkage to zero. However, when \(\tau\) is far from zero, hence with large cross-loadings, \(\tau^2 \omega^2_{jk} > c^2\), and \(\bar{\omega}^2_{jk} \to \frac{c^2}{\tau^2}\). Then, the prior of \(\lambda_{c,jk}\) approaches a slab \(\mathcal{N}(0, c^2)\). Under the above specification, when c is no constant but a parameter for which an Inverse-Gamma hyper-prior is set, the slab becomes a t-distribution with \(df_{slab}\) degrees of freedom, a mean of zero and a scale of \(scale_{slab}^2\) (Piironen \& Vehtari, 2017b).
 
 \begin{figure}
 \centering
@@ -314,7 +315,7 @@ A Monte Carlo simulation study was conducted using STAN (Stan Development Team, 
 \hypertarget{population-conditions}{%
 \subsection{Population Conditions}\label{population-conditions}}
 
-The datasets were simulated based on a true 2-factor model, with three items per factor, and a factor correlation of 0.5. The true model is summarized below, both in equations (Appendix A) and graphically (Figure 2).\footnote{The stan code of the model can be found on \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/stan/SVNP.stan}.} The factors were scaled by fixing their means to zero and their variances to 1. All main-loadings were set to 0.75, and all residual variances to 0.3, to ensure that the largest proportion of variance in the items would be explained by their corresponding factor. We varied the size of the two truly non-zero cross-loadings \(\lambda_{c 5}\) and \(\lambda_{c 6}\) between 0.2, a negligible magnitude such that shrinkage to zero is desired, and 0.5, a size for which shrinkage towards zero should be avoided. We varied the sample sizes of the simulated datasets between 100 and 200. Larger sample sizes of for instance 500 were not included despite being common place in the literature, because adding them would have rendered the run-time of the simulations for the RHSP unfeasible. This is appropriate because for simple factor models researchers are unlikely to collect such larger sample sizes in practice. Finally, based on Muthén and Asparouhov (2012), we varied \(\sigma^2\) between 0.001, 0.01 and 0.1. This left us with a total number of 2 x 2 x 3 = 12 individual sets of conditions. Per set of conditions, 200 replications were run, yielding a total of 2400 replications.
+The datasets were simulated based on a true 2-factor model, with three items per factor, and a factor correlation of 0.5. The true model is summarized below, both in equations (Appendix A) and graphically (Figure 2).\footnote{The stan code of the model can be found on \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/stan/SVNP.stan}.} The factors were scaled by fixing their means to zero and their variances to 1. All main-loadings were set to 0.75, and all residual variances to 0.3, to ensure that the largest proportion of variance in the items would be explained by their corresponding factor. We varied the size of the two truly non-zero cross-loadings \(\lambda_{c 5}\) and \(\lambda_{c 6}\) between 0.2, a negligible magnitude such that shrinkage to zero is desired, and 0.5, a size for which shrinkage towards zero should be avoided. We varied the sample sizes of the simulated datasets between 100 and 200. Larger sample sizes of for instance 500 were not included despite being common place in the literature, because adding them would have rendered the run-time of the simulations for the RHSP unfeasible. This is appropriate because for simple factor models researchers are unlikely to collect such larger sample sizes in practice. A summary of all combinations of population conditions is presented in Table 1.
 
 \begin{figure}
 \centering
@@ -322,29 +323,38 @@ The datasets were simulated based on a true 2-factor model, with three items per
 \caption{Graphical Representation of the True Model.}
 \end{figure}
 
-\begin{itemize}
-\tightlist
-\item
-  tabel: Overzicht condities Populatie
-\end{itemize}
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:unnamed-chunk-2}Population Conditions.}
+
+\begin{tabular}{ll}
+\toprule
+cross & \multicolumn{1}{c}{N}\\
+\midrule
+0.20 & 100\\
+0.20 & 200\\
+0.50 & 100\\
+0.50 & 200\\
+\bottomrule
+\end{tabular}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
 
 \hypertarget{svnp-prior-conditions}{%
 \subsection{SVNP: Prior Conditions}\label{svnp-prior-conditions}}
 
-\begin{itemize}
-\tightlist
-\item
-  tabel: Overzicht condities SVNP
-\end{itemize}
+We varied the hyper-of the SVNP \(\sigma^2\) between 0.001, 0.01 and 0.1, based on Muthén and Asparouhov (2012). For the SVNP this left us with a total number of 2 x 2 x 3 = 12 individual sets of conditions. Per set of conditions, 200 replications were run, yielding a total of 2400 replications for this prior.
 
 \hypertarget{rhsp-prior-conditions}{%
 \subsection{RHSP: Prior Conditions}\label{rhsp-prior-conditions}}
 
-\begin{itemize}
-\tightlist
-\item
-  tabel: Overzicht condities RHSP
-\end{itemize}
+The RHSP,has six hyper-parameters in the specification that we apply. We varied the scales of both the global shrinkage parameter \(\tau\), \(s_{global}\), and the scale of the local shrinkage parameter \(\omega_{jk}\) between, 0.1 and 1. The degrees of freedoms of these two parameters, \(df_{local}\) and \(df_{global}\) were varied between 1 and 3. Finally, for the scale of the distribution of \(c^2\), \(scale_sab\) was varied between 0.1, 1 and 5, and \(df_slab\) between 1 and 3. This left a total of 96 individual hyperparameter conditions for the RHSP. In combination with the 2x2 population conditions we were left with 384 individual sets of conditions for this prior. In total there were thus \(384 \times 200 = 76800\) replications run for this prior.
 
 \hypertarget{outcomes}{%
 \subsection{Outcomes}\label{outcomes}}
@@ -353,7 +363,7 @@ We focus\footnote{We also computed the Mean Squared Error and Relative Bias of t
 
 For every model parameter \(\theta\) and for every set of conditions that has been sampled from for \(N_{rep}\) replications:
 
-\[\bar{Bias}_{\bar{\theta} | conditions} = \frac{1}{N} \Sigma_{i = 1}^{N_{rep}} |\bar{\theta_i} - \theta_{true}|.\]
+\[\bar{Bias}_{\bar{\theta}} = \frac{1}{N} \Sigma_{i = 1}^{N_{rep}} |\bar{\theta_i} - \theta_{true}|.\]
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -381,7 +391,7 @@ Figure 3 shows that, as expected, there is substantial bias in some parameter es
 
 Also the estimates of the main loadings of factor 1 on item 3 (\(\bar{\lambda}_{m 3}\)) and of factor 2 on item 4 (\(\bar{\lambda}_{m 4}\)) are substantially biased when the true cross-loadings are 0.5 and \(\sigma^2 = 0.001\) (e.g.~\(\bar{Bias}_{\bar{\lambda}_{m 3}} = 0.40\)). These two loadings show much higher bias than the other four main-loadings as they load on the same two items as the two non-zero cross-loadings (\(\bar{\lambda}_{c 1}\) and \(\bar{\lambda}_{c 6}\), see Figure 2). As the cross-loadings are shrunken to zero, these main loadings now also account for the variance in the items that is truly explained by the cross-loadings. Consequently, the two main-loadings are over-estimated, e.g.~\(\bar{\lambda}_{m 3} = 1.15\).
 
-In the factor correlation the bias is also relatively small and approximately the same for the different values of \(\sigma^2\) when the truly non-zero cross-loadings are 0.2. Again, bias becomes much more pronounced with true cross-loadings of 0.5, especially when \(\sigma^2 = 0.001\) (\(\bar{Bias}_{\bar{r}} = 0.34\)). In this situation the factor correlation is heavily over-estimated (\(\bar{r} = 0.84\)). This is because the covariance between item 3 and 4 that arises from the two cross-loadings, is mis-attributed to the factor-correlation, as the cross-loadings are shrunken to zero.
+In the factor correlation the bias is also relatively small and approximately the same for the different values of \(\sigma^2\) when the truly non-zero cross-loadings are 0.2. Again, bias becomes much more pronounced with true cross-loadings of 0.5, especially when \(\sigma^2 = 0.001\) (\(\bar{Bias}_{\bar{r}} = 0.34\)). In this situation the factor correlation is heavily over-estimated (\(\bar{\Psi}_{1,2} = 0.84\)). This is because the covariance between item 3 and 4 that arises from the two cross-loadings, is mis-attributed to the factor-correlation, as the cross-loadings are shrunken to zero.
 
 The bias in the estimates of the residual variances \(\bar{\theta}_{1-6}\) is not large across different conditions, although also here a noticeable increase occurs between true cross-loadings of 0.2 and 0.5 when \(\sigma^2 = 0.001\).
 
