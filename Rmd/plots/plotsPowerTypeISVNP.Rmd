@@ -209,8 +209,9 @@ AvgTypeIAndPowerLong %>%
   geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
   labs(x = "Size Cross-Loading",
        y = "Power",
-       col = "Selection Criteria",
-       linetype = "Selection Criteria"
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
        )+
   facet_grid(cols = vars(sigmaSqu),
              rows = vars(N))+
@@ -235,8 +236,9 @@ AvgTypeIAndPowerLong %>%
   geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
   labs(x = "Size Cross-Loading",
        y = "Type-I Error Rate",
-       col = "Selection Criteria",
-       linetype = "Selection Criteria"
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
        )+
   facet_grid(cols = vars(sigmaSqu),
              rows = vars(N))+
