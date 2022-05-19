@@ -252,8 +252,6 @@ biasAllPars <- allAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(leg
 saveRDS(biasAllPars, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/BiasAllPars.Rds")
 ```
 
-
-
 ## Making sense of the plots
 
 ### zero cross-loadings

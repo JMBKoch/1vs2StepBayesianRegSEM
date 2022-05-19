@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  19 MAY 2022 18:27
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  19 MAY 2022 18:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1072,7 +1072,7 @@ File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-3-1.pdf>
 
-LaTeX Warning: Float too large for page by 34.00887pt on input line 409.
+LaTeX Warning: Float too large for page by 37.8352pt on input line 409.
 
 [14] [15]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (typ
@@ -1108,7 +1108,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Here is how much of TeX's memory you used:
  23778 strings out of 476180
  434991 string characters out of 5815297
- 947917 words of memory out of 5000000
+ 948094 words of memory out of 5000000
  44122 multiletter control sequences out of 15000+600000
  501998 words of font info for 106 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
