@@ -53,7 +53,7 @@ resultsRHSP %>%
   head(1)
 ```
 
-Thus, with N = 100, cross = 0.2 and the hyper-parameters all on their lowest vaslue (0.1 for scales, and 1 for df's) the chains don't converge in the majority of the cases.
+Thus, with N = 100, cross = 0.2 and the hyper-parameters all on their lowest value (0.1 for scales, and 1 for df's) the chains don't converge in the majority of the cases.
 
 These are 156 rows. Interestingly, the chains that did not fail show good convergence, which is sort of puzzling, but maybe not?
 
@@ -91,10 +91,9 @@ meanPropDiv <-
 convRHSP %>% 
   filter(parameter == "Rhat") %>% # doesn't matter which you pick here
   mutate(propDiv = sumDiv/ samplePars$nSampling) %>% 
-  group_by(scaleGlobal
-           #, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
+  group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
   summarise(meanPropDiv = mean(propDiv))
-#meanPropDiv
+meanPropDiv$ 
 ```
 
 On average, they appear to be quite low. There appears to be no set of conditions where the proportion of divergent transition is lager than 0.09. 
