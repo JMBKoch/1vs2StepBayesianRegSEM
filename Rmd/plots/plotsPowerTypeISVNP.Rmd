@@ -246,7 +246,7 @@ AvgTypeIAndPowerLong %>%
   theme(panel.border = element_rect(fill = NA))
 TypeI
 ```
-Notes.
+ w
 ```{r}
 readr::write_rds(TypeI, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/typeI.Rds")
 readr::write_rds(Power, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/power.Rds")
