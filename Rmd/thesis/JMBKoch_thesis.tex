@@ -210,6 +210,13 @@ Word count: 9465
 \clearpage
 \pagebreak
 
+% make page numbers start from second page 
+\pagenumbering{arabic}
+%\setcounter{page}{0}
+%\thispagestyle{empty}
+% make page numbers from second page 
+\pagestyle{plain}
+
 \clearpage
 
 \hypertarget{introduction}{%
@@ -228,7 +235,7 @@ the Ordinary Least Squared Residuals estimates of \(\beta\) are obtained by mini
 \[ \hat{\beta} = \underset{\beta}{argmin} \{ \Sigma_{i=1}^N(y_i - \beta \mathbf{x_{i}} )^2 + \lambda ||\beta||_{L} \}.\]
 When L = 1, the so-called L-1 norm, \(||\beta||_1 = \Sigma_{j=1}^p |\beta_j|\), the well-known LASSO penality (Tibshirani, 1996, 2011). When, L = 2, the L2-norm, \(||\beta||_2 = \sqrt{\Sigma_{j=1}^p \beta_j^2}\). This is the famous ridge penalty (Hoerl \& Kennard, 2000). The so-called tuning-parameter \(\lambda\) is a hyper-parameter that is in practice often determined through cross-validation.
 
-Regularization can also be applied outside of regression, for instance in Structural Equation Modeling (SEM, Jacobucci, Grimm, \& McArdle, 2016). Regularized SEM entails adding penalties to the cost function of SEM models (typically a variant of the maximum likelihood cost function) to reach sparser models. Jacobucci et al. (2016) showed that applying the ridge or lasso penalty to model parameters of SEM models, e.g.~factor loadings in CFA, but also structural parameters such as regression coefficients in MIMIC models, is a feasible and efficient way of yielding easier to interpret and more generalizable models, especially under large sample sizes. A disadvantage of the frequentist regularized SEM method is that SEM models can become hard to optimize in practice when more complex penalties are added to their cost function.
+Regularization can also be applied outside of regression, for instance in Structural Equation Modeling (SEM, Jacobucci, Grimm, \& McArdle, 2016). Regularized SEM entails adding penalties to the cost function of SEM models (typically a variant of the maximum likelihood cost function) to reach sparser models. Jacobucci et al. (2016) showed that applying the ridge or lasso penalty to model parameters of SEM models, for instance factor loadings in CFA or regression coefficients in MIMIC models, is a feasible and efficient way of yielding easier to interpret and more generalizable models, especially under large sample sizes. A disadvantage of the frequentist regularized SEM method is that SEM models can become hard to optimize in practice when more complex penalties are added to their cost function.
 
 In a Bayesian context, instead of adding a penalty to the cost function of a model, so-called shrinkage-priors are set for parameters (see Van Erp, Oberski, \& Mulder, 2019 for an overview). In Bayesian model estimation, the so-called Joint Posterior Distribution of the model-parameters given the data \(P({\theta} | data)\) is a combination of the data and the prior. Priors can not only be set to steer model estimates towards expected outcomes, for instance based on previous research. Also shrinking model parameters to(wards) zero can be achieved by setting priors that, in general, attach a lot of prior mass to the parameter in question being zero. In the most simple case one can simply set a normal prior for regression coefficients that is centered around zero, which resembles the ridge-penalty (Hsiang, 1975). The lasso penalty can be mimicked by setting a Laplace- (double exponential) prior for the regression coefficients (Park \& Casella, 2008; see Van Erp et al., 2019 for the Bayesian equivalents of other relevant penalties). In general, an advantage of Bayesian Regularization over the frequentist approach is that it does not rely on optimization, since the the model estimation is achieved through MCMC methods. This allows for more flexibility in regularization, as shrinkage priors are not limited by having to lead to a optimizable cost function together with the model, as is the case with frequentist penalties.
 
@@ -237,7 +244,7 @@ In a Bayesian context, instead of adding a penalty to the cost function of a mod
 
 Confirmatory Factor Analysis (CFA, Bollen, 1989) is an essential tool for modeling measurement structures, falling under the class of Structural Equation Modeling (SEM). For every individual i, the scores on a vector of p observed indicators \(\mathbf{y}_i\) (typically items of a psychological test):
 \[\boldsymbol{y}_i = \boldsymbol{\mu} + \Lambda \boldsymbol{\eta}_i + \boldsymbol{e}_i ,\]
-where \(\boldsymbol{y}_i\) is a \(p \times 1\) vector of observed indicators, \(\boldsymbol{\mu}\) is a \(p \times 1\) vector of intercepts, \(\Lambda\) is a \(p \times q\) vector of factor loadings, \(\boldsymbol{\eta}_i\) is a \(q \times 1\) vector of scores on the latent factors, and \(\boldsymbol{e}_i\) is a \(p \times 1\) is a random vector of random (measurement) error terms. Here, \(\Lambda\) is thus the part of the equation that relates the latent variables to the observed scores on the items. We can differentiate between so-called main-loadings, and cross-loadings. The former are factor loadings that relate factor and items to one another that are theoretically expected to have a relationship. Cross-loadings are factor loadings that relate factors to items between which, theoretically, no relationship should exist.
+where \(\boldsymbol{y}_i\) is a \(p \times 1\) vector of observed indicators, \(\boldsymbol{\mu}\) is a \(p \times 1\) vector of intercepts, \(\Lambda\) is a \(p \times q\) matrix of factor loadings, \(\boldsymbol{\eta}_i\) is a \(q \times 1\) vector of scores on the latent factors, and \(\boldsymbol{e}_i\) is a \(p \times 1\) is a random vector of random (measurement) error terms. Here, \(\Lambda\) is thus the part of the equation that relates the latent variables to the observed scores on the items. We can differentiate between so-called main-loadings, and cross-loadings. The former are factor loadings that relate factor and items to one another that are theoretically expected to have a relationship. Cross-loadings are factor loadings that relate factors to items between which, theoretically, no relationship should exist.
 
 In confirmatory factor analysis it is common practice to deal with the bias-variance trade-off in a brute-force manner, by imposing a so-called simple structure. While generally, the model allows for \emph{some} cross-loadings to not be fixed to zero, this practice entails fixing all cross-loadings to zero to yield an identified and interpretable model. This often leads to poor model fit, which forces researchers to free some cross-loadings after the fact based on empirical grounds (modification indices) to improve fit. This procedure is flawed, as it risks capitalization on chance and thereby over-fitting (MacCallum, Roznowski, \& Necowitz, 1992).
 
@@ -401,7 +408,7 @@ Figure 4 summarizes the mean power of the SVNP, per set of conditions and select
 \begin{figure}
 \centering
 \includegraphics{JMBKoch_thesis_files/figure-latex/unnamed-chunk-4-1.pdf}
-\caption{\label{fig:unnamed-chunk-4}SVNP: Mean Power (true positive) Rate in Selecting non-zero Crossloadings.}
+\caption{\label{fig:unnamed-chunk-4}SVNP: Mean Power (true positive rate) in Selecting non-zero Crossloadings.}
 \end{figure}
 
 The results of the Mean Type-I error rate are very similar to those of the Power (see Figure 5).
@@ -409,7 +416,7 @@ The results of the Mean Type-I error rate are very similar to those of the Power
 \begin{figure}
 \centering
 \includegraphics{JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf}
-\caption{\label{fig:unnamed-chunk-5}SVNP: Mean Type-I-Error (false positive) Rate in Selecting zero Crossloadings as non-zero.}
+\caption{\label{fig:unnamed-chunk-5}SVNP: Mean Type-I-Error (false positive rate) in Selecting zero Crossloadings as non-zero.}
 \end{figure}
 
 \hypertarget{rhsp-convergence}{%
