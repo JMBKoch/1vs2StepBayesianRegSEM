@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  23 MAY 2022 18:01
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  24 MAY 2022 19:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1045,25 +1045,28 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
 (Font)              scaled to size 8.3991pt on input line 239.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
 (Font)              scaled to size 5.99936pt on input line 239.
-[4] [5] [6]
+[4]
+Underfull \vbox (badness 4752) has occurred while \output is active []
+
+[5] [6]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 275.
+(Font)              scaled to size 10.0pt on input line 269.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 275.
+(Font)              scaled to size 7.0pt on input line 269.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 275.
+(Font)              scaled to size 5.0pt on input line 269.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 275.
+(Font)              scaled to size 10.00092pt on input line 269.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 275.
+(Font)              scaled to size 7.00064pt on input line 269.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 275.
+(Font)              scaled to size 5.00046pt on input line 269.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 275.
+(Font)              scaled to size 9.99893pt on input line 269.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 275.
+(Font)              scaled to size 6.99925pt on input line 269.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 275.
+(Font)              scaled to size 4.99947pt on input line 269.
 [7] [8]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (typ
 e pdf)
@@ -1071,12 +1074,15 @@ e pdf)
 [9] [10]
 File: ~/1vs2StepBayesianRegSEM/Rmd/figures/model.png Graphic file (type bmp)
 <~/1vs2StepBayesianRegSEM/Rmd/figures/model.png>
-[11] [12] [13] [14]
+[11]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[12] [13] [14]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-3-1.pdf>
 
-LaTeX Warning: Float too large for page by 37.8352pt on input line 413.
+LaTeX Warning: Float too large for page by 37.8352pt on input line 386.
 
 [15] [16]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (typ
@@ -1085,9 +1091,6 @@ e pdf)
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf>
-
-Underfull \vbox (badness 4673) has occurred while \output is active []
-
 [17]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1113,12 +1116,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ] (./JMBKoch_thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 23810 strings out of 476180
- 436088 string characters out of 5815297
- 948114 words of memory out of 5000000
- 44146 multiletter control sequences out of 15000+600000
+ 23811 strings out of 476180
+ 436085 string characters out of 5815297
+ 948095 words of memory out of 5000000
+ 44147 multiletter control sequences out of 15000+600000
  503222 words of font info for 115 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 86i,12n,121p,2253b,626s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,12n,121p,2253b,625s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on JMBKoch_thesis.pdf (26 pages).

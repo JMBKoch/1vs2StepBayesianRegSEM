@@ -220,24 +220,24 @@ The art of statistical modeling revolves around coming up with an appropriate si
 \hypertarget{regularization}{%
 \subsection{Regularization}\label{regularization}}
 
-A classic method of trying to find a balance between model complexity and model simplicity is \emph{regularization} (Hastie, Tibshirani, \& Wainwright, 2015). Regularization entails adding some bias to a model on purpose to reduce its variance. This helps to make models easier to interpret and more generalizable. In a frequentist context, regularization is achieved by adding a penality term to the cost function of a model. This ensures that model parameters that are irrelevant, e.g.~small regression coefficients in a regression model with a large number of predictors, are shrunken to (or towards) zero. In general, for a regression model:
+A classic method of trying to find a balance between model complexity and model simplicity is \emph{regularization} (Hastie, Tibshirani, \& Wainwright, 2015). Regularization entails adding some bias to a model on purpose to reduce its variance. This helps to make models easier to interpret and more generalizable. In a frequentist context, regularization is achieved by adding a penality term to the cost function of a model. This ensures that model parameters that are irrelevant, e.g.~small regression coefficients in a regression model with a large number of predictors, are shrunken to (or towards) zero. For a regression model:
 \[y_i = \beta \mathbf{x_i} + e_i, \ where \]
 \[e_i \sim \mathcal{N}(0, \sigma^2), \]
-the Least Squared Residuals estimates of \(\beta\) are obtained by minimizing the sum of squared residuals:
+the Ordinary Least Squared Residuals estimates of \(\beta\) are obtained by minimizing the sum of squared residuals:
 \[ \hat{\beta} = \underset{\beta}{argmin} \{ \Sigma_{i=1}^N(y_i - \beta\mathbf{x_{i}} )^2 \}.\] Penalized regression adds a a penalty term to this cost function, which is generally denoted as \(||\beta||_L\):
-\[ \hat{\beta} = \underset{\beta}{argmin} \{ \Sigma_{i=1}^N(y_i - \beta \mathbf{x_{i}} )^2 + ||\beta||_{L} \}.\]
-When L = 1, the so-called L-1 norm, \(||\beta||_1 = \Sigma_{j=1}^p |\beta_j|\), the well-known LASSO penality (Tibshirani, 1996, 2011). When, L = 2, the L2-norm, \(||\beta||_2 = \sqrt{\Sigma_{j=1}^p \beta_j^2}\). This is the famous ridge penalty (Hoerl \& Kennard, 2000).
+\[ \hat{\beta} = \underset{\beta}{argmin} \{ \Sigma_{i=1}^N(y_i - \beta \mathbf{x_{i}} )^2 + \lambda ||\beta||_{L} \}.\]
+When L = 1, the so-called L-1 norm, \(||\beta||_1 = \Sigma_{j=1}^p |\beta_j|\), the well-known LASSO penality (Tibshirani, 1996, 2011). When, L = 2, the L2-norm, \(||\beta||_2 = \sqrt{\Sigma_{j=1}^p \beta_j^2}\). This is the famous ridge penalty (Hoerl \& Kennard, 2000). The so-called tuning-parameter \(\lambda\) is a hyper-parameter that is in practice often determined through cross-validation.
 
-Regularization can also be applied outside of regression, for instance in Structural Equation Modeling (SEM, Jacobucci, Grimm, \& McArdle, 2016). Regularized SEM entails using penalties in the cost function of SEM models (typically a variant of the maximum likelihood cost function) to reach sparser models. Jacobucci et al. (2016) show that applying the ridge or lasso penalties to model parameters of SEM models, e.g.~as factor loadings in CFA, but also structural parameters such as regression coefficients in MIMIC models, is a feasible and efficient way of yielding easier to interpret and more generalizable models.
+Regularization can also be applied outside of regression, for instance in Structural Equation Modeling (SEM, Jacobucci, Grimm, \& McArdle, 2016). Regularized SEM entails adding penalties to the cost function of SEM models (typically a variant of the maximum likelihood cost function) to reach sparser models. Jacobucci et al. (2016) showed that applying the ridge or lasso penalty to model parameters of SEM models, e.g.~factor loadings in CFA, but also structural parameters such as regression coefficients in MIMIC models, is a feasible and efficient way of yielding easier to interpret and more generalizable models, especially under large sample sizes. A disadvantage of the frequentist regularized SEM method is that SEM models can become hard to optimize in practice when more complex penalties are added to their cost function.
 
-In a Bayesian context, instead of adding a penalty to the cost function of a model, so-called shrinkage-priors are set for parameters (see Van Erp, Oberski, \& Mulder, 2019 for an overview). In Bayesian model estimation, the so-called Joint Posterior Distribution of the model-parameters given the data \(P({\theta} | data)\) is a combination of the data and the prior. Priors can not only be set to steer model estimates towards expected outcomes, for instance based on previous research. Also shrinking model parameters to(wards) zero can be achieved by setting priors that, in general, attach a lot of prior mass to the parameter in question being zero. In the most simple case one can simply set a normal prior for regression coefficients that is centered around zero, which resembles the ridge-penalty (Hsiang, 1975). The lasso penalty can be mimicked by setting a Laplace- (double exponential) prior for the regression coefficients (Park \& Casella, 2008; see Van Erp et al., 2019 for the Bayesian equivalents of other relevant penalties).
+In a Bayesian context, instead of adding a penalty to the cost function of a model, so-called shrinkage-priors are set for parameters (see Van Erp, Oberski, \& Mulder, 2019 for an overview). In Bayesian model estimation, the so-called Joint Posterior Distribution of the model-parameters given the data \(P({\theta} | data)\) is a combination of the data and the prior. Priors can not only be set to steer model estimates towards expected outcomes, for instance based on previous research. Also shrinking model parameters to(wards) zero can be achieved by setting priors that, in general, attach a lot of prior mass to the parameter in question being zero. In the most simple case one can simply set a normal prior for regression coefficients that is centered around zero, which resembles the ridge-penalty (Hsiang, 1975). The lasso penalty can be mimicked by setting a Laplace- (double exponential) prior for the regression coefficients (Park \& Casella, 2008; see Van Erp et al., 2019 for the Bayesian equivalents of other relevant penalties). In general, an advantage of Bayesian Regularization over the frequentist approach is that it does not rely on optimization, since the the model estimation is achieved through MCMC methods. This allows for more flexibility in regularization, as shrinkage priors are not limited by having to lead to a optimizable cost function together with the model, as is the case with frequentist penalties.
 
 \hypertarget{bayesian-cfa-the-small-variance-normal-prior-svnp}{%
 \subsection{Bayesian CFA: The Small Variance Normal Prior (SVNP)}\label{bayesian-cfa-the-small-variance-normal-prior-svnp}}
 
-Confirmatory Factor Analysis (CFA, Bollen, 1989) is an essential tool for modeling measurement structures. For every individual i, the scores on a vector of p observed indicators \(\mathbf{y}_i\) (typically items of a psychological test):
+Confirmatory Factor Analysis (CFA, Bollen, 1989) is an essential tool for modeling measurement structures, falling under the class of Structural Equation Modeling (SEM). For every individual i, the scores on a vector of p observed indicators \(\mathbf{y}_i\) (typically items of a psychological test):
 \[\boldsymbol{y}_i = \boldsymbol{\mu} + \Lambda \boldsymbol{\eta}_i + \boldsymbol{e}_i ,\]
-where \(\boldsymbol{y}_i\) is a \(p \times 1\) vector of observed indicators, \(\boldsymbol{\mu}\) a vector of intercepts, \(\Lambda\) is a \(p \times q\) vector of factor loadings, \(\boldsymbol{\eta}_i\) is a \(q \times 1\) vector of scores on the latent factors, and \(\boldsymbol{e}_i\) is a \(p \times 1\) is a random vector of random (measurement) error terms. Here, \(\Lambda\) is thus the part of the equation that relates the latent variables to the observed scores on the items. We can differentiate between so-called main-loadings, and cross-loadings. The former are factor loadings that relate factor and items to one another that are theoretically expected to have a relationship. Cross-loadings are factor loadings that relate factors to items between which, theoretically, no relationship should exist.
+where \(\boldsymbol{y}_i\) is a \(p \times 1\) vector of observed indicators, \(\boldsymbol{\mu}\) is a \(p \times 1\) vector of intercepts, \(\Lambda\) is a \(p \times q\) vector of factor loadings, \(\boldsymbol{\eta}_i\) is a \(q \times 1\) vector of scores on the latent factors, and \(\boldsymbol{e}_i\) is a \(p \times 1\) is a random vector of random (measurement) error terms. Here, \(\Lambda\) is thus the part of the equation that relates the latent variables to the observed scores on the items. We can differentiate between so-called main-loadings, and cross-loadings. The former are factor loadings that relate factor and items to one another that are theoretically expected to have a relationship. Cross-loadings are factor loadings that relate factors to items between which, theoretically, no relationship should exist.
 
 In confirmatory factor analysis it is common practice to deal with the bias-variance trade-off in a brute-force manner, by imposing a so-called simple structure. While generally, the model allows for \emph{some} cross-loadings to not be fixed to zero, this practice entails fixing all cross-loadings to zero to yield an identified and interpretable model. This often leads to poor model fit, which forces researchers to free some cross-loadings after the fact based on empirical grounds (modification indices) to improve fit. This procedure is flawed, as it risks capitalization on chance and thereby over-fitting (MacCallum, Roznowski, \& Necowitz, 1992).
 
@@ -248,17 +248,11 @@ An issue with Muthén and Asparouhov (2012)'s Bayesian CFA is that not only the 
 \begin{itemize}
 \tightlist
 \item
-  ADD little alinea on LASSO here?
+  ADD little alinea on Bayesian LASSO in SEM here?
 \end{itemize}
 
 \hypertarget{the-spike-and-slab-prior}{%
 \subsection{The Spike and Slab Prior}\label{the-spike-and-slab-prior}}
-
-\begin{itemize}
-\tightlist
-\item
-  ADD little alinea on LASSO here?
-\end{itemize}
 
 One suitable regularization prior for the purpose of selecting cross-loadings in
 regularized Bayesian SEM is the so-called Spike-and-Slab Prior (George \& McCulloch, 1993; Ishwaran \& Rao, 2005; Mitchell \& Beauchamp, 1988). This prior is a discrete mixture of an extremely peaked prior around zero (the spike), and a very flat prior for larger parameters (the slab). Formally, and applied to the cross-loadings in CFA, for every Cross-loading of factor j
@@ -310,10 +304,13 @@ While the Regularized Horseshoe Prior has been shown to perform excellently in t
 
 A Monte Carlo simulation study was conducted using STAN (Stan Development Team, 2021) and R (R Core Team, 2021). All code that was used to run the simulations can be openly accessed on the author's \href{https://github.com/JMBKoch/1vs2StepBayesianRegSEM}{\textbf{github}}\footnote{Specifically, the R-scripts needed to run the simulation can be found on \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/R}. \texttt{parameters.R} can be adjusted to adjust study parameters, and \texttt{main.R} is used to run the main simulation. Required packages are listed at the top of \texttt{parameters.R}.}. The models were sampled using the No-U-Turn-Sampler (Homan \& Gelman, 2014), with two chains, a burnin-period of 2000 and a chain-length of 4000. These sampling parameters were identified in pilot runs to be required for the RHSP to reach convergence, and were therefore also used for the SVNP in order to ensure a fair comparison.
 
-\hypertarget{population-conditions}{%
-\subsection{Population Conditions}\label{population-conditions}}
+\hypertarget{conditions}{%
+\subsection{Conditions}\label{conditions}}
 
-The datasets were simulated based on a true 2-factor model, with three items per factor, and a factor correlation of 0.5. The true model is summarized below, both in equations (Appendix A) and graphically (Figure 2).\footnote{The stan code of the model can be found on \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/stan/SVNP.stan}.} The factors were scaled by fixing their means to zero and their variances to 1. All main-loadings were set to 0.75, and all residual variances to 0.3, to ensure that the largest proportion of variance in the items would be explained by their corresponding factor. We varied the size of the two truly non-zero cross-loadings \(\lambda_{c 5}\) and \(\lambda_{c 6}\) between 0.2, a negligible magnitude such that shrinkage to zero is desired, and 0.5, a size for which shrinkage towards zero should be avoided. We varied the sample sizes of the simulated datasets between 100 and 200. Larger sample sizes of for instance 500 were not included despite being common place in the literature, because adding them would have rendered the run-time of the simulations for the RHSP unfeasible. This is appropriate because for simple factor models researchers are unlikely to collect such larger sample sizes in practice. A summary of all combinations of population conditions is presented in Table 1.
+\hypertarget{population-conditions}{%
+\subsubsection{Population Conditions}\label{population-conditions}}
+
+The datasets were simulated based on a true 2-factor model, with three items per factor, and a factor correlation of 0.5. The true model is summarized below, both in equations (Appendix A) and graphically (Figure 2).\footnote{The stan code of the model can be found on \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/stan/SVNP.stan}.} The factors were scaled by fixing their means to zero and their variances to 1. All main-loadings were set to 0.75, and all residual variances to 0.3, to ensure that the largest proportion of variance in the items would be explained by their corresponding factor. We varied the size of the two truly non-zero cross-loadings \(\lambda_{c 5}\) and \(\lambda_{c 6}\) between 0.2, a negligible magnitude such that shrinkage to zero is desired, and 0.5, a size for which shrinkage towards zero should be avoided. We varied the sample sizes of the simulated datasets between 100 and 200. Larger sample sizes of for instance 500 were not included despite being common place in the literature, because adding them would have rendered the run-time of the simulations for the RHSP unfeasible. This is appropriate because for simple factor models researchers are unlikely to collect such larger sample sizes in practice.
 
 \begin{figure}
 \centering
@@ -321,38 +318,15 @@ The datasets were simulated based on a true 2-factor model, with three items per
 \caption{Graphical Representation of the True Model.}
 \end{figure}
 
-\begin{table}[tbp]
-
-\begin{center}
-\begin{threeparttable}
-
-\caption{\label{tab:unnamed-chunk-2}Population Conditions.}
-
-\begin{tabular}{ll}
-\toprule
-cross & \multicolumn{1}{c}{N}\\
-\midrule
-0.20 & 100\\
-0.20 & 200\\
-0.50 & 100\\
-0.50 & 200\\
-\bottomrule
-\end{tabular}
-
-\end{threeparttable}
-\end{center}
-
-\end{table}
-
 \hypertarget{svnp-prior-conditions}{%
-\subsection{SVNP: Prior Conditions}\label{svnp-prior-conditions}}
+\subsubsection{SVNP: Prior Conditions}\label{svnp-prior-conditions}}
 
-We varied the hyper-of the SVNP \(\sigma^2\) between 0.001, 0.01 and 0.1, based on Muthén and Asparouhov (2012). For the SVNP this left us with a total number of 2 x 2 x 3 = 12 individual sets of conditions. Per set of conditions, 200 replications were run, yielding a total of 2400 replications for this prior.
+We varied the hyper-parameter of the SVNP \(\sigma^2\) between 0.001, 0.01 and 0.1, based on Muthén and Asparouhov (2012). For the SVNP this left us with a total number of 2 x 2 x 3 = 12 individual sets of conditions. Per set of conditions, 200 replications were run, yielding a total of 2400 replications for this prior.
 
 \hypertarget{rhsp-prior-conditions}{%
-\subsection{RHSP: Prior Conditions}\label{rhsp-prior-conditions}}
+\subsubsection{RHSP: Prior Conditions}\label{rhsp-prior-conditions}}
 
-The RHSP has six hyper-parameters in the specification that we apply. We varied the scales of both the global shrinkage parameter \(\tau\), \(s_{global}\), and the scale of the local shrinkage parameter \(\omega_{jk}\) between, 0.1 and 1. The degrees of freedoms of these two parameters, \(df_{local}\) and \(df_{global}\) were varied between 1 and 3. Finally, for the scale of the distribution of \(c^2\), \(scale_{slab}\) was varied between 0.1, 1 and 5, and \(df_{slab}\) between 1 and 3. This left a total of 96 individual hyperparameter conditions for the RHSP. In combination with the 2x2 population conditions we were left with 384 individual sets of conditions for this prior. In total there were thus \(384 \times 200 = 76800\) replications run for this prior.
+The RHSP has six hyper-parameters in the specification that we apply. We varied the scales of the global shrinkage parameter \(\tau\), \(s_{global}\) between, 0.1 and 1. Here 1, is a natural maximum given that the scale would never be larger than 1 when applying a prior guess \(p_0\), and 0.1 a logical minimum given the scale of the model. Also the scale of the local shrinkage parameter \(\omega_{jk}\) was varied between, 0.1 and 1. The degrees of freedoms of these two parameters, \(df_{local}\) and \(df_{global}\) were varied between 1 and 3. For the local shrinkage parameter, larger degrees of freedoms may help to overcome sampling issues that can arise when \(df_{local} = 1\), i.e.~when the prior reduces to a half-Cauchy prior. Finally, for the scale of the distribution of \(c^2\), \(scale_{slab}\) was varied between 0.1, 1 and 5, and \(df_{slab}\) between 1 and 3. This left a total of 96 individual hyper-parameter conditions for the RHSP. In combination with the 2x2 population conditions we were left with 384 individual sets of conditions for this prior. In total there were thus \(384 \times 200 = 76800\) replications run for this prior.
 
 \hypertarget{outcomes}{%
 \subsection{Outcomes}\label{outcomes}}
@@ -364,15 +338,14 @@ All outcomes\footnote{Summaries of all outcomes can be found on \url{https://git
 
 For every model parameter \(\theta\) and for every set of conditions that has been sampled from for \(N_{rep}\) replications, we computed the Mean Absolute Bias:
 \[\bar{Bias}_{\bar{\theta}} = \frac{1}{N_{rep}} \Sigma_{i = 1}^{N_{rep}} |\bar{\theta_i} - \theta_{true}|.\]
-
-TBA: onderbouwing
+Given that the core issue of the SVNP is biased model estimates, this outcome naturally plays a central role in our study.
 
 \hypertarget{relative-bias}{%
 \subsubsection{Relative Bias}\label{relative-bias}}
 
 The (Mean) Relative Bias was computed per model parameter estimate and set of conditions by dividing the estimates of the Mean Absolute Bias by the true value of the parameter:
 \[\bar{Bias}_{rel, \ \bar{\theta} } = \frac{\bar{Bias}_{\bar{\theta}}}{\theta_{true} }.\]
-This outcome thus gives an indication of the magnitude of the bias by expressing it relative to the parameter's true value. However, given the standardized scale of the true model, the Mean Absolute Bias is a quantity that can be interpreted rather intuitively in the context of this study. We therefore do not discuss these results in detail, and refer the interested reader to the study repository on github\footnote{see TBA LINK for the relative bias of the SVNP and TBA LINK for the relative bias of the RHSP}.
+This outcome gives an indication of the magnitude of the bias by expressing it relative to the parameter's true value. However, given the standardized scale of the true model, the Mean Absolute Bias is a quantity that can be interpreted rather intuitively in the context of this study. We therefore do not discuss these results in detail, and refer the interested reader to the study repository on github\footnote{see TBA LINK for the relative bias of the SVNP and TBA LINK for the relative bias of the RHSP}.
 
 \hypertarget{mean-squared-error}{%
 \subsubsection{Mean Squared Error:}\label{mean-squared-error}}
@@ -384,11 +357,11 @@ Another way to express the MSE is as the sum of the bias and the variance of a m
 \hypertarget{power-and-type-i-error-rate}{%
 \subsubsection{Power and Type-I-Error Rate}\label{power-and-type-i-error-rate}}
 
-We computed the Mean Power, i.e.~the mean true positive rate, in selecting truly non-zero cross-loadings as non-zero by calculating the proportion of replications (per set of conditions) where the truly non-zero cross-loadings were selected as non-zero, and averaging this over the 2 truly non-zero cross-loadings.
+We computed the Mean Power (true positive rate) per set of conditions in selecting truly non-zero cross-loadings as non-zero by calculating the proportion of replications where the truly non-zero cross-loadings were selected as non-zero, and averaging this over the 2 truly non-zero cross-loadings.
 
-The Mean Type-I-Error (false positive) rate in selecting truly zero cross-loadings as non-zero, was computed as the proportion of truly zero cross-loadings selected as non-zero, averaged over the 4 truly zero cross-loadings.
+The Mean Type-I-Error (false positive) rate in selecting truly zero cross-loadings as non-zero, was computed as the proportion of truly zero cross-loadings selected as non-zero, averaged over the four truly zero cross-loadings.
 
-For both of these outcomes, we applied of selection criteria for selecting cross-loadings as non-zero. First, we used the same criteria applied in
+For both of these outcomes, we applied a variety of selection criteria for selecting cross-loadings as non-zero, based on Zhang et al. (2021). First, we used a variety of thresholding rules, where a cross-loading is selected as non-zero when the absolute value of its estimate exceeds a specific threshold: 0, 0.05, 0.1, 0.15. Next, we we considered four credible intervals (50\%, 80\%, 90\%, 95\%), where cross-loadings are selected as non-zero when the interval does not contain zero.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -460,14 +433,12 @@ Bias occurs much less when \(\sigma^2 = 0.1\). Such relatively large variance st
 
 The high bias of the SVNP under large true cross-loadings and low values of \(\sigma^2\) is not surprising, as it is clearly noted that the method requires a 2-step approach to avoid bias. However, this approach depends on a successful selection of non-zero cross-loadings. Muthén and Asparouhov (2012) advise a power (true positive rate) in selecting non-zero cross-loadings of at least .80. However, only under a single set of conditions (N = 200, \(\sigma^2\) = 0.01, size cross-loadings = 0.5) this power was reached in our study (see Table B1), which suggests that also the 2-step approach is no robust solution. This serves to illustrate the need for more advanced priors such as the RHSP, although different selection rules (see Zhang et al., 2021) may show a better performance than the 95\% credible intervals suggested by Muthén and Asparouhov (2012).
 
-Limitations:
-- Few factors
--
-
 Future Research:
 
 \begin{itemize}
 \tightlist
+\item
+  More factors
 \item
   Residual Co-variances
 \item
