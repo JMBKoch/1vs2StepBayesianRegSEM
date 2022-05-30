@@ -30,7 +30,7 @@ appendix:
 
 ```{=tex}
 % make page numbers start from second page 
-\pagenumbering{arabic}
+%\pagenumbering{arabic}
 %\setcounter{page}{0}
 %\thispagestyle{empty}
 % make page numbers from second page 
@@ -232,10 +232,10 @@ In terms of convergence, the SVNP shows excellent performance. Across all 2400 r
 The Mean Absolute Bias of the SVNP for all parameters is summarized in Figure 3. For parameter estimates that show an identical pattern ($\bar{\lambda}_{c 2-5}$, $\bar{\lambda}_{c 1, 6}$, $\bar{\lambda}_{m 1, 2, 5, 6}$, $\bar{\lambda}_{m 3-4}$, and $\bar{\theta}_{1-6}$), the first respecting estimate is presented representative for all, both in Figure 3 and in the numbers presented below. As results are almost identical for the two sample sizes, we focus on presenting the findings for N = 100, to not distract from our main conclusions.^[The Mean Absolute Bias visualized for the different sample sizes separately can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/plots/plotsBiasSVNP.html.] 
 
 
-```{r, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="SVNP: Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g. cross-loading 1 was plottet representative for cross-loading 1 and 6.", fig.height=9}
+```{r, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="SVNP: Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g. cross-loading 1 was plottet representative for cross-loading 1 and 6.", fig.height=7}
 # load plot
 library(patchwork)
-readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/BiasAllPars.Rds") 
+readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/biasAllParsRHSPInc.Rds") 
 ```
 
 Figure 3 shows that, as expected, there is substantial bias in some parameter estimates. While the bias in the posterior means of the truly zero cross-loadings $\bar{\lambda}_{c 2-5}$ is relatively small, it is pronounced in the estimates of the truly non-zero cross-loadings $\bar{\lambda}_{c 1}$ and $\bar{\lambda}_{c 6}$. Particularly with a large true cross-loading of 0.5 and $\sigma^2 = 0.001$ the bias is very large, e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.49$, since the estimates of the true cross-loadings of 0.5 are shrunken almost entirely to zero (e.g. $\bar{\lambda}_{c 1} = 0.01$). The choice of $\sigma^2$ plays a crucial role here. Also with $\sigma^2 =  0.01$ (and true cross-loadings of 0.5) substantial bias occurs (e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.35$), as the cross-loading are still under-estimated considerably ($\bar{\lambda}_{c 1} = 0.15$), though not entirely shrunken to zero. With $\sigma^2 = 0.1$ the bias in the estimates of the cross-loadings is less pronounced (e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.14$). Here $\sigma^2$ is large enough to estimate the cross-loadings closer to their true value, $\bar{\lambda}_{c 1} = 0.37$.

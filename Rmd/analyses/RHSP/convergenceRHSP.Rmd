@@ -57,7 +57,7 @@ Thus, with N = 100, cross = 0.2 and the hyper-parameters all on their lowest val
 
 These are 156 rows. Interestingly, the chains that did not fail show good convergence, which is sort of puzzling, but maybe not?
 
-I will however, remove them from the analysis, as there are too few iterations for a reliable picture of this set of conditions (FF met Sara bespreken dit). 
+I will however, remove them from the analysis, as there are too few iterations for a reliable picture of this set of conditions.
 
 ```{r}
 resultsRHSP <- 
@@ -123,7 +123,7 @@ convRHSP %>%
   filter(parameter == "n_eff") %>% 
   select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos, lambdaMainC.1.:theta.6.) %>% 
   mutate_at(.vars = vars(-(scaleGlobal:pos)), .funs = function(x){x/samplePars$nSampling}) %>% 
-  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x < .10) %>% 
+  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x < convCriteria$strict$minPropNEFF) %>% 
   select(pos) %>% 
   pull()
 ```
@@ -198,4 +198,49 @@ saveRDS(resultsRHSPFiltered, file = "~/1vs2StepBayesianRegSEM/output/resultsRHSP
 ```{r}
 nrow(resultsRHSPFiltered)
 ```
+
+# Making a selection of one combination of conditions
+
+It's also useful for presenting results to make a choice of one configuration of conditions. N needs to be 100 to match the SVNP, and for the rest it might be smart to chose all hyper-parameters on 1. Let's see, how the convergence is in this case:
+
+```{r}
+#indicesNEffTooSmallAllOne <- 
+convRHSP %>% 
+  filter(parameter == "n_eff") %>%
+  filter(scaleGlobal == 1 & dfGlobal == 1 & scaleLocal == 1 & dfLocal == 1 & scaleSlab == 1 & nu == 1) %>% 
+  select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos, lambdaMainC.1.:theta.6.) %>% 
+  mutate_at(.vars = vars(-(scaleGlobal:pos)), .funs = function(x){x/samplePars$nSampling}) %>% 
+  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x < .90) 
+```
+
+1 replication where the effiective sample size is smaller than 10% of the chain-length (is automatically removed trough the filtering step). Only 7 rows where it's smaller than 50% , 24 75%, 36 90%.
+
+## Rhat
+```{r}
+#indicesRHatTooSmallAllOne <- 
+convRHSP %>% 
+  filter(parameter == "Rhat") %>% 
+  filter(scaleGlobal == 1 & dfGlobal == 1 & scaleLocal == 1 & dfLocal == 1 & scaleSlab == 1 & nu == 1 & N == 100) %>% 
+  select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos, lambdaMainC.1.:theta.6.) %>% 
+  # get indices of all iterations where for any parameter 
+  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x >= convCriteria$strict$maxRhat) 
+```
+
+Not a single row where Rhat >= 1.05
+
+```{r}
+#indicesDIVHigher5PercAllOne <- 
+convRHSP %>% 
+  filter(parameter == "Rhat") %>% # doesn't matter which you pick here
+  filter(scaleGlobal == 1 & dfGlobal == 1 & scaleLocal == 1 & dfLocal == 1 & scaleSlab == 1 & nu == 1 & N == 100) %>% 
+  mutate(propDIV = sumDiv/ samplePars$nSampling) %>% 
+  filter(propDIV >= convCriteria$strict$maxPropDIV)  
+```
+
+13 rows where percentage div transitions > 5% (not removed).
+
+These conditions, which are a logical default, appear to work well for presenting results. Let's therefore save this subset of the results for further analysis. 
+
+
+
 

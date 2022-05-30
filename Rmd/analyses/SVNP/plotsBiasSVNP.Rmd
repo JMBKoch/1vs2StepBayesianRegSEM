@@ -65,6 +65,7 @@ resultsSVNP %>%
   labs(x = "Size Cross-Loading",
       y =  "Mean Absolute Bias",
       title = "Cross-Loading 1")+
+  ylim(0, 0.5)+
   theme_apa()
 crossLoading1
 ```

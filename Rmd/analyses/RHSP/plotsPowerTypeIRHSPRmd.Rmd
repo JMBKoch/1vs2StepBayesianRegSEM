@@ -171,6 +171,330 @@ AvgTypeIAndPower %>%
                                                             "avgTypeI_80" = "80% Credibel Interval",
                                                             "avgTypeI_50" = "50% Credibel Interval" )))) %>% 
   select(N, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab, outcome, criterion, value)
+AvgTypeIAndPowerLong
 ```
 
 
+# scaleGlobal
+
+## Power: Replicating Figure 3 Zhang et al. (p. 6)
+
+```{r}
+PowerScaleGlobal <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  scaleGlobal, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, lineype = criterion))+
+  geom_line(aes(linetype = criterion))+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(scaleGlobal),
+             rows = vars(N))+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+PowerScaleGlobal
+```
+
+## Type-I Error Rate: Replicating Figure 4 Zhang et al. (p. 7)
+
+```{r}
+# compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
+upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
+TypeIScaleGlobal <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  scaleGlobal, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
+  geom_line()+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Type-I Error Rate",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(scaleGlobal),
+             rows = vars(N))+
+  theme_apa( )+
+  theme(panel.border = element_rect(fill = NA))
+TypeIScaleGlobal
+```
+
+# DfGlobal
+
+## Power: Replicating Figure 3 Zhang et al. (p. 6)
+
+```{r}
+PowerDfGlobal <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  dfGlobal, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, lineype = criterion))+
+  geom_line(aes(linetype = criterion))+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(dfGlobal),
+             rows = vars(N))+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+PowerDfGlobal
+```
+
+## Type-I Error Rate: Replicating Figure 4 Zhang et al. (p. 7)
+
+```{r}
+# compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
+upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
+TypeIDfGlobal <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  scaleGlobal, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
+  geom_line()+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Type-I Error Rate",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(scaleGlobal),
+             rows = vars(N))+
+  theme_apa( )+
+  theme(panel.border = element_rect(fill = NA))
+TypeIDfGlobal
+```
+
+# ScaleLocal
+
+## Power: Replicating Figure 3 Zhang et al. (p. 6)
+
+```{r}
+PowerScaleLocal <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  scaleLocal, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, lineype = criterion))+
+  geom_line(aes(linetype = criterion))+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(scaleLocal),
+             rows = vars(N))+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+PowerScaleLocal
+```
+
+## Type-I Error Rate: Replicating Figure 4 Zhang et al. (p. 7)
+
+```{r}
+# compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
+upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
+TypeIScaleLocal <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  scaleLocal, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
+  geom_line()+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Type-I Error Rate",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(scaleLocal),
+             rows = vars(N))+
+  theme_apa( )+
+  theme(panel.border = element_rect(fill = NA))
+TypeIScaleLocal
+```
+
+# DfLocal
+
+## Power: Replicating Figure 3 Zhang et al. (p. 6)
+
+```{r}
+PowerDfLocal <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  dfLocal, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, lineype = criterion))+
+  geom_line(aes(linetype = criterion))+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(dfLocal),
+             rows = vars(N))+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+PowerDfLocal
+```
+
+## Type-I Error Rate: Replicating Figure 4 Zhang et al. (p. 7)
+
+```{r}
+# compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
+upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
+TypeIDfLocal <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  dfLocal, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
+  geom_line()+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Type-I Error Rate",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(dfLocal),
+             rows = vars(N))+
+  theme_apa( )+
+  theme(panel.border = element_rect(fill = NA))
+TypeIDfLocal
+```
+
+# ScaleSlab
+
+## Power: Replicating Figure 3 Zhang et al. (p. 6)
+
+```{r}
+PowerScaleSlab <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  scaleSlab, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, lineype = criterion))+
+  geom_line(aes(linetype = criterion))+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(scaleSlab),
+             rows = vars(N))+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+PowerScaleSlab
+```
+
+## Type-I Error Rate: Replicating Figure 4 Zhang et al. (p. 7)
+
+```{r}
+# compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
+upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
+TypeIScaleSlab <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  scaleSlab, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
+  geom_line()+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Type-I Error Rate",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(scaleSlab),
+             rows = vars(N))+
+  theme_apa( )+
+  theme(panel.border = element_rect(fill = NA))
+TypeIScaleSlab
+```
+
+# DfSlab
+
+## Power: Replicating Figure 3 Zhang et al. (p. 6)
+
+```{r}
+PowerDfSlab <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  dfSlab, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, lineype = criterion))+
+  geom_line(aes(linetype = criterion))+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(dfSlab),
+             rows = vars(N))+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+PowerDfSlab
+```
+
+## Type-I Error Rate: Replicating Figure 4 Zhang et al. (p. 7)
+
+```{r}
+# compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
+upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
+TypeIDfSlab <- 
+AvgTypeIAndPowerLong %>% 
+  filter(outcome == "power") %>% 
+  group_by(N, cross,  dfSlab, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
+  geom_line()+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Type-I Error Rate",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  facet_grid(cols = vars(dfSlab),
+             rows = vars(N))+
+  theme_apa( )+
+  theme(panel.border = element_rect(fill = NA))
+TypeIDfSlab
+```

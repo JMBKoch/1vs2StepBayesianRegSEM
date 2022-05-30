@@ -62,7 +62,14 @@ relBiasSVNP <-
         relBiasCrossMean_4 = abs(crossEstMean_4 - 0), 
         relBiasCrossMean_5 = abs(crossEstMean_5 - 0),
         relBiasCrossMean_6 = abs(crossEstMean_6 - cross)/cross, 
-        relBiasFactCorrEstMean = abs(factCorrEstMean - modelPars$Psi[1, 2])/modelPars$Psi[1, 2]) %>% 
+        relBiasFactCorrEstMean = abs(factCorrEstMean - modelPars$Psi[1, 2])/modelPars$Psi[1, 2],
+        relBiasThetaMean_1 =  abs(thetaEstMean_1 - diag(modelPars$Theta)[1]) / diag(modelPars$Theta)[1],
+        relBiasThetaMean_2 =  abs(thetaEstMean_2 - diag(modelPars$Theta)[2]) / diag(modelPars$Theta)[2],
+        relBiasThetaMean_3 =  abs(thetaEstMean_3 - diag(modelPars$Theta)[3]) / diag(modelPars$Theta)[3],
+        relBiasThetaMean_4 =  abs(thetaEstMean_4 - diag(modelPars$Theta)[4]) / diag(modelPars$Theta)[4],
+        relBiasThetaMean_5 =  abs(thetaEstMean_5 - diag(modelPars$Theta)[5]) / diag(modelPars$Theta)[5],
+        relBiasThetaMean_6 =  abs(thetaEstMean_6 - diag(modelPars$Theta)[6]) / diag(modelPars$Theta)[6],  
+        ) %>% 
       group_by(N, sigmaSqu, cross) %>% 
       summarise(
         relBiasMainMean_1 =  mean(relBiasMainMean_1),
@@ -77,7 +84,13 @@ relBiasSVNP <-
         relBiasCrossMean_4 = mean(relBiasCrossMean_4),
         relBiasCrossMean_5 = mean(relBiasCrossMean_5),
         relBiasCrossMean_6 = mean(relBiasCrossMean_6),
-        relBiasFactCorrEstMean = mean(relBiasFactCorrEstMean),
+        relBiasFactCorrMean = mean(relBiasFactCorrEstMean),
+        relBiasThetaMean_1 =  mean(relBiasThetaMean_1),
+        relBiasThetaMean_2 =  mean(relBiasThetaMean_2),
+        relBiasThetaMean_3 =  mean(relBiasThetaMean_3),
+        relBiasThetaMean_4 =  mean(relBiasThetaMean_4),
+        relBiasThetaMean_5 =  mean(relBiasThetaMean_5),
+        relBiasThetaMean_6 =  mean(relBiasThetaMean_6),
         N = mean(N),
         cross = mean(cross),
         sigmaSqu = mean(sigmaSqu)
@@ -131,17 +144,17 @@ crossLoading2
 ```{r}
 crossLoading3 <- 
 relBiasSVNP %>% 
-  select(N, biasCrossMean_3, cross, sigmaSqu) %>%
+  select(N, relBiasCrossMean_3, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
     cross, label) %>% 
-  summarise(meanBiasCrossMean_3 = mean(biasCrossMean_3)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_3, group = label, col = label))+
+  summarise(meanRelBiasCrossMean_3 = mean(relBiasCrossMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_3, group = label, col = label))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
-  labs(x = NULL,
-      y = "Mean Absolute Bias",
+  labs(x = "Size Cross-Loading",
+      y = "Mean Relative Bias",
       title = "Cross-Loading 3")+
   ylim(0, 0.5)+
   theme_apa()
@@ -151,17 +164,17 @@ crossLoading3
 ```{r}
 crossLoading4 <- 
 relBiasSVNP %>% 
-  select(N, biasCrossMean_4, cross, sigmaSqu) %>%
+  select(N, relBiasCrossMean_4, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
     cross, label) %>% 
-  summarise(meanBiasCrossMean_4 = mean(biasCrossMean_4)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_4, group = label, col = label))+
+  summarise(meanRelBiasCrossMean_4 = mean(relBiasCrossMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_4, group = label, col = label))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
-  labs(x = NULL,
-       y = NULL,
+  labs(x = "Size Cross-Loading",
+       y = "Mean Relative Bias",
       title = "Cross-Loading 4")+
   ylim(0, 0.5)+
   theme_apa()
@@ -171,17 +184,17 @@ crossLoading4
 ```{r}
 crossLoading5 <- 
 relBiasSVNP %>% 
-  select(N, biasCrossMean_5, cross, sigmaSqu) %>%
+  select(N, relBiasCrossMean_5, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
     cross, label) %>% 
-  summarise(meanBiasCrossMean_5 = mean(biasCrossMean_5)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_5, group = label, col = label))+
+  summarise(meanRelBiasCrossMean_5 = mean(relBiasCrossMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_5, group = label, col = label))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
   labs(x = "Size Cross Loading",
-       y = "Mean Absolute Bias",
+       y = "Mean Relative Bias",
       title = "Cross-Loading 5")+
   ylim(0, 0.5)+
   theme_apa()
@@ -191,18 +204,18 @@ crossLoading5
 ```{r}
 crossLoading6 <- 
 relBiasSVNP %>% 
-  select(N, biasCrossMean_6, cross, sigmaSqu) %>%
+  select(N, relBiasCrossMean_6, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
     cross, label) %>% 
-  summarise(meanBiasCrossMean_6 = mean(biasCrossMean_6)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_6, group = label, col = label))+
+  summarise(meanRelBiasCrossMean_6 = mean(relBiasCrossMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_6, group = label, col = label))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
   labs(
         x = "Size Cross Loading",
-       y = NULL,
+       y = "Mean Relative Bias",
       title = "Cross-Loading 6")+
   ylim(0, 0.5)+
   theme_apa()
@@ -217,17 +230,17 @@ crossLoading6
 ```{r}
 factCorr <- 
 relBiasSVNP %>% 
-  select(N, biasFactCorrMean, cross, sigmaSqu) %>%
+  select(N, relBiasFactCorrMean, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiasFactCorrMean = mean(biasFactCorrMean)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group = label, col = label))+
+  summarise(meanRelBiasFactCorrMean = mean(relBiasFactCorrMean)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasFactCorrMean, group = label, col = label))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
   labs(x = "Size Cross Loading",
-       y = "Mean Absolute Bias",
+       y = "Mean Relative Bias",
       title = "Factor Correlation")+
   ylim(0, 0.5)+
   theme_apa()
@@ -241,17 +254,17 @@ factCorr
 ```{r}
 mainLoading1 <- 
 relBiasSVNP %>% 
-  select(N, biasMainMean_1, cross, sigmaSqu) %>%
+  select(N, relBiasMainMean_1, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiasMainMean_1 = mean(biasMainMean_1)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_1, group = label, col = label))+
+  summarise(meanRelBiasMainMean_1 = mean(relBiasMainMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_1, group = label, col = label))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
-  labs(x = NULL,
-       y = "Mean Absolute Bias",
+  labs(x = "Size Cross-Loading",
+       y = "Mean Relative Bias",
       title = "Main Loading 1")+
   ylim(0, 0.5)+
   theme_apa()
@@ -262,17 +275,17 @@ mainLoading1
 ```{r}
 mainLoading2 <- 
 relBiasSVNP %>% 
-  select(N, biasMainMean_2, cross, sigmaSqu) %>%
+  select(N, relBiasMainMean_2, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiasMainMean_2 = mean(biasMainMean_2)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_2, group = label, col = label))+
+  summarise(meanRelBiasMainMean_2 = mean(relBiasMainMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_2, group = label, col = label))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
-  labs(x = NULL,
-      y = NULL,
+  labs(x = "Size Cross-Loading",
+      y = "Mean Relative Bias",
       title = " Main Loading 2")+
   ylim(0, 0.5)+
   theme_apa()
@@ -282,17 +295,17 @@ mainLoading2
 ```{r}
 mainLoading3 <- 
 relBiasSVNP %>% 
-  select(N, biasMainMean_3, cross, sigmaSqu) %>%
+  select(N, relBiasMainMean_3, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiasMainMean_3 = mean(biasMainMean_3)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_3, group = label, col = label))+
+  summarise(meanRelBiasMainMean_3 = mean(relBiasMainMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_3, group = label, col = label))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
-  labs(x = NULL,
-      y = "Mean Absolute Bias",
+  labs(x = "Size Cross-Loading",
+      y = "Mean Relative Bias",
       title = "Main Loading 3")+
   ylim(0, 0.5)+
   theme_apa()
@@ -303,17 +316,17 @@ mainLoading3
 ```{r}
 mainLoading4 <- 
 relBiasSVNP %>% 
-  select(N, biasMainMean_4, cross, sigmaSqu) %>%
+  select(N, relBiasMainMean_4, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiasMainMean_4 = mean(biasMainMean_4)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_4, group = label, col = label))+
+  summarise(meanRelBiasMainMean_4 = mean(relBiasMainMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_4, group = label, col = label))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
-  labs(x = NULL,
-       y = NULL,
+  labs(x = "Size Cross-Loading",
+       y = "Mean Relative Bias",
       title = "Main Loading 4")+
   ylim(0, 0.5)+
   theme_apa()
@@ -323,17 +336,17 @@ mainLoading4
 ```{r}
 mainLoading5 <- 
 relBiasSVNP %>% 
-  select(N, biasMainMean_5, cross, sigmaSqu) %>%
+  select(N, relBiasMainMean_5, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiasMainMean_5 = mean(biasMainMean_5)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_5, group = label, col = label))+
+  summarise(meanRelBiasMainMean_5 = mean(relBiasMainMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_5, group = label, col = label))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
   labs(x = "Size Cross Loading",
-       y = "Mean Absolute Bias",
+       y = "Mean Relative Bias",
       title = " Main Loading 5")+
     ylim(0, 0.5)+
   theme_apa()
@@ -343,16 +356,16 @@ mainLoading5
 ```{r}
 mainLoading6 <- 
 relBiasSVNP %>% 
-  select(N, biasMainMean_6, cross, sigmaSqu) %>%
+  select(N, relBiasMainMean_6, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiasMainMean_6 = mean(biasMainMean_6)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_6, group = label, col = label))+
+  summarise(meanRelBiasMainMean_6 = mean(relBiasMainMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_6, group = label, col = label))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
-      y = NULL,
+      y = "Mean Relative Bias",
       title = "Main Loading 6")+
   facet_wrap(~N)+
   ylim(0, 0.5)+
@@ -366,16 +379,16 @@ mainLoading6
 ```{r}
 theta1 <- 
 relBiasSVNP %>% 
-  select(N, biasThetaMean_1, cross, sigmaSqu) %>%
+  select(N, relBiasThetaMean_1, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiastheta1 = mean(biasThetaMean_1)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiastheta1, group = label, col = label))+
+  summarise(meanRelBiastheta1 = mean(relBiasThetaMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta1, group = label, col = label))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
-      y = NULL,
+      y = "Mean Relative Bias",
       title = "Theta 1")+
   ylim(0, 0.5)+
   facet_wrap(~N)+
@@ -386,16 +399,16 @@ theta1
 ```{r}
 theta2 <- 
 relBiasSVNP %>% 
-  select(N, biasThetaMean_2, cross, sigmaSqu) %>%
+  select(N, relBiasThetaMean_2, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiastheta2 = mean(biasThetaMean_2)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiastheta2, group = label, col = label))+
+  summarise(meanRelBiastheta2 = mean(relBiasThetaMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta2, group = label, col = label))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
-      y = NULL,
+      y = "Mean Relative Bias",
       title = "Theta 2")+
   ylim(0, 0.5)+
   facet_wrap(~N)+
@@ -406,16 +419,16 @@ theta2
 ```{r}
 theta3 <- 
 relBiasSVNP %>% 
-  select(N, biasThetaMean_3, cross, sigmaSqu) %>%
+  select(N, relBiasThetaMean_3, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiastheta3 = mean(biasThetaMean_3)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiastheta3, group = label, col = label))+
+  summarise(meanRelBiastheta3 = mean(relBiasThetaMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta3, group = label, col = label))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
-      y = NULL,
+      y = "Mean Relative Bias",
       title = "Theta 3")+
   ylim(0, 0.5)+
   facet_wrap(~N)+
@@ -426,16 +439,16 @@ theta3
 ```{r}
 theta4 <- 
 relBiasSVNP %>% 
-  select(N, biasThetaMean_4, cross, sigmaSqu) %>%
+  select(N, relBiasThetaMean_4, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiastheta4 = mean(biasThetaMean_4)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiastheta4, group = label, col = label))+
+  summarise(meanRelBiastheta4 = mean(relBiasThetaMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta4, group = label, col = label))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
-      y = NULL,
+      y = "Mean Relative Bias",
       title = "Theta 4")+
   ylim(0, 0.5)+
   facet_wrap(~N)+
@@ -446,16 +459,16 @@ theta4
 ```{r}
 theta5 <- 
 relBiasSVNP %>% 
-  select(N, biasThetaMean_5, cross, sigmaSqu) %>%
+  select(N, relBiasThetaMean_5, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiastheta5 = mean(biasThetaMean_5)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiastheta5, group = label, col = label))+
+  summarise(meanRelBiastheta5 = mean(relBiasThetaMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta5, group = label, col = label))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
-      y = NULL,
+      y = "Mean Relative Bias",
       title = "Theta 5")+
   ylim(0, 0.5)+
   facet_wrap(~N)+
@@ -467,16 +480,16 @@ theta5
 ```{r}
 theta6 <- 
 relBiasSVNP %>% 
-  select(N, biasThetaMean_6, cross, sigmaSqu) %>%
+  select(N, relBiasThetaMean_6, cross, sigmaSqu) %>%
   mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, 
            cross, label) %>% 
-  summarise(meanBiastheta6 = mean(biasThetaMean_6)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiastheta6, group = label, col = label))+
+  summarise(meanRelBiastheta6 = mean(relBiasThetaMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta6, group = label, col = label))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
-      y = NULL,
+      y = "Mean Relative Bias",
       title = "Theta 6")+
   facet_wrap(~N)+
   ylim(0, 0.5)+
