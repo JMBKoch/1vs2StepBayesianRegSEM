@@ -93,7 +93,7 @@ convRHSP %>%
   mutate(propDiv = sumDiv/ samplePars$nSampling) %>% 
   group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
   summarise(meanPropDiv = mean(propDiv))
-meanPropDiv$ 
+meanPropDiv
 ```
 
 On average, they appear to be quite low. There appears to be no set of conditions where the proportion of divergent transition is lager than 0.09. 
@@ -101,14 +101,14 @@ On average, they appear to be quite low. There appears to be no set of condition
 Let's find the indices of the runs where the divergent transitions exceeded 5%.
 
 ```{r}
-indicesDIVTooHigh <- 
+indicesDIVHigher5Perc <- 
 convRHSP %>% 
   filter(parameter == "Rhat") %>% # doesn't matter which you pick here
   mutate(propDIV = sumDiv/ samplePars$nSampling) %>% 
   filter(propDIV >= convCriteria$strict$maxPropDIV) %>% 
   select(pos) %>% 
   pull()
-length(indicesDIVTooHigh)
+length(indicesDIVHigher5Perc)
 ```
 
 This would remove 4474 rows.

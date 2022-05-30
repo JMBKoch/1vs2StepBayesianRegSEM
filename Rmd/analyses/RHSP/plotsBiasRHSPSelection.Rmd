@@ -1,0 +1,43 @@
+---
+title: "Plots Bias Mean Estimates RHSP"
+author: "Koch, J.M.B. (Michael)"
+date: '2022-05-02'
+output: html_document
+---
+
+```{r, echo=F}
+knitr::opts_chunk$set(echo = F, message = F)
+```
+
+
+```{r, message = F, warning = F}
+# load packages outside of simulation
+library(papaja)
+library(patchwork)
+#source required functions & parameters
+source('~/OneDrive/ms/thesis/R/functions.R')
+source('~/OneDrive/ms/thesis/R/parameters.R')
+```
+
+```{r}
+# load results  (already filtered and post-processed)
+resultsRHSP <- readRDS("~/1vs2StepBayesianRegSEM/output/resultsRHSPFilter.Rds")
+nrow(resultsRHSP)
+```
+
+# Plots
+
+## Factor Correlation
+
+## Cross-Loading 2-5
+
+## Cross-Loading 1&6
+
+## Main Loading 1, 2, 5 & 6
+
+## Main Loading 3 & 4
+
+## Factor Correlation 
+
+## Theta
+

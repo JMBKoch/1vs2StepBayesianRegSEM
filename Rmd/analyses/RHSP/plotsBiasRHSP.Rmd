@@ -1,0 +1,3284 @@
+---
+title: "Plots Bias Mean Estimates RHSP"
+author: "Koch, J.M.B. (Michael)"
+date: '2022-05-02'
+output: html_document
+---
+
+```{r, echo=F}
+knitr::opts_chunk$set(echo = F, message = F)
+```
+
+
+```{r, message = F, warning = F}
+# load packages outside of simulation
+library(papaja)
+library(patchwork)
+#source required functions & parameters
+source('~/OneDrive/ms/thesis/R/functions.R')
+source('~/OneDrive/ms/thesis/R/parameters.R')
+```
+
+```{r}
+# load results  (already filtered and post-processed)
+resultsRHSP <- readRDS("~/1vs2StepBayesianRegSEM/output/resultsRHSPFilter.Rds")
+nrow(resultsRHSP)
+```
+
+
+# Plots
+
+## Cross-Loading
+
+### scaleGlobal
+
+```{r}
+CrossScaleGlobal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasCrossMean_1 =  mean(biasCrossMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_1, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossScaleGlobal1
+```
+```{r}
+CrossScaleGlobal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasCrossMean_2 =  mean(biasCrossMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_2, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossScaleGlobal2
+```
+```{r}
+CrossScaleGlobal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasCrossMean_3 =  mean(biasCrossMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_3, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossScaleGlobal3
+```
+
+```{r}
+CrossScaleGlobal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasCrossMean_4 =  mean(biasCrossMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_4, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossScaleGlobal4
+```
+```{r}
+CrossScaleGlobal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasCrossMean_5 =  mean(biasCrossMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_5, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossScaleGlobal5
+```
+```{r}
+CrossScaleGlobal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasCrossMean_6 =  mean(biasCrossMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_6, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossScaleGlobal6
+```
+
+### dfGlobal
+
+```{r}
+CrossDfGlobal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasCrossMean_1 =  mean(biasCrossMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_1, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfGlobal1
+```
+
+```{r}
+CrossDfGlobal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasCrossMean_2 =  mean(biasCrossMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_2, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfGlobal2
+```
+
+```{r}
+CrossDfGlobal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          dfGlobal) %>% 
+  summarise(meanBiasCrossMean_3 =  mean(biasCrossMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_3, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfGlobal3
+```
+
+```{r}
+CrossDfGlobal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasCrossMean_4 =  mean(biasCrossMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_4, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfGlobal4
+```
+
+```{r}
+CrossDfGlobal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasCrossMean_5 =  mean(biasCrossMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_5, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfGlobal5
+```
+
+```{r}
+CrossDfGlobal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasCrossMean_6 =  mean(biasCrossMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_6, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfGlobal6
+```
+
+### scaleLocal
+
+```{r}
+CrossscaleLocal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasCrossMean_1 =  mean(biasCrossMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_1, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleLocal1
+```
+
+```{r}
+CrossscaleLocal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasCrossMean_2 =  mean(biasCrossMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_2, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleLocal2
+```
+
+```{r}
+CrossscaleLocal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          scaleLocal) %>% 
+  summarise(meanBiasCrossMean_3 =  mean(biasCrossMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_3, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleLocal3
+```
+
+```{r}
+CrossscaleLocal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasCrossMean_4 =  mean(biasCrossMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_4, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleLocal4
+```
+
+```{r}
+CrossscaleLocal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasCrossMean_5 =  mean(biasCrossMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_5, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleLocal5
+```
+
+```{r}
+CrossscaleLocal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasCrossMean_6 =  mean(biasCrossMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_6, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleLocal6
+```
+
+### dfLocal
+
+```{r}
+CrossDfLocal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasCrossMean_1 =  mean(biasCrossMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_1, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfLocal1
+```
+
+```{r}
+CrossDfLocal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasCrossMean_2 =  mean(biasCrossMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_2, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfLocal2
+```
+
+```{r}
+CrossDfLocal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          dfLocal) %>% 
+  summarise(meanBiasCrossMean_3 =  mean(biasCrossMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_3, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfLocal3
+```
+
+```{r}
+CrossDfLocal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasCrossMean_4 =  mean(biasCrossMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_4, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfLocal4
+```
+
+```{r}
+CrossDfLocal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasCrossMean_5 =  mean(biasCrossMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_5, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfLocal5
+```
+
+```{r}
+CrossDfLocal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasCrossMean_6 =  mean(biasCrossMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_6, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfLocal6
+```
+
+### scaleSlab
+
+```{r}
+CrossscaleSlab1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasCrossMean_1 =  mean(biasCrossMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_1, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleSlab1
+```
+
+```{r}
+CrossscaleSlab2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasCrossMean_2 =  mean(biasCrossMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_2, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleSlab2
+```
+
+```{r}
+CrossscaleSlab3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          scaleSlab) %>% 
+  summarise(meanBiasCrossMean_3 =  mean(biasCrossMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_3, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleSlab3
+```
+
+```{r}
+CrossscaleSlab4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasCrossMean_4 =  mean(biasCrossMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_4, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleSlab4
+```
+
+```{r}
+CrossscaleSlab5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasCrossMean_5 =  mean(biasCrossMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_5, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleSlab5
+```
+
+```{r}
+CrossscaleSlab6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasCrossMean_6 =  mean(biasCrossMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_6, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossscaleSlab6
+```
+
+### dfSlab
+
+```{r}
+CrossDfSlab1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasCrossMean_1 =  mean(biasCrossMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_1, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfSlab1
+```
+
+```{r}
+CrossDfSlab2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasCrossMean_2 =  mean(biasCrossMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_2, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfSlab2
+```
+
+```{r}
+CrossDfSlab3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          dfSlab) %>% 
+  summarise(meanBiasCrossMean_3 =  mean(biasCrossMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_3, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfSlab3
+```
+
+```{r}
+CrossDfSlab4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasCrossMean_4 =  mean(biasCrossMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_4, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfSlab4
+```
+
+```{r}
+CrossDfSlab5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasCrossMean_5 =  mean(biasCrossMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_5, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfSlab5
+```
+
+```{r}
+CrossDfSlab6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasCrossMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasCrossMean_6 =  mean(biasCrossMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_6, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Cross-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+CrossDfSlab6
+```
+
+
+## Main Loadings
+
+### scaleGlobal
+
+
+```{r}
+MainScaleGlobal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasMainMean_1 =  mean(biasMainMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_1, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainScaleGlobal1
+```
+```{r}
+MainScaleGlobal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasMainMean_2 =  mean(biasMainMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_2, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainScaleGlobal2
+```
+```{r}
+MainScaleGlobal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasMainMean_3 =  mean(biasMainMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_3, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainScaleGlobal3
+```
+
+```{r}
+MainScaleGlobal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasMainMean_4 =  mean(biasMainMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_4, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainScaleGlobal4
+```
+
+```{r}
+MainScaleGlobal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasMainMean_5 =  mean(biasMainMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_5, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainScaleGlobal5
+```
+```{r}
+MainScaleGlobal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasMainMean_6 =  mean(biasMainMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_6, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainScaleGlobal6
+```
+
+### dfGlobal
+
+```{r}
+MainDfGlobal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasMainMean_1 =  mean(biasMainMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_1, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfGlobal1
+```
+
+```{r}
+MainDfGlobal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasMainMean_2 =  mean(biasMainMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_2, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfGlobal2
+```
+
+```{r}
+MainDfGlobal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          dfGlobal) %>% 
+  summarise(meanBiasMainMean_3 =  mean(biasMainMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_3, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfGlobal3
+```
+
+```{r}
+MainDfGlobal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasMainMean_4 =  mean(biasMainMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_4, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfGlobal4
+```
+
+```{r}
+MainDfGlobal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasMainMean_5 =  mean(biasMainMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_5, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfGlobal5
+```
+
+```{r}
+MainDfGlobal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasMainMean_6 =  mean(biasMainMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_6, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfGlobal6
+```
+
+
+### scaleLocal
+
+```{r}
+MainscaleLocal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasMainMean_1 =  mean(biasMainMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_1, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleLocal1
+```
+
+```{r}
+MainscaleLocal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasMainMean_2 =  mean(biasMainMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_2, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleLocal2
+```
+
+```{r}
+MainscaleLocal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          scaleLocal) %>% 
+  summarise(meanBiasMainMean_3 =  mean(biasMainMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_3, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleLocal3
+```
+
+```{r}
+MainscaleLocal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasMainMean_4 =  mean(biasMainMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_4, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleLocal4
+```
+
+```{r}
+MainscaleLocal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasMainMean_5 =  mean(biasMainMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_5, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleLocal5
+```
+
+```{r}
+MainscaleLocal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasMainMean_6 =  mean(biasMainMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_6, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleLocal6
+```
+
+
+### dfLocal
+
+```{r}
+MainDfLocal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasMainMean_1 =  mean(biasMainMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_1, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfLocal1
+```
+
+```{r}
+MainDfLocal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasMainMean_2 =  mean(biasMainMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_2, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfLocal2
+```
+
+```{r}
+MainDfLocal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          dfLocal) %>% 
+  summarise(meanBiasMainMean_3 =  mean(biasMainMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_3, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfLocal3
+```
+
+```{r}
+MainDfLocal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasMainMean_4 =  mean(biasMainMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_4, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfLocal4
+```
+
+```{r}
+MainDfLocal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasMainMean_5 =  mean(biasMainMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_5, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfLocal5
+```
+
+```{r}
+MainDfLocal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasMainMean_6 =  mean(biasMainMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_6, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfLocal6
+```
+
+
+### scaleSlab
+
+```{r}
+MainscaleSlab1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasMainMean_1 =  mean(biasMainMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_1, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleSlab1
+```
+
+```{r}
+MainscaleSlab2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasMainMean_2 =  mean(biasMainMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_2, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleSlab2
+```
+
+```{r}
+MainscaleSlab3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          scaleSlab) %>% 
+  summarise(meanBiasMainMean_3 =  mean(biasMainMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_3, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleSlab3
+```
+
+```{r}
+MainscaleSlab4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasMainMean_4 =  mean(biasMainMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_4, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleSlab4
+```
+
+```{r}
+MainscaleSlab5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasMainMean_5 =  mean(biasMainMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_5, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleSlab5
+```
+
+```{r}
+MainscaleSlab6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasMainMean_6 =  mean(biasMainMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_6, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainscaleSlab6
+```
+
+
+### dfSlab
+
+```{r}
+MainDfSlab1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasMainMean_1 =  mean(biasMainMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_1, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfSlab1
+```
+
+```{r}
+MainDfSlab2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasMainMean_2 =  mean(biasMainMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_2, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfSlab2
+```
+
+```{r}
+MainDfSlab3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          dfSlab) %>% 
+  summarise(meanBiasMainMean_3 =  mean(biasMainMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_3, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfSlab3
+```
+
+```{r}
+MainDfSlab4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasMainMean_4 =  mean(biasMainMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_4, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfSlab4
+```
+
+```{r}
+MainDfSlab5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasMainMean_5 =  mean(biasMainMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_5, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfSlab5
+```
+
+```{r}
+MainDfSlab6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasMainMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasMainMean_6 =  mean(biasMainMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_6, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Main-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Main-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+MainDfSlab6
+```
+
+
+
+## Factor Correlation
+
+### scaleGlobal
+
+```{r}
+factCorrscaleGlobal <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasFactCorrMean, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Factor Correlation")+
+  ylim(0, 0.5)+
+  theme_apa()
+factCorrscaleGlobal
+```
+
+### dfGlobal
+
+```{r}
+factCorrdfGlobal <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasFactCorrMean, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Factor Correlation")+
+  ylim(0, 0.5)+
+  theme_apa()
+factCorrdfGlobal
+```
+
+### scaleLocal
+
+```{r}
+factCorrscaleLocal <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasFactCorrMean, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Factor Correlation")+
+  ylim(0, 0.5)+
+  theme_apa()
+factCorrscaleLocal
+```
+
+### dfLocal
+
+```{r}
+factCorrdfLocal <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasFactCorrMean, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Factor Correlation")+
+  ylim(0, 0.5)+
+  theme_apa()
+factCorrdfLocal
+```
+
+### scaleSlab
+
+```{r}
+factCorrscaleSlab <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasFactCorrMean, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Factor Correlation")+
+  ylim(0, 0.5)+
+  theme_apa()
+factCorrscaleSlab
+```
+
+
+### dfSlab
+
+```{r}
+factCorrDFSlab <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))) %>% 
+  select(N, biasFactCorrMean, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasFactCorrMean =  mean(biasFactCorrMean)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Factor Correlation")+
+  ylim(0, 0.5)+
+  theme_apa()
+factCorrDFSlab
+```
+
+## Theta
+
+### scaleGlobal
+
+
+```{r}
+ThetaScaleGlobal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasThetaMean_1 =  mean(biasThetaMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_1, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaScaleGlobal1
+```
+```{r}
+ThetaScaleGlobal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasThetaMean_2 =  mean(biasThetaMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_2, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaScaleGlobal2
+```
+```{r}
+ThetaScaleGlobal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasThetaMean_3 =  mean(biasThetaMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_3, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaScaleGlobal3
+```
+
+```{r}
+ThetaScaleGlobal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasThetaMean_4 =  mean(biasThetaMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_4, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaScaleGlobal4
+```
+
+```{r}
+ThetaScaleGlobal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasThetaMean_5 =  mean(biasThetaMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_5, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaScaleGlobal5
+```
+```{r}
+ThetaScaleGlobal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleGlobal) %>% 
+  summarise(meanBiasThetaMean_6 =  mean(biasThetaMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_6, group  = as.factor(scaleGlobal), col =  scaleGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaScaleGlobal6
+```
+
+### dfGlobal
+
+```{r}
+ThetaDfGlobal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasThetaMean_1 =  mean(biasThetaMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_1, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfGlobal1
+```
+
+```{r}
+ThetaDfGlobal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasThetaMean_2 =  mean(biasThetaMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_2, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfGlobal2
+```
+
+```{r}
+ThetaDfGlobal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          dfGlobal) %>% 
+  summarise(meanBiasThetaMean_3 =  mean(biasThetaMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_3, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfGlobal3
+```
+
+```{r}
+ThetaDfGlobal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasThetaMean_4 =  mean(biasThetaMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_4, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfGlobal4
+```
+
+```{r}
+ThetaDfGlobal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasThetaMean_5 =  mean(biasThetaMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_5, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfGlobal5
+```
+
+```{r}
+ThetaDfGlobal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfGlobal) %>% 
+  summarise(meanBiasThetaMean_6 =  mean(biasThetaMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_6, group  = as.factor(dfGlobal), col =  dfGlobal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfGlobal6
+```
+
+
+### scaleLocal
+
+```{r}
+ThetascaleLocal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasThetaMean_1 =  mean(biasThetaMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_1, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleLocal1
+```
+
+```{r}
+ThetascaleLocal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasThetaMean_2 =  mean(biasThetaMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_2, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleLocal2
+```
+
+```{r}
+ThetascaleLocal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          scaleLocal) %>% 
+  summarise(meanBiasThetaMean_3 =  mean(biasThetaMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_3, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleLocal3
+```
+
+```{r}
+ThetascaleLocal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasThetaMean_4 =  mean(biasThetaMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_4, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleLocal4
+```
+
+```{r}
+ThetascaleLocal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasThetaMean_5 =  mean(biasThetaMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_5, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleLocal5
+```
+
+```{r}
+ThetascaleLocal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleLocal) %>% 
+  summarise(meanBiasThetaMean_6 =  mean(biasThetaMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_6, group  = as.factor(scaleLocal), col =  scaleLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleLocal6
+```
+
+
+### dfLocal
+
+```{r}
+ThetaDfLocal1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasThetaMean_1 =  mean(biasThetaMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_1, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfLocal1
+```
+
+```{r}
+ThetaDfLocal2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasThetaMean_2 =  mean(biasThetaMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_2, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfLocal2
+```
+
+```{r}
+ThetaDfLocal3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          dfLocal) %>% 
+  summarise(meanBiasThetaMean_3 =  mean(biasThetaMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_3, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfLocal3
+```
+
+```{r}
+ThetaDfLocal4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasThetaMean_4 =  mean(biasThetaMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_4, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfLocal4
+```
+
+```{r}
+ThetaDfLocal5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasThetaMean_5 =  mean(biasThetaMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_5, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfLocal5
+```
+
+```{r}
+ThetaDfLocal6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfLocal) %>% 
+  summarise(meanBiasThetaMean_6 =  mean(biasThetaMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_6, group  = as.factor(dfLocal), col =  dfLocal))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfLocal6
+```
+
+
+### scaleSlab
+
+```{r}
+ThetascaleSlab1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasThetaMean_1 =  mean(biasThetaMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_1, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleSlab1
+```
+
+```{r}
+ThetascaleSlab2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasThetaMean_2 =  mean(biasThetaMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_2, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleSlab2
+```
+
+```{r}
+ThetascaleSlab3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          scaleSlab) %>% 
+  summarise(meanBiasThetaMean_3 =  mean(biasThetaMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_3, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleSlab3
+```
+
+```{r}
+ThetascaleSlab4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasThetaMean_4 =  mean(biasThetaMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_4, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleSlab4
+```
+
+```{r}
+ThetascaleSlab5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasThetaMean_5 =  mean(biasThetaMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_5, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleSlab5
+```
+
+```{r}
+ThetascaleSlab6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           scaleSlab) %>% 
+  summarise(meanBiasThetaMean_6 =  mean(biasThetaMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_6, group  = as.factor(scaleSlab), col =  scaleSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetascaleSlab6
+```
+
+
+### dfSlab
+
+```{r}
+ThetaDfSlab1 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_1, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasThetaMean_1 =  mean(biasThetaMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_1, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfSlab1
+```
+
+```{r}
+ThetaDfSlab2 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_2, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasThetaMean_2 =  mean(biasThetaMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_2, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfSlab2
+```
+
+```{r}
+ThetaDfSlab3 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_3, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+          dfSlab) %>% 
+  summarise(meanBiasThetaMean_3 =  mean(biasThetaMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_3, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfSlab3
+```
+
+```{r}
+ThetaDfSlab4 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_4, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasThetaMean_4 =  mean(biasThetaMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_4, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfSlab4
+```
+
+```{r}
+ThetaDfSlab5 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_5, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasThetaMean_5 =  mean(biasThetaMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_5, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfSlab5
+```
+
+```{r}
+ThetaDfSlab6 <- 
+resultsRHSP %>% 
+  mutate(N = as.factor(paste0("N = ", N)),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(N, biasThetaMean_6, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>%
+  group_by(N, 
+           cross, 
+           dfSlab) %>% 
+  summarise(meanBiasThetaMean_6 =  mean(biasThetaMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanBiasThetaMean_6, group  = as.factor(dfSlab), col =  dfSlab))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Mean Absolute Bias",
+      title = "Residual Variance 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+ThetaDfSlab6
+```
+
+
+
+
