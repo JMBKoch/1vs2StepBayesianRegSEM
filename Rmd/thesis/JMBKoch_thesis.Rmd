@@ -262,6 +262,25 @@ readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/typeI.Rds")
 
 ## RHSP: Convergence
 
+
+```{r}
+rowsRemovedLarger5Perc <- readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/rowsRemovedLarger5Perc.Rds")
+papaja::apa_table(rowsRemovedLarger5Perc, escape = F, 
+                  caption = "Conditions under which more than 5\\% of replications were removed due to not reaching convergence.",
+                  note = "Replications were removed for having an $\\hat{R} >= 1.05$ or an $N_{eff}$  smaller that 10\\% of the chain-length, for any of the model parameters.")
+```
+
+ Effective Sample Size
+
+ - Divergent Transitions
+
+```{r}
+meanPropDIVlarger5 <- readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/meanPropDIVlarger5.Rds")
+papaja::apa_table(meanPropDIVlarger5, escape = F, 
+                  caption = "Conditions with on average more than 5\\% divergent transitions")
+```
+
+
 ## RHSP: Main Results
 
 ### Mean Absolute Bias

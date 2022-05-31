@@ -113,6 +113,38 @@ length(indicesDIVHigher5Perc)
 
 This would remove 4474 rows.
 
+## The conditions under which this happens (on average!!!, FF met Sara checken dit) are:
+
+```{r}
+meanPropDIVlarger5 <- 
+convRHSP %>% 
+  filter(parameter == "Rhat") %>% # doesn't matter which you pick here
+  mutate(propDiv = sumDiv/ samplePars$nSampling) %>% 
+  group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
+  summarise(meanPropDiv = round(mean(propDiv), 2)) %>% 
+  filter(meanPropDiv > .05) %>% 
+  mutate(scaleGlobal = round(scaleGlobal, 1),
+         scaleLocal = round(scaleLocal, 1),
+         scaleSlab = round(scaleSlab, 1), 
+         cross = round(cross, 1))
+
+# make colnames nice
+colnames(meanPropDIVlarger5)[1] <- "$scale_{global}$"
+colnames(meanPropDIVlarger5)[2] <- "$df_{global}$"
+colnames(meanPropDIVlarger5)[3] <- "$scale_{local}$"
+colnames(meanPropDIVlarger5)[4] <- "$df_{local}$"
+colnames(meanPropDIVlarger5)[5] <- "$scale_{slab}$"
+colnames(meanPropDIVlarger5)[6] <- "$df_{slab}$"
+colnames(meanPropDIVlarger5)[8] <- "Size $\\lambda_{c1 , 6}$"
+colnames(meanPropDIVlarger5)[9] <- "Mean Prop. Div."
+
+meanPropDIVlarger5
+```
+
+```{r}
+readr::write_rds(meanPropDIVlarger5, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/meanPropDIVlarger5.Rds")
+```
+
 ## Effective Sample Size
 
 Let's find the indices of all transitions where the effective sample size is less than 10% of the chain-length.
@@ -133,6 +165,7 @@ length(indicesNEffTooSmall)
 ```
 
 By this you would lose 542 rows, which does not seem so bad.
+
 
 ### R-Hat
 
@@ -171,6 +204,37 @@ It's interesting to check, where we lost the rows specifically (under what condi
 resultsRHSP %>% 
   filter(pos %in% indicesCombined) %>% 
   select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos)
+```
+
+## Table Conditions Removed rows
+
+Let's make a table summarizing the rows that we removed based on Rhat and Neff.
+
+```{r}
+rowsRemovedLarger5Perc <- 
+convRHSP %>% 
+  filter(parameter == "n_eff") %>% 
+  select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos, lambdaMainC.1.:theta.6.) %>%
+  mutate_at(.vars = vars(-(scaleGlobal:pos)), .funs = function(x){x/samplePars$nSampling}) %>% 
+  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x < convCriteria$strict$minPropNEFF) %>% 
+  count(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>% 
+  arrange(n) %>% 
+  filter(n >= 0.05*nIter)
+# make colnames nice
+colnames(rowsRemovedLarger5Perc)[1] <- "$scale_{global}$"
+colnames(rowsRemovedLarger5Perc)[2] <- "$df_{global}$"
+colnames(rowsRemovedLarger5Perc)[3] <- "$scale_{local}$"
+colnames(rowsRemovedLarger5Perc)[4] <- "$df_{local}$"
+colnames(rowsRemovedLarger5Perc)[5] <- "$scale`_{slab}$"
+colnames(rowsRemovedLarger5Perc)[6] <- "$df_{slab}$"
+colnames(rowsRemovedLarger5Perc)[8] <- "Size $\\lambda_{c1 , 6}$"
+colnames(rowsRemovedLarger5Perc)[9] <- "N removed Rep."
+
+rowsRemovedLarger5Perc 
+```
+
+```{r}
+readr::write_rds(rowsRemovedLarger5Perc, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/rowsRemovedLarger5Perc.Rds")
 ```
 
 # Post-process

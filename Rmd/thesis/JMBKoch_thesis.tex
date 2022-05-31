@@ -422,6 +422,88 @@ The results of the Mean Type-I error rate are very similar to those of the Power
 \hypertarget{rhsp-convergence}{%
 \subsection{RHSP: Convergence}\label{rhsp-convergence}}
 
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:unnamed-chunk-6}Conditions under which more than 5\% of replications were removed due to not reaching convergence.}
+
+\begin{tabular}{lllllllll}
+\toprule
+$scale_{global}$ & \multicolumn{1}{c}{$df_{global}$} & \multicolumn{1}{c}{$scale_{local}$} & \multicolumn{1}{c}{$df_{local}$} & \multicolumn{1}{c}{$scale_{slab}$} & \multicolumn{1}{c}{$df_{slab}$} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Size $\lambda_{c1 , 6}$} & \multicolumn{1}{c}{N removed Rep.}\\
+\midrule
+0.10 & 3 & 0.10 & 1 & 0.10 & 1 & 100 & 0.50 & 10\\
+0.10 & 3 & 0.10 & 1 & 1.00 & 3 & 100 & 0.50 & 11\\
+0.10 & 1 & 0.10 & 1 & 5.00 & 3 & 100 & 0.50 & 12\\
+0.10 & 3 & 0.10 & 1 & 5.00 & 1 & 100 & 0.50 & 12\\
+0.10 & 3 & 0.10 & 1 & 1.00 & 1 & 100 & 0.50 & 13\\
+0.10 & 3 & 0.10 & 3 & 0.10 & 3 & 100 & 0.50 & 13\\
+0.10 & 1 & 0.10 & 1 & 5.00 & 1 & 100 & 0.50 & 15\\
+0.10 & 3 & 0.10 & 1 & 5.00 & 3 & 100 & 0.50 & 15\\
+0.10 & 1 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 20\\
+0.10 & 1 & 0.10 & 3 & 1.00 & 1 & 100 & 0.50 & 24\\
+0.10 & 1 & 0.10 & 3 & 1.00 & 3 & 100 & 0.50 & 24\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 27\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 30\\
+0.10 & 3 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 33\\
+0.10 & 3 & 0.10 & 3 & 1.00 & 1 & 100 & 0.50 & 34\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 34\\
+0.10 & 3 & 0.10 & 3 & 1.00 & 3 & 100 & 0.50 & 37\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 37\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Replications were removed for having an $\hat{R} >= 1.05$ or an $N_{eff}$  smaller that 10\% of the chain-length, for any of the model parameters.}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
+Effective Sample Size
+
+\begin{itemize}
+\tightlist
+\item
+  Divergent Transitions
+\end{itemize}
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:unnamed-chunk-7}Conditions with on average more than 5\% divergent transitions}
+
+\begin{tabular}{lllllllll}
+\toprule
+$scale_{global}$ & \multicolumn{1}{c}{$df_{global}$} & \multicolumn{1}{c}{$scale_{local}$} & \multicolumn{1}{c}{$df_{local}$} & \multicolumn{1}{c}{$scale_{slab}$} & \multicolumn{1}{c}{$df_{slab}$} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Size $\lambda_{c1 , 6}$} & \multicolumn{1}{c}{Mean Prop. Div.}\\
+\midrule
+0.10 & 1 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 0.09\\
+0.10 & 1 & 0.10 & 3 & 1.00 & 1 & 100 & 0.50 & 0.08\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 0.08\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 0.08\\
+0.10 & 3 & 0.10 & 1 & 0.10 & 1 & 100 & 0.50 & 0.10\\
+0.10 & 3 & 0.10 & 1 & 1.00 & 1 & 100 & 0.50 & 0.08\\
+0.10 & 3 & 0.10 & 1 & 5.00 & 1 & 100 & 0.50 & 0.09\\
+0.10 & 3 & 0.10 & 1 & 5.00 & 3 & 100 & 0.50 & 0.08\\
+0.10 & 3 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 0.10\\
+0.10 & 3 & 0.10 & 3 & 1.00 & 1 & 100 & 0.50 & 0.11\\
+0.10 & 3 & 0.10 & 3 & 1.00 & 3 & 100 & 0.50 & 0.07\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 0.11\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 0.12\\
+\bottomrule
+\end{tabular}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
 \hypertarget{rhsp-main-results}{%
 \subsection{RHSP: Main Results}\label{rhsp-main-results}}
 
@@ -604,11 +686,11 @@ For every individual i in i = 1,\ldots, N:
 \begin{center}
 \begin{threeparttable}
 
-\caption{\label{tab:unnamed-chunk-10}Power in selecting non-zero cross-loadings.}
+\caption{\label{tab:unnamed-chunk-12}Power in selecting non-zero cross-loadings.}
 
 \begin{tabular}{lllll}
 \toprule
-N & \multicolumn{1}{c}{$\sigma^2$} & \multicolumn{1}{c}{size $\lambda_{c1 , 6}$} & \multicolumn{1}{c}{Power $\lambda_{c1}$} & \multicolumn{1}{c}{Power $\lambda_{c6}$}\\
+N & \multicolumn{1}{c}{$\sigma^2$} & \multicolumn{1}{c}{Size $\lambda_{c1 , 6}$} & \multicolumn{1}{c}{Power $\lambda_{c1}$} & \multicolumn{1}{c}{Power $\lambda_{c6}$}\\
 \midrule
 100 & 0.00 & 0.20 & 0.00 & 0.00\\
 100 & 0.01 & 0.20 & 0.01 & 0.01\\

@@ -137,7 +137,6 @@ PowerSVNP <-
 PowerSVNP
 ```
 
-# Plots
 
 ```{r, include=F, echo=F}
 AvgTypeIAndPower <- 
@@ -194,8 +193,9 @@ AvgTypeIAndPower %>%
   select(N, sigmaSqu, cross, outcome, criterion, value)
 ```
 
+# Plots
 
-# Power: Replicating Figure 3 Zhang et al. (p. 6)
+## Power: Replicating Figure 3 Zhang et al. (p. 6)
 
 ```{r}
 Power <- 

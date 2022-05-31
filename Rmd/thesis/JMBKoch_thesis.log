@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  30 MAY 2022 22:49
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  31 MAY 2022 13:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1088,37 +1088,50 @@ e pdf)
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf>
-[17]
+
+Overfull \hbox (32.23949pt too wide) in paragraph at lines 429--463
+ [] 
+ []
+
+
+Overfull \hbox (36.6395pt too wide) in paragraph at lines 479--503
+ [] 
+ []
+
+[17] [18]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[18]
+[19]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[19] [20]
+[20]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[21
+[21] [22]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[23
 
 ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[22]
+[24]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[23] [24] [25
+[25] [26] [27
 
 
-] AED endfloat: Processing end Figures and Tables [26
+] AED endfloat: Processing end Figures and Tables [28
 
 
 ] (./JMBKoch_thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 23811 strings out of 476180
- 436085 string characters out of 5815297
- 947095 words of memory out of 5000000
- 44147 multiletter control sequences out of 15000+600000
+ 23813 strings out of 476180
+ 436127 string characters out of 5815297
+ 957317 words of memory out of 5000000
+ 44149 multiletter control sequences out of 15000+600000
  503222 words of font info for 115 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 86i,12n,121p,2253b,625s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,12n,121p,2253b,626s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on JMBKoch_thesis.pdf (26 pages).
+Output written on JMBKoch_thesis.pdf (28 pages).

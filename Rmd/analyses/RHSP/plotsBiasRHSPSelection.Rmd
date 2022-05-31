@@ -433,5 +433,73 @@ resultsRHSPOne %>%
 theta6
 ```
 
+# Making sense of the plots
+
+### zero cross-loadings
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, biasCrossMean_2, cross) %>%
+  group_by(N,  cross) %>% 
+  summarise(meanBiasCrossMean_2 = mean(biasCrossMean_2))
+```
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, crossEstMean_2, cross) %>%
+  group_by(N,  cross) %>% 
+  summarise(meanCrossEstMean_2 = mean(crossEstMean_2))
+```
+
+
+### non-zero cross-loadings
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, biasCrossMean_1, cross) %>%
+  group_by(N, cross) %>% 
+  summarise(meanBiasCrossMean_1 = mean(biasCrossMean_1)) 
+```
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, crossEstMean_1, cross) %>%
+  group_by(N, cross) %>% 
+  summarise(meanCrossEstMean_1 = mean(crossEstMean_1))
+```
+
+### High-Bias Main Loadings
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, biasMainMean_3, cross) %>%
+  group_by(N, cross) %>% 
+  summarise(meanBiasMainMean_3 = mean(biasMainMean_3))
+```
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, mainEstMean_3, cross) %>%
+  group_by(N,cross) %>% 
+  summarise(meanMainEstMean_3 = mean(mainEstMean_3))
+```
+
+### Factor Corr
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, biasFactCorrMean, cross) %>%
+  group_by(N, cross) %>% 
+  summarise(meanBiasFactCorrEstMean = mean(biasFactCorrMean))
+```
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, factCorrEstMean, cross) %>%
+  group_by(N, 
+           cross) %>% 
+  summarise(meanFactCorrEstMean = mean(factCorrEstMean))
+```
+
 
 
