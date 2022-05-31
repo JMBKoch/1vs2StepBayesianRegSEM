@@ -36,7 +36,6 @@ appendix:
 \pagestyle{plain}
 ```
 
-
 ```{r setup,  echo = F, cache=T}
 library(papaja)
 library(LaplacesDemon) # for horseshoe density 
@@ -58,9 +57,23 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 
 \clearpage
 
+# Abstract
+
+This study compared the Regularized Horseshoe Prior (RHSP) to the Small Variance Normal Prior (SVNP) in their performance in regularizing cross-loadings in Bayesian CFA. The SVNP can be used to shrink cross-loadings in CFA to(wards) zero to identify models. However, the method often results in biased model estimates, as also large cross-loadings are shrunken substantially. The RHSP was expected to regularize cross-loadings more efficiently, avoiding the bias of the SVNP, as it allows large cross-loadings to escape shrinkage. It was found that, as expected, the SVNP had overall higher levels of bias than the RHSP under the presence of large cross-loadings. Hereby, the RHSP was robust across sample sizes, and different hyper-parameter settings. Also in terms of MSE, relative bias, as well as Power and Type-I error rate in selecting truly non-zero cross-loadings as non-zero, the RHSP showed generally a better performance than the SVNP. However, the RHSP showed substantially worse performance in terms of convergence than the SVNP.
+
 # Introduction
 
-The art of statistical modeling revolves around coming up with an appropriate simplification, a  *model*, of a true *data-generating process*. Hereby, a fundamental trade-off between model simplicity and model complexity arises, that is mostly known as *bias-variance trade-off*. Simple models with few parameters have high bias, meaning that they deviate substantially from the true data-generating process, and low variance, such that they generalize well to other datasets from the same population. Moreover, simple models are easily identified and easy to interpret. Complex models with large numbers of parameters tend to have low bias and high variance. They are thus prone to over-fitting, i.e. picking up patterns that are only relevant in the dataset at hand, but do not generalize well to other datasets. Moreover, complex models can be cumbersome to interpret and often a large number of observations is required to estimate them [@cox_principles_2006; @james_introduction_2021]. 
+The art of statistical modeling revolves around coming up with an appropriate simplification, a  *model*, of a true *data-generating process*. Hereby, a fundamental trade-off between model simplicity and model complexity arises, that is mostly known as *bias-variance trade-off*. Simple models with few parameters have high bias, meaning that they deviate substantially from the true data-generating process, and low variance, such that they generalize well to other datasets from the same population. Complex models with large numbers of parameters tend to have low bias and high variance. They are thus prone to over-fitting, i.e. picking up patterns that are only relevant in the dataset at hand, but do not generalize well to other datasets. Moreover, complex models can be cumbersome to interpret and often a large number of observations is required to estimate them [@cox_principles_2006; @james_introduction_2021]. 
+
+In confirmatory factor analysis [CFA, @bollen_structural_1989] it is common practice to deal with the bias-variance trade-off in a brute-force manner, by imposing a so-called simple structure. Here, cross-loadings, factor loadings that relate items to factors that they
+theoretically do not belong to, are fixed to zero to yield an identified and easy-to-interpret model. This often leads to poor model fit, which forces researchers to free some cross-loadings after the fact based on empirical grounds (modification indices) to improve fit. This procedure is flawed, as it risks capitalization on chance and thereby over-fitting [@maccallum_model_1992].
+
+As solution to the issue @muthen_bayesian_2012 proposed *Bayesian CFA*, an alternative, more flexible approach for identifying CFA models, which can be viewed as a form of regularized SEM. Rather than identifying models by fixing *all* cross-loadings to zero, one should assume that *most* cross-loadings are zero. This is achieved by setting the so-called *Small Variance Normal Prior* (SVNP) for the cross-loadings, which is a normal distribution with mean zero and a very small variance (e.g. $\sigma^2$ = 0.01). This prior has a large peak at zero, and very thin tails (Figure 1). Hence, it attaches large prior mass to cross-loadings of or near zero, while attaching almost no prior mass to cross-loadings further from zero. Consequently, all cross-loadings in the model are shrunken. The larger the prior’s variance, the more admissive the model is in the amount of deviation from zero it allows. 
+
+An issue with @muthen_bayesian_2012's Bayesian CFA is that not only the cross-loadings close to zero, which are considered irrelevant, are shrunken to zero, as desired. Also the ones further from zero are shrunken heavily towards zero, which introduces bias [@lu_bayesian_2016]. First, bias naturally occurs in the large cross-loadings itself. However, also in other parameters, such as factor-correlations or main-loadings, substantial bias can arise, as they are estimated conditionally on the cross-loadings. Consequently, Bayesian CFA requires two steps in practice. First, the model is estimated with the SVNP set for the cross-loadings. In the original approach, cross-loadings are then selected as non-zero when their 95% credible intervals does not contain zero [@muthen_bayesian_2012]. The model is then re-estimated, where cross-loadings that have been selected to be non-zero are freely estimated without shrinkage, and the remaining cross-loadings are fixed to zero, avoiding the bias in the model of the previous step. Correctly selecting cross-loadings as non-zero can pose a challenge in practice, as the performance of different selection criteria depends on a broad set of conditions, making it difficult to formulate general recommendations for researchers [@zhang_criteria_2021]. It is thus desirable to identify shrinkage-priors that can regularize CFA models without causing substantial bias, within a single step.
+
+One promising regularization-prior that can be expected to estimate CA models with less bias within a single step is the so-called Regularized Horseshoe Prior (RHSP). While the Regularized Horseshoe Prior has been shown to perform excellently in the selection of relevant predictors in regression [@piironen_sparsity_2017; @van_erp_shrinkage_2019], no previous research has validated its performance in regularizing cross-loadings in CFA. We therefore aim to compare the RHSP to the SVNP in their performance in regularizing cross-loadings in Bayesian CFA. 
+
 
 ## Regularization 
 
@@ -97,7 +110,7 @@ regularized Bayesian SEM is the so-called Spike-and-Slab Prior [@george_variable
 on item k, the Spike-and-Slab Prior can be specified as (Lu et al., 2016):
 $$\lambda_{c,jk} |r_{jk} \sim (1 \ - \ r_{jk})\delta_0 + r_{jk} \mathcal{N}(0, c^2_{jk}) , \ with$$
 $$r_{jk} \sim \mathcal{Bernoulli}(p_{jk}).$$
-The basic intuition is as follows. When $r_{jk} = 1$, $\lambda_{c,jk} \sim \mathcal{N}(0, c^2)$, hence $\lambda_{c,jk}$ is assigned to the slab. When $r_{jk} = 0$, $\lambda_{c,jk} \sim \delta_0$, and is thus assigned to the spike. This ensures that large cross-loadings, that are are relevant are not shrunken while small, negligible cross-loadings are shrunken to zero. 
+The basic intuition is as follows. When $r_{jk} = 1$, $\lambda_{c,jk} \sim \mathcal{N}(0, c^2_{jk})$, hence $\lambda_{c,jk}$ is assigned to the slab. When $r_{jk} = 0$, $\lambda_{c,jk} \sim \delta_0$, and is thus assigned to the spike. This ensures that large cross-loadings, that are are relevant are not shrunken while small, negligible cross-loadings are shrunken to zero. 
 
 Lu et al. (2016) found that this prior is performing well in shrinking truly zero cross-loadings to zero, while not shrinking (relevant) large cross-loadings to avoid bias, especially under favorable conditions with large sample sizes and cross-loadings. However, the Spike and Slab Prior cannot be implemented in STAN, as STAN does not allow for discrete mixture priors [@stan_development_team_stan_2021; @betancourt_conceptual_2018]. Not only is STAN the most advisable MCMC-package for complex, highly-dimensional Bayesian models. STAN also forms the basis of the R-packages that allow to apply Bayesian SEM in practice [e.g., Blavaan, @edgar_merkle_blavaan_2022]. It is thus crucial that a prior with the desired properties can be implemented in STAN, such that it can be added to existing software packages, making it accessible to applied researchers. This calls for a *non-discrete* alternative shrinkage-prior that also outperforms the SVNP within a single estimation step. 
 
@@ -107,21 +120,16 @@ A fully continuous alternative to the Spike and Slab prior that is implementable
 $$\lambda_{c,jk} | \omega_{jk}, \tau, c\sim \mathcal{N}(0, \ \omega^2_{jk} \tau^2), \ where$$
 $$\omega_{jk} \sim \mathcal{C^+}(0, 1).$$
 
-The name-giving intuition behind the horseshoe prior becomes clear when considering the finding that [@carvalho_horseshoe_2010; @piironen_sparsity_2017]:
-$$\bar{\lambda}_{c,jk} = (1 \ - \ k_{jk}) \hat{\lambda}_{c,jk}, \ where$$
-$$k_{jk} = \frac{1}{1 + n \sigma^{-2}\tau^2s_{jk}\omega^2_{jk}}.$$ 
+The name-giving intuition behind the horseshoe prior becomes clear when considering the finding that, a so-called shrinkage factor  $k_{jk}$  can be derived for the individual cross-loadings [@carvalho_horseshoe_2010; @piironen_sparsity_2017]. This shrinkage factor ranges from zero to one, with zero meaning no, and one meaning a lot of shrinkage. When plotting the density of $k_{jk}$ there is a very high peak at at very low values and a very high peak of high values, resulting in a plot that resembles a horseshoe, illustrating that the Horseshoe Prior has the desired property of either shrinking parameters very little, or very much, with very few parameters that are shrunken in a non-extreme fashion.
 
-Here $k_{jk}$, denotes the so-called *shrinkage factor* for cross-loading $\lambda_{c,jk}$. 
-When plotting the density of $k_{jk}$ there is a very high peak at at very low values and a very high peak of high values, resulting in a plot that resembles a horseshoe, illustrating that the Horseshoe Prior has the desired property of either shrinking parameters very little, or very much, with very few parameters that are shrunken in a non-extreme fashion.
-
-The Horseshoe Prior was found consistently to possess the theoretical properties outlined above in practice [@carvalho_horseshoe_2010; @polson_shrink_2010; @datta_asymptotic_2013; @van_der_pas_horseshoe_2014]. However, due to its Cauchy tails it suffers from the same issues as a Cauchy prior. Specifically, not shrinking large parameters at all can lead to estimation issues, especially when parameters are weakly identified. This happens for instance in logistic regression with separable data, where a flat likelihood and thereby a weakly identified model arises [@ghosh_use_2018]. The RHSP prevents such issues by shrinking also large parameters a little bit. For every cross-loading of factor j on item k:
+The Horseshoe Prior was found consistently to possess the theoretical properties of shrinking not shrinking large parameters while shrinking small parameters substantially to zero, in practice [@carvalho_horseshoe_2010; @polson_shrink_2010; @datta_asymptotic_2013; @van_der_pas_horseshoe_2014]. However, due to its Cauchy tails it suffers from the same issues as a Cauchy prior. Specifically, not shrinking large parameters at all can lead to estimation issues, especially when parameters are weakly identified. This happens for instance in logistic regression with separable data, where a flat likelihood and thereby a weakly identified model arises [@ghosh_use_2018]. The RHSP prevents such issues by shrinking also large parameters a little bit. For every cross-loading of factor j on item k:
 $$\lambda_{c,jk} | \bar{\omega}_{jk}, \tau, c\sim \mathcal{N}(0, \ \bar{\omega}^2_{jk} \tau^2), \ with \ \bar{\omega}^2_{jk} = \frac{c^2\omega_{jk}^2}{c^2 + \tau^2 \omega_{jk}^2},$$
 $$\tau | df_{global}, s_{global} \sim half-t_{df_{global}}(0,\  s_{global}^2), \ with \  s_{global} = \frac{p_0}{p-p_0}\frac{\sigma}{\sqrt{N}},$$
 $$\omega_{jk}| df_{local}, s_{local} \sim half-t_{df_{local}}(0, \ s_{local}^2),$$
 $$c^2 | df_{slab}, s_{slab} \sim \mathcal{IG}(\frac{df_{slab}}{2}, \  df_{slab} \times \frac{s_{slab}^2}{2}),$$
 where $p_0$ represents a prior guess of the number of relevant cross-loadings. It is not necessary to use $p_0$. One can simply set $s_{global}$ manually, whereby it is worth to consider that a $s_{global}$ created based on a $p_0$ will typically be much lower than 1 [@piironen_sparsity_2017]. Note that we specify the RHSP in its most general form. Setting the degrees of freedoms of the half-t-distributions to 1 results in half-Cauchy distributions. Strictly speaking, the prior is only a Regularized *Horseshoe* Prior when this is the case. In the current study we vary the degrees of freedoms of all scale parameters to assess the extent to which the sparcifying properties as well as the convergence of the RHSP are influenced by these parameters. 
 
-The intuition of how the RHSP shrinks large parameters a little bit is best illustrated by assuming that c is a given constant. Now, when $\tau^2 \omega^2_{jk} < c^2$, which is the case under small cross-loadings, $\bar{\omega}^2_{jk} \to \omega^2_{jk}$. Hence, in this case the RHSP approaches the original Horseshoe Prior, with equally pronounced shrinkage to zero. However, when $\tau$ is far from zero, hence with large cross-loadings, $\tau^2 \omega^2_{jk} > c^2$, and  $\bar{\omega}^2_{jk} \to \frac{c^2}{\tau^2}$. Then, the prior of $\lambda_{c,jk}$ approaches a slab $\mathcal{N}(0, c^2)$. Under the above specification, when c is no constant but a parameter for which an Inverse-Gamma hyper-prior is set, the slab becomes a t-distribution with $df_{slab}$ degrees of freedom, a mean of zero and a scale of $scale_{slab}^2$ [@piironen_sparsity_2017]. 
+The intuition of how the RHSP shrinks large parameters a little bit is best illustrated by assuming that c is a given constant. Now, when $\tau^2 \omega^2_{jk} < c^2$, $\bar{\omega}^2_{jk} \to \omega^2_{jk}$. Hence, in this case the RHSP approaches the original Horseshoe Prior, with equally pronounced shrinkage to zero. In the limit, the product of $\tau^2$ and $\omega^2_{jk}$ will be smaller under small cross-loadings. Datasets coming from a population should, on average, possess the property of steering the posterior estimates towards small values of the local shrinkage factor, which allows these parameters to escape the shrinkage. However, when $\tau$ is far from zero, hence under large true cross-loadings, $\tau^2 \omega^2_{jk} > c^2$, and  $\bar{\omega}^2_{jk} \to \frac{c^2}{\tau^2}$. Then, the prior of $\lambda_{c,jk}$ approaches a slab $\mathcal{N}(0, c^2)$. Under the above specification, when c is no constant but a parameter for which an Inverse-Gamma hyper-prior is set, the slab becomes a t-distribution with $df_{slab}$ degrees of freedom, a mean of zero and a scale of $scale_{slab}^2$ [@piironen_sparsity_2017]. 
 
 
 ```{r, cache=T, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="Density Plots of the Regularization Priors of Interest."}
@@ -156,9 +164,7 @@ data.frame(dens = c(smallVar, regHs),
 
 Figure 1 compares the two shrinkage-priors that are the focus of our study. Both priors share a large peak at zero, which ensures that cross-loadings are shrunken to(wards) zero. However, the RHSP has much thicker tails. Here, for larger cross-loadings, there is thus much more prior mass than with the SVNP. This ensures large cross-loadings (and consequently other model parameters) can be estimated without bias within a single estimation step. 
 
-# The current study 
-
-While the Regularized Horseshoe Prior has been shown to perform excellently in the selection of relevant predictors in regression [@piironen_sparsity_2017; @van_erp_shrinkage_2019], no previous research has validated its performance in regularizing cross-loadings in CFA. We therefore aim to compare the RHSP to the SVNP in their performance in regularizing cross-loadings in Bayesian CFA. 
+# Analysis 
 
 ## Study Procedure and Parameters
 
@@ -286,7 +292,6 @@ typeIRHSP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/TypeIR
 powerAllAtOnce <- powerSVNP + typeISVNP + powerRHSP + typeIRHSP 
 powerAllAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank(), legend.text = element_text(size = 8))
 ```
-
 
 
 # Conclusions and Discussion
