@@ -389,7 +389,7 @@ The Mean Absolute Bias of the SVNP for all parameters is summarized in Figure 3.
 \begin{figure}
 \centering
 \includegraphics{JMBKoch_thesis_files/figure-latex/unnamed-chunk-3-1.pdf}
-\caption{\label{fig:unnamed-chunk-3}SVNP: Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g.~cross-loading 1 was plottet representative for cross-loading 1 and 6.}
+\caption{\label{fig:unnamed-chunk-3}SVNP: Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g.~cross-loading 1 was plottet representative for cross-loading 1 and 6. All hyperparameters of the RHSP are set to 1 in the results presented here.}
 \end{figure}
 
 Figure 3 shows that, as expected, there is substantial bias in some parameter estimates. While the bias in the posterior means of the truly zero cross-loadings \(\bar{\lambda}_{c 2-5}\) is relatively small, it is pronounced in the estimates of the truly non-zero cross-loadings \(\bar{\lambda}_{c 1}\) and \(\bar{\lambda}_{c 6}\). Particularly with a large true cross-loading of 0.5 and \(\sigma^2 = 0.001\) the bias is very large, e.g.~\(\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.49\), since the estimates of the true cross-loadings of 0.5 are shrunken almost entirely to zero (e.g.~\(\bar{\lambda}_{c 1} = 0.01\)). The choice of \(\sigma^2\) plays a crucial role here. Also with \(\sigma^2 = 0.01\) (and true cross-loadings of 0.5) substantial bias occurs (e.g.~\(\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.35\)), as the cross-loading are still under-estimated considerably (\(\bar{\lambda}_{c 1} = 0.15\)), though not entirely shrunken to zero. With \(\sigma^2 = 0.1\) the bias in the estimates of the cross-loadings is less pronounced (e.g.~\(\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.14\)). Here \(\sigma^2\) is large enough to estimate the cross-loadings closer to their true value, \(\bar{\lambda}_{c 1} = 0.37\).
@@ -408,15 +408,7 @@ Figure 4 summarizes the mean power of the SVNP, per set of conditions and select
 \begin{figure}
 \centering
 \includegraphics{JMBKoch_thesis_files/figure-latex/unnamed-chunk-4-1.pdf}
-\caption{\label{fig:unnamed-chunk-4}SVNP: Mean Power (true positive rate) in Selecting non-zero Crossloadings.}
-\end{figure}
-
-The results of the Mean Type-I error rate are very similar to those of the Power (see Figure 5).
-
-\begin{figure}
-\centering
-\includegraphics{JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf}
-\caption{\label{fig:unnamed-chunk-5}SVNP: Mean Type-I-Error (false positive rate) in Selecting zero Crossloadings as non-zero.}
+\caption{\label{fig:unnamed-chunk-4}Mean Power and Type-I-Error Rates in Selecting non-zero Crossloadings. All hyper-parameters of the RHSP are set to 1 in the results presented here.}
 \end{figure}
 
 \hypertarget{rhsp-convergence}{%
@@ -427,7 +419,7 @@ The results of the Mean Type-I error rate are very similar to those of the Power
 \begin{center}
 \begin{threeparttable}
 
-\caption{\label{tab:unnamed-chunk-6}Conditions under which more than 5\% of replications were removed due to not reaching convergence.}
+\caption{\label{tab:unnamed-chunk-5}Conditions under which more than 5\% of replications were removed due to not reaching convergence.}
 
 \begin{tabular}{lllllllll}
 \toprule
@@ -477,7 +469,7 @@ Effective Sample Size
 \begin{center}
 \begin{threeparttable}
 
-\caption{\label{tab:unnamed-chunk-7}Conditions with on average more than 5\% divergent transitions}
+\caption{\label{tab:unnamed-chunk-6}Conditions with on average more than 5\% divergent transitions}
 
 \begin{tabular}{lllllllll}
 \toprule
@@ -686,7 +678,7 @@ For every individual i in i = 1,\ldots, N:
 \begin{center}
 \begin{threeparttable}
 
-\caption{\label{tab:unnamed-chunk-12}Power in selecting non-zero cross-loadings.}
+\caption{\label{tab:unnamed-chunk-11}Power in selecting non-zero cross-loadings.}
 
 \begin{tabular}{lllll}
 \toprule

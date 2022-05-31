@@ -248,7 +248,16 @@ TypeI
 ```
  
 ```{r}
-readr::write_rds(TypeI, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/typeI.Rds")
-readr::write_rds(Power, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/power.Rds")
+# Save with Title but without X-Axis label
+TypeISVNP <- 
+TypeI+
+  labs(title = "Mean Type-I-Error Rate SVNP",
+       x = NULL)
+PowerSVNP <- 
+Power+
+  labs(tile = "Mean Power SVNP",
+       x = NULL)  
+readr::write_rds(TypeISVNP, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/typeISVNP.Rds")
+readr::write_rds(TypeISVNP, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/powerSVNP.Rds")
 ```
 

@@ -232,7 +232,7 @@ In terms of convergence, the SVNP shows excellent performance. Across all 2400 r
 The Mean Absolute Bias of the SVNP for all parameters is summarized in Figure 3. For parameter estimates that show an identical pattern ($\bar{\lambda}_{c 2-5}$, $\bar{\lambda}_{c 1, 6}$, $\bar{\lambda}_{m 1, 2, 5, 6}$, $\bar{\lambda}_{m 3-4}$, and $\bar{\theta}_{1-6}$), the first respecting estimate is presented representative for all, both in Figure 3 and in the numbers presented below. As results are almost identical for the two sample sizes, we focus on presenting the findings for N = 100, to not distract from our main conclusions.^[The Mean Absolute Bias visualized for the different sample sizes separately can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/plots/plotsBiasSVNP.html.] 
 
 
-```{r, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="SVNP: Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g. cross-loading 1 was plottet representative for cross-loading 1 and 6.", fig.height=7}
+```{r, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="SVNP: Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g. cross-loading 1 was plottet representative for cross-loading 1 and 6. All hyperparameters of the RHSP are set to 1 in the results presented here. ", fig.height=8}
 # load plot
 library(patchwork)
 readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/biasAllParsRHSPInc.Rds") 
@@ -250,14 +250,19 @@ The bias in the estimates of the residual variances $\bar{\theta}_{1-6}$ is not 
 
 Figure 4 summarizes the mean power of the SVNP, per set of conditions and selection criterion. 
 
-```{r, dev='cairo_pdf', include = T, warning = F, fig.cap='SVNP: Mean Power (true positive rate) in Selecting non-zero Crossloadings.'}
-readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/power.Rds")
-```
+```{r, dev='cairo_pdf', include = T, warning = F, fig.cap='Mean Power and Type-I-Error Rates in Selecting non-zero Crossloadings. All hyper-parameters of the RHSP are set to 1 in the results presented here.', fig.height=10, fig.width=8}
+library(patchwork)
+library(ggplot2)
 
-The results of the Mean Type-I error rate are very similar to those of the Power (see Figure 5). 
+# load power plots
+powerSVNP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/powerSVNP.Rds")
+typeISVNP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/typeISVNP.Rds")
+powerRHSP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/PowerRHSPOne100.Rds")
+typeIRHSP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/TypeIRHSPAllOne100.Rds")
 
-```{r, dev='cairo_pdf', include = T, warning = F,  fig.cap='SVNP: Mean Type-I-Error (false positive rate) in Selecting zero Crossloadings as non-zero.'}
-readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/typeI.Rds")
+# combine power plots
+powerAllAtOnce <- powerSVNP + typeISVNP + powerRHSP + typeIRHSP 
+powerAllAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank(), legend.text = element_text(size = 8))
 ```
 
 ## RHSP: Convergence

@@ -145,7 +145,7 @@ AvgTypeIAndPowerRHSPOne
 
 ```{r, echo=F, include=F}
 AvgTypeIAndPowerLong <- 
-AvgTypeIAndPower %>% 
+AvgTypeIAndPowerRHSPOne %>% 
   pivot_longer(cols = avgPower_0.15:avgTypeI_50, 
                names_to = "Criterion",
                names_prefix = "_") %>% 
@@ -196,6 +196,14 @@ AvgTypeIAndPowerLong %>%
 PowerRHSPOne100
 ```
 
+```{r}
+# save plot with title
+PowerRHSPOne100 <- 
+PowerRHSPOne100 + 
+  labs(title = "Mean Power RHSP")
+readr::write_rds(PowerRHSPOne100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/PowerRHSPOne100.Rds")
+```
+
 ## Type-I Error Rate: Replicating Figure 4 Zhang et al. (p. 7)
 
 ```{r}
@@ -221,14 +229,12 @@ AvgTypeIAndPowerLong %>%
   theme(panel.border = element_rect(fill = NA))
 TypeIRHSPAllOne100
 ```
+```{r}
+# save plot with title
+TypeIRHSPAllOne100 <- 
+TypeIRHSPAllOne100 + 
+  labs(title = "Mean Type-I-Error Rate RHSP")
+readr::write_rds(TypeIRHSPAllOne100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/TypeIRHSPAllOne100.Rds")
+```
  
 
-```{r}
-#powerTypeICombRHSPOne <- 
-```
-
- 
-```{r}
-#readr::write_rds(TypeI, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/typeI.Rds")
-#readr::write_rds(Power, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/power.Rds")
-```
