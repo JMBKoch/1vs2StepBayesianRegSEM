@@ -105,7 +105,8 @@ indicesDIVHigher5Perc <-
 convRHSP %>% 
   filter(parameter == "Rhat") %>% # doesn't matter which you pick here
   mutate(propDIV = sumDiv/ samplePars$nSampling) %>% 
-  filter(propDIV >= convCriteria$strict$maxPropDIV) %>% 
+  filter(propDIV >= convCriteria$strict$maxPropDIV
+) %>% 
   select(pos) %>% 
   pull()
 length(indicesDIVHigher5Perc)

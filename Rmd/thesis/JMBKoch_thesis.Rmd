@@ -25,7 +25,6 @@ editor_options:
     wrap: 72
 appendix: 
   - "appendixA.Rmd"
-  - "appendixB.Rmd"
 ---
 
 ```{=tex}
@@ -113,7 +112,7 @@ $$\bar{\lambda}_{c,jk} = (1 \ - \ k_{jk}) \hat{\lambda}_{c,jk}, \ where$$
 $$k_{jk} = \frac{1}{1 + n \sigma^{-2}\tau^2s_{jk}\omega^2_{jk}}.$$ 
 
 Here $k_{jk}$, denotes the so-called *shrinkage factor* for cross-loading $\lambda_{c,jk}$. 
-When plotting the density of $k_{jk}$ there is a very high peak at at very low values and a very high peak of high values, resulting in a plot that resembles a horseshoe (See Figure TBA). This illustrates that the Horseshoe Prior has the desired property of either shrinking parameters very little, or very much, with very few parameters that are shrunken in a non-extreme fashion.
+When plotting the density of $k_{jk}$ there is a very high peak at at very low values and a very high peak of high values, resulting in a plot that resembles a horseshoe, illustrating that the Horseshoe Prior has the desired property of either shrinking parameters very little, or very much, with very few parameters that are shrunken in a non-extreme fashion.
 
 The Horseshoe Prior was found consistently to possess the theoretical properties outlined above in practice [@carvalho_horseshoe_2010; @polson_shrink_2010; @datta_asymptotic_2013; @van_der_pas_horseshoe_2014]. However, due to its Cauchy tails it suffers from the same issues as a Cauchy prior. Specifically, not shrinking large parameters at all can lead to estimation issues, especially when parameters are weakly identified. This happens for instance in logistic regression with separable data, where a flat likelihood and thereby a weakly identified model arises [@ghosh_use_2018]. The RHSP prevents such issues by shrinking also large parameters a little bit. For every cross-loading of factor j on item k:
 $$\lambda_{c,jk} | \bar{\omega}_{jk}, \tau, c\sim \mathcal{N}(0, \ \bar{\omega}^2_{jk} \tau^2), \ with \ \bar{\omega}^2_{jk} = \frac{c^2\omega_{jk}^2}{c^2 + \tau^2 \omega_{jk}^2},$$
@@ -171,16 +170,6 @@ A Monte Carlo simulation study was conducted using STAN [@stan_development_team_
 
 The datasets were simulated based on a true 2-factor model, with three items per factor, and a factor correlation of 0.5. The true model is summarized below, both in equations (Appendix A) and graphically (Figure 2).^[The stan code of the model can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/stan/SVNP.stan.] The factors were scaled by fixing their means to zero and their variances to 1. All main-loadings were set to 0.75, and all residual variances to 0.3, to ensure that the largest proportion of variance in the items would be explained by their corresponding factor. We varied the size of the two truly non-zero cross-loadings $\lambda_{c 5}$ and $\lambda_{c 6}$ between 0.2, a negligible magnitude such that shrinkage to zero is desired, and 0.5, a size for which shrinkage towards zero should be avoided. We varied the sample sizes of the simulated datasets between 100 and 200. Larger sample sizes of for instance 500 were not included despite being common place in the literature, because adding them would have rendered the run-time of the simulations for the RHSP unfeasible. This is appropriate because for simple factor models researchers are unlikely to collect such larger sample sizes in practice. 
 
-![Graphical Representation of the True Model.](~/1vs2StepBayesianRegSEM/Rmd/figures/model.png)
-
-```{r, results="asis"}
-#library(tidyverse)
-#condPop %>% 
-#  mutate(N = as.factor(N)) %>% 
-#  select(cross, N) %>% 
-#papaja::apa_table(caption = "Population #Conditions.")
-```
-
 ### SVNP: Prior Conditions 
 
 We varied the hyper-parameter of the SVNP $\sigma^2$ between 0.001, 0.01 and 0.1, based on @muthen_bayesian_2012. For the SVNP this left us with a total number of 2 x 2 x 3 = 12 individual sets of conditions. Per set of conditions, 200 replications were run, yielding a total of 2400 replications for this prior. 
@@ -188,6 +177,8 @@ We varied the hyper-parameter of the SVNP $\sigma^2$ between 0.001, 0.01 and 0.1
 ### RHSP: Prior Conditions 
 
 The RHSP has six hyper-parameters in the specification that we apply. We varied the scales of the global shrinkage parameter $\tau$, $s_{global}$ between, 0.1 and 1. Here 1, is a natural maximum given that the scale would never be larger than 1 when applying a prior guess $p_0$, and 0.1 a logical minimum given the scale of the model. Also the scale of the local shrinkage parameter $\omega_{jk}$ was varied between, 0.1 and 1. The degrees of freedoms of these two parameters, $df_{local}$ and $df_{global}$ were varied between 1 and 3. For the local shrinkage parameter, larger degrees of freedoms may help to overcome sampling issues that can arise when $df_{local} = 1$, i.e. when the prior reduces to a half-Cauchy prior.  Finally, for the scale of the distribution of $c^2$, $scale_{slab}$ was varied between 0.1, 1 and 5, and $df_{slab}$ between 1 and 3. This left a total of 96 individual hyper-parameter conditions for the RHSP. In combination with the 2x2 population conditions we were left with 384 individual sets of conditions for this prior. In total there were thus $384 \times 200 = 76800$ replications run for this prior. 
+
+![Graphical Representation of the True Model.](~/1vs2StepBayesianRegSEM/Rmd/figures/model.png)
 
 ## Outcomes
 
@@ -221,34 +212,65 @@ For both of these outcomes, we applied a variety of selection criteria for selec
 
 # Results
 
-## SVNP: Convergence
+## Convergence
 
-In terms of convergence, the SVNP shows excellent performance. Across all 2400 replications there is no single parameter for which $\hat{R} > 1.05$. Across all parameters, the minimum value of the Effective Sample Size $N_{eff}$ is 39.4% of the chain length. For the largest majority of runs $N_{eff}$ even exceeds 50% of the chain length. Moreover, across all runs there is not a single divergent transition. All 2400 replications are therefore included in the results.
+### SVNP
+In terms of convergence, the SVNP showed excellent performance. Across all 2400 replications there was no single parameter for which $\hat{R} > 1.05$. Across all parameters, the minimum value of the Effective Sample Size $N_{eff}$ was 39.4% of the chain length. For the largest majority of runs $N_{eff}$ even exceeded 50% of the chain length. Moreover, across all runs there was not a single divergent transition. All 2400 replications were therefore included in the results.
 
-## SVNP: Main Results
+### RHSP
 
-### Mean Absolute Bias
+The RHSP showed weaker performance in terms of convergence than the SVNP, although with most hyper-parameter configurations it was still acceptable, especially conisdering the very complex nature of the underlying model. 
 
-The Mean Absolute Bias of the SVNP for all parameters is summarized in Figure 3. For parameter estimates that show an identical pattern ($\bar{\lambda}_{c 2-5}$, $\bar{\lambda}_{c 1, 6}$, $\bar{\lambda}_{m 1, 2, 5, 6}$, $\bar{\lambda}_{m 3-4}$, and $\bar{\theta}_{1-6}$), the first respecting estimate is presented representative for all, both in Figure 3 and in the numbers presented below. As results are almost identical for the two sample sizes, we focus on presenting the findings for N = 100, to not distract from our main conclusions.^[The Mean Absolute Bias visualized for the different sample sizes separately can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/plots/plotsBiasSVNP.html.] 
+A total of 156 replications failed entirely. They all happend under  one set of conditions: N = 100, size $\lambda_{c1,6} = 0.2, N = 100, scale_{global} = scale_{local} = scale_{slab} = 0.1, df_{global} = df_{local} = df_{slab} = 1$. This likely happened due to identification issues. We removed the remaining 44 replications under this set of conditions, as they were too little to give a reliable picture. 
+
+Next, we removed all replications in which at least one model parameter had a value of $\hat{R} >= 1.05$, or a value for $N_{eff}$ smaller than 10% of the chain-length. This removed a total of 542 replications. The maximum number of removed replications for a given set of conditions was 37, which corresponds to 18.5% of the of replications under these conditions. Below in Table 1 we present all combinations of conditions under which more than 5% of the replciations had to be removed. 
+
+```{r}
+rowsRemovedLarger5Perc <- readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/rowsRemovedLarger5Perc.Rds")
+papaja::apa_table(rowsRemovedLarger5Perc, escape = F, 
+                  caption = "Conditions under which more than 5\\% of replications were removed due to not reaching convergence (N = 542).",
+                  note = "Replications were removed for having an $\\hat{R} >= 1.05$ or an $N_{eff}$  smaller that 10\\% of the chain-length, for any of the model parameters.")
+```
+
+Table 2 presents all sets of conditions under which there were, on average, at least 5% divergent transitions per chain. We decided not to remove such replications, as this would have remove a substantial number of 4474 replications. In general, it is advised not to included any divergent transitions, since they introduce bias. Given the complex nature of the RHSP it is hard to follow this advise in practice. However, it needs to be  taken into  account in the interpretation of the findings that the divergent transions may have added bias to the model estimates of the RHSP. 
+
+```{r}
+meanPropDIVlarger5 <- readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/meanPropDIVlarger5.Rds")
+papaja::apa_table(meanPropDIVlarger5, escape = F, 
+                  caption = "Conditions with on average more than 5\\% divergent transitions.", note =  "There was a total of 4474 replications were the divergent transitions exceeded 5\\% of the chain-length. There were 19036 replications with more than 1\\% of divergent transitions. There were 1970 replications with more than 10\\% of divergent transitions. There were 186 replications with more than 50\\% of divergent transitions.")
+```
 
 
-```{r, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="SVNP: Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g. cross-loading 1 was plottet representative for cross-loading 1 and 6. All hyperparameters of the RHSP are set to 1 in the results presented here. ", fig.height=8}
+## Main Results
+
+### SVNP: Mean Absolute Bias
+
+The Mean Absolute Bias of the SVNP for all parameters is summarized in Figure 3. For parameter estimates that show an identical pattern ($\bar{\lambda}_{c 2-5}$, $\bar{\lambda}_{c 1, 6}$, $\bar{\lambda}_{m 1, 2, 5, 6}$, $\bar{\lambda}_{m 3-4}$, and $\bar{\theta}_{1-6}$), the first respecting estimate is presented representative for all, both in Figure 3 and in the numbers presented below. As results are almost identical for the two sample sizes, we focus on presenting the findings for N = 100, to not distract from our main conclusions.^[The Mean Absolute Bias of the SVNP visualized for the different sample sizes separately can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/plots/plotsBiasSVNP.html.] 
+
+
+```{r, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g. cross-loading 1 was plottet representative for cross-loading 1 and 6. All hyperparameters of the RHSP are set to 1 in the results presented here. ", fig.height=8}
 # load plot
 library(patchwork)
 readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/biasAllParsRHSPInc.Rds") 
 ```
 
-Figure 3 shows that, as expected, there is substantial bias in some parameter estimates. While the bias in the posterior means of the truly zero cross-loadings $\bar{\lambda}_{c 2-5}$ is relatively small, it is pronounced in the estimates of the truly non-zero cross-loadings $\bar{\lambda}_{c 1}$ and $\bar{\lambda}_{c 6}$. Particularly with a large true cross-loading of 0.5 and $\sigma^2 = 0.001$ the bias is very large, e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.49$, since the estimates of the true cross-loadings of 0.5 are shrunken almost entirely to zero (e.g. $\bar{\lambda}_{c 1} = 0.01$). The choice of $\sigma^2$ plays a crucial role here. Also with $\sigma^2 =  0.01$ (and true cross-loadings of 0.5) substantial bias occurs (e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.35$), as the cross-loading are still under-estimated considerably ($\bar{\lambda}_{c 1} = 0.15$), though not entirely shrunken to zero. With $\sigma^2 = 0.1$ the bias in the estimates of the cross-loadings is less pronounced (e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.14$). Here $\sigma^2$ is large enough to estimate the cross-loadings closer to their true value, $\bar{\lambda}_{c 1} = 0.37$.
+Figure 3 shows that, as expected, there was substantial bias in some parameter estimates. While the bias in the posterior means of the truly zero cross-loadings $\bar{\lambda}_{c 2-5}$ was relatively small, it was pronounced in the estimates of the truly non-zero cross-loadings $\bar{\lambda}_{c 1}$ and $\bar{\lambda}_{c 6}$. Particularly with a large true cross-loading of 0.5 and $\sigma^2 = 0.001$ the bias was very large, e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.49$, since the estimates of the true cross-loadings of 0.5 were shrunken almost entirely to zero (e.g. $\bar{\lambda}_{c 1} = 0.01$). The choice of $\sigma^2$ played a crucial role here. Also with $\sigma^2 =  0.01$ (and true cross-loadings of 0.5) substantial bias occured (e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.35$), as the cross-loading were still under-estimated considerably ($\bar{\lambda}_{c 1} = 0.15$), though not entirely shrunken to zero. With $\sigma^2 = 0.1$ the bias in the estimates of the cross-loadings was less pronounced (e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.14$). Here $\sigma^2$ was large enough to estimate the cross-loadings closer to their true value, $\bar{\lambda}_{c 1} = 0.37$.
 
-Also the estimates of the main loadings of factor 1 on item 3 ($\bar{\lambda}_{m 3}$) and of factor 2 on item 4 ($\bar{\lambda}_{m 4}$) are substantially biased when the true cross-loadings are 0.5 and $\sigma^2 = 0.001$ (e.g. $\bar{Bias}_{\bar{\lambda}_{m 3}} = 0.40$). These two loadings show much higher bias than the other four main-loadings as they load on the same two items as the two non-zero cross-loadings ($\bar{\lambda}_{c 1}$ and $\bar{\lambda}_{c 6}$, see Figure 2). As the cross-loadings are shrunken to zero, these main loadings now also account for the variance in the items that is truly explained by the cross-loadings. Consequently, the two main-loadings are over-estimated, e.g. $\bar{\lambda}_{m 3} = 1.15$. 
+Also the estimates of the main loadings of factor 1 on item 3 ($\bar{\lambda}_{m 3}$) and of factor 2 on item 4 ($\bar{\lambda}_{m 4}$) were substantially biased when the true cross-loadings were 0.5 and $\sigma^2 = 0.001$ (e.g. $\bar{Bias}_{\bar{\lambda}_{m 3}} = 0.40$). These two loadings showed much higher bias than the other four main-loadings as they loaded on the same two items as the two non-zero cross-loadings ($\bar{\lambda}_{c 1}$ and $\bar{\lambda}_{c 6}$, see Figure 2). As the cross-loadings were shrunken to zero, these main loadings now also had to account for the variance in the items that was truly explained by the cross-loadings. Consequently, the two main-loadings were over-estimated, e.g. $\bar{\lambda}_{m 3} = 1.15$. 
 
-In the factor correlation the bias is also relatively small and approximately the same for the different values of $\sigma^2$ when the truly non-zero cross-loadings are 0.2. Again, bias becomes much more pronounced with true cross-loadings of 0.5, especially when $\sigma^2 = 0.001$ ($\bar{Bias}_{\bar{r}} = 0.34$). In this situation the factor correlation is heavily over-estimated ($\bar{\Psi}_{1,2} = 0.84$). This is because the covariance between item 3 and 4 that arises from the two cross-loadings, is mis-attributed to the factor-correlation, as the cross-loadings are shrunken to zero.
+In the factor correlation the bias was also relatively small and approximately the same for the different values of $\sigma^2$ when the truly non-zero cross-loadings were 0.2. Again, bias became much more pronounced with true cross-loadings of 0.5, especially when $\sigma^2 = 0.001$ ($\bar{Bias}_{\bar{r}} = 0.34$). In this situation the factor correlation was heavily over-estimated ($\bar{\Psi}_{1,2} = 0.84$). This was because the covariance between item 3 and 4 that arose from the two cross-loadings, was mis-attributed to the factor-correlation, as the cross-loadings were shrunken to zero.
 
-The bias in the estimates of the residual variances $\bar{\theta}_{1-6}$ is not large across different conditions, although also here a noticeable increase occurs between true cross-loadings of 0.2 and 0.5 when $\sigma^2 = 0.001$.
+The bias in the estimates of the residual variances $\bar{\theta}_{1-6}$ was not large across different conditions, although also here a noticeable increase occurs between true cross-loadings of 0.2 and 0.5 when $\sigma^2 = 0.001$.
 
-### Power and Type-I-Error Rate
+### RHSP: Mean Absolute Bias
 
-Figure 4 summarizes the mean power of the SVNP, per set of conditions and selection criterion. 
+
+### SVNP: Power and Type-I-Error Rate
+
+The top left panel Figure 4 summarizes the Mean^[We present the Mean Power, averaged over the two truly non-zero cross-loadings, as seperating cross-loadings leads to identical conclusions.] Power (true-postive rate) in selecting the truly two non-zero cross-loadings as non-zero of the SVNP, per set of conditions and selection criterion. The horizontal red dash line indicates the recommended minimum power of .80 suggested by  First, we can see that with a treshold of 0.00 there is a perfect power of 1 in selecting. This is logical, since in posterior means will never be entirely zero. Therefore this results mostly servers this porperty of Bayesian inference and thereby the need for more complex selection rules in Bayesian regularization. Next, we can see that across most conditions. 
+
+### RHSP: Power and Type-I-Error Rate
+
 
 ```{r, dev='cairo_pdf', include = T, warning = F, fig.cap='Mean Power and Type-I-Error Rates in Selecting non-zero Crossloadings. All hyper-parameters of the RHSP are set to 1 in the results presented here.', fig.height=10, fig.width=8}
 library(patchwork)
@@ -265,35 +287,9 @@ powerAllAtOnce <- powerSVNP + typeISVNP + powerRHSP + typeIRHSP
 powerAllAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank(), legend.text = element_text(size = 8))
 ```
 
-## RHSP: Convergence
 
 
-```{r}
-rowsRemovedLarger5Perc <- readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/rowsRemovedLarger5Perc.Rds")
-papaja::apa_table(rowsRemovedLarger5Perc, escape = F, 
-                  caption = "Conditions under which more than 5\\% of replications were removed due to not reaching convergence.",
-                  note = "Replications were removed for having an $\\hat{R} >= 1.05$ or an $N_{eff}$  smaller that 10\\% of the chain-length, for any of the model parameters.")
-```
-
- Effective Sample Size
-
- - Divergent Transitions
-
-```{r}
-meanPropDIVlarger5 <- readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/meanPropDIVlarger5.Rds")
-papaja::apa_table(meanPropDIVlarger5, escape = F, 
-                  caption = "Conditions with on average more than 5\\% divergent transitions")
-```
-
-
-## RHSP: Main Results
-
-### Mean Absolute Bias
-
-### Power and Type-I-Error Rate
-
-
-# Discussion
+# Conclusions and Discussion
 
 The results show a clear and consistent pattern. The SVNP performs well when the truly non-zero cross-loadings are small, in terms of estimating the model without substantial bias. This can be interpreted as a successful instance of regularization, where an acceptable amount of bias is added to the model by shrinking some parameters to zero, to reach a more sparse solution. However, with larger truly non-zero cross-loadings, the performance of the SVNP decreases. With smaller values of $\sigma^2$, particularly with $\sigma^2 = 0.001$, these cross-loadings are still shrunken to zero, even though they are much larger in practice. This causes substantial bias in some main-loadings, and in the factor correlation. In practice, bias in structural parameters is particularly concerning, as it may lead to wrong conclusions in research on structural relationships between latent constructs. 
 
@@ -333,4 +329,9 @@ Other important steps:
 
 
 
+
+
+```{r echo = FALSE, results = 'asis', cache = FALSE}
+papaja::render_appendix('appendixA.Rmd')
+```
 

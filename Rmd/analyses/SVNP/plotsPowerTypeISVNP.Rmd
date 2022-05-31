@@ -255,9 +255,9 @@ TypeI+
        x = NULL)
 PowerSVNP <- 
 Power+
-  labs(tile = "Mean Power SVNP",
+  labs(title = "Mean Power SVNP",
        x = NULL)  
 readr::write_rds(TypeISVNP, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/typeISVNP.Rds")
-readr::write_rds(TypeISVNP, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/powerSVNP.Rds")
+readr::write_rds(PowerSVNP, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/powerSVNP.Rds")
 ```
 
