@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  1 JUN 2022 23:26
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  1 JUN 2022 23:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1023,10 +1023,10 @@ File: mt-eur.cfg 2006/07/31 v1.1 microtype config. file: AMS Euler Roman (RS)
 ) [2
 
 
-] [3]
-Underfull \vbox (badness 4686) has occurred while \output is active []
+] [3] [4]
+Underfull \vbox (badness 1297) has occurred while \output is active []
 
-[4] [5]
+[5]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
 (Font)              scaled to size 12.0pt on input line 276.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
@@ -1045,9 +1045,6 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
 (Font)              scaled to size 8.3991pt on input line 276.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
 (Font)              scaled to size 5.99936pt on input line 276.
-
-Underfull \vbox (badness 3954) has occurred while \output is active []
-
 [6] [7]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
 (Font)              scaled to size 10.0pt on input line 298.
@@ -1071,11 +1068,14 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 [10] [11] [12]
 File: ~/1vs2StepBayesianRegSEM/Rmd/figures/model.png Graphic file (type bmp)
 <~/1vs2StepBayesianRegSEM/Rmd/figures/model.png>
 
-Underfull \vbox (badness 2573) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [13] [14] [15]
 Overfull \hbox (32.23949pt too wide) in paragraph at lines 412--446
@@ -1117,10 +1117,10 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ] (./JMBKoch_thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 23802 strings out of 476180
- 435578 string characters out of 5815297
- 958241 words of memory out of 5000000
- 44139 multiletter control sequences out of 15000+600000
+ 23804 strings out of 476180
+ 435627 string characters out of 5815297
+ 958308 words of memory out of 5000000
+ 44141 multiletter control sequences out of 15000+600000
  503222 words of font info for 115 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  86i,12n,121p,2253b,562s stack positions out of 5000i,500n,10000p,200000b,80000s
