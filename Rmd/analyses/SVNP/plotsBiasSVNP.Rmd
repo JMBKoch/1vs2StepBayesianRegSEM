@@ -449,3 +449,87 @@ resultsSVNP %>%
 theta6
 ```
 
+## Making sense of the plots
+
+### zero cross-loadings
+
+```{r}
+resultsSVNP %>% 
+  filter(N == 100) %>% 
+  select(N, biasCrossMean_2, cross, sigmaSqu) %>%
+  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  group_by(N,  cross, label) %>% 
+  summarise(meanBiasCrossMean_2 = mean(biasCrossMean_2))
+```
+
+```{r}
+resultsSVNP %>% 
+  filter(N == 100) %>% 
+  select(N, crossEstMean_2, cross, sigmaSqu) %>%
+  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  group_by(N,  cross, label) %>% 
+  summarise(meanCrossEstMean_2 = mean(crossEstMean_2))
+```
+
+
+### non-zero cross-loadings
+
+```{r}
+resultsSVNP %>% 
+  filter(N == 100) %>% 
+  select(N, biasCrossMean_1, cross, sigmaSqu) %>%
+  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  group_by(N, cross, label) %>% 
+  summarise(meanBiasCrossMean_1 = mean(biasCrossMean_1)) 
+```
+
+```{r}
+resultsSVNP %>% 
+  filter(N == 100) %>% 
+  select(N, crossEstMean_1, cross, sigmaSqu) %>%
+  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  group_by(N, cross, label) %>% 
+  summarise(meanCrossEstMean_1 = mean(crossEstMean_1))
+```
+
+### High-Bias Main Loadings
+
+```{r}
+resultsSVNP %>% 
+  filter(N == 100)%>% 
+  select(N, biasMainMean_3, cross, sigmaSqu) %>%
+  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  group_by(N, cross, label) %>% 
+  summarise(meanBiasMainMean_3 = mean(biasMainMean_3))
+```
+
+```{r}
+resultsSVNP %>% 
+  filter(N == 100) %>% 
+  select(N, mainEstMean_3, cross, sigmaSqu) %>%
+  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  group_by(N,cross, label) %>% 
+  summarise(meanMainEstMean_3 = mean(mainEstMean_3))
+```
+
+### Factor Corr
+
+```{r}
+resultsSVNP %>% 
+  filter(N == 100) %>% 
+  select(N, biasFactCorrMean, cross, sigmaSqu) %>%
+  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  group_by(N, cross, label) %>% 
+  summarise(meanBiasFactCorrEstMean = mean(biasFactCorrMean))
+```
+
+```{r}
+resultsSVNP %>% 
+  filter(N == 100) %>% 
+  select(N, factCorrEstMean, cross, sigmaSqu) %>%
+  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  group_by(#N, 
+           cross, label) %>% 
+  summarise(meanFactCorrEstMean = mean(factCorrEstMean))
+```
+

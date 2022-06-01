@@ -435,7 +435,7 @@ theta6
 
 # Making sense of the plots
 
-### zero cross-loadings
+###  zero cross-loadings
 
 ```{r}
 resultsRHSPOne %>% 
@@ -501,5 +501,12 @@ resultsRHSPOne %>%
   summarise(meanFactCorrEstMean = mean(factCorrEstMean))
 ```
 
+# Plotting raw estimates
 
+```{r}
+resultsRHSPOne %>% 
+  filter(cross == 0.5) %>% 
+  ggplot(mapping = aes(x = crossEstMean_2))+
+  geom_histogram()
+```
 

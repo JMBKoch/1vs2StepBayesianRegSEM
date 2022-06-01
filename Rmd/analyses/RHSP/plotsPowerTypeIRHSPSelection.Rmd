@@ -196,7 +196,7 @@ AvgTypeIAndPowerLong %>%
 PowerRHSPOne100
 ```
 
-```{r}
+```{r, fig.height=4}
 # save plot with title
 PowerRHSPOne100 <- 
 PowerRHSPOne100 + 
@@ -229,7 +229,7 @@ AvgTypeIAndPowerLong %>%
   theme(panel.border = element_rect(fill = NA))
 TypeIRHSPAllOne100
 ```
-```{r}
+```{r, fig.height=4}
 # save plot with title
 TypeIRHSPAllOne100 <- 
 TypeIRHSPAllOne100 + 

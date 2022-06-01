@@ -247,7 +247,7 @@ AvgTypeIAndPowerLong %>%
 TypeI
 ```
  
-```{r}
+```{r, fig.height=6}
 # Save with Title but without X-Axis label
 TypeISVNP <- 
 TypeI+
