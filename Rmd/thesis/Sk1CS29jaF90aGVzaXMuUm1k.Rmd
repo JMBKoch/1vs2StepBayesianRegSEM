@@ -366,8 +366,3 @@ Despite the limitations names, the current study formed a valuable contribution 
 papaja::render_appendix('appendixA.Rmd')
 ```
 
-
-```{r echo = FALSE, results = 'asis', cache = FALSE}
-papaja::render_appendix('appendixA.Rmd')
-```
-
