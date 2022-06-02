@@ -36,24 +36,9 @@ appendix:
 \pagestyle{plain}
 ```
 
-```{r setup,  echo = F, cache=T}
-library(papaja)
-library(LaplacesDemon) # for horseshoe density 
-library(ggplot2)
-library(tidyverse)
-library(jtools) # for apa ggplot theme
-library(kableExtra)
-source('~/1vs2StepBayesianRegSEM/R/parameters.R')
-resultsSVNP <- read.csv("~/1vs2StepBayesianRegSEM/output/resultsSVNP.csv", 
-                        sep = " ", 
-                        header = TRUE)
-```
 
-```{r analysis-preferences}
-# Seed for random number generation
-set.seed(0704)
-knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
-```
+
+
 
 \clearpage
 
@@ -150,35 +135,7 @@ where $p_0$ represents a prior guess of the number of relevant cross-loadings. I
 The intuition of how the RHSP shrinks large parameters a little bit is best illustrated by assuming that c is a given constant. Now, when $\tau^2 \omega^2_{jk} < c^2$, $\bar{\omega}^2_{jk} \to \omega^2_{jk}$. Hence, in this case the RHSP approaches the original Horseshoe Prior, with equally pronounced shrinkage to zero. In the limit, the product of $\tau^2$ and $\omega^2_{jk}$ will be smaller under small cross-loadings. Datasets coming from a population with a true small cross-loading should, on average, possess the property of steering the posterior estimates towards small values of the local shrinkage factor, which allows these parameters to escape the shrinkage. However, when $\tau$ is far from zero, hence under large true cross-loadings, $\tau^2 \omega^2_{jk} > c^2$, and  $\bar{\omega}^2_{jk} \to \frac{c^2}{\tau^2}$. Then, the prior of $\lambda_{c,jk}$ approaches a slab $\mathcal{N}(0, c^2)$. Under the above specification, when c is no constant but a parameter for which an Inverse-Gamma hyper-prior is set, the slab becomes a t-distribution with $df_{slab}$ degrees of freedom, a mean of zero and a scale of $scale_{slab}^2$ [@piironen_sparsity_2017]. 
 
 
-```{r, cache=T, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="Density Plots of the Regularization Priors of Interest."}
-# Make Figure 1 with 
-ndraws <- 5e+05 # 30000 draws
-# sample Small Variance Normal Prior
-smallVar <- rnorm(ndraws, mean = 0, sd = sqrt(0.01))
-
-# sample regularized horseshoe prior
-regHs <- rep(NA, ndraws)
-for(i in 1:ndraws){
-  c2 <- rinvgamma(1, shape=1, scale=1)
-  lambda <- rhalfcauchy(1, scale=1)
-  tau <- rhalfcauchy(1, scale=1)
-  lambda2_tilde <- c2 * lambda^2/(c2 + tau^2*lambda^2)
-  regHs[i] <- rnorm(1, 0, sqrt(tau^2*lambda2_tilde))
-}
-
-# make plot
-data.frame(dens = c(smallVar, regHs), 
-          prior = as.factor(rep(c("SVNP (\u03c3\u00B2 = 0.01)", "RHSP (all  hyper-parameters set to 1)"), each = ndraws)),
-          asymp = rep(0, ndraws)) %>% 
-  ggplot(aes(x = dens, fill = prior, linetype = prior)) + 
-  geom_density(alpha = .5)+
-  #geom_vline(aes(xintercept = asymp), linetype = "dashed") +
-  xlim(-.5, .5)+
-  labs(x = "Size Cross-Loading",
-       y = "Density",
-       title = NULL)+
-  theme_apa(legend.pos = "bottom")
-```
+![(\#fig:unnamed-chunk-1)Density Plots of the Regularization Priors of Interest.](JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf) 
 
 Figure 1 compares the two shrinkage-priors that are the focus of our study. Both priors share a large peak at zero, which ensures that cross-loadings are shrunken to(wards) zero. However, the RHSP has much thicker tails. Here, for larger cross-loadings, there is thus much more prior mass than with the SVNP. This ensures large cross-loadings (and consequently other model parameters) can be estimated without bias within a single estimation step. 
 
@@ -247,20 +204,88 @@ A total of 156 replications failed entirely, which all happend under  one set of
 
 Next, we removed all replications in which at least one model parameter had a value of $\hat{R} >= 1.05$, or a value for $N_{eff}$ smaller than 10% of the chain-length. This removed a total of 542 replications. The maximum number of removed replications for a given set of conditions was 37, which corresponds to 18.5% of the replications under these conditions. Below in Table 1 we present all combinations of conditions under which more than 5% of the replications had to be removed. 
 
-```{r}
-rowsRemovedLarger5Perc <- readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/rowsRemovedLarger5Perc.Rds")
-papaja::apa_table(rowsRemovedLarger5Perc, escape = F, 
-                  caption = "Conditions under which more than 5\\% of replications were removed due to not reaching convergence (N = 542).",
-                  note = "Replications were removed for having an $\\hat{R} >= 1.05$ or an $N_{eff}$  smaller that 10\\% of the chain-length, for any of the model parameters.")
-```
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:unnamed-chunk-2}Conditions under which more than 5\% of replications were removed due to not reaching convergence (N = 542).}
+
+\begin{tabular}{lllllllll}
+\toprule
+$scale_{global}$ & \multicolumn{1}{c}{$df_{global}$} & \multicolumn{1}{c}{$scale_{local}$} & \multicolumn{1}{c}{$df_{local}$} & \multicolumn{1}{c}{$scale_{slab}$} & \multicolumn{1}{c}{$df_{slab}$} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Size $\lambda_{c1 , 6}$} & \multicolumn{1}{c}{N removed Rep.}\\
+\midrule
+0.10 & 3 & 0.10 & 1 & 0.10 & 1 & 100 & 0.50 & 10\\
+0.10 & 3 & 0.10 & 1 & 1.00 & 3 & 100 & 0.50 & 11\\
+0.10 & 1 & 0.10 & 1 & 5.00 & 3 & 100 & 0.50 & 12\\
+0.10 & 3 & 0.10 & 1 & 5.00 & 1 & 100 & 0.50 & 12\\
+0.10 & 3 & 0.10 & 1 & 1.00 & 1 & 100 & 0.50 & 13\\
+0.10 & 3 & 0.10 & 3 & 0.10 & 3 & 100 & 0.50 & 13\\
+0.10 & 1 & 0.10 & 1 & 5.00 & 1 & 100 & 0.50 & 15\\
+0.10 & 3 & 0.10 & 1 & 5.00 & 3 & 100 & 0.50 & 15\\
+0.10 & 1 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 20\\
+0.10 & 1 & 0.10 & 3 & 1.00 & 1 & 100 & 0.50 & 24\\
+0.10 & 1 & 0.10 & 3 & 1.00 & 3 & 100 & 0.50 & 24\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 27\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 30\\
+0.10 & 3 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 33\\
+0.10 & 3 & 0.10 & 3 & 1.00 & 1 & 100 & 0.50 & 34\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 34\\
+0.10 & 3 & 0.10 & 3 & 1.00 & 3 & 100 & 0.50 & 37\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 37\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Replications were removed for having an $\hat{R} >= 1.05$ or an $N_{eff}$  smaller that 10\% of the chain-length, for any of the model parameters.}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
 
 Table 2 presents all sets of conditions under which there were, on average, at least 5% divergent transitions per chain. We decided not to remove these replications, as this would have removed a substantial number of 4474 replications. In general, it is advised not to include any divergent transitions, since they introduce bias. Given the complex nature of the RHSP, which in practice usually leads to some divergent transitions, it is hard to follow this advise in practice. However, it needs to be taken into  account in the interpretation of the findings that the divergent transitions may have added bias to the model estimates of the RHSP. 
 
-```{r}
-meanPropDIVlarger5 <- readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/meanPropDIVlarger5.Rds")
-papaja::apa_table(meanPropDIVlarger5, escape = F, 
-                  caption = "Conditions with on average more than 5\\% divergent transitions.", note =  "There was a total of 4474 replications were the divergent transitions exceeded 5\\% of the chain-length. There were 19036 replications with more than 1\\% of divergent transitions. There were 1970 replications with more than 10\\% of divergent transitions. There were 186 replications with more than 50\\% of divergent transitions.")
-```
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:unnamed-chunk-3}Conditions with on average more than 5\% divergent transitions.}
+
+\begin{tabular}{lllllllll}
+\toprule
+$scale_{global}$ & \multicolumn{1}{c}{$df_{global}$} & \multicolumn{1}{c}{$scale_{local}$} & \multicolumn{1}{c}{$df_{local}$} & \multicolumn{1}{c}{$scale_{slab}$} & \multicolumn{1}{c}{$df_{slab}$} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Size $\lambda_{c1 , 6}$} & \multicolumn{1}{c}{Mean Prop. Div.}\\
+\midrule
+0.10 & 1 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 0.09\\
+0.10 & 1 & 0.10 & 3 & 1.00 & 1 & 100 & 0.50 & 0.08\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 0.08\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 0.08\\
+0.10 & 3 & 0.10 & 1 & 0.10 & 1 & 100 & 0.50 & 0.10\\
+0.10 & 3 & 0.10 & 1 & 1.00 & 1 & 100 & 0.50 & 0.08\\
+0.10 & 3 & 0.10 & 1 & 5.00 & 1 & 100 & 0.50 & 0.09\\
+0.10 & 3 & 0.10 & 1 & 5.00 & 3 & 100 & 0.50 & 0.08\\
+0.10 & 3 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 0.10\\
+0.10 & 3 & 0.10 & 3 & 1.00 & 1 & 100 & 0.50 & 0.11\\
+0.10 & 3 & 0.10 & 3 & 1.00 & 3 & 100 & 0.50 & 0.07\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 0.11\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 0.12\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} There was a total of 4474 replications were the divergent transitions exceeded 5\% of the chain-length. There were 19036 replications with more than 1\% of divergent transitions. There were 1970 replications with more than 10\% of divergent transitions. There were 186 replications with more than 50\% of divergent transitions.}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
 
 ## Main Results
 
@@ -268,11 +293,7 @@ papaja::apa_table(meanPropDIVlarger5, escape = F,
 
 The Mean Absolute Bias of the SVNP for all parameters is summarized in Figure 3. For parameter estimates that show an identical pattern ($\bar{\lambda}_{c 2-5}$, $\bar{\lambda}_{c 1, 6}$, $\bar{\lambda}_{m 1, 2, 5, 6}$, $\bar{\lambda}_{m 3-4}$, and $\bar{\theta}_{1-6}$), the first respecting estimate is presented representative for all, both in Figure 3 and in the numbers presented below. As results are almost identical for the two sample sizes, we focus on presenting the findings for N = 100, to not distract from our main conclusions.^[The Mean Absolute Bias of the SVNP visualized for the different sample sizes separately can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/plots/plotsBiasSVNP.html.] 
 
-```{r, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g. cross-loading 2 was plottet representative for cross-loading 1 and 3-5. All hyperparameters of the RHSP are set to 1 in the results presented here. ", fig.height=8}
-# load plot
-library(patchwork)
-readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/biasAllParsRHSPInc.Rds") 
-```
+![(\#fig:unnamed-chunk-4)Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g. cross-loading 2 was plottet representative for cross-loading 1 and 3-5. All hyperparameters of the RHSP are set to 1 in the results presented here. ](JMBKoch_thesis_files/figure-latex/unnamed-chunk-4-1.pdf) 
 
 Figure 3 shows that, as expected, there was substantial bias in some parameter estimates. While the bias in the posterior means of the truly zero cross-loadings $\bar{\lambda}_{c 2-5}$ was relatively small, it was pronounced in the estimates of the truly non-zero cross-loadings $\bar{\lambda}_{c 1}$ and $\bar{\lambda}_{c 6}$. Particularly with a large true cross-loading of 0.5 and $\sigma^2 = 0.001$ the bias was very large, e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.49$, since the estimates of the true cross-loadings of 0.5 were shrunken almost entirely to zero (e.g. $\bar{\lambda}_{c 1} = 0.01$). The choice of $\sigma^2$ played a crucial role here. Also with $\sigma^2 =  0.01$ (and true cross-loadings of 0.5) substantial bias occured (e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.35$), as the cross-loading were still under-estimated considerably ($\bar{\lambda}_{c 1} = 0.15$), though not entirely shrunken to zero. With $\sigma^2 = 0.1$ the bias in the estimates of the cross-loadings was less pronounced (e.g. $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.14$). Here $\sigma^2$ was large enough to estimate the cross-loadings closer to their true value, $\bar{\lambda}_{c 1} = 0.37$.
 
@@ -300,20 +321,7 @@ Also regarding the bias in the estimates of the residual variances $\bar{\theta}
 
 ### Power and Type-I-Error Rate: SVNP
 
-```{r, dev='cairo_pdf', include = T, warning = F, fig.cap='Mean Power and Type-I-Error Rates in Selecting non-zero Crossloadings. All hyper-parameters of the RHSP are set to 1 in the results presented here.', fig.height=10, fig.width=8}
-library(patchwork)
-library(ggplot2)
-
-# load power plots
-powerSVNP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/powerSVNP.Rds")
-typeISVNP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/typeISVNP.Rds")
-powerRHSP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/PowerRHSPOne100.Rds")
-typeIRHSP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/TypeIRHSPAllOne100.Rds")
-
-# combine power plots
-powerAllAtOnce <- powerSVNP + typeISVNP + powerRHSP + typeIRHSP 
-powerAllAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank(), legend.text = element_text(size = 8))
-```
+![(\#fig:unnamed-chunk-5)Mean Power and Type-I-Error Rates in Selecting non-zero Crossloadings. All hyper-parameters of the RHSP are set to 1 in the results presented here.](JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf) 
 
 The top left panel of Figure 4 summarizes the Power (true-positive rate) in selecting the truly non-zero cross-loadings as non-zero of the SVNP, per set of conditions and selection criterion. Again, the outcomes are presented for the first parameter of an identical set of parameters (i.e., $\lambda_{c,1}$ is presented representative for the two truly non-zero cross-loadings). The horizontal red dash line indicates the minimum power of .80 recommended by @muthen_bayesian_2012.  
 
@@ -348,9 +356,7 @@ Despite the limitations names, the current study formed a valuable contribution 
 
 \clearpage
 
-```{tex}
-\end{itemize}
-```
+
 
 # References 
 
@@ -369,23 +375,15 @@ Despite the limitations names, the current study formed a valuable contribution 
 
 
 
-```{r echo = FALSE, results = 'asis', cache = FALSE}
-papaja::render_appendix('appendixA.Rmd')
-```
 
 
 
-```{r echo = FALSE, results = 'asis', cache = FALSE}
-papaja::render_appendix('appendixA.Rmd')
-```
 
 
-```{r echo = FALSE, results = 'asis', cache = FALSE}
-papaja::render_appendix('appendixA.Rmd')
-```
 
 
-```{r echo = FALSE, results = 'asis', cache = FALSE}
-papaja::render_appendix('appendixA.Rmd')
-```
+
+
+
+
 

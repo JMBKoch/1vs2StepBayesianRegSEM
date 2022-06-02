@@ -451,6 +451,14 @@ resultsRHSPOne %>%
   summarise(meanCrossEstMean_2 = mean(crossEstMean_2))
 ```
 
+```{r}
+resultsRHSPOne %>% 
+  filter(cross == 0.5) %>% 
+  ggplot(mapping = aes(x = crossEstMean_2))+
+  geom_histogram()
+```
+
+
 
 ### non-zero cross-loadings
 
@@ -501,12 +509,6 @@ resultsRHSPOne %>%
   summarise(meanFactCorrEstMean = mean(factCorrEstMean))
 ```
 
-# Plotting raw estimates
 
-```{r}
-resultsRHSPOne %>% 
-  filter(cross == 0.5) %>% 
-  ggplot(mapping = aes(x = crossEstMean_2))+
-  geom_histogram()
-```
+
 
