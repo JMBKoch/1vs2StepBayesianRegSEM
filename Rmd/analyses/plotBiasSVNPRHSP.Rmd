@@ -34,7 +34,7 @@ resultsSVNP <-
   resultsSVNP %>% 
   arrange(sigma, N, cross, iteration) %>% 
   mutate(sigmaSqu = as.character(sigma^2),
-         sigmaSqu = paste0("\u03c3\u00B2 = ", sigmaSqu),
+         sigmaSqu = paste0("SVNP: \u03c3\u00B2 = ", sigmaSqu),
          biasCrossMean_1 = abs(crossEstMean_1 - cross),
          biasCrossMean_2 = abs(crossEstMean_2 - 0),
          biasCrossMean_3 = abs(crossEstMean_3 - 0),
@@ -61,7 +61,7 @@ resultsRHSP %>%
 # combine results
 resultsComb <- rbind(resultsSVNP, resultsRHSPOne100)
 # recode sigmaSqu for nicer plot sigmaSqu
-resultsComb$sigmaSqu[resultsComb$sigmaSqu == "\u03c3\u00B2 = RSHP"] <- "RHSP (all hyper-parameters 1)"
+resultsComb$sigmaSqu[resultsComb$sigmaSqu == "SVNP: \u03c3\u00B2 = RSHP"] <- "RHSP (all hyper-parameters 1)"
 resultsComb$sigmaSqu <- as.factor(resultsComb$sigmaSqu)
 ```
 
@@ -200,7 +200,7 @@ saveRDS(biasAllParsRHSPInc, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/biasAll
 resultsComb %>% 
   filter(N == 100) %>% 
   select(N, biasCrossMean_2, cross, sigmaSqu) %>%
-  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  mutate(sigmaSqu = as.factor(paste0("SVNP: \u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N,  cross, sigmaSqu) %>% 
   summarise(meanBiasCrossMean_2 = mean(biasCrossMean_2))
 ```
@@ -209,7 +209,7 @@ resultsComb %>%
 resultsComb %>% 
   filter(N == 100) %>% 
   select(N, crossEstMean_2, cross, sigmaSqu) %>%
-  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  mutate(sigmaSqu = as.factor(paste0("SVNP: \u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N,  cross, sigmaSqu) %>% 
   summarise(meanCrossEstMean_2 = mean(crossEstMean_2))
 ```
@@ -221,7 +221,7 @@ resultsComb %>%
 resultsComb %>% 
   filter(N == 100) %>% 
   select(N, biasCrossMean_1, cross, sigmaSqu) %>%
-  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  mutate(sigmaSqu = as.factor(paste0("SVNP: \u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, cross, sigmaSqu) %>% 
   summarise(meanBiasCrossMean_1 = mean(biasCrossMean_1)) 
 ```
@@ -230,7 +230,7 @@ resultsComb %>%
 resultsComb %>% 
   filter(N == 100) %>% 
   select(N, crossEstMean_1, cross, sigmaSqu) %>%
-  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  mutate(sigmaSqu = as.factor(paste0("SVNP: \u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, cross, sigmaSqu) %>% 
   summarise(meanCrossEstMean_1 = mean(crossEstMean_1))
 ```
@@ -241,7 +241,7 @@ resultsComb %>%
 resultsComb %>% 
   filter(N == 100)%>% 
   select(N, biasMainMean_3, cross, sigmaSqu) %>%
-  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  mutate(sigmaSqu = as.factor(paste0("SVNP: \u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, cross, sigmaSqu) %>% 
   summarise(meanBiasMainMean_3 = mean(biasMainMean_3))
 ```
@@ -250,7 +250,7 @@ resultsComb %>%
 resultsComb %>% 
   filter(N == 100) %>% 
   select(N, mainEstMean_3, cross, sigmaSqu) %>%
-  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  mutate(sigmaSqu = as.factor(paste0("SVNP: \u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N,cross, sigmaSqu) %>% 
   summarise(meanMainEstMean_3 = mean(mainEstMean_3))
 ```
@@ -261,7 +261,7 @@ resultsComb %>%
 resultsComb %>% 
   filter(N == 100) %>% 
   select(N, biasFactCorrMean, cross, sigmaSqu) %>%
-  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  mutate(sigmaSqu = as.factor(paste0("SVNP: \u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(N, cross, sigmaSqu) %>% 
   summarise(meanBiasFactCorrEstMean = mean(biasFactCorrMean))
 ```
@@ -270,7 +270,7 @@ resultsComb %>%
 resultsComb %>% 
   filter(N == 100) %>% 
   select(N, factCorrEstMean, cross, sigmaSqu) %>%
-  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  mutate(sigmaSqu = as.factor(paste0("SVNP: \u03c3\u00B2 = ", sigmaSqu))) %>% 
   group_by(#N, 
            cross, sigmaSqu) %>% 
   summarise(meanFactCorrEstMean = mean(factCorrEstMean))
