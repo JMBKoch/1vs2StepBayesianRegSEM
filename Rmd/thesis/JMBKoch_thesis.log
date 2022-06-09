@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  9 JUN 2022 12:07
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  9 JUN 2022 13:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1026,51 +1026,51 @@ File: mt-eur.cfg 2006/07/31 v1.1 microtype config. file: AMS Euler Roman (RS)
 )
 Underfull \vbox (badness 4752) has occurred while \output is active []
 
-[3] [4] [5] [6]
+[3] [4] [5]
+Underfull \vbox (badness 1297) has occurred while \output is active []
+
+[6]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 12.0pt on input line 263.
+(Font)              scaled to size 12.0pt on input line 265.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 8.4pt on input line 263.
+(Font)              scaled to size 8.4pt on input line 265.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 6.0pt on input line 263.
+(Font)              scaled to size 6.0pt on input line 265.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 12.0011pt on input line 263.
+(Font)              scaled to size 12.0011pt on input line 265.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 8.40076pt on input line 263.
+(Font)              scaled to size 8.40076pt on input line 265.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 6.00055pt on input line 263.
+(Font)              scaled to size 6.00055pt on input line 265.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 11.99872pt on input line 263.
+(Font)              scaled to size 11.99872pt on input line 265.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 8.3991pt on input line 263.
+(Font)              scaled to size 8.3991pt on input line 265.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 5.99936pt on input line 263.
-[7] [8] [9]
+(Font)              scaled to size 5.99936pt on input line 265.
+[7] [8] [9] [10]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 291.
+(Font)              scaled to size 10.0pt on input line 293.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 291.
+(Font)              scaled to size 7.0pt on input line 293.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 291.
+(Font)              scaled to size 5.0pt on input line 293.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 291.
+(Font)              scaled to size 10.00092pt on input line 293.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 291.
+(Font)              scaled to size 7.00064pt on input line 293.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 291.
+(Font)              scaled to size 5.00046pt on input line 293.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 291.
+(Font)              scaled to size 9.99893pt on input line 293.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 291.
+(Font)              scaled to size 6.99925pt on input line 293.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 291.
-[10] [11] [12]
+(Font)              scaled to size 4.99947pt on input line 293.
+[11] [12]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 [13] [14] [15]
 File: ~/1vs2StepBayesianRegSEM/Rmd/figures/model.png Graphic file (type bmp)
 <~/1vs2StepBayesianRegSEM/Rmd/figures/model.png>
@@ -1078,12 +1078,12 @@ File: ~/1vs2StepBayesianRegSEM/Rmd/figures/model.png Graphic file (type bmp)
 Underfull \vbox (badness 1067) has occurred while \output is active []
 
 [18]
-Overfull \hbox (32.23949pt too wide) in paragraph at lines 410--444
+Overfull \hbox (32.23949pt too wide) in paragraph at lines 412--446
  [] 
  []
 
 
-Overfull \hbox (36.6395pt too wide) in paragraph at lines 454--483
+Overfull \hbox (36.6395pt too wide) in paragraph at lines 456--485
  [] 
  []
 
@@ -1121,8 +1121,8 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 ] (./JMBKoch_thesis.aux) ) 
 Here is how much of TeX's memory you used:
  23810 strings out of 476180
- 435739 string characters out of 5815297
- 958351 words of memory out of 5000000
+ 435722 string characters out of 5815297
+ 958334 words of memory out of 5000000
  44145 multiletter control sequences out of 15000+600000
  503230 words of font info for 116 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
