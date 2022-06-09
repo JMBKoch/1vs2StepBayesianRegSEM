@@ -376,8 +376,3 @@ papaja::render_appendix('appendixA.Rmd')
 papaja::render_appendix('appendixA.Rmd')
 ```
 
-
-```{r echo = FALSE, results = 'asis', cache = FALSE}
-papaja::render_appendix('appendixA.Rmd')
-```
-
