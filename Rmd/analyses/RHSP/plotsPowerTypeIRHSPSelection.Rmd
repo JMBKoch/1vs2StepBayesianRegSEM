@@ -34,7 +34,7 @@ resultsRHSP %>%
   mutate(N = as.factor(paste0("N = ", N)))
 ```
 
-# Compute Power and Type-I-Errr Rate
+# Compute Power and Type-I-Error Rate
 
 ```{r, echo = F, include = F}
 # For Tresholdvariables: 1 = nonZero, 0 = zero
@@ -85,6 +85,35 @@ TypeIRHSPOne <-
 TypeIRHSPOne
 ```
 
+```{r}
+TypeIRHSPOneLong <- 
+  TypeIRHSPOne %>% 
+  select(typeITres0.15Mean_2, 
+         typeITres0.10Mean_2,
+         typeITres0.05Mean_2,
+         typeITres0Mean_2,
+         typeICI95Mean_2,
+         typeICI90Mean_2,
+         typeICI80Mean_2,
+         typeICI50Mean_2,
+         cross,
+         N) %>% 
+  pivot_longer(cols = typeITres0.15Mean_2:typeICI50Mean_2, 
+               names_to = "Criterion",
+               names_prefix = "_") %>% 
+  mutate( criterion = as.factor(str_replace_all(Criterion, c("typeITres0.15Mean_2" = "Treshold 0.15", 
+                                                             "typeITres0.10Mean_2" = "Treshold 0.10", 
+                                                             "typeITres0.05Mean_2" = "Treshold 0.05", 
+                                                             "typeITres0Mean_2" = "Treshold 0", 
+                                                             "typeICI95Mean_2" = "95% Credible Interval", 
+                                                             "typeICI90Mean_2" = "90% Credible Interval",
+                                                             "typeICI80Mean_2" = "80% Credible Interval",
+                                                             "typeICI50Mean_2" = "50% Credible Interval")))) %>% 
+  select(N, cross, criterion, value)
+```
+
+
+
 ## Power
 
 ```{r, echo = F, include = F}
@@ -113,61 +142,34 @@ PowerRHSPOne <-
 PowerRHSPOne
 ```
 
-
-```{r, include=F, echo=F}
-AvgTypeIAndPowerRHSPOne <- 
-TypeIRHSPOne %>% 
-  left_join(PowerRHSPOne, by = c("N", "cross")) %>% 
-  transmute(avgPower_0.15 = (powerTres0.15Mean_1 + powerTres0.15Mean_6)/2, 
-            avgPower_0.10 = (powerTres0.10Mean_1 + powerTres0.10Mean_6)/2, 
-            avgPower_0.05 = (powerTres0.05Mean_1 + powerTres0.05Mean_6)/2, 
-            avgPower_0 = (powerTres0Mean_1 + powerTres0Mean_6)/2, 
-            avgPower_95 = (powerCI95Mean_1 + powerCI95Mean_6)/2, 
-            avgPower_90 = (powerCI90Mean_1 + powerCI90Mean_6)/2, 
-            avgPower_80 = (powerCI80Mean_1 + powerCI80Mean_6)/2, 
-            avgPower_50 = (powerCI50Mean_1 + powerCI50Mean_6)/2, 
-            avgTypeI_0.15 = (typeITres0.15Mean_2 + typeITres0.15Mean_3 + typeITres0.15Mean_4 + typeITres0.15Mean_5)/ 4,
-            avgTypeI_0.10 = (typeITres0.10Mean_2 + typeITres0.10Mean_3 + typeITres0.10Mean_4 + typeITres0.10Mean_5)/ 4,
-            avgTypeI_0.05 = (typeITres0.05Mean_2 + typeITres0.05Mean_3 + typeITres0.05Mean_4 + typeITres0.05Mean_5)/ 4,
-            avgTypeI_0 = (typeITres0Mean_2 + typeITres0Mean_3 + typeITres0Mean_4 + typeITres0Mean_5)/ 4,
-            avgTypeI_95 = (typeICI95Mean_2 + typeICI95Mean_3 + typeICI95Mean_4 + typeICI95Mean_5) / 4,
-            avgTypeI_90 = (typeICI90Mean_2 + typeICI90Mean_3 + typeICI90Mean_4 + typeICI90Mean_5) / 4,
-            avgTypeI_80 = (typeICI80Mean_2 + typeICI80Mean_3 + typeICI80Mean_4 + typeICI80Mean_5) / 4,
-            avgTypeI_50 = (typeICI50Mean_2 + typeICI50Mean_3 + typeICI50Mean_4 + typeICI50Mean_5) / 4,
-            cross = cross
-         ) %>% 
-  select(N, cross, avgPower_0.15:avgTypeI_50) %>% 
-  ungroup()
-AvgTypeIAndPowerRHSPOne
-```
-
-
-
-```{r, echo=F, include=F}
-AvgTypeIAndPowerLong <- 
-AvgTypeIAndPowerRHSPOne %>% 
-  pivot_longer(cols = avgPower_0.15:avgTypeI_50, 
+```{r}
+PowerRHSPOneLong <- 
+  PowerRHSPOne %>% 
+    select(powerTres0.15Mean_1, 
+           powerTres0.10Mean_1,
+           powerTres0.05Mean_1,
+           powerTres0Mean_1,
+           powerCI95Mean_1,
+           powerCI90Mean_1,
+           powerCI80Mean_1,
+           powerCI50Mean_1,
+           cross,
+           N) %>% 
+  pivot_longer(cols = powerTres0.15Mean_1:powerCI50Mean_1, 
                names_to = "Criterion",
                names_prefix = "_") %>% 
-  mutate(outcome = as.factor(ifelse(str_detect(Criterion, "Power"), "power", "typeI")),
-         criterion = as.factor(str_replace_all(Criterion, c("avgPower_0.15" = "Treshold 0.15", 
-                                                            "avgPower_0.10" = "Treshold 0.10", 
-                                                            "avgPower_0.05" = "Treshold 0.05", 
-                                                            "avgPower_0" = "Treshold 0", 
-                                                            "avgPower_95" = "95% Credible Interval", 
-                                                            "avgPower_90" = "90% Credible Interval",
-                                                            "avgPower_80" = "80% Credible Interval",
-                                                            "avgPower_50" = "50% Credible Interval",
-                                                            "avgTypeI_0.15" = "Treshold 0.15", 
-                                                            "avgTypeI_0.10" = "Treshold 0.10", 
-                                                            "avgTypeI_0.05" = "Treshold 0.05", 
-                                                            "avgTypeI_0" = "Treshold 0", 
-                                                            "avgTypeI_95" = "95% Credible Interval", 
-                                                            "avgTypeI_90" = "90% Credible Interval",
-                                                            "avgTypeI_80" = "80% Credible Interval",
-                                                            "avgTypeI_50" = "50% Credible Interval" )))) %>% 
-  select(N, cross, outcome, criterion, value)
+  mutate( criterion = as.factor(str_replace_all(Criterion, c("powerTres0.15Mean_1" = "Treshold 0.15", 
+                                                            "powerTres0.10Mean_1" = "Treshold 0.10", 
+                                                            "powerTres0.05Mean_1" = "Treshold 0.05", 
+                                                            "powerTres0Mean_1" = "Treshold 0", 
+                                                            "powerCI95Mean_1" = "95% Credible Interval", 
+                                                            "powerCI90Mean_1" = "90% Credible Interval",
+                                                            "powerCI80Mean_1" = "80% Credible Interval",
+                                                            "powerCI50Mean_1" = "50% Credible Interval")))) %>% 
+  select(N, cross, criterion, value)
 ```
+
+
 
 
 # Plots
@@ -176,8 +178,7 @@ AvgTypeIAndPowerRHSPOne %>%
 
 ```{r}
 PowerRHSPOne100 <- 
-AvgTypeIAndPowerLong %>% 
-  filter(outcome == "power") %>% 
+PowerRHSPOneLong %>% 
   group_by(N, cross, criterion) %>% 
   summarise(value = mean(value)) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion))+
@@ -200,7 +201,7 @@ PowerRHSPOne100
 # save plot with title
 PowerRHSPOne100 <- 
 PowerRHSPOne100 + 
-  labs(title = "Mean Power RHSP")
+  labs(title = "Power RHSP")
 readr::write_rds(PowerRHSPOne100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/PowerRHSPOne100.Rds")
 ```
 
@@ -233,7 +234,7 @@ TypeIRHSPAllOne100
 # save plot with title
 TypeIRHSPAllOne100 <- 
 TypeIRHSPAllOne100 + 
-  labs(title = "Mean Type-I-Error Rate RHSP")
+  labs(title = "Type-I-Error Rate RHSP")
 readr::write_rds(TypeIRHSPAllOne100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/TypeIRHSPAllOne100.Rds")
 ```
  
