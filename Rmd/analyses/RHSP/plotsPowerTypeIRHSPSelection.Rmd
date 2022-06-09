@@ -211,7 +211,7 @@ readr::write_rds(PowerRHSPOne100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/P
 upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
 TypeIRHSPAllOne100 <- 
 AvgTypeIAndPowerLong %>% 
-  filter(outcome == "power") %>% 
+  filter(outcome == "typeI") %>% 
   group_by(cross, N, criterion) %>% 
   summarise(value = mean(value)) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
