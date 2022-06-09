@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  9 JUN 2022 16:57
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  9 JUN 2022 17:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1098,10 +1098,13 @@ e pdf)
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf>
-[24] [25] [26]
-Underfull \vbox (badness 2384) has occurred while \output is active []
+[24] [25] [26] [27]
+Underfull \vbox (badness 4752) has occurred while \output is active []
 
-[27] [28] [29] [30] [31]
+[28] [29]
+Underfull \vbox (badness 4752) has occurred while \output is active []
+
+[30] [31]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [32
@@ -1120,10 +1123,10 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ] (./JMBKoch_thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 23810 strings out of 476180
- 435719 string characters out of 5815297
- 962328 words of memory out of 5000000
- 44145 multiletter control sequences out of 15000+600000
+ 23808 strings out of 476180
+ 435679 string characters out of 5815297
+ 962270 words of memory out of 5000000
+ 44143 multiletter control sequences out of 15000+600000
  503230 words of font info for 116 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  86i,12n,121p,2253b,562s stack positions out of 5000i,500n,10000p,200000b,80000s
