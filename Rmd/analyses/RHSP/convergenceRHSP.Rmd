@@ -87,10 +87,18 @@ totalSumDiv / (2000*nrow(convRHSP)/2)
 In total, there are a gazillion divergent transition, but only a fraction of all transitions were divergent. Let's start by computing the percentage per individual replication. And then we can check how big that is on average per set of conditions.
 
 ```{r}
+convRHSP %>% 
+  filter(parameter == "Rhat") %>%
+  select(sumDiv) %>% 
+  max()
+```
+
+
+```{r}
 meanPropDiv <- 
 convRHSP %>% 
   filter(parameter == "Rhat") %>% # doesn't matter which you pick here
-  mutate(propDiv = sumDiv/ samplePars$nSampling) %>% 
+  mutate(propDiv = sumDiv/ (samplePars$nSampling + samplePars$nWarmup)) %>% 
   group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
   summarise(meanPropDiv = mean(propDiv))
 meanPropDiv
@@ -104,7 +112,7 @@ Let's find the indices of the runs where the divergent transitions exceeded 5%.
 indicesDIVHigher5Perc <- 
 convRHSP %>% 
   filter(parameter == "Rhat") %>% # doesn't matter which you pick here
-  mutate(propDIV = sumDiv/ samplePars$nSampling) %>% 
+  mutate(propDIV = sumDiv/(samplePars$nSampling + samplePars$nWarmup)) %>% 
   filter(propDIV >= convCriteria$strict$maxPropDIV
 ) %>% 
   select(pos) %>% 
@@ -112,7 +120,7 @@ convRHSP %>%
 length(indicesDIVHigher5Perc)
 ```
 
-This would remove 4474 rows.
+This would remove 2770 rows.
 
 ## The conditions under which this happens (on average!!!, FF met Sara checken dit) are:
 
@@ -120,9 +128,10 @@ This would remove 4474 rows.
 meanPropDIVlarger5 <- 
 convRHSP %>% 
   filter(parameter == "Rhat") %>% # doesn't matter which you pick here
-  mutate(propDiv = sumDiv/ samplePars$nSampling) %>% 
+  mutate(propDiv = sumDiv / (samplePars$nSampling + samplePars$nWarmup)) %>% 
   group_by(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>%
-  summarise(meanPropDiv = round(mean(propDiv), 2)) %>% 
+  summarise(meanPropDiv = round(mean(propDiv), 2),
+            maxPropDiv = max(propDiv)) %>% 
   filter(meanPropDiv > .05) %>% 
   mutate(scaleGlobal = round(scaleGlobal, 1),
          scaleLocal = round(scaleLocal, 1),
@@ -137,7 +146,8 @@ colnames(meanPropDIVlarger5)[4] <- "$df_{local}$"
 colnames(meanPropDIVlarger5)[5] <- "$scale_{slab}$"
 colnames(meanPropDIVlarger5)[6] <- "$df_{slab}$"
 colnames(meanPropDIVlarger5)[8] <- "Size $\\lambda_{c1 , 6}$"
-colnames(meanPropDIVlarger5)[9] <- "Mean Prop. Div."
+colnames(meanPropDIVlarger5)[9] <- "Mean"
+colnames(meanPropDIVlarger5)[10] <- "Max"
 
 meanPropDIVlarger5
 ```
