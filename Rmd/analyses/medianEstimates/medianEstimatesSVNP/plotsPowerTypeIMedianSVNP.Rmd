@@ -1,0 +1,268 @@
+---
+title: "Plots Type I & Power SVNP"
+author: "Koch, J.M.B. (Michael)"
+date: '2022-05-02'
+output: html_document
+---
+
+```{r, echo=F}
+knitr::opts_chunk$set(echo = F, message = F)
+```
+
+# Step1: Prepearations
+
+```{r, message = F, warning = F}
+# load packages outside of simulation
+library(papaja)
+library(patchwork)
+#source required functions & parameters
+source('~/OneDrive/ms/thesis/R/functions.R')
+source('~/OneDrive/ms/thesis/R/parameters.R')
+```
+
+```{r}
+# load results
+resultsSVNP <- read.csv("~/1vs2StepBayesianRegSEM/output/resultsSVNP.csv", 
+                        sep = " ", 
+                        header = TRUE)
+convSVNP <- read.csv("~/1vs2StepBayesianRegSEM/output/convSVNP.csv",
+                     sep = " ",
+                     header = TRUE)
+```
+
+## Post-process
+
+```{r}
+resultsSVNP <- 
+  resultsSVNP %>% 
+  arrange(sigma, N, cross, iteration) %>% 
+  mutate(sigmaSqu = sigma^2,
+         biasCrossMed_1 = abs(crossEstMed_1 - cross),
+         biasCrossMed_2 = abs(crossEstMed_2 - 0),
+         biasCrossMed_3 = abs(crossEstMed_3 - 0),
+         biasCrossMed_4 = abs(crossEstMed_4 - 0),
+         biasCrossMed_5 = abs(crossEstMed_5 - 0),
+         biasCrossMed_6 = abs(crossEstMed_6 - cross) 
+) 
+  
+```
+
+# Step 2: Compute Type I error rate and Power
+
+## Type I error rate
+
+```{r, echo = F, include = F}
+# For Tresholdvariables: 1 = nonZero, 0 = zero
+# For CI variables: 0 = nonZero, 1 = zero
+TypeISVNP <- 
+ resultsSVNP %>% 
+  select(
+        isZeroTres0.10Med_1:isZero50CI_6,
+        cross,
+        sigmaSqu,
+        N, 
+        pos,
+        iteration,
+        ) %>% 
+  group_by(N, sigmaSqu, cross) %>% 
+  summarise(typeITres0.15Med_2 = mean(isZeroTres0.15Med_2),
+            typeITres0.15Med_3 = mean(isZeroTres0.15Med_3),
+            typeITres0.15Med_4 = mean(isZeroTres0.15Med_4),
+            typeITres0.15Med_5 = mean(isZeroTres0.15Med_5),
+            typeITres0.10Med_2 = mean(isZeroTres0.10Med_2),
+            typeITres0.10Med_3 = mean(isZeroTres0.10Med_3),
+            typeITres0.10Med_4 = mean(isZeroTres0.10Med_4),
+            typeITres0.10Med_5 = mean(isZeroTres0.10Med_5),
+            typeITres0.05Med_2 = mean(isZeroTres0.05Med_2),
+            typeITres0.05Med_3 = mean(isZeroTres0.05Med_3),
+            typeITres0.05Med_4 = mean(isZeroTres0.05Med_4),
+            typeITres0.05Med_5 = mean(isZeroTres0.05Med_5),
+            typeITres0Med_5 = mean(isZeroTres0Med_5),
+            typeITres0Med_2 = mean(isZeroTres0Med_2),
+            typeITres0Med_3 = mean(isZeroTres0Med_3),
+            typeITres0Med_4 = mean(isZeroTres0Med_4),
+            typeITres0Med_5 = mean(isZeroTres0Med_5),
+            typeICI95Med_2 = mean(isZero95CI_2 == 0), 
+            typeICI95Med_3 = mean(isZero95CI_3 == 0),
+            typeICI95Med_4 = mean(isZero95CI_4 == 0),
+            typeICI95Med_5 = mean(isZero95CI_5 == 0),
+            typeICI90Med_2 = mean(isZero90CI_2 == 0), 
+            typeICI90Med_3 = mean(isZero90CI_3 == 0),
+            typeICI90Med_4 = mean(isZero90CI_4 == 0),
+            typeICI90Med_5 = mean(isZero90CI_5 == 0),
+            typeICI80Med_2 = mean(isZero80CI_2 == 0), 
+            typeICI80Med_3 = mean(isZero80CI_3 == 0),
+            typeICI80Med_4 = mean(isZero80CI_4 == 0),
+            typeICI80Med_5 = mean(isZero80CI_5 == 0),
+            typeICI50Med_2 = mean(isZero50CI_2 == 0), 
+            typeICI50Med_3 = mean(isZero50CI_3 == 0),
+            typeICI50Med_4 = mean(isZero50CI_4 == 0),
+            typeICI50Med_5 = mean(isZero50CI_5 == 0),
+        N = mean(N),
+        cross = mean(cross),
+        sigmaSqu = mean(sigmaSqu))
+TypeISVNP
+```
+
+## Power
+
+```{r, echo = F, include = F}
+# For Tresholdvariables: 1 = nonZero, 0 = zero
+# For CI variables: 0 = nonZero, 1 = zero
+PowerSVNP <- 
+ resultsSVNP %>% 
+  group_by(N, sigmaSqu, cross) %>% 
+  summarise(powerTres0.15Med_1 = mean(isZeroTres0.15Med_1), 
+            powerTres0.15Med_6 = mean(isZeroTres0.15Med_6), 
+            powerTres0.10Med_1 = mean(isZeroTres0.10Med_1), 
+            powerTres0.10Med_6 = mean(isZeroTres0.10Med_6), 
+            powerTres0.05Med_1 = mean(isZeroTres0.05Med_1), 
+            powerTres0.05Med_6 = mean(isZeroTres0.05Med_6),
+            powerTres0Med_1 = mean(isZeroTres0Med_1), 
+            powerTres0Med_6 = mean(isZeroTres0Med_6),
+            powerCI95Med_1 = mean(isZero95CI_1 == 0),
+            powerCI95Med_6 = mean(isZero95CI_6 == 0),
+            powerCI90Med_1 = mean(isZero90CI_1 == 0),
+            powerCI90Med_6 = mean(isZero90CI_6 == 0),
+            powerCI80Med_1 = mean(isZero80CI_1 == 0),
+            powerCI80Med_6 = mean(isZero80CI_6 == 0),
+            powerCI50Med_1 = mean(isZero50CI_1 == 0),
+            powerCI50Med_6 = mean(isZero50CI_6 == 0),
+        N = mean(N),
+        cross = mean(cross),
+        sigmaSqu = mean(sigmaSqu) 
+  )
+PowerSVNP
+```
+
+
+No recode to long to allow making nice plots inspired by Zhang et al.; We focus on the first respecting cross-loading of a set here.
+
+```{r}
+PowerLong <- 
+PowerSVNP %>% 
+  select(powerTres0.15Med_1, 
+         powerTres0.10Med_1,
+         powerTres0.05Med_1,
+         powerTres0Med_1,
+         powerCI95Med_1,
+         powerCI90Med_1,
+         powerCI80Med_1,
+         powerCI50Med_1,
+         sigmaSqu,
+         cross,
+         N) %>% 
+  pivot_longer(cols = powerTres0.15Med_1:powerCI50Med_1, 
+               names_to = "Criterion",
+               names_prefix = "_") %>% 
+  mutate( criterion = as.factor(str_replace_all(Criterion, c("powerTres0.15Med_1" = "Treshold 0.15", 
+                                                            "powerTres0.10Med_1" = "Treshold 0.10", 
+                                                            "powerTres0.05Med_1" = "Treshold 0.05", 
+                                                            "powerTres0Med_1" = "Treshold 0", 
+                                                            "powerCI95Med_1" = "95% Credible Interval", 
+                                                            "powerCI90Med_1" = "90% Credible Interval",
+                                                            "powerCI80Med_1" = "80% Credible Interval",
+                                                            "powerCI50Med_1" = "50% Credible Interval"))),
+         criterion =  factor(criterion, levels = c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0"))) %>% 
+  select(N, sigmaSqu, cross, criterion, value)
+PowerLong
+```
+
+```{r}
+levels(PowerLong$criterion) <- c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0")
+```
+
+```{r}
+TypeILong <- 
+TypeISVNP %>% 
+  select(typeITres0.15Med_2, 
+         typeITres0.10Med_2,
+         typeITres0.05Med_2,
+         typeITres0Med_2,
+         typeICI95Med_2,
+         typeICI90Med_2,
+         typeICI80Med_2,
+         typeICI50Med_2,
+         sigmaSqu,
+         cross,
+         N) %>% 
+  pivot_longer(cols = typeITres0.15Med_2:typeICI50Med_2, 
+               names_to = "Criterion",
+               names_prefix = "_") %>% 
+  mutate( criterion = as.factor(str_replace_all(Criterion, c("typeITres0.15Med_2" = "Treshold 0.15", 
+                                                             "typeITres0.10Med_2" = "Treshold 0.10", 
+                                                             "typeITres0.05Med_2" = "Treshold 0.05", 
+                                                             "typeITres0Med_2" = "Treshold 0", 
+                                                             "typeICI95Med_2" = "95% Credible Interval", 
+                                                             "typeICI90Med_2" = "90% Credible Interval",
+                                                             "typeICI80Med_2" = "80% Credible Interval",
+                                                             "typeICI50Med_2" = "50% Credible Interval"))),
+           criterion =  factor(criterion, levels = c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0"))) %>% 
+  select(N, sigmaSqu, cross, criterion, value)
+TypeILong
+```
+```{r}
+levels(TypeILong$criterion) <- c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0")
+```
+
+# Plots
+
+## Power: Replicating Figure 3 Zhang et al. (p. 6)
+
+
+```{r}
+Power <- 
+PowerLong %>% 
+  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu)),
+         N = as.factor(paste0("N = ", N))) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion))+
+  geom_line()+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  scale_linetype_manual("criterion", values = c("solid", "solid", "solid", "solid", "twodash", "twodash", "twodash", "twodash"))+
+  scale_color_manual("criterion", values  = c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF", "#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"))+
+  facet_grid(cols = vars(sigmaSqu),
+             rows = vars(N))+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+Power
+```
+
+## Type-I Error Rate: Replicating Figure 4 Zhang et al. (p. 7)
+
+
+```{r}
+# compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
+upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
+TypeI <- 
+TypeILong %>% 
+  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu)),
+         N = as.factor(paste0("N = ", N))) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
+  geom_line()+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Type-I Error Rate",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+  scale_linetype_manual("criterion", values = c("solid", "solid", "solid", "solid", "twodash", "twodash", "twodash", "twodash"))+
+  scale_color_manual("criterion", values  = c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF", "#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"))+
+  facet_grid(cols = vars(sigmaSqu),
+             rows = vars(N))+
+  theme_apa( )+
+  theme(panel.border = element_rect(fill = NA))
+TypeI
+```
+
+ 
+ 
+ 
