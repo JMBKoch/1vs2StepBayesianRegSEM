@@ -1,0 +1,246 @@
+---
+title: "Plots Power & Type I Med Estimates RHSP"
+author: "Koch, J.M.B. (Michael)"
+date: '2022-05-02'
+output: html_document
+---
+
+
+```{r, echo=F}
+knitr::opts_chunk$set(echo = F, message = F)
+```
+
+
+```{r, message = F, warning = F}
+# load packages outside of simulation
+library(papaja)
+library(patchwork)
+#source required functions & parameters
+source('~/OneDrive/ms/thesis/R/functions.R')
+source('~/OneDrive/ms/thesis/R/parameters.R')
+```
+
+```{r}
+# load results  (already filtered and post-processed)
+resultsRHSP <- readRDS("~/1vs2StepBayesianRegSEM/output/resultsRHSPFilter.Rds")
+nrow(resultsRHSP)
+```
+
+```{r}
+# make selection
+resultsRHSPOne <- 
+resultsRHSP %>% 
+  filter(scaleGlobal == 1 & dfGlobal == 1 & scaleLocal == 1 & dfLocal == 1 & scaleSlab == 1 & nu == 1) %>% 
+  mutate(N = as.factor(paste0("N = ", N)))
+```
+
+# Compute Power and Type-I-Error Rate
+
+```{r, echo = F, include = F}
+# For Tresholdvariables: 1 = nonZero, 0 = zero
+# For CI variables: 0 = nonZero, 1 = zero
+TypeIRHSPOne <- 
+ resultsRHSPOne %>% 
+  select(
+        isZeroTres0.10Med_1:isZero50CI_6,
+        cross,
+        N, 
+        pos,
+        iteration,
+        ) %>% 
+  group_by(N,  cross) %>% 
+  summarise(typeITres0.15Med_2 = mean(isZeroTres0.15Med_2),
+            typeITres0.15Med_3 = mean(isZeroTres0.15Med_3),
+            typeITres0.15Med_4 = mean(isZeroTres0.15Med_4),
+            typeITres0.15Med_5 = mean(isZeroTres0.15Med_5),
+            typeITres0.10Med_2 = mean(isZeroTres0.10Med_2),
+            typeITres0.10Med_3 = mean(isZeroTres0.10Med_3),
+            typeITres0.10Med_4 = mean(isZeroTres0.10Med_4),
+            typeITres0.10Med_5 = mean(isZeroTres0.10Med_5),
+            typeITres0.05Med_2 = mean(isZeroTres0.05Med_2),
+            typeITres0.05Med_3 = mean(isZeroTres0.05Med_3),
+            typeITres0.05Med_4 = mean(isZeroTres0.05Med_4),
+            typeITres0.05Med_5 = mean(isZeroTres0.05Med_5),
+            typeITres0Med_5 = mean(isZeroTres0Med_5),
+            typeITres0Med_2 = mean(isZeroTres0Med_2),
+            typeITres0Med_3 = mean(isZeroTres0Med_3),
+            typeITres0Med_4 = mean(isZeroTres0Med_4),
+            typeITres0Med_5 = mean(isZeroTres0Med_5),
+            typeICI95Med_2 = mean(isZero95CI_2 == 0), 
+            typeICI95Med_3 = mean(isZero95CI_3 == 0),
+            typeICI95Med_4 = mean(isZero95CI_4 == 0),
+            typeICI95Med_5 = mean(isZero95CI_5 == 0),
+            typeICI90Med_2 = mean(isZero90CI_2 == 0), 
+            typeICI90Med_3 = mean(isZero90CI_3 == 0),
+            typeICI90Med_4 = mean(isZero90CI_4 == 0),
+            typeICI90Med_5 = mean(isZero90CI_5 == 0),
+            typeICI80Med_2 = mean(isZero80CI_2 == 0), 
+            typeICI80Med_3 = mean(isZero80CI_3 == 0),
+            typeICI80Med_4 = mean(isZero80CI_4 == 0),
+            typeICI80Med_5 = mean(isZero80CI_5 == 0),
+            typeICI50Med_2 = mean(isZero50CI_2 == 0), 
+            typeICI50Med_3 = mean(isZero50CI_3 == 0),
+            typeICI50Med_4 = mean(isZero50CI_4 == 0),
+            typeICI50Med_5 = mean(isZero50CI_5 == 0))
+TypeIRHSPOne
+```
+
+```{r}
+TypeIRHSPOneLong <- 
+  TypeIRHSPOne %>% 
+  select(typeITres0.15Med_2, 
+         typeITres0.10Med_2,
+         typeITres0.05Med_2,
+         typeITres0Med_2,
+         typeICI95Med_2,
+         typeICI90Med_2,
+         typeICI80Med_2,
+         typeICI50Med_2,
+         cross,
+         N) %>% 
+  pivot_longer(cols = typeITres0.15Med_2:typeICI50Med_2, 
+               names_to = "Criterion",
+               names_prefix = "_") %>% 
+  mutate( criterion = as.factor(str_replace_all(Criterion, c("typeITres0.15Med_2" = "Treshold 0.15", 
+                                                             "typeITres0.10Med_2" = "Treshold 0.10", 
+                                                             "typeITres0.05Med_2" = "Treshold 0.05", 
+                                                             "typeITres0Med_2" = "Treshold 0", 
+                                                             "typeICI95Med_2" = "95% Credible Interval", 
+                                                             "typeICI90Med_2" = "90% Credible Interval",
+                                                             "typeICI80Med_2" = "80% Credible Interval",
+                                                             "typeICI50Med_2" = "50% Credible Interval"))),
+         criterion =  factor(criterion, levels = c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0"))) %>% 
+  select(N, cross, criterion, value)
+```
+
+
+
+
+
+## Power
+
+```{r, echo = F, include = F}
+# For Tresholdvariables: 1 = nonZero, 0 = zero
+# For CI variables: 0 = nonZero, 1 = zero
+PowerRHSPOne <- 
+ resultsRHSPOne %>% 
+  group_by(N,  cross) %>% 
+  summarise(powerTres0.15Med_1 = mean(isZeroTres0.15Med_1), 
+            powerTres0.15Med_6 = mean(isZeroTres0.15Med_6), 
+            powerTres0.10Med_1 = mean(isZeroTres0.10Med_1), 
+            powerTres0.10Med_6 = mean(isZeroTres0.10Med_6), 
+            powerTres0.05Med_1 = mean(isZeroTres0.05Med_1), 
+            powerTres0.05Med_6 = mean(isZeroTres0.05Med_6),
+            powerTres0Med_1 = mean(isZeroTres0Med_1), 
+            powerTres0Med_6 = mean(isZeroTres0Med_6),
+            powerCI95Med_1 = mean(isZero95CI_1 == 0),
+            powerCI95Med_6 = mean(isZero95CI_6 == 0),
+            powerCI90Med_1 = mean(isZero90CI_1 == 0),
+            powerCI90Med_6 = mean(isZero90CI_6 == 0),
+            powerCI80Med_1 = mean(isZero80CI_1 == 0),
+            powerCI80Med_6 = mean(isZero80CI_6 == 0),
+            powerCI50Med_1 = mean(isZero50CI_1 == 0),
+            powerCI50Med_6 = mean(isZero50CI_6 == 0)
+  )
+PowerRHSPOne
+```
+
+```{r}
+PowerRHSPOneLong <- 
+  PowerRHSPOne %>% 
+    select(powerTres0.15Med_1, 
+           powerTres0.10Med_1,
+           powerTres0.05Med_1,
+           powerTres0Med_1,
+           powerCI95Med_1,
+           powerCI90Med_1,
+           powerCI80Med_1,
+           powerCI50Med_1,
+           cross,
+           N) %>% 
+  pivot_longer(cols = powerTres0.15Med_1:powerCI50Med_1, 
+               names_to = "Criterion",
+               names_prefix = "_") %>% 
+  mutate( criterion = as.factor(str_replace_all(Criterion, c("powerTres0.15Med_1" = "Treshold 0.15", 
+                                                            "powerTres0.10Med_1" = "Treshold 0.10", 
+                                                            "powerTres0.05Med_1" = "Treshold 0.05", 
+                                                            "powerTres0Med_1" = "Treshold 0", 
+                                                            "powerCI95Med_1" = "95% Credible Interval", 
+                                                            "powerCI90Med_1" = "90% Credible Interval",
+                                                            "powerCI80Med_1" = "80% Credible Interval",
+                                                            "powerCI50Med_1" = "50% Credible Interval"))),
+            criterion =  factor(criterion, levels = c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0"))) %>% 
+  select(N, cross, criterion, value)
+```
+
+
+# Plots
+
+## Power: Replicating Figure 3 Zhang et al. (p. 6)
+
+```{r}
+PowerRHSPOne100 <- 
+PowerRHSPOneLong %>% 
+  group_by(N, cross, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion))+
+  geom_line(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion))+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+      scale_linetype_manual("criterion", values = c("solid", "solid", "solid", "solid", "twodash", "twodash", "twodash", "twodash"))+
+  scale_color_manual("criterion", values  = c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF", "#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"))+
+  facet_wrap(~N)+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+PowerRHSPOne100
+```
+
+```{r, fig.height=4}
+# save plot with title
+PowerRHSPOne100 <- 
+PowerRHSPOne100 + 
+  labs(title = "Power RHSP")
+readr::write_rds(PowerRHSPOne100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/PowerRHSPOne100.Rds")
+```
+
+## Type-I Error Rate: Replicating Figure 4 Zhang et al. (p. 7)
+
+```{r}
+# compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
+upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
+TypeIRHSPAllOne100 <- 
+TypeIRHSPOneLong %>% 
+  group_by(cross, N, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
+  geom_line()+
+  geom_point(shape = 4, alpha = .8)+
+  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Type-I Error Rate",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion"
+       )+
+    scale_linetype_manual("criterion", values = c("solid", "solid", "solid", "solid", "twodash", "twodash", "twodash", "twodash"))+
+  scale_color_manual("criterion", values  = c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF", "#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"))+
+  facet_wrap(~N)+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+TypeIRHSPAllOne100
+```
+```{r, fig.height=4}
+# save plot with title
+TypeIRHSPAllOne100 <- 
+TypeIRHSPAllOne100 + 
+  labs(title = "Type-I-Error Rate RHSP")
+readr::write_rds(TypeIRHSPAllOne100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/TypeIRHSPAllOne100.Rds")
+```
+ 
+

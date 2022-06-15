@@ -1,0 +1,514 @@
+---
+title: "Plots Bias Med Estimates RHSP"
+author: "Koch, J.M.B. (Michael)"
+date: '2022-05-02'
+output: html_document
+---
+
+```{r, echo=F}
+knitr::opts_chunk$set(echo = F, message = F)
+```
+
+
+```{r, message = F, warning = F}
+# load packages outside of simulation
+library(papaja)
+library(patchwork)
+#source required functions & parameters
+source('~/OneDrive/ms/thesis/R/functions.R')
+source('~/OneDrive/ms/thesis/R/parameters.R')
+```
+
+```{r}
+# load results  (already filtered and post-processed)
+resultsRHSP <- readRDS("~/1vs2StepBayesianRegSEM/output/resultsRHSPFilter.Rds")
+nrow(resultsRHSP)
+```
+
+```{r}
+resultsRHSPOne <- 
+resultsRHSP %>% 
+  filter(scaleGlobal == 1 & dfGlobal == 1 & scaleLocal == 1 & dfLocal == 1 & scaleSlab == 1 & nu == 1) %>% 
+  mutate(N = as.factor(paste0("N = ", N)))
+```
+
+# Plots
+
+### Cross-Loadings
+```{r}
+crossLoading1 <- 
+resultsRHSPOne %>% 
+  select(N, biasCrossMed_1, cross) %>%
+  group_by(N, 
+    cross) %>% 
+  summarise(MedBiasCrossMed_1 = mean(biasCrossMed_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasCrossMed_1))+
+  geom_point()+
+  facet_wrap(~N)+
+  geom_line(aes(group = 1))+
+  labs(x = "Size Cross-Loading",
+      y =  "Med Absolute Bias",
+      title = "Cross-Loading 1")+
+  theme_apa()+
+  ylim(0, 0.5)
+crossLoading1
+```
+
+```{r}
+crossLoading2 <- 
+resultsRHSPOne %>% 
+  select(N, biasCrossMed_2, cross) %>%
+   
+  group_by(N, 
+    cross) %>% 
+  summarise(MedBiasCrossMed_2 = mean(biasCrossMed_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasCrossMed_2))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y = "Med Absolute Bias",
+      title = "Cross-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+crossLoading2
+```
+
+
+```{r}
+crossLoading3 <- 
+resultsRHSPOne %>% 
+  select(N, biasCrossMed_3, cross) %>%
+   
+  group_by(N, 
+    cross) %>% 
+  summarise(MedBiasCrossMed_3 = mean(biasCrossMed_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasCrossMed_3))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y = "Med Absolute Bias",
+      title = "Cross-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+crossLoading3
+```
+
+```{r}
+crossLoading4 <- 
+resultsRHSPOne %>% 
+  select(N, biasCrossMed_4, cross) %>%
+   
+  group_by(N, 
+    cross) %>% 
+  summarise(MedBiasCrossMed_4 = mean(biasCrossMed_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasCrossMed_4))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+       y =  "Med Absolute Bias",
+      title = "Cross-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+crossLoading4
+```
+
+```{r}
+crossLoading5 <- 
+resultsRHSPOne %>% 
+  select(N, biasCrossMed_5, cross) %>%
+   
+  group_by(N, 
+    cross) %>% 
+  summarise(MedBiasCrossMed_5 = mean(biasCrossMed_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasCrossMed_5))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+       y = "Med Absolute Bias",
+      title = "Cross-Loading 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+crossLoading5
+```
+
+```{r}
+crossLoading6 <- 
+resultsRHSPOne %>% 
+  select(N, biasCrossMed_6, cross) %>%
+   
+  group_by(N, 
+    cross) %>% 
+  summarise(MedBiasCrossMed_6 = mean(biasCrossMed_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasCrossMed_6))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(
+        x = "Size Cross-Loading",
+       y =  "Med Absolute Bias",
+      title = "Cross-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+crossLoading6
+```
+
+
+
+
+### Factor Correlation
+
+
+```{r}
+factCorr <- 
+resultsRHSPOne %>% 
+  select(N, biasFactCorrMed, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiasFactCorrMed = mean(biasFactCorrMed)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasFactCorrMed))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+       y = "Med Absolute Bias",
+      title = "Factor Correlation")+
+  ylim(0, 0.5)+
+  theme_apa()
+factCorr
+```
+
+
+### Main-Loadings
+
+```{r}
+mainLoading1 <- 
+resultsRHSPOne %>% 
+  select(N, biasMainMed_1, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiasMainMed_1 = mean(biasMainMed_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasMainMed_1))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+       y = "Med Absolute Bias",
+      title = "Main-Loading 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+mainLoading1
+```
+
+
+```{r}
+mainLoading2 <- 
+resultsRHSPOne %>% 
+  select(N, biasMainMed_2, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiasMainMed_2 = mean(biasMainMed_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasMainMed_2))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y =  "Med Absolute Bias",
+      title = " Main-Loading 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+mainLoading2
+```
+
+```{r}
+mainLoading3 <- 
+resultsRHSPOne %>% 
+  select(N, biasMainMed_3, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiasMainMed_3 = mean(biasMainMed_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasMainMed_3))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y = "Med Absolute Bias",
+      title = "Main-Loading 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+mainLoading3
+```
+
+
+```{r}
+mainLoading4 <- 
+resultsRHSPOne %>% 
+  select(N, biasMainMed_4, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiasMainMed_4 = mean(biasMainMed_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasMainMed_4))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+       y =  "Med Absolute Bias",
+      title = "Main-Loading 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+mainLoading4
+```
+
+```{r}
+mainLoading5 <- 
+resultsRHSPOne %>% 
+  select(N, biasMainMed_5, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiasMainMed_5 = mean(biasMainMed_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasMainMed_5))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+       y = "Med Absolute Bias",
+      title = " Main-Loading 5")+
+    ylim(0, 0.5)+
+  theme_apa()
+mainLoading5
+```
+
+```{r}
+mainLoading6 <- 
+resultsRHSPOne %>% 
+  select(N, biasMainMed_6, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiasMainMed_6 = mean(biasMainMed_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiasMainMed_6))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y = "Med Absolute Bias",
+      title = "Main-Loading 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+mainLoading6
+```
+
+
+
+### Residual Variances
+
+
+```{r}
+theta1 <- 
+resultsRHSPOne %>% 
+  select(N, biasThetaMed_1, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiastheta1 = mean(biasThetaMed_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiastheta1))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y = "Med Absolute Bias",
+      title = "Residual Variance 1")+
+  ylim(0, 0.5)+
+  theme_apa()
+theta1
+```
+
+```{r}
+theta2 <- 
+resultsRHSPOne %>% 
+  select(N, biasThetaMed_2, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiastheta2 = mean(biasThetaMed_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiastheta2))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y = "Med Absolute Bias",
+      title = "Residual Variance 2")+
+  ylim(0, 0.5)+
+  theme_apa()
+theta2
+```
+
+```{r}
+theta3 <- 
+resultsRHSPOne %>% 
+  select(N, biasThetaMed_3, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiastheta3 = mean(biasThetaMed_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiastheta3))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y = "Med Absolute Bias",
+      title = "Residual Variance 3")+
+  ylim(0, 0.5)+
+  theme_apa()
+theta3
+```
+
+```{r}
+theta4 <- 
+resultsRHSPOne %>% 
+  select(N, biasThetaMed_4, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiastheta4 = mean(biasThetaMed_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiastheta4))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y = "Med Absolute Bias",
+      title = "Residual Variance 4")+
+  ylim(0, 0.5)+
+  theme_apa()
+theta4
+```
+
+```{r}
+theta5 <- 
+resultsRHSPOne %>% 
+  select(N, biasThetaMed_5, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiastheta5 = mean(biasThetaMed_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiastheta5))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y = "Med Absolute Bias",
+      title = "Residual Variance 5")+
+  ylim(0, 0.5)+
+  theme_apa()
+theta5
+```
+
+
+```{r}
+theta6 <- 
+resultsRHSPOne %>% 
+  select(N, biasThetaMed_6, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(MedBiastheta6 = mean(biasThetaMed_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = MedBiastheta6))+
+  geom_point()+
+  geom_line(aes(group = 1))+
+  facet_wrap(~N)+
+  labs(x = "Size Cross-Loading",
+      y = "Med Absolute Bias",
+      title = "Residual Variance 6")+
+  ylim(0, 0.5)+
+  theme_apa()
+theta6
+```
+
+# Making sense of the plots
+
+###  zero cross-loadings
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, biasCrossMed_2, cross) %>%
+  group_by(N,  cross) %>% 
+  summarise(MedBiasCrossMed_2 = mean(biasCrossMed_2))
+```
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, crossEstMed_2, cross) %>%
+  group_by(N,  cross) %>% 
+  summarise(MedCrossEstMed_2 = mean(crossEstMed_2))
+```
+
+```{r}
+resultsRHSPOne %>% 
+  filter(cross == 0.5) %>% 
+  ggplot(mapping = aes(x = crossEstMed_2))+
+  geom_histogram()
+```
+
+
+
+### non-zero cross-loadings
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, biasCrossMed_1, cross) %>%
+  group_by(N, cross) %>% 
+  summarise(MedBiasCrossMed_1 = mean(biasCrossMed_1)) 
+```
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, crossEstMed_1, cross) %>%
+  group_by(N, cross) %>% 
+  summarise(MedCrossEstMed_1 = mean(crossEstMed_1))
+```
+
+### High-Bias Main Loadings
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, biasMainMed_3, cross) %>%
+  group_by(N, cross) %>% 
+  summarise(MedBiasMainMed_3 = mean(biasMainMed_3))
+```
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, mainEstMed_3, cross) %>%
+  group_by(N,cross) %>% 
+  summarise(MedMainEstMed_3 = mean(mainEstMed_3))
+```
+
+### Factor Corr
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, biasFactCorrMed, cross) %>%
+  group_by(N, cross) %>% 
+  summarise(MedBiasFactCorrEstMed = mean(biasFactCorrMed))
+```
+
+```{r}
+resultsRHSPOne %>% 
+  select(N, factCorrEstMed, cross) %>%
+  group_by(N, 
+           cross) %>% 
+  summarise(MedFactCorrEstMed = mean(factCorrEstMed))
+```
+
+
+
+
