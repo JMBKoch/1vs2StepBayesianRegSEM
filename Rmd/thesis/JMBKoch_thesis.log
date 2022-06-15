@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  10 JUN 2022 21:01
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  15 JUN 2022 17:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -978,44 +978,44 @@ LaTeX Info: Completed page discarded.
 
 ]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 8.4pt on input line 252.
+(Font)              scaled to size 8.4pt on input line 245.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 6.0pt on input line 252.
+(Font)              scaled to size 6.0pt on input line 245.
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
-52.
+45.
 (/usr/share/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 12.0011pt on input line 252.
+(Font)              scaled to size 12.0011pt on input line 245.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 8.40076pt on input line 252.
+(Font)              scaled to size 8.40076pt on input line 245.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 6.00055pt on input line 252.
+(Font)              scaled to size 6.00055pt on input line 245.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 11.99872pt on input line 252.
+(Font)              scaled to size 11.99872pt on input line 245.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 8.3991pt on input line 252.
+(Font)              scaled to size 8.3991pt on input line 245.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 5.99936pt on input line 252.
+(Font)              scaled to size 5.99936pt on input line 245.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
-52.
+45.
 (/usr/share/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-252.
+245.
 (/usr/share/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 252
+LaTeX Font Info:    Trying to load font information for U+msa on input line 245
 .
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/share/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 252
+LaTeX Font Info:    Trying to load font information for U+msb on input line 245
 .
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1031,118 +1031,96 @@ Underfull \vbox (badness 4752) has occurred while \output is active []
 [2] [3]
 Underfull \vbox (badness 1297) has occurred while \output is active []
 
-[4]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[5]
+[4] [5]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 12.0pt on input line 282.
+(Font)              scaled to size 12.0pt on input line 277.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 8.4pt on input line 282.
+(Font)              scaled to size 8.4pt on input line 277.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 6.0pt on input line 282.
+(Font)              scaled to size 6.0pt on input line 277.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 12.0011pt on input line 282.
+(Font)              scaled to size 12.0011pt on input line 277.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 8.40076pt on input line 282.
+(Font)              scaled to size 8.40076pt on input line 277.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 6.00055pt on input line 282.
+(Font)              scaled to size 6.00055pt on input line 277.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 11.99872pt on input line 282.
+(Font)              scaled to size 11.99872pt on input line 277.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 8.3991pt on input line 282.
+(Font)              scaled to size 8.3991pt on input line 277.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 5.99936pt on input line 282.
+(Font)              scaled to size 5.99936pt on input line 277.
 [6] [7] [8]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 310.
+(Font)              scaled to size 10.0pt on input line 305.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 310.
+(Font)              scaled to size 7.0pt on input line 305.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 310.
+(Font)              scaled to size 5.0pt on input line 305.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 310.
+(Font)              scaled to size 10.00092pt on input line 305.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 310.
+(Font)              scaled to size 7.00064pt on input line 305.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 310.
+(Font)              scaled to size 5.00046pt on input line 305.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 310.
+(Font)              scaled to size 9.99893pt on input line 305.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 310.
+(Font)              scaled to size 6.99925pt on input line 305.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 310.
-[9]
-Underfull \vbox (badness 1264) has occurred while \output is active []
+(Font)              scaled to size 4.99947pt on input line 305.
 
-[10] [11]
+Underfull \vbox (badness 1558) has occurred while \output is active []
+
+[9] [10] [11]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-1-1.pdf>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 [12] [13]
 File: ~/1vs2StepBayesianRegSEM/Rmd/figures/model.png Graphic file (type bmp)
 <~/1vs2StepBayesianRegSEM/Rmd/figures/model.png>
 [14]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[15] [16]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[17]
-Overfull \hbox (32.23949pt too wide) in paragraph at lines 457--491
- [] 
- []
-
-[18] [19]
-Overfull \hbox (12.4155pt too wide) in paragraph at lines 501--526
- [] 
- []
-
-[20] [21]
+[15] [16] [17] [18] [19] [20]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[22] [23]
+[21] [22] [23] [24]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-6-1.pdf>
-[24] [25]
+[25] [26] [27] [28] [29] [30]
 Underfull \vbox (badness 4752) has occurred while \output is active []
 
-[26] [27]
-Underfull \vbox (badness 4752) has occurred while \output is active []
-
-[28] [29]
-Underfull \vbox (badness 4752) has occurred while \output is active []
-
-[30] [31]
+[31] [32]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[32
+[33
 
 ]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[33]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [34]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[35] [36] AED endfloat: Processing end Figures and Tables [37
+[35]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[36] [37] AED endfloat: Processing end Figures and Tables [38
 
 
 ] (./JMBKoch_thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 23801 strings out of 476180
- 435433 string characters out of 5815297
- 955487 words of memory out of 5000000
- 44142 multiletter control sequences out of 15000+600000
- 503206 words of font info for 113 fonts, out of 8000000 for 9000
+ 23817 strings out of 476180
+ 435850 string characters out of 5815297
+ 955534 words of memory out of 5000000
+ 44150 multiletter control sequences out of 15000+600000
+ 503238 words of font info for 117 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 86i,12n,121p,2253b,563s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,12n,121p,2253b,641s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on JMBKoch_thesis.pdf (39 pages).
+Output written on JMBKoch_thesis.pdf (40 pages).

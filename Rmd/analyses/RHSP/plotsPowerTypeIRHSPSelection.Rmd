@@ -108,9 +108,12 @@ TypeIRHSPOneLong <-
                                                              "typeICI95Mean_2" = "95% Credible Interval", 
                                                              "typeICI90Mean_2" = "90% Credible Interval",
                                                              "typeICI80Mean_2" = "80% Credible Interval",
-                                                             "typeICI50Mean_2" = "50% Credible Interval")))) %>% 
+                                                             "typeICI50Mean_2" = "50% Credible Interval"))),
+         criterion =  factor(criterion, levels = c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0"))) %>% 
   select(N, cross, criterion, value)
 ```
+
+
 
 
 
@@ -165,11 +168,10 @@ PowerRHSPOneLong <-
                                                             "powerCI95Mean_1" = "95% Credible Interval", 
                                                             "powerCI90Mean_1" = "90% Credible Interval",
                                                             "powerCI80Mean_1" = "80% Credible Interval",
-                                                            "powerCI50Mean_1" = "50% Credible Interval")))) %>% 
+                                                            "powerCI50Mean_1" = "50% Credible Interval"))),
+            criterion =  factor(criterion, levels = c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0"))) %>% 
   select(N, cross, criterion, value)
 ```
-
-
 
 
 # Plots
@@ -191,6 +193,8 @@ PowerRHSPOneLong %>%
        col = "Selection Criterion",
        linetype = "Selection Criterion"
        )+
+      scale_linetype_manual("criterion", values = c("solid", "solid", "solid", "solid", "twodash", "twodash", "twodash", "twodash"))+
+  scale_color_manual("criterion", values  = c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF", "#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"))+
   facet_wrap(~N)+
   theme_apa()+
   theme(panel.border = element_rect(fill = NA))
@@ -211,8 +215,7 @@ readr::write_rds(PowerRHSPOne100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/P
 # compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
 upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
 TypeIRHSPAllOne100 <- 
-AvgTypeIAndPowerLong %>% 
-  filter(outcome == "typeI") %>% 
+TypeIRHSPOneLong %>% 
   group_by(cross, N, criterion) %>% 
   summarise(value = mean(value)) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
@@ -225,6 +228,8 @@ AvgTypeIAndPowerLong %>%
        col = "Selection Criterion",
        linetype = "Selection Criterion"
        )+
+    scale_linetype_manual("criterion", values = c("solid", "solid", "solid", "solid", "twodash", "twodash", "twodash", "twodash"))+
+  scale_color_manual("criterion", values  = c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF", "#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"))+
   facet_wrap(~N)+
   theme_apa()+
   theme(panel.border = element_rect(fill = NA))

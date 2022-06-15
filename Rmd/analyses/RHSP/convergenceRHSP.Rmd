@@ -139,11 +139,11 @@ convRHSP %>%
          cross = round(cross, 1))
 
 # make colnames nice
-colnames(meanPropDIVlarger5)[1] <- "$scale_{global}$"
+colnames(meanPropDIVlarger5)[1] <- "$s_{global}$"
 colnames(meanPropDIVlarger5)[2] <- "$df_{global}$"
-colnames(meanPropDIVlarger5)[3] <- "$scale_{local}$"
+colnames(meanPropDIVlarger5)[3] <- "$s_{local}$"
 colnames(meanPropDIVlarger5)[4] <- "$df_{local}$"
-colnames(meanPropDIVlarger5)[5] <- "$scale_{slab}$"
+colnames(meanPropDIVlarger5)[5] <- "$s_{slab}$"
 colnames(meanPropDIVlarger5)[6] <- "$df_{slab}$"
 colnames(meanPropDIVlarger5)[8] <- "Size $\\lambda_{c1 , 6}$"
 colnames(meanPropDIVlarger5)[9] <- "Mean"
@@ -232,11 +232,11 @@ convRHSP %>%
   arrange(n) %>% 
   filter(n >= 0.05*nIter)
 # make colnames nice
-colnames(rowsRemovedLarger5Perc)[1] <- "$scale_{global}$"
+colnames(rowsRemovedLarger5Perc)[1] <- "$s_{global}$"
 colnames(rowsRemovedLarger5Perc)[2] <- "$df_{global}$"
-colnames(rowsRemovedLarger5Perc)[3] <- "$scale_{local}$"
+colnames(rowsRemovedLarger5Perc)[3] <- "$s_{local}$"
 colnames(rowsRemovedLarger5Perc)[4] <- "$df_{local}$"
-colnames(rowsRemovedLarger5Perc)[5] <- "$scale_{slab}$"
+colnames(rowsRemovedLarger5Perc)[5] <- "$s_{slab}$"
 colnames(rowsRemovedLarger5Perc)[6] <- "$df_{slab}$"
 colnames(rowsRemovedLarger5Perc)[8] <- "Size $\\lambda_{c1 , 6}$"
 colnames(rowsRemovedLarger5Perc)[9] <- "N removed Rep."

@@ -163,9 +163,14 @@ PowerSVNP %>%
                                                             "powerCI95Mean_1" = "95% Credible Interval", 
                                                             "powerCI90Mean_1" = "90% Credible Interval",
                                                             "powerCI80Mean_1" = "80% Credible Interval",
-                                                            "powerCI50Mean_1" = "50% Credible Interval")))) %>% 
+                                                            "powerCI50Mean_1" = "50% Credible Interval"))),
+         criterion =  factor(criterion, levels = c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0"))) %>% 
   select(N, sigmaSqu, cross, criterion, value)
 PowerLong
+```
+
+```{r}
+levels(PowerLong$criterion) <- c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0")
 ```
 
 ```{r}
@@ -192,9 +197,13 @@ TypeISVNP %>%
                                                              "typeICI95Mean_2" = "95% Credible Interval", 
                                                              "typeICI90Mean_2" = "90% Credible Interval",
                                                              "typeICI80Mean_2" = "80% Credible Interval",
-                                                             "typeICI50Mean_2" = "50% Credible Interval")))) %>% 
+                                                             "typeICI50Mean_2" = "50% Credible Interval"))),
+           criterion =  factor(criterion, levels = c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0"))) %>% 
   select(N, sigmaSqu, cross, criterion, value)
 TypeILong
+```
+```{r}
+levels(TypeILong$criterion) <- c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0")
 ```
 
 # Plots
@@ -217,6 +226,8 @@ PowerLong %>%
        col = "Selection Criterion",
        linetype = "Selection Criterion"
        )+
+  scale_linetype_manual("criterion", values = c("solid", "solid", "solid", "solid", "twodash", "twodash", "twodash", "twodash"))+
+  scale_color_manual("criterion", values  = c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF", "#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"))+
   facet_grid(cols = vars(sigmaSqu),
              rows = vars(N))+
   theme_apa()+
@@ -244,6 +255,8 @@ TypeILong %>%
        col = "Selection Criterion",
        linetype = "Selection Criterion"
        )+
+  scale_linetype_manual("criterion", values = c("solid", "solid", "solid", "solid", "twodash", "twodash", "twodash", "twodash"))+
+  scale_color_manual("criterion", values  = c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF", "#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"))+
   facet_grid(cols = vars(sigmaSqu),
              rows = vars(N))+
   theme_apa( )+
