@@ -237,7 +237,7 @@ This outcome gives an indication of the magnitude of the bias by expressing it r
 
 The Mean Squared Error (MSE) was computed per model parameter and condition as:
 $$MSE_{\bar{\theta}} = \frac{1}{N_{rep}} \Sigma_{i = 1}^{N_{rep}} (\bar{\theta_i} - \theta_{true})^2.$$
-Another way to express the MSE is as the sum of the bias and the variance of a model parameter, which explains its added value over the Mean Absolute Bias alone. As with the Relative Bias we refrain from presenting results here as they do not add to the conclusions based on the Mean Absolute Bias^[MSE estimates and plots can be found on TBA Link for the SVNP and TBA LINK for the RHSP]. 
+Another way to express the MSE is as the sum of the bias and the variance of a model parameter, which explains its added value over the Mean Absolute Bias alone. As with the Relative Bias we refrain from presenting results here as they do not add to the conclusions based on the Mean Absolute Bias^[MSE estimates and plots can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/SVNP/plotsMSESVNP.html for the SVNP and TBA LINK for the RHSP]. 
 
 ### Power and Type-I-Error Rate
 

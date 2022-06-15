@@ -1,0 +1,484 @@
+---
+title: "Plots MSE Mean Estimates RHSP"
+author: "Koch, J.M.B. (Michael)"
+date: '2022-05-02'
+output: html_document
+---
+
+```{r, echo=F}
+knitr::opts_chunk$set(echo = F, message = F)
+```
+
+
+```{r, message = F, warning = F}
+# load packages outside of simulation
+library(papaja)
+library(patchwork)
+#source required functions & parameters
+source('~/OneDrive/ms/thesis/R/functions.R')
+source('~/OneDrive/ms/thesis/R/parameters.R')
+```
+
+
+```{r}
+# load results  (already filtered and post-processed)
+resultsRHSP <- readRDS("~/1vs2StepBayesianRegSEM/output/resultsRHSPFilter.Rds")
+nrow(resultsRHSP)
+```
+
+
+Select the configuration of the RHSP with all hyper-parameters set to 1. 
+
+```{r}
+resultsRHSPOne <- 
+resultsRHSP %>% 
+  filter(scaleGlobal == 1 & dfGlobal == 1 & scaleLocal == 1 & dfLocal == 1 & scaleSlab == 1 & nu == 1) %>% 
+  mutate(N = as.factor(paste0("N = ", N)))
+```
+
+
+```{r}
+mseMeanRHSPOne <- 
+ resultsRHSPOne %>%
+    mutate(N = as.factor(N),
+         scaleGlobal = as.factor(paste0("Scale Global = ", scaleGlobal)),
+         scaleLocal = as.factor(paste0("Scale Local = ", scaleLocal)),
+         dfGlobal = as.factor(paste0("Df Global  = ", dfGlobal )),
+         dfLocal = as.factor(paste0("Df Local = ", dfLocal)),
+         scaleSlab = as.factor(paste0("Scale Slab = ", scaleSlab)),
+         dfSlab = as.factor(paste0("Df Slab = ", nu))
+         ) %>% 
+  select(mainEstMean_1:mainEstMean_6,
+        crossEstMean_1:crossEstMean_6,
+        thetaEstMean_1:thetaEstMean_6,
+        factCorrEstMean,
+        cross,
+        N, 
+        pos,
+        iteration,
+        scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>% 
+      group_by(N, cross, scaleGlobal, scaleLocal, dfGlobal, dfLocal, dfSlab, scaleSlab) %>% 
+      summarise(
+        mseMainMean_1 = mean((mainEstMean_1-modelPars$main[1])^2),
+        mseMainMean_2 = mean((mainEstMean_2-modelPars$main[2])^2),
+        mseMainMean_3 = mean((mainEstMean_3-modelPars$main[3])^2),
+        mseMainMean_4 = mean((mainEstMean_4-modelPars$main[4])^2),
+        mseMainMean_5 = mean((mainEstMean_5-modelPars$main[5])^2),
+        mseMainMean_6 = mean((mainEstMean_6-modelPars$main[6])^2),
+        mseCrossMean_1 = mean((crossEstMean_1-cross)^2),  
+        mseCrossMean_2 = mean((crossEstMean_2-0)^2), 
+        mseCrossMean_3 = mean((crossEstMean_3-0)^2), 
+        mseCrossMean_4 = mean((crossEstMean_4-0)^2),  
+        mseCrossMean_5 = mean((crossEstMean_5-0)^2), 
+        mseCrossMean_6 = mean((crossEstMean_6-cross)^2),   
+        mseFactCorrMean = mean((factCorrEstMean-modelPars$Psi[1, 2])^2),
+        mseThetaMean_1 = mean((thetaEstMean_1-diag(modelPars$Theta)[1])^2),
+        mseThetaMean_2 = mean((thetaEstMean_2-diag(modelPars$Theta)[2])^2),
+        mseThetaMean_3 = mean((thetaEstMean_3-diag(modelPars$Theta)[3])^2),
+        mseThetaMean_4 = mean((thetaEstMean_4-diag(modelPars$Theta)[4])^2),
+        mseThetaMean_5 = mean((thetaEstMean_5-diag(modelPars$Theta)[5])^2),
+        mseThetaMean_6 = mean((thetaEstMean_6-diag(modelPars$Theta)[6])^2)
+      ) %>% 
+  mutate_if(is.numeric, round, 5)
+mseMeanRHSPOne
+```
+
+
+# Plots
+
+### Cross-Loadings
+```{r}
+crossLoading1 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseCrossMean_1, cross) %>%
+   
+  group_by(N, 
+    cross) %>% 
+  summarise(meanMseCrossMean_1 = mean(mseCrossMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseCrossMean_1))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+      y = "MSE",
+      title = "Cross-Loading 1")+
+  theme_apa()
+crossLoading1
+```
+
+```{r}
+crossLoading2 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseCrossMean_2, cross) %>%
+   
+  group_by(N, 
+    cross) %>% 
+  summarise(meanMseCrossMean_2 = mean(mseCrossMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseCrossMean_2))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+      y = "MSE",
+      title = "Cross-Loading 2")+
+  theme_apa()
+crossLoading2
+```
+
+
+```{r}
+crossLoading3 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseCrossMean_3, cross) %>%
+   
+  group_by(N, 
+    cross) %>% 
+  summarise(meanMseCrossMean_3 = mean(mseCrossMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseCrossMean_3))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+      y = "MSE",
+      title = "Cross-Loading 3")+
+  theme_apa()
+crossLoading3
+```
+
+```{r}
+crossLoading4 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseCrossMean_4, cross) %>%
+   
+  group_by(N, 
+    cross) %>% 
+  summarise(meanMseCrossMean_4 = mean(mseCrossMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseCrossMean_4))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+      y = "MSE",
+      title = "Cross-Loading 4")+
+  theme_apa()
+crossLoading4
+```
+
+```{r}
+crossLoading5 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseCrossMean_5, cross) %>%
+   
+  group_by(N, 
+    cross) %>% 
+  summarise(meanMseCrossMean_5 = mean(mseCrossMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseCrossMean_5))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+      y = "MSE",
+      title = "Cross-Loading 5")+
+  theme_apa()
+crossLoading5
+```
+
+```{r}
+crossLoading6<- 
+mseMeanRHSPOne %>% 
+  select(N, mseCrossMean_6, cross) %>%
+   
+  group_by(N, 
+    cross) %>% 
+  summarise(meanMseCrossMean_6 = mean(mseCrossMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseCrossMean_6))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+      y = "MSE",
+      title = "Cross-Loading 6")+
+  theme_apa()
+crossLoading6
+```
+
+
+### Factor Correlation
+
+
+```{r}
+factCorr <- 
+mseMeanRHSPOne %>% 
+  select(N, mseFactCorrMean, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseFactCorrMean = mean(mseFactCorrMean)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseFactCorrMean))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Factor Correlation")+
+  ylim(0, 0.5)+
+  theme_apa()
+factCorr
+```
+
+### Main-Loadings
+
+```{r}
+mainLoading1 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseMainMean_1, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseMainMean_1 = mean(mseMainMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseMainMean_1))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Main-Loading 1")+
+  theme_apa()
+mainLoading1
+```
+
+
+```{r}
+mainLoading2 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseMainMean_2, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseMainMean_2 = mean(mseMainMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseMainMean_2))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Main-Loading 2")+
+  theme_apa()
+mainLoading2
+```
+
+```{r}
+mainLoading3 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseMainMean_3, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseMainMean_3 = mean(mseMainMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseMainMean_3))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Main-Loading 3")+
+  theme_apa()
+mainLoading3
+```
+
+
+```{r}
+mainLoading4 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseMainMean_4, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseMainMean_4 = mean(mseMainMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseMainMean_4))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Main-Loading 4")+
+  theme_apa()
+mainLoading4
+```
+
+```{r}
+mainLoading5 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseMainMean_5, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseMainMean_5 = mean(mseMainMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseMainMean_5))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Main-Loading 5")+
+  theme_apa()
+mainLoading5
+```
+
+```{r}
+mainLoading6 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseMainMean_6, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseMainMean_6 = mean(mseMainMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseMainMean_6))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Main-Loading 6")+
+  theme_apa()
+mainLoading6
+```
+
+
+### Residual Variances
+
+```{r}
+theta1 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseThetaMean_1, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseThetaMean_1 = mean(mseThetaMean_1)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseThetaMean_1))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Residual Variance 1")+
+  theme_apa()
+theta1
+```
+
+```{r}
+theta2 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseThetaMean_2, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseThetaMean_2 = mean(mseThetaMean_2)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseThetaMean_2))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Residual Variance 2")+
+  theme_apa()
+theta2
+```
+
+```{r}
+theta3 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseThetaMean_3, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseThetaMean_3 = mean(mseThetaMean_3)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseThetaMean_3))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Residual Variance 3")+
+  theme_apa()
+theta1
+```
+
+```{r}
+theta4 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseThetaMean_4, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseThetaMean_4 = mean(mseThetaMean_4)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseThetaMean_4))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Residual Variance 4")+
+  theme_apa()
+theta4
+```
+
+```{r}
+theta5 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseThetaMean_5, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseThetaMean_5 = mean(mseThetaMean_5)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseThetaMean_5))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Residual Variance 5")+
+  theme_apa()
+theta5
+```
+
+```{r}
+theta6 <- 
+mseMeanRHSPOne %>% 
+  select(N, mseThetaMean_6, cross) %>%
+   
+  group_by(N, 
+           cross) %>% 
+  summarise(meanMseThetaMean_6 = mean(mseThetaMean_6)) %>% 
+  ggplot(aes(x = as.factor(cross), y = meanMseThetaMean_6))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~N)+
+  ylim(0, 0.5)+
+  labs(x = "Size Cross-Loading",
+       y = "MSE",
+      title = "Residual Variance 6")+
+  theme_apa()
+theta6
+```
+
+
+
