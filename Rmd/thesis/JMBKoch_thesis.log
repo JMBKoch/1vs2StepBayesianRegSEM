@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  15 JUN 2022 20:44
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021/Arch Linux) (preloaded format=xelatex 2022.4.18)  15 JUN 2022 21:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1092,13 +1092,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 [23] [24]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-6-1.pdf>
+
+Underfull \vbox (badness 2384) has occurred while \output is active []
+
 [25] [26]
 Underfull \vbox (badness 4752) has occurred while \output is active []
 
@@ -1129,7 +1129,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Here is how much of TeX's memory you used:
  23817 strings out of 476180
  435850 string characters out of 5815297
- 955535 words of memory out of 5000000
+ 962554 words of memory out of 5000000
  44150 multiletter control sequences out of 15000+600000
  503238 words of font info for 117 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
