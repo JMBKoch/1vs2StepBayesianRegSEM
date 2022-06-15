@@ -217,7 +217,7 @@ apa_table(tableCond, escape = F, caption = "Overview study conditions.", note = 
 
 ## Outcomes
 
-All outcomes^[Summaries of all outcomes can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses.] were computed based on both mean and median posterior estimates of the model parameters. We only present the results of the mean estimates, but those concerning the median estimates can be accessed on github^[see https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/medianEstimates/medianEstimatesSVNP for the SVNP and TBA LINK for the RHSP.]. 
+All outcomes were computed based on both mean and median posterior estimates of the model parameters. We only present the results of the mean estimates, but those concerning the median estimates can be accessed on github^[see https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/medianEstimates/medianEstimatesSVNP for the SVNP and https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/medianEstimates/medianEstimatesRHSP for the RHSP.]. 
 
 \ 
 
@@ -231,13 +231,13 @@ Given that the core issue of the SVNP is biased model estimates, this outcome na
 
 The Relative Bias was computed per model parameter estimate and condition by dividing the estimates of the Mean Absolute Bias by the true value of the parameter:
 $$\bar{Bias}_{rel, \ \bar{\theta} } = \frac{\bar{Bias}_{\bar{\theta}}}{\theta_{true} }.$$
-This outcome gives an indication of the magnitude of the bias by expressing it relative to the parameter's true value. However, given the standardized scale of the true model, the Mean Absolute Bias is a quantity that can be interpreted rather intuitively in the context of this study and conlusions do not differ based on the relative bias. We therefore do not discuss these results in detail, and refer the interested reader to the study repository on github^[see https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/SVNP/plotsRelBiasSVNP.html for the relative bias of the SVNP. For the relative bias of the RHSP see https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/RHSP/plotsRelBiasRHSPSelection.html.].
+This outcome gives an indication of the magnitude of the bias by expressing it relative to the parameter's true value. However, given the standardized scale of the true model, the Mean Absolute Bias is a quantity that can be interpreted rather intuitively in the context of this study and conlusions do not differ based on the relative bias. We therefore do not discuss these results in detail, and refer the interested reader to the study repository on github^[see https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/SVNP/plotsRelBiasSVNP.html and https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/RHSP/plotsRelBiasRHSPSelection.html.].
 
 ### Mean Squared Error:
 
 The Mean Squared Error (MSE) was computed per model parameter and condition as:
 $$MSE_{\bar{\theta}} = \frac{1}{N_{rep}} \Sigma_{i = 1}^{N_{rep}} (\bar{\theta_i} - \theta_{true})^2.$$
-Another way to express the MSE is as the sum of the bias and the variance of a model parameter, which explains its added value over the Mean Absolute Bias alone. As with the Relative Bias we refrain from presenting results here as they do not add to the conclusions based on the Mean Absolute Bias^[MSE estimates and plots can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/SVNP/plotsMSESVNP.html for the SVNP and https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/RHSP/plotsMSERHSPSelection.html for the RHSP]. 
+Another way to express the MSE is as the sum of the bias and the variance of a model parameter, which explains its added value over the Mean Absolute Bias alone. As with the Relative Bias we refrain from presenting results here as they do not add to the conclusions based on the Mean Absolute Bias^[MSE estimates and plots can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/SVNP/plotsMSESVNP.html for the SVNP and https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/RHSP/plotsMSERHSPSelection.html for the RHSP.]. 
 
 ### Power and Type-I-Error Rate
 
@@ -285,7 +285,7 @@ papaja::apa_table(meanPropDIVlarger5, escape = F,
 
 ### Mean Absolute Bias
 
-The Mean Absolute Bias of the SVNP and the RHSP for all parameters is summarized in Figure 3. For parameter estimates that show an identical pattern ($\bar{\lambda}_{c 2-5}$, $\bar{\lambda}_{c 1, 6}$, $\bar{\lambda}_{m 1, 2, 5, 6}$, $\bar{\lambda}_{m 3-4}$, and $\bar{\theta}_{1-6}$), the first respecting estimate is presented representative for all, both in Figure 3 and in the numbers presented below. As results are almost identical for the two sample sizes, we focus on presenting the findings for N = 100, to not distract from our main conclusions.^[The Mean Absolute Bias visualized for the different sample sizes separately can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/plotsBiasSVNP.html and https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/RHSP/plotsBiasRHSPSelection.html.] We extensively compared the Mean Absolute Bias of the RHSP between different hyper-parameter settings and sample sizes.^[see https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/RHSP/plotsBiasRHSP.html] Differences were so little that we do not present them here, to not distract from our main comparison  to the SVNP. We decided to present the findings with all hyper-parameters set to one, as this is a logical default hyper-parameter configuration under the scale of a standardized CFA model. The replications for this hyper-parameter configuration showed good convergence, such that only a single replication had to be removed. 
+The Mean Absolute Bias of the SVNP and the RHSP for all parameters is summarized in Figure 3. For parameter estimates that show an identical pattern ($\bar{\lambda}_{c 2-5}$, $\bar{\lambda}_{c 1, 6}$, $\bar{\lambda}_{m 1, 2, 5, 6}$, $\bar{\lambda}_{m 3-4}$, and $\bar{\theta}_{1-6}$), the first respecting estimate is presented representative for all, both in Figure 3 and in the numbers presented below. As results are almost identical for the two sample sizes, we focus on presenting the findings for N = 100, to not distract from our main conclusions.^[The Mean Absolute Bias visualized for the different sample sizes separately can be found on https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/SVNP/plotsBiasSVNP.html and https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/RHSP/plotsBiasRHSPSelection.html.] We extensively compared the Mean Absolute Bias of the RHSP between different hyper-parameter settings and sample sizes.^[see https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/Rmd/analyses/RHSP/plotsBiasRHSP.html.] Differences were so little that we do not present them here, to not distract from our main comparison  to the SVNP. We decided to present the findings with all hyper-parameters set to one, as this is a logical default hyper-parameter configuration under the scale of a standardized CFA model. The replications for this hyper-parameter configuration showed good convergence, such that only a single replication had to be removed. 
 
 ```{r, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g.,  cross-loading 2 was plotted representative for cross-loading 3-5. All hyperparameters of the RHSP are set to 1 in the results presented here. ", fig.height=8}
 # load plot
@@ -367,4 +367,9 @@ Despite the limitations named, the current study forms a valuable contribution t
 papaja::render_appendix('appendixA.Rmd')
 ```
 
+
+
+```{r echo = FALSE, results = 'asis', cache = FALSE}
+papaja::render_appendix('appendixA.Rmd')
+```
 
