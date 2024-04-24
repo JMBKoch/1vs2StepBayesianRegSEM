@@ -19,10 +19,10 @@ source('~/1vs2StepBayesianRegSEM/R/parameters.R')
 
 ```{r, cache = T}
 # load results
-resultsRHSP <- read.csv("~/OneDrive/ms/thesis/output/resultsRHSP.csv", 
+resultsRHSP <- read.csv("~/1vs2StepBayesianRegSEM/output/resultsRHSP.csv", 
                         sep = " ", 
                         header = TRUE)
-convRHSP <- read.csv("~/OneDrive/ms/thesis/output/convRHSP.csv",
+convRHSP <- read.csv("~/1vs2StepBayesianRegSEM/output/convRHSP.csv",
                      sep = " ",
                      header = TRUE)
 ```
