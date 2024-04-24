@@ -14,15 +14,15 @@ knitr::opts_chunk$set(echo = F, message = F)
 library(papaja)
 library(patchwork)
 #source required functions & parameters
-source('~/OneDrive/ms/thesis/R/functions.R')
-source('~/OneDrive/ms/thesis/R/parameters.R')
+source('~/1vs2StepBayesianRegSEM/R/functions.R')
+source('~/1vs2StepBayesianRegSEM/R/parameters.R')
 ```
 
 ```{r}
 # load results RHSP (already filtered and post-processed)
 resultsRHSP <- readRDS("~/1vs2StepBayesianRegSEM/output/resultsRHSPFilter.Rds")
 # load results SVNP
-resultsSVNP <- read.csv("~/OneDrive/ms/thesis/output/resultsSVNP.csv", 
+resultsSVNP <- read.csv("~/1vs2StepBayesianRegSEM//output/resultsSVNP.csv", 
                         sep = " ", 
                         header = TRUE)
 ```
