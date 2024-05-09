@@ -22,4 +22,4 @@ You can clone the repository by running:
 - [`data`](data) contains the raw datasets that were simulated based on the population conditions. It will be simulated and saved again when running [`R/main.R`](R/main.R).
 
 
-(c) J.M.B. Koch, 2022
+(c) J.M.B. Koch, 2022 (updated 2024)
