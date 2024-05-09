@@ -1,0 +1,114 @@
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:unnamed-chunk-2}Overview study conditions.}
+
+\begin{tabular}{lll}
+\toprule
+Condition & \multicolumn{1}{c}{Levels} & \multicolumn{1}{c}{Values}\\
+\midrule
+$\bf{Population}$ &  & \\
+Sample size (N) & 2 & 100, 200\\
+Size cross-loading $\lambda_{c1 , 6}$ & 2 & 0.2, 0.5\\
+\bf{SVNP} &  & \\
+$\sigma^2$ & 3 & 0.1, 0.01, 0.001\\
+\bf{RHSP} &  & \\
+$s_{global}$ & 2 & 0.1, 1\\
+$df_{global}$ & 2 & 1, 3\\
+$s_{local}$ & 2 & 0.1, 1\\
+$df_{local}$ & 2 & 1, 3\\
+$s_{slab}$ & 3 & 0.1, 1, 5\\
+$df_{slab}$ & 2 & 1, 3\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} SVNP = Small Variance Normal Prior. RHSP = Regularized Horseshoe Prior. There was a total number of 396 conditions for both priors combined.  All conditions were replicated 200 times.}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:unnamed-chunk-3}Conditions of the RHSP under which more than 5\% of replications were removed for not having reached convergence (N = 542).}
+
+\begin{tabular}{lllllllll}
+\toprule
+$s_{global}$ & \multicolumn{1}{c}{$df_{global}$} & \multicolumn{1}{c}{$s_{local}$} & \multicolumn{1}{c}{$df_{local}$} & \multicolumn{1}{c}{$s_{slab}$} & \multicolumn{1}{c}{$df_{slab}$} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Size $\lambda_{c1 , 6}$} & \multicolumn{1}{c}{N removed Rep.}\\
+\midrule
+0.10 & 3 & 0.10 & 1 & 0.10 & 1 & 100 & 0.50 & 10\\
+0.10 & 3 & 0.10 & 1 & 1.00 & 3 & 100 & 0.50 & 11\\
+0.10 & 1 & 0.10 & 1 & 5.00 & 3 & 100 & 0.50 & 12\\
+0.10 & 3 & 0.10 & 1 & 5.00 & 1 & 100 & 0.50 & 12\\
+0.10 & 3 & 0.10 & 1 & 1.00 & 1 & 100 & 0.50 & 13\\
+0.10 & 3 & 0.10 & 3 & 0.10 & 3 & 100 & 0.50 & 13\\
+0.10 & 1 & 0.10 & 1 & 5.00 & 1 & 100 & 0.50 & 15\\
+0.10 & 3 & 0.10 & 1 & 5.00 & 3 & 100 & 0.50 & 15\\
+0.10 & 1 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 20\\
+0.10 & 1 & 0.10 & 3 & 1.00 & 1 & 100 & 0.50 & 24\\
+0.10 & 1 & 0.10 & 3 & 1.00 & 3 & 100 & 0.50 & 24\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 27\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 30\\
+0.10 & 3 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 33\\
+0.10 & 3 & 0.10 & 3 & 1.00 & 1 & 100 & 0.50 & 34\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 34\\
+0.10 & 3 & 0.10 & 3 & 1.00 & 3 & 100 & 0.50 & 37\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 37\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Replications were removed for having an $\hat{R} >= 1.05$ or an $N_{eff}$  smaller that 10\% of the chain-length, for any of the model parameters.}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:unnamed-chunk-4}Mean and Maximum proportion of divergent transitions averaged across replications and for conditions of the RHSP with on average more than 5\% divergent transitions.}
+
+\begin{tabular}{llllllllll}
+\toprule
+$s_{global}$ & \multicolumn{1}{c}{$df_{global}$} & \multicolumn{1}{c}{$s_{local}$} & \multicolumn{1}{c}{$df_{local}$} & \multicolumn{1}{c}{$s_{slab}$} & \multicolumn{1}{c}{$df_{slab}$} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Size $\lambda_{c1 , 6}$} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{Max}\\
+\midrule
+0.10 & 1 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 0.06 & 0.56\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 0.06 & 0.71\\
+0.10 & 1 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 0.06 & 0.75\\
+0.10 & 3 & 0.10 & 1 & 0.10 & 1 & 100 & 0.50 & 0.07 & 0.66\\
+0.10 & 3 & 0.10 & 1 & 5.00 & 1 & 100 & 0.50 & 0.06 & 0.58\\
+0.10 & 3 & 0.10 & 3 & 0.10 & 1 & 100 & 0.50 & 0.07 & 0.54\\
+0.10 & 3 & 0.10 & 3 & 1.00 & 1 & 100 & 0.50 & 0.07 & 0.65\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 1 & 100 & 0.50 & 0.07 & 0.83\\
+0.10 & 3 & 0.10 & 3 & 5.00 & 3 & 100 & 0.50 & 0.08 & 0.69\\
+\bottomrule
+\addlinespace
+\end{tabular}
+
+\begin{tablenotes}[para]
+\normalsize{\textit{Note.} Mean = Mean proportion of divergent transitions, Max = maximum proportion of divergent transitions. There was a total of 2770 replications where the divergent transitions exceeded 5\% of the chain-length. There were 14373 replications with more than 1\% of divergent transitions. There were 1247 replications with more than 10\% of divergent transitions. There were 46 replications with more than 50\% of divergent transitions.}
+\end{tablenotes}
+
+\end{threeparttable}
+\end{center}
+
+\end{table*}
