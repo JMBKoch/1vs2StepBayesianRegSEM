@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.4.21)  4 JUN 2024 13:04
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.4.21)  6 JUN 2024 20:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -967,14 +967,6 @@ LaTeX Info: Redefining \nameref on input line 198.
 
 Class apa6 Warning: Abstract not defined.
 
-
-Package fancyhdr Warning: \headheight is too small (15.2pt): 
-(fancyhdr)                Make it at least 27.41803pt, for example:
-(fancyhdr)                \setlength{\headheight}{27.41803pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-12.21803pt}.
-
 LaTeX Info: Completed page discarded.
 [0
 
@@ -1027,10 +1019,7 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 File: mt-eur.cfg 2006/07/31 v1.1 microtype config. file: AMS Euler Roman (RS)
 ) [1
 
-] [2]
-Underfull \vbox (badness 2142) has occurred while \output is active []
-
-[3] [4] [5]
+] [2] [3] [4] [5]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
 (Font)              scaled to size 12.0pt on input line 268.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
@@ -1078,32 +1067,32 @@ Underfull \vbox (badness 2762) has occurred while \output is active []
 [13] [14]
 File: ~/1vs2StepBayesianRegSEM/Rmd/figures/model.png Graphic file (type bmp)
 <~/1vs2StepBayesianRegSEM/Rmd/figures/model.png>
-[15]
-Underfull \vbox (badness 1158) has occurred while \output is active []
-
-[16] [17] [18] [19] [20]
+[15] [16] [17] [18] [19] [20]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf>
 
 LaTeX Warning: Float too large for page by 1.63188pt on input line 536.
 
-[21] [22] [23] [24]
+[21] [22] [23]
+Underfull \vbox (badness 4752) has occurred while \output is active []
+
+[24]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-6-1.pdf>
-[25] [26]
+
+Underfull \vbox (badness 2384) has occurred while \output is active []
+
+[25] [26] [27] [28] [29] [30]
+Underfull \vbox (badness 4752) has occurred while \output is active []
+
+[31] [32] [33]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[27] [28] [29] [30] [31] [32]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[33
+[34
 
 ]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[34]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [35]
@@ -1112,15 +1101,18 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [36]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[37] [38] AED endfloat: Processing end Figures and Tables [39] (./JMBKoch_thesi
+[37]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[38] [39] AED endfloat: Processing end Figures and Tables [40] (./JMBKoch_thesi
 s.aux) ) 
 Here is how much of TeX's memory you used:
- 23921 strings out of 476191
- 440064 string characters out of 5812072
- 952797 words of memory out of 5000000
- 44242 multiletter control sequences out of 15000+600000
- 503206 words of font info for 113 fonts, out of 8000000 for 9000
+ 23933 strings out of 476191
+ 440371 string characters out of 5812072
+ 953794 words of memory out of 5000000
+ 44248 multiletter control sequences out of 15000+600000
+ 503230 words of font info for 116 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 86i,12n,121p,3053b,642s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,12n,121p,3051b,642s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on JMBKoch_thesis.pdf (40 pages).
+Output written on JMBKoch_thesis.pdf (41 pages).
