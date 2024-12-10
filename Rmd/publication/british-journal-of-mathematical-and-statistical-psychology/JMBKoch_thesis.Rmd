@@ -311,7 +311,7 @@ For both priors, the bias in the estimates of the residual variances $\bar{\thet
 
 ### Power and Type-I-Error Rate
 
-```{r, dev='cairo_pdf', include = T, warning = F, fig.cap='Mean Power and Type-I-Error Rates in Selecting non-zero Crossloadings. All hyperparameters of the RHSP are set to 1 in the results presented here.', fig.height=10, fig.width=8}
+```{r, dev='cairo_pdf', include = T, warning = F, fig.cap='Mean Power and Type-I-Error Rates in Selecting non-zero Crossloadings. All hyperparameters of the RHSP are set to 1 in the results presented here. The red dashed horizontal lines represents a power level of 0.80.', fig.height=10, fig.width=8}
 library(patchwork)
 library(ggplot2)
 
@@ -322,7 +322,7 @@ powerRHSP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/PowerR
 typeIRHSP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/TypeIRHSPAllOne100.Rds")
 
 # combine power plots
-powerAllAtOnce <- powerSVNP + typeISVNP + powerRHSP + typeIRHSP 
+powerAllAtOnce <- powerSVNP + powerRHSP + typeISVNP   + typeIRHSP 
 powerAllAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank(), legend.text = element_text(size = 8))
 ```
 

@@ -176,6 +176,40 @@ PowerRHSPOneLong <-
 
 # Plots
 
+```{r}
+# define color, shape and lines
+# Define a reusable list of scales
+custom_scales <- list(
+  scale_linetype_manual(
+    "criterion", 
+    values = c("solid", "solid", "solid", "solid", "twodash", "twodash", "twodash", "twodash")
+  ),
+  scale_color_manual(
+    "criterion", 
+    values = c(
+      # First four: Reds from least to most saturated
+      "#ffcccc", "#ff9999", "#ff6666", "#ff0000",
+      # Last four: Blues from least to most saturated
+      "#ccccff", "#9999ff", "#6666ff", "#0000ff"
+    )
+  ),
+  scale_shape_manual(
+    "criterion", 
+    values = c(
+      16, 16, 16, 16,  # Points for the first four
+      17, 17, 17, 17   # Triangles for the second four
+    )
+  ),
+    # Adjust size for shapes to be smaller, similar to shape = 4 default
+  theme(
+    legend.key.size = unit(0.6, "cm"),  # Adjust legend key size (optional, to match the smaller shapes)
+    plot.title = element_text(size = 14),
+    plot.subtitle = element_text(size = 12)
+  )
+)
+```
+
+
 ## Power: Replicating Figure 3 Zhang et al. (p. 6)
 
 ```{r}
@@ -183,18 +217,18 @@ PowerRHSPOne100 <-
 PowerRHSPOneLong %>% 
   group_by(N, cross, criterion) %>% 
   summarise(value = mean(value)) %>% 
-  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion))+
-  geom_line(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion))+
-  geom_point(shape = 4, alpha = .8)+
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion, shape = criterion))+
+  geom_line(size = 0.1)+
+  geom_point(size = .3)+
   geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
   labs(x = "Size Cross-Loading",
        y = "Power",
        #group = "Selection Criteria",
        col = "Selection Criterion",
-       linetype = "Selection Criterion"
+       linetype = "Selection Criterion",
+       shape = "Selection Criterion"
        )+
-      scale_linetype_manual("criterion", values = c("solid", "solid", "solid", "solid", "twodash", "twodash", "twodash", "twodash"))+
-  scale_color_manual("criterion", values  = c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF", "#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"))+
+  custom_scales+
   facet_wrap(~N)+
   theme_apa()+
   theme(panel.border = element_rect(fill = NA))
@@ -205,7 +239,8 @@ PowerRHSPOne100
 # save plot with title
 PowerRHSPOne100 <- 
 PowerRHSPOne100 + 
-  labs(title = "Power RHSP")
+  labs(title = "Power RHSP",
+       x = NULL)
 readr::write_rds(PowerRHSPOne100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/PowerRHSPOne100.Rds")
 ```
 
@@ -218,18 +253,18 @@ TypeIRHSPAllOne100 <-
 TypeIRHSPOneLong %>% 
   group_by(cross, N, criterion) %>% 
   summarise(value = mean(value)) %>% 
-  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion))+
-  geom_line()+
-  geom_point(shape = 4, alpha = .8)+
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = "criterion"))+
+  geom_line(size = 0.1)+
+  geom_point(size = .3)+
   geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
   labs(x = "Size Cross-Loading",
        y = "Type-I Error Rate",
        #group = "Selection Criteria",
        col = "Selection Criterion",
-       linetype = "Selection Criterion"
+       linetype = "Selection Criterion",
+       shape = "Selection Criterion"
        )+
-    scale_linetype_manual("criterion", values = c("solid", "solid", "solid", "solid", "twodash", "twodash", "twodash", "twodash"))+
-  scale_color_manual("criterion", values  = c("#F8766D", "#7CAE00", "#00BFC4", "#C77CFF", "#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"))+
+  custom_scales+
   facet_wrap(~N)+
   theme_apa()+
   theme(panel.border = element_rect(fill = NA))
