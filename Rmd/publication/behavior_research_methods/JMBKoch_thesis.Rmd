@@ -39,7 +39,7 @@ appendix:
 %\pagenumbering{arabic}
 \setcounter{page}{0}
 \thispagestyle{empty}
-\pagestyle{plain}
+\pagestyle{fancy}
 ```
 
 ```{r setup,  echo = F, cache=T}
