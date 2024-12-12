@@ -4,6 +4,8 @@ library(ggplot2)
 library(ggthemes)
 library(papaja)
 
+# gaat uit dat je in een shiny-map zit met de datapprep.R en da app.R script erin
+
 if(!file.exists("svnp_samples.Rds") && !file.exists("rhsp_samples.Rds")){
 message("generating samples. This may take a while.")
   source("dataprep.R")
