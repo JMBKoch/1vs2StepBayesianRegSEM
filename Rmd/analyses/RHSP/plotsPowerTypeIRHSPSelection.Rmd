@@ -253,7 +253,7 @@ TypeIRHSPAllOne100 <-
 TypeIRHSPOneLong %>% 
   group_by(cross, N, criterion) %>% 
   summarise(value = mean(value)) %>% 
-  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = "criterion"))+
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = criterion))+
   geom_line(size = 0.1)+
   geom_point(size = .3)+
   geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
@@ -274,7 +274,8 @@ TypeIRHSPAllOne100
 # save plot with title
 TypeIRHSPAllOne100 <- 
 TypeIRHSPAllOne100 + 
-  labs(title = "Type-I-Error Rate RHSP")
+  labs(title = "Type-I-Error Rate RHSP", 
+       shape = NULL, col = NULL, linetype = NULL, critertion = NULL, group = NULL)
 readr::write_rds(TypeIRHSPAllOne100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/TypeIRHSPAllOne100.Rds")
 ```
  
