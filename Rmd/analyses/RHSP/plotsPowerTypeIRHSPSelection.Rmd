@@ -213,7 +213,7 @@ custom_scales <- list(
 ## Power: Replicating Figure 3 Zhang et al. (p. 6)
 
 ```{r}
-PowerRHSPOne100 <- 
+PowerRHSPOne <- 
 PowerRHSPOneLong %>% 
   group_by(N, cross, criterion) %>% 
   summarise(value = mean(value)) %>% 
@@ -232,7 +232,31 @@ PowerRHSPOneLong %>%
   facet_wrap(~N)+
   theme_apa()+
   theme(panel.border = element_rect(fill = NA))
-PowerRHSPOne100
+PowerRHSPOne
+```
+
+```{r}
+# adjust plot to only have n = 100 for final pub
+PowerRHSPOne100 <- 
+  PowerRHSPOneLong %>% 
+  filter(N == "N = 100") %>% 
+  group_by(cross, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion, shape = criterion))+
+  geom_line()+
+  geom_point()+
+  geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion",
+       shape = "Selection Criterion"
+       )+
+  custom_scales+
+  #facet_wrap(~N)+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
 ```
 
 ```{r, fig.height=4}
@@ -249,13 +273,13 @@ readr::write_rds(PowerRHSPOne100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/P
 ```{r}
 # compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
 upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
-TypeIRHSPAllOne100 <- 
+TypeIRHSPAllOne <- 
 TypeIRHSPOneLong %>% 
   group_by(cross, N, criterion) %>% 
   summarise(value = mean(value)) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = criterion))+
   geom_line(size = 0.1)+
-  geom_point(size = .3)+
+  geom_point()+
   geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
   labs(x = "Size Cross-Loading",
        y = "Type-I Error Rate",
@@ -268,8 +292,34 @@ TypeIRHSPOneLong %>%
   facet_wrap(~N)+
   theme_apa()+
   theme(panel.border = element_rect(fill = NA))
+TypeIRHSPAllOne
+```
+```{r}
+# adjust plot to only have n = 100 for final pub
+TypeIRHSPAllOne100 <- 
+TypeIRHSPOneLong %>% 
+  filter(N == "N = 100") %>% 
+  group_by(cross, criterion) %>% 
+  summarise(value = mean(value)) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = criterion))+
+  geom_line()+
+  geom_point()+
+  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Type-I Error Rate",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion",
+       shape = "Selection Criterion"
+       )+
+  custom_scales+
+  #facet_wrap(~N)+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
 TypeIRHSPAllOne100
 ```
+
+
 ```{r, fig.height=4}
 # save plot with title
 TypeIRHSPAllOne100 <- 

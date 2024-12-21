@@ -254,7 +254,7 @@ PowerLong %>%
          N = as.factor(paste0("N = ", N))) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion, shape = criterion))+
   geom_line(size = 0.1)+
-  geom_point(size = .3)+
+  geom_point(+
   geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
   labs(x = "Size Cross-Loading",
        y = "Power",
@@ -270,6 +270,30 @@ custom_scales+
   theme(panel.border = element_rect(fill = NA))
 Power
 ```
+```{r}
+# plot juist for N = 100 for final pub
+Power_100 <- 
+PowerLong %>% 
+  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  filter(N == 100) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion, shape = criterion))+
+  geom_line()+
+  geom_point()+
+  geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Power",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion",
+       shape = "Selection Criterion",
+       )+
+custom_scales+
+  facet_wrap(~sigmaSqu)+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+Power_100
+```
+
 
 ## Type-I Error Rate: Replicating Figure 4 Zhang et al. (p. 7)
 
@@ -283,7 +307,7 @@ TypeILong %>%
          N = as.factor(paste0("N = ", N))) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = criterion))+
   geom_line(size = 0.1)+
-  geom_point(size = .3)+
+  geom_point()+
   geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
   labs(x = "Size Cross-Loading",
        y = "Type-I Error Rate",
@@ -301,18 +325,41 @@ TypeI
 ```
 
  
+```{r}
+# filter on N = 100 for final pub
+TypeI_100 <- 
+TypeILong %>% 
+  filter(N == 100) %>% 
+  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = criterion))+
+  geom_line()+
+  geom_point()+
+  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Type-I Error Rate",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion",
+       scale = "Selection Criterion"
+       )+
+custom_scales+
+  facet_wrap(~sigmaSqu)+
+  theme_apa( )+
+  theme(panel.border = element_rect(fill = NA))
+TypeI_100
+```
  
  
 ```{r, fig.height=6}
 # Save with Title but without X-Axis label
-TypeISVNP <- 
-TypeI+
+TypeISVNP_100 <- 
+TypeI_100+
   labs(title = "Type-I-Error Rate SVNP")
-PowerSVNP <- 
-Power+
+PowerSVNP_100 <- 
+Power_100+
   labs(title = "Power SVNP",
        x = NULL)  
-readr::write_rds(TypeISVNP, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/typeISVNP.Rds")
-readr::write_rds(PowerSVNP, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/powerSVNP.Rds")
+readr::write_rds(TypeISVNP_100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/typeISVNP.Rds")
+readr::write_rds(PowerSVNP_100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/powerSVNP.Rds")
 ```
 

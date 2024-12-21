@@ -873,7 +873,7 @@ of 0.2 and 0.5 when $\sigma^2 = 0.001$.
 
 ### Power and Type-I-Error Rate
 
-```{r, dev='cairo_pdf', include = T, warning = F, fig.cap='Mean Power and Type-I-Error Rates in Selecting non-zero Crossloadings. All hyperparameters of the RHSP are set to 1 in the results presented here. The red dashed horizontal lines represents a power level of 0.80.', fig.height=10, fig.width=8}
+```{r, dev='cairo_pdf', include = T, warning = F, fig.cap='Mean Power and Type-I-Error Rates in Selecting non-zero Crossloadings (N = 100). All hyperparameters of the RHSP are set to 1 in the results presented here. The red dashed horizontal lines represents a power level of 0.80.', fig.height=10, fig.width=8}
 library(patchwork)
 library(ggplot2)
 
@@ -891,9 +891,8 @@ powerAllAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.positi
 Figure 4 summarizes the Power and the Type-I-Error rate of both priors.
 Again, the outcomes are presented for the first parameter of an
 identical set of parameters (e.g., $\lambda_{c,1}$ is presented
-representative for the two truly non-zero cross loadings). Moreover,
-results of the RHSP are again presented with all hyperparameters set to
-one. In the plots summarizing the Power the horizontal red dashed line
+representative for the two truly non-zero cross loadings). Moreover, results of the RHSP are again presented with all hyperparameters set to
+one, and we focus on the results for N = 100[^7]. In the plots summarizing the Power the horizontal red dashed line
 indicates the minimum power of .80 recommended by @muthen_bayesian_2012.
 According to @cham_estimating_2012, the maximally acceptable
 Type-I-Error rate is the upper-bound of a 95% interval of a binomial
@@ -911,6 +910,8 @@ low Type-I-Error rate is prioritized depends on many factors, such as
 the model at hand and the research goal. In general, one should aim for
 a balance between both, with high enough levels of Power and low enough
 Type-I-Error rates co-occuring.
+
+[^7]: The results for N = 200 of the RSHP, and for the other hyperparmatersettings, can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP>. The results for the SVNP with n = 100 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP>. 
 
 For both priors and across most conditions, the Power fell under the
 desired threshold of .80. For the SVNP with $\sigma^2 = 0.001$ non-zero

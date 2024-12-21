@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.4.21)  21 DEC 2024 19:56
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.4.21)  21 DEC 2024 20:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1088,16 +1088,13 @@ File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-6-1.pdf>
 
-LaTeX Warning: Float too large for page by 11.16766pt on input line 1103.
+LaTeX Warning: Float too large for page by 3.08307pt on input line 1103.
 
 
-Underfull \vbox (badness 2384) has occurred while \output is active []
+Underfull \vbox (badness 1424) has occurred while \output is active []
 
-[25] [26]
-Underfull \vbox (badness 4752) has occurred while \output is active []
-
-[27] [28] [29]
-Underfull \vbox (badness 4752) has occurred while \output is active []
+[25] [26] [27] [28] [29]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [30] [31] [32] [33]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1121,7 +1118,7 @@ s.aux) )
 Here is how much of TeX's memory you used:
  23933 strings out of 476191
  440371 string characters out of 5812072
- 961860 words of memory out of 5000000
+ 961870 words of memory out of 5000000
  44248 multiletter control sequences out of 15000+600000
  503230 words of font info for 116 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
