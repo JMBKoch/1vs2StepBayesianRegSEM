@@ -500,7 +500,7 @@ shrinking larger effects more than the regular Horseshoe Prior does,
 without negative consequences in terms of bias or parameter selection
 rates.
 
-```{r, cache=T, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="Density Plots of the Shrinkage Priors of Interest."}
+```{r, cache=T, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="Density Plots of the Shrinkage Priors of Interest. A shiny app where the priors can be plotted for all hyperparameters settings in this study can be found on <https://jmb-koch.shinyapps.io/shiny/>."}
 # Make Figure 1 with 
 ndraws <- 5e+05 # 30000 draws
 # sample Small Variance Normal Prior
