@@ -80,7 +80,7 @@ mseMeanRHSPOne <-
         mseThetaMean_6 = mean((thetaEstMean_6-diag(modelPars$Theta)[6])^2)
       ) %>% 
   mutate_if(is.numeric, round, 5)
-mseMeanRHSPOne
+
 ```
 
 
@@ -91,13 +91,11 @@ mseMeanRHSPOne
 crossLoading1 <- 
 mseMeanRHSPOne %>% 
   select(N, mseCrossMean_1, cross) %>%
-   
   group_by(N, 
     cross) %>% 
   summarise(meanMseCrossMean_1 = mean(mseCrossMean_1)) %>% 
   ggplot(aes(x = as.factor(cross), y = meanMseCrossMean_1))+
   geom_point()+
-  geom_line()+
   facet_wrap(~N)+
   ylim(0, 0.5)+
   labs(x = "Size Cross-Loading",

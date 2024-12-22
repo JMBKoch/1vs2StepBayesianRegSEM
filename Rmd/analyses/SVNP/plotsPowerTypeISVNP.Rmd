@@ -254,7 +254,7 @@ PowerLong %>%
          N = as.factor(paste0("N = ", N))) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion, shape = criterion))+
   geom_line(size = 0.1)+
-  geom_point(+
+  geom_point()+
   geom_hline(yintercept = 0.80, col = "red", linetype = "dashed", size = .1)+
   labs(x = "Size Cross-Loading",
        y = "Power",

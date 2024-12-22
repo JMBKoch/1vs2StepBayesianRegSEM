@@ -16,8 +16,8 @@ knitr::opts_chunk$set(echo = F, message = F)
 library(papaja)
 library(patchwork)
 #source required functions & parameters
-source('~/OneDrive/ms/thesis/R/functions.R')
-source('~/OneDrive/ms/thesis/R/parameters.R')
+source('~/1vs2StepBayesianRegSEM/R/functions.R')
+source('~/1vs2StepBayesianRegSEM/R/parameters.R')
 ```
 
 ```{r}

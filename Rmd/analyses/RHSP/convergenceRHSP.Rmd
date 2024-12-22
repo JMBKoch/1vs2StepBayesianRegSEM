@@ -122,7 +122,7 @@ length(indicesDIVHigher5Perc)
 
 This would remove 2770 rows.
 
-## The conditions under which this happens (on average!!!, FF met Sara checken dit) are:
+## The conditions under which this happens, on average, are:
 
 ```{r}
 meanPropDIVlarger5 <- 

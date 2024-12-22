@@ -156,7 +156,7 @@ relBiasSVNP %>%
   labs(x = "Size Cross-Loading",
       y = "Mean Relative Bias",
       title = "Cross-Loading 3")+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   theme_apa()
 crossLoading3
 ```
@@ -176,7 +176,7 @@ relBiasSVNP %>%
   labs(x = "Size Cross-Loading",
        y = "Mean Relative Bias",
       title = "Cross-Loading 4")+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   theme_apa()
 crossLoading4
 ```
@@ -196,7 +196,7 @@ relBiasSVNP %>%
   labs(x = "Size Cross Loading",
        y = "Mean Relative Bias",
       title = "Cross-Loading 5")+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   theme_apa()
 crossLoading5
 ```
@@ -217,7 +217,7 @@ relBiasSVNP %>%
         x = "Size Cross Loading",
        y = "Mean Relative Bias",
       title = "Cross-Loading 6")+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   theme_apa()
 crossLoading6
 ```
@@ -242,7 +242,7 @@ relBiasSVNP %>%
   labs(x = "Size Cross Loading",
        y = "Mean Relative Bias",
       title = "Factor Correlation")+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   theme_apa()
 factCorr
 ```
@@ -266,7 +266,7 @@ relBiasSVNP %>%
   labs(x = "Size Cross-Loading",
        y = "Mean Relative Bias",
       title = "Main Loading 1")+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   theme_apa()
 mainLoading1
 ```
@@ -287,7 +287,7 @@ relBiasSVNP %>%
   labs(x = "Size Cross-Loading",
       y = "Mean Relative Bias",
       title = " Main Loading 2")+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   theme_apa()
 mainLoading2
 ```
@@ -307,7 +307,7 @@ relBiasSVNP %>%
   labs(x = "Size Cross-Loading",
       y = "Mean Relative Bias",
       title = "Main Loading 3")+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   theme_apa()
 mainLoading3
 ```
@@ -328,7 +328,7 @@ relBiasSVNP %>%
   labs(x = "Size Cross-Loading",
        y = "Mean Relative Bias",
       title = "Main Loading 4")+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   theme_apa()
 mainLoading4
 ```
@@ -450,7 +450,7 @@ relBiasSVNP %>%
   labs(x = "Size Cross Loading",
       y = "Mean Relative Bias",
       title = "Theta 4")+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   facet_wrap(~N)+
   theme_apa()
 theta4
@@ -470,7 +470,7 @@ relBiasSVNP %>%
   labs(x = "Size Cross Loading",
       y = "Mean Relative Bias",
       title = "Theta 5")+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   facet_wrap(~N)+
   theme_apa()
 theta5
@@ -492,7 +492,7 @@ relBiasSVNP %>%
       y = "Mean Relative Bias",
       title = "Theta 6")+
   facet_wrap(~N)+
-  ylim(0, 0.5)+
+  #ylim(0, 0.5)+
   theme_apa()
 theta6
 ```
