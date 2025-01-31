@@ -9,16 +9,16 @@ scaleGlobals <- c(0.1, 1)
 scaleLocals <- c(0.1, 1)
 dfGlobals <- c(1, 3)
 dfLocals <- c(1, 3)
-nus <- c(1, 3)
+dfSlabs <- c(1, 3)
 scaleSlabs <- c(0.1, 1, 5)
 
 # Function to generate RHSP samples
-sample_rhsp <- function(ndraws, nu, scaleGlobal, scaleLocal, dfGlobal, dfLocal, scaleSlab) {
+sample_rhsp <- function(ndraws, dfSlab, scaleGlobal, scaleLocal, dfGlobal, dfLocal, scaleSlab) {
   regHs <- numeric(ndraws)
   for (i in 1:ndraws) {
-    c2 <- rinvgamma(1, shape = nu, scale = scaleSlab)
-    lambda <- rhalfcauchy(dfGlobal, scale = scaleGlobal)
-    tau <- rhalfcauchy(dfLocal, scale = scaleLocal)
+    c2 <- rinvgamma(n = 1, shape = dfSlab/2, scale = dfSlab*(scaleSlab^2)/2)
+    lambda <- rhalft(n = 1, nu = dfGlobal, scale = scaleGlobal)
+    tau <- rhalft(n = 1, nu = dfLocal, scale = scaleLocal)
     lambda2_tilde <- c2 * lambda^2 / (c2 + tau^2 * lambda^2)
     regHs[i] <- rnorm(1, mean = 0, sd = sqrt(tau^2 * lambda2_tilde))
   }
@@ -33,13 +33,13 @@ names(svnp_samples) <- paste0("SVNP_sigma_", sigma_squ)
 
 # Pre-draw samples for RHSP
 rhsp_samples <- list()
-for (nu in nus) {
+for (dfSlab in dfSlabs) {
   for (scaleGlobal in scaleGlobals) {
     for (scaleLocal in scaleLocals) {
       for (dfGlobal in dfGlobals) {
         for (dfLocal in dfLocals) {
           for (scaleSlab in scaleSlabs) {
-            key <- paste0("RHSP_nu_", nu, "_scaleGlobal_", scaleGlobal, "_scaleLocal_", scaleLocal,
+            key <- paste0("RHSP_nu_", dfSlab, "_scaleGlobal_", scaleGlobal, "_scaleLocal_", scaleLocal,
                           "_dfGlobal_", dfGlobal, "_dfLocal_", dfLocal, "_scaleSlab_", scaleSlab)
             rhsp_samples[[key]] <- sample_rhsp(ndraws, nu, scaleGlobal, scaleLocal, dfGlobal, dfLocal, scaleSlab)
           }
