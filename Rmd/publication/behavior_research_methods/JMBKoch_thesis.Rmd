@@ -807,10 +807,11 @@ convergence, such that only a single replication had to be removed.
 
 [^6]: See <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP> for the results of the RHSP with different hyperparameter settings.
 
-```{r, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g.,  cross loading 2 was plotted representative for cross loading 3-5. All hyperparameters of the RHSP are set to 1 in the results presented here. ", fig.height=8}
+```{r, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g.,  cross loading 2 was plotted representative for cross loading 3-5. All hyperparameters of the RHSP are set to 1 in the results presented here. ", fig.height=7}
 # load plot
 library(patchwork)
-readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/biasAllParsRHSPInc.Rds") 
+readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/allAtOnce.RDS") 
+
 ```
 
 The truly zero cross loadings ($\bar{\lambda}_{c 2-5}$) had overall
@@ -885,7 +886,7 @@ typeIRHSP <- readr::read_rds(file = "~/1vs2StepBayesianRegSEM/Rmd/figures/TypeIR
 
 # combine power plots
 powerAllAtOnce <- powerSVNP + powerRHSP + typeISVNP   + typeIRHSP 
-powerAllAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank(), legend.text = element_text(size = 7))
+powerAllAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank())
 ```
 
 Figure 4 summarizes the Power and the Type-I-Error rate of both priors.

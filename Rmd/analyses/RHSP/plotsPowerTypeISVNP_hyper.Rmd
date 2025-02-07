@@ -22,28 +22,21 @@ source('~/1vs2StepBayesianRegSEM/R/parameters.R')
 
 ```{r}
 # load results
-resultsSVNP <- read.csv("../../../output/resultsSVNP.csv", 
+resultsSVNP <- read.csv("~/1vs2StepBayesianRegSEM/output/resultsSVNP.csv", 
                         sep = " ", 
-                        header = TRUE) %>% 
-  mutate(sigmaSqu = sigma^2)
+                        header = TRUE)
 convSVNP <- read.csv("~/1vs2StepBayesianRegSEM/output/convSVNP.csv",
                      sep = " ",
                      header = TRUE)
-resultsSVNP_hyper <- read_rds("../../../output/resultsSVNP_hyper.RDS")
-resultsSVNP_hyper <- 
-resultsSVNP_hyper %>% 
-  mutate(sigmaSqu = -9999)
-
-resultsSVNP_comb <- bind_rows(resultsSVNP, resultsSVNP_hyper)
 ```
 
 ## Post-process
 
 ```{r}
-resultsSVNP_comb <- 
-  resultsSVNP_comb %>% 
-  arrange(sigmaSqu, N, cross, iteration) %>% 
-  mutate(
+resultsSVNP <- 
+  resultsSVNP %>% 
+  arrange(sigma, N, cross, iteration) %>% 
+  mutate(sigmaSqu = sigma^2,
          biasCrossMean_1 = abs(crossEstMean_1 - cross),
          biasCrossMean_2 = abs(crossEstMean_2 - 0),
          biasCrossMean_3 = abs(crossEstMean_3 - 0),
@@ -62,7 +55,7 @@ resultsSVNP_comb <-
 # For Tresholdvariables: 1 = nonZero, 0 = zero
 # For CI variables: 0 = nonZero, 1 = zero
 TypeISVNP <- 
- resultsSVNP_comb %>% 
+ resultsSVNP %>% 
   select(
         isZeroTres0.10Mean_1:isZero50CI_6,
         cross,
@@ -117,7 +110,7 @@ TypeISVNP
 # For Tresholdvariables: 1 = nonZero, 0 = zero
 # For CI variables: 0 = nonZero, 1 = zero
 PowerSVNP <- 
- resultsSVNP_comb %>% 
+ resultsSVNP %>% 
   group_by(N, sigmaSqu, cross) %>% 
   summarise(powerTres0.15Mean_1 = mean(isZeroTres0.15Mean_1), 
             powerTres0.15Mean_6 = mean(isZeroTres0.15Mean_6), 
@@ -172,15 +165,7 @@ PowerSVNP %>%
                                                             "powerCI80Mean_1" = "80% Credible Interval",
                                                             "powerCI50Mean_1" = "50% Credible Interval"))),
          criterion =  factor(criterion, levels = c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0"))) %>% 
-  select(N, sigmaSqu, cross, criterion, value) %>% 
-    mutate(
-    sigmaSqu = ifelse(
-      sigmaSqu == -9999.000, "\u03c3 ~ Cauchy(0, 1)", 
-       paste0("\u03c3\u00B = ", sigmaSqu)
-      ),
-    sigmaSqu = as.factor(sigmaSqu),
-    N = as.factor(paste0("N = ", N))
-    )
+  select(N, sigmaSqu, cross, criterion, value)
 PowerLong
 ```
 
@@ -214,14 +199,7 @@ TypeISVNP %>%
                                                              "typeICI80Mean_2" = "80% Credible Interval",
                                                              "typeICI50Mean_2" = "50% Credible Interval"))),
            criterion =  factor(criterion, levels = c("50% Credible Interval", "80% Credible Interval", "90% Credible Interval",  "95% Credible Interval", "Treshold 0.15", "Treshold 0.10", "Treshold 0.05", "Treshold 0"))) %>% 
-  select(N, sigmaSqu, cross, criterion, value) %>%   mutate(
-    sigmaSqu = ifelse(
-      sigmaSqu == -9999.000, "\u03c3 ~ Cauchy(0, 1)", 
-       paste0("\u03c3\u00B = ", sigmaSqu)
-      ),
-    sigmaSqu = as.factor(sigmaSqu),
-    N = as.factor(paste0("N = ", N))
-  ) 
+  select(N, sigmaSqu, cross, criterion, value)
 TypeILong
 ```
 ```{r}
@@ -272,6 +250,8 @@ custom_scales <- list(
 ```{r}
 Power <- 
 PowerLong %>% 
+  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu)),
+         N = as.factor(paste0("N = ", N))) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion, shape = criterion))+
   geom_line(size = 0.1)+
   geom_point()+
@@ -294,7 +274,8 @@ Power
 # plot juist for N = 100 for final pub
 Power_100 <- 
 PowerLong %>% 
-  filter(N == "N = 100") %>% 
+  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  filter(N == 100) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion, shape = criterion))+
   geom_line()+
   geom_point()+
@@ -322,8 +303,8 @@ Power_100
 upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
 TypeI <- 
 TypeILong %>% 
-  # mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu)),
-  #        N = as.factor(paste0("N = ", N))) %>% 
+  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu)),
+         N = as.factor(paste0("N = ", N))) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = criterion))+
   geom_line(size = 0.1)+
   geom_point()+
@@ -348,8 +329,8 @@ TypeI
 # filter on N = 100 for final pub
 TypeI_100 <- 
 TypeILong %>% 
-  filter(N == "N = 100") %>% 
-  # mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+  filter(N == 100) %>% 
+  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = criterion))+
   geom_line()+
   geom_point()+

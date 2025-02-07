@@ -1,0 +1,110 @@
+---
+title: "sigma"
+output: html_document
+date: "2025-02-07"
+---
+
+```{r, echo=F}
+knitr::opts_chunk$set(echo = F, message = F)
+```
+
+
+```{r, message = F, warning = F}
+# load packages outside of simulation
+library(papaja)
+library(patchwork)
+#source required functions & parameters
+source('../../../R/functions.R')
+source('../../../R/parameters.R')
+```
+
+```{r}
+# load results
+resultsSVNP_hyper <- read_rds("../../../output/resultsSVNP_hyper.RDS")
+convSVNP_hyper <- read_rds("../../../output/convSVNP_hyper.RDS")
+
+```
+
+```{r}
+resultsSVNP_hyper <- 
+  resultsSVNP_hyper %>% 
+  group_by(N, cross, iteration) %>% 
+  mutate(
+         biasCrossMean_1 = abs(crossEstMean_1 - cross),
+         biasCrossMean_2 = abs(crossEstMean_2 - 0),
+         biasCrossMean_3 = abs(crossEstMean_3 - 0),
+         biasCrossMean_4 = abs(crossEstMean_4 - 0),
+         biasCrossMean_5 = abs(crossEstMean_5 - 0),
+         biasCrossMean_6 = abs(crossEstMean_6 - cross),
+         SigmaEstMean = SigmaEstMean,
+         SigmaEstMed = SigmaEstMed,
+         SigmaSquEstMean = SigmaEstMean^2,
+         SigmaSquEstMed = SigmaEstMed^2
+         ) 
+
+  
+```
+
+# summarise mean sigmaSqu per condtion
+```{r}
+resultsSVNP_hyper %>% 
+  group_by(N, cross)%>% 
+  summarise(sigmaSquMean = mean(SigmaSquEstMean),
+           SigmaSquEstMed = mean(SigmaSquEstMed)) 
+
+# write output for table 
+write_rds(resultsSVNP_hyper, "../../figures/sigmaSqu_per_cond.RDS")
+```
+# plot bias against Sigma
+
+```{r}
+Sigma_squ_bias_100_02 <- 
+resultsSVNP_hyper %>% 
+  filter(N == 100, cross == 0.2) %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_1))+
+  geom_point()
+Sigma_squ_bias_100_02
+```
+
+```{r}
+Sigma_squ_bias_200_02 <- 
+resultsSVNP_hyper %>% 
+  filter(N == 200, cross == 0.2) %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_1))+
+  geom_point()
+Sigma_squ_bias_200_02
+```
+
+```{r}
+Sigma_squ_bias_100_05 <- 
+resultsSVNP_hyper %>% 
+  filter(N == 100, cross == 0.5) %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_1))+
+  geom_point()
+Sigma_squ_bias_100_05
+```
+
+```{r}
+Sigma_squ_bias_200_05 <- 
+resultsSVNP_hyper %>% 
+  filter(N == 200, cross == 0.5) %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_1))+
+  geom_point()
+Sigma_squ_bias_200_05
+```
+
+# main plot bias
+
+```{r}
+allAtOnce <- Sigma_squ_bias_100_02 + Sigma_squ_bias_200_02 + Sigma_squ_bias_100_05 + Sigma_squ_bias_200_05 
+allAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank())
+```
+
+
+```{r}
+biasSigma <- allAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank())
+saveRDS(biasSigma, file = "../../figures/biasAllParsRHSPInc.Rds")
+```
+
+
+

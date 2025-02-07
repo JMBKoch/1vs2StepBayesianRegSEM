@@ -20,11 +20,16 @@ source('~/1vs2StepBayesianRegSEM/R/parameters.R')
 
 ```{r}
 # load results RHSP (already filtered and post-processed)
-resultsRHSP <- readRDS("~/1vs2StepBayesianRegSEM/output/resultsRHSPFilter.Rds")
-# load results SVNP
-resultsSVNP <- read.csv("~/1vs2StepBayesianRegSEM//output/resultsSVNP.csv", 
-                        sep = " ", 
-                        header = TRUE)
+resultsRHSP <- read_rds("../../output/resultsRHSPFilter.Rds")
+colnames(resultsRHSP) <- gsub('(^"|"$)', '', colnames(resultsRHSP))
+
+
+resultsSVNP <- read_rds("../../output/resultsSVNP.RDS")  
+colnames(resultsSVNP) <- gsub('(^"|"$)', '', colnames(resultsSVNP))
+
+resultsSVNP_hyper <- read_rds("../../output/resultsSVNP_hyper.RDS") 
+colnames(resultsSVNP_hyper) <- gsub('(^"|"$)', '', colnames(resultsSVNP_hyper))
+
 ```
 
 
@@ -40,9 +45,7 @@ resultsSVNP <-
          biasCrossMean_3 = abs(crossEstMean_3 - 0),
          biasCrossMean_4 = abs(crossEstMean_4 - 0),
          biasCrossMean_5 = abs(crossEstMean_5 - 0),
-         biasCrossMean_6 = abs(crossEstMean_6 - cross)) %>% 
-  select(-sigma)
-  
+         biasCrossMean_6 = abs(crossEstMean_6 - cross)) 
 ```
 
 ```{r}
@@ -55,11 +58,25 @@ resultsRHSP %>%
   mutate(sigmaSqu =  rep("RHSP", 799))
 ```
 
+```{r}
+resultsSVNP_hyper <- 
+resultsSVNP_hyper %>% 
+    arrange(N, cross, iteration) %>% 
+  mutate(
+         sigmaSqu = "SVNP: \u03c3 ~ Cauchy(0 , 1)",
+         biasCrossMean_1 = abs(crossEstMean_1 - cross),
+         biasCrossMean_2 = abs(crossEstMean_2 - 0),
+         biasCrossMean_3 = abs(crossEstMean_3 - 0),
+         biasCrossMean_4 = abs(crossEstMean_4 - 0),
+         biasCrossMean_5 = abs(crossEstMean_5 - 0),
+         biasCrossMean_6 = abs(crossEstMean_6 - cross)) %>% 
+  select(-SigmaEstMean, SigmaEstMed)
+```
 
 
 ```{r}
 # combine results
-resultsComb <- rbind(resultsSVNP, resultsRHSPOne100)
+resultsComb <- bind_rows(resultsSVNP, resultsRHSPOne100, resultsSVNP_hyper)
 # recode sigmaSqu for nicer plot sigmaSqu
 resultsComb$sigmaSqu[resultsComb$sigmaSqu == "SVNP: \u03c3\u00B2 = RSHP"] <- "RHSP (all hyper-parameters 1)"
 resultsComb$sigmaSqu <- as.factor(resultsComb$sigmaSqu)
@@ -81,9 +98,10 @@ scale_shapes <-
       "RHSP"  = 17,  # Triangle
       "SVNP: \u03c3\u00B2 = 0.001" = 16,  #point
       "SVNP: \u03c3\u00B2 = 0.01" = 16,   
-      "SVNP: \u03c3\u00B2 = 0.1" = 16
+      "SVNP: \u03c3\u00B2 = 0.1" = 16,
+      "SVNP: \u03c3 ~ Cauchy(0 , 1)" = 15 # square
     ),
-    guide = "none"
+    guide = "legend"
   )
 # define cols 
 scale_cols <- 
@@ -92,9 +110,22 @@ scale_cols <-
       "RHSP"  = "red",  # Assign red for RHSP
       "SVNP: \u03c3\u00B2 = 0.001" = "#a6bddb",  # Light blue for 0.001
       "SVNP: \u03c3\u00B2 = 0.01" = "#3690c0",   # Medium blue for 0.01
-      "SVNP: \u03c3\u00B2 = 0.1" = "#034e7b"     # Dark blue for 0.1
-    )
+      "SVNP: \u03c3\u00B2 = 0.1" = "#034e7b",     # Dark blue for 0.1
+       "SVNP: \u03c3 ~ Cauchy(0 , 1)" = "#7851A9" # royal puprle for hyper 
+
+    ),
+        guide = "legend"  # <-- Fix: Ensure shape is included in the legend
   ) 
+
+scale_line <- scale_linetype()
+scales <- list(scale_shapes, scale_cols, scale_line)
+
+
+
+
+
+
+
 ```
 
 
@@ -113,8 +144,9 @@ resultsComb %>%
        y = "Mean Absolute Bias",
       title = "Cross Loading 2-5")+
   ylim(0, 0.5)+
-  scale_shapes+
-  scale_cols+
+  #scale_shapes+
+  #scale_cols+
+  scales +
   theme_apa()
 ```
 
@@ -134,8 +166,9 @@ resultsComb %>%
        y = NULL,
       title = "Cross Loading 1 & 6")+
   ylim(0, 0.5)+
- scale_cols+
-  scale_shapes+
+  #scale_shapes+
+  #scale_cols+
+  scales +
   theme_apa()
 ```
 
@@ -154,8 +187,9 @@ resultsComb %>%
       y = "Mean Absolute Bias",
       title = "Main Loading 1, 2, 5 & 6")+
   ylim(0, 0.5)+
-  scale_cols +
-  scale_shapes+
+  #scale_shapes+
+  #scale_cols+
+  scales +
   theme_apa()
 ```
 
@@ -173,8 +207,9 @@ resultsComb %>%
        y = NULL,
       title = "Main Loading 3 & 4")+
   ylim(0, 0.5)+
- scale_cols+
-  scale_shapes+
+  #scale_shapes+
+  #scale_cols+
+  scales +
   theme_apa()
 ```
 
@@ -192,8 +227,9 @@ resultsComb %>%
        y = "Mean Absolute Bias",
       title = "Factor Correlation")+
   ylim(0, 0.5)+
-  scale_cols +
-  scale_shapes+
+  #scale_shapes+
+  #scale_cols+
+  scales +
   theme_apa()
 ```
 
@@ -211,22 +247,29 @@ resultsComb %>%
        y = NULL,
        title = "Residual Variances 1-6")+
   ylim(0, 0.5)+
-  scale_cols +
-  scale_shapes+
+  #scale_shapes+
+  #scale_cols+
+  scales +
   theme_apa()
 ```
 
 # saving plots
 
-```{r, fig.height = 15}
-allAtOnce <- crossLoadingsLowBias + crossLoadingHighBias + mainLoadingsLowBias + mainLoadingsHighBias + factCorr + thetas
-allAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank())
-```
-
 
 ```{r}
-biasAllParsRHSPInc <- allAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank())
-saveRDS(biasAllParsRHSPInc, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/biasAllParsRHSPInc.Rds")
+allAtOnce <- (crossLoadingsLowBias + crossLoadingHighBias + mainLoadingsLowBias + mainLoadingsHighBias + factCorr + thetas) + 
+  plot_layout(guides = "collect") & 
+  theme(legend.position = "bottom", legend.title = element_blank(), legend.text = element_text(size = 7)) 
+allAtOnce +
+  labs(shape = "Shrinkage prior",
+       col =  "Shrinkage prior",
+       linetype = "Shrinkage prior")
+```
+
+legend.position
+```{r, fig.height = 15}}
+
+saveRDS(allAtOnce, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/allAtOnce.RDS")
 ```
 
 ## Making sense of the plots

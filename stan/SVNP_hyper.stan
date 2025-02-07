@@ -13,8 +13,9 @@ parameters{
   vector[P] lambdaCross;
   real<lower=-1,upper=1> factCor;
   real<lower=0> sigma; 
-
+  
 }
+// }
 
 transformed parameters{
   matrix[P, Q] LambdaUnc;
@@ -66,6 +67,8 @@ generated quantities{
   PsiC = Psi;
   lambdaMainC = lambdaMain;
   lambdaCrossC = lambdaCross;
+  
+  
 
 // factor 1 sign switching correction [p = 1, marker item]  
    if(lambdaMain[1] < 0){

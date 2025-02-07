@@ -9,22 +9,22 @@ knitr::opts_chunk$set(echo = F, message = F)
 ```
 
 
-`
 ```{r, message = F, warning = F}
 # load packages outside of simulation
 library(papaja)
 library(patchwork)
 #source required functions & parameters
-source('../../R/functions.R')
-source('../../R/parameters.R')
+source('../../../R/functions.R')
+source('../../../R/parameters.R')
 ```
 
 ```{r}
 # load results
-resultsSVNP_hyper <- read_rds("../../output/resultsSVNP_hyper.RDS")
-convSVNP_hyper <- read_rds("../../output/convSVNP_hyper.RDS")
+resultsSVNP_hyper <- read_rds("../../../output/resultsSVNP_hyper.RDS")
+convSVNP_hyper <- read_rds("../../../output/convSVNP_hyper.RDS")
 
 ```
+
 ```{r}
 resultsSVNP_hyper <- 
   resultsSVNP_hyper %>% 
@@ -42,27 +42,10 @@ resultsSVNP_hyper <-
 ```
 
 
-
-```{r}
-resultsSVNP <- 
-  resultsSVNP %>% 
-  arrange(sigma, N, cross, iteration) %>% 
-  mutate(sigmaSqu = sigma^2,
-         biasCrossMean_1 = abs(crossEstMean_1 - cross),
-         biasCrossMean_2 = abs(crossEstMean_2 - 0),
-         biasCrossMean_3 = abs(crossEstMean_3 - 0),
-         biasCrossMean_4 = abs(crossEstMean_4 - 0),
-         biasCrossMean_5 = abs(crossEstMean_5 - 0),
-         biasCrossMean_6 = abs(crossEstMean_6 - cross),
-         condID = rep(1:(nrow(condPop)*nrow(condSVNP)), each = nIter) 
-) 
-  
-```
-
-
 ```{r, include =F }
-relBiasSVNP <- 
- resultsSVNP %>% 
+relBiasSVNP_hyper <- 
+ resultsSVNP_hyper %>% 
+    group_by(N, cross, iteration) %>% 
       mutate(
         relBiasMainMean_1 =  abs(mainEstMean_1 - modelPars$main[1]) /modelPars$main[1],
         relBiasMainMean_2 =  abs(mainEstMean_2 - modelPars$main[2]) /modelPars$main[2],
@@ -84,7 +67,7 @@ relBiasSVNP <-
         relBiasThetaMean_5 =  abs(thetaEstMean_5 - diag(modelPars$Theta)[5]) / diag(modelPars$Theta)[5],
         relBiasThetaMean_6 =  abs(thetaEstMean_6 - diag(modelPars$Theta)[6]) / diag(modelPars$Theta)[6],  
         ) %>% 
-      group_by(N, sigmaSqu, cross) %>% 
+      group_by(N, cross) %>% 
       summarise(
         relBiasMainMean_1 =  mean(relBiasMainMean_1),
         relBiasMainMean_2 =  mean(relBiasMainMean_2),
@@ -107,9 +90,12 @@ relBiasSVNP <-
         relBiasThetaMean_6 =  mean(relBiasThetaMean_6),
         N = mean(N),
         cross = mean(cross),
-        sigmaSqu = mean(sigmaSqu)
+        SigmaEstMean = mean(SigmaEstMean),
+        SigmaEstMed = mean(SigmaEstMed),
+        SigmaEstMeanSqu = SigmaEstMean^2,
+        SigmaEstMedSqu = SigmaEstMed^2
       )
-relBiasSVNP
+relBiasSVNP_hyper
 
 ```
 
@@ -118,13 +104,11 @@ relBiasSVNP
 ### Cross-Loadings
 ```{r}
 crossLoading1 <- 
-relBiasSVNP %>% 
-  select(N, relBiasCrossMean_1, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
-  group_by(N, 
-    cross, label) %>% 
+relBiasSVNP_hyper %>% 
+  select(N, relBiasCrossMean_1, cross) %>%
+  group_by(N, cross) %>% 
   summarise(meanRelBiasCrossMean_1 = mean(relBiasCrossMean_1)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_1, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_1))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -137,13 +121,13 @@ crossLoading1
 
 ```{r}
 crossLoading2 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasCrossMean_2, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-    cross, label) %>% 
+    cross) %>% 
   summarise(meanRelBiasCrossMean_2 = mean(relBiasCrossMean_2)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_2, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_2))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -157,13 +141,13 @@ crossLoading2
 
 ```{r}
 crossLoading3 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasCrossMean_3, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-    cross, label) %>% 
+    cross) %>% 
   summarise(meanRelBiasCrossMean_3 = mean(relBiasCrossMean_3)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_3, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_3))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -177,13 +161,13 @@ crossLoading3
 
 ```{r}
 crossLoading4 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasCrossMean_4, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-    cross, label) %>% 
+    cross) %>% 
   summarise(meanRelBiasCrossMean_4 = mean(relBiasCrossMean_4)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_4, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_4))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -197,13 +181,13 @@ crossLoading4
 
 ```{r}
 crossLoading5 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasCrossMean_5, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-    cross, label) %>% 
+    cross) %>% 
   summarise(meanRelBiasCrossMean_5 = mean(relBiasCrossMean_5)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_5, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_5))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -217,13 +201,13 @@ crossLoading5
 
 ```{r}
 crossLoading6 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasCrossMean_6, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-    cross, label) %>% 
+    cross) %>% 
   summarise(meanRelBiasCrossMean_6 = mean(relBiasCrossMean_6)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_6, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasCrossMean_6))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -243,13 +227,13 @@ crossLoading6
 
 ```{r}
 factCorr <- 
-relBiasSVNP %>% 
-  select(N, relBiasFactCorrMean, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+relBiasSVNP_hyper %>% 
+  select(N, relBiasFactCorrMean, cross) %>%
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiasFactCorrMean = mean(relBiasFactCorrMean)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasFactCorrMean, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasFactCorrMean))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -267,13 +251,13 @@ factCorr
 
 ```{r}
 mainLoading1 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasMainMean_1, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiasMainMean_1 = mean(relBiasMainMean_1)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_1, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_1))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -288,13 +272,13 @@ mainLoading1
 
 ```{r}
 mainLoading2 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasMainMean_2, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiasMainMean_2 = mean(relBiasMainMean_2)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_2, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_2))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -308,13 +292,13 @@ mainLoading2
 
 ```{r}
 mainLoading3 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasMainMean_3, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiasMainMean_3 = mean(relBiasMainMean_3)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_3, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_3))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -329,13 +313,13 @@ mainLoading3
 
 ```{r}
 mainLoading4 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasMainMean_4, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiasMainMean_4 = mean(relBiasMainMean_4)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_4, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_4))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -349,13 +333,13 @@ mainLoading4
 
 ```{r}
 mainLoading5 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasMainMean_5, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiasMainMean_5 = mean(relBiasMainMean_5)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_5, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_5))+
   geom_point()+
   geom_line()+
   facet_wrap(~N)+
@@ -369,13 +353,13 @@ mainLoading5
 
 ```{r}
 mainLoading6 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasMainMean_6, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiasMainMean_6 = mean(relBiasMainMean_6)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_6, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiasMainMean_6))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
@@ -392,13 +376,13 @@ mainLoading6
 
 ```{r}
 theta1 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasThetaMean_1, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiastheta1 = mean(relBiasThetaMean_1)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta1, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta1))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
@@ -412,13 +396,13 @@ theta1
 
 ```{r}
 theta2 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasThetaMean_2, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiastheta2 = mean(relBiasThetaMean_2)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta2, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta2))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
@@ -432,13 +416,13 @@ theta2
 
 ```{r}
 theta3 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasThetaMean_3, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiastheta3 = mean(relBiasThetaMean_3)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta3, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta3))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
@@ -452,13 +436,13 @@ theta3
 
 ```{r}
 theta4 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasThetaMean_4, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiastheta4 = mean(relBiasThetaMean_4)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta4, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta4))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
@@ -472,13 +456,13 @@ theta4
 
 ```{r}
 theta5 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasThetaMean_5, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiastheta5 = mean(relBiasThetaMean_5)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta5, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta5))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
@@ -493,13 +477,13 @@ theta5
 
 ```{r}
 theta6 <- 
-relBiasSVNP %>% 
+relBiasSVNP_hyper %>% 
   select(N, relBiasThetaMean_6, cross, sigmaSqu) %>%
-  mutate(label = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
+   
   group_by(N, 
-           cross, label) %>% 
+           cross) %>% 
   summarise(meanRelBiastheta6 = mean(relBiasThetaMean_6)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta6, group = label, col = label))+
+  ggplot(aes(x = as.factor(cross), y = meanRelBiastheta6))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",

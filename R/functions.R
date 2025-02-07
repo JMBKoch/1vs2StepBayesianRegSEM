@@ -49,7 +49,6 @@ simDatasets <- function(condPop, nIter, modelPars){
     # return datasets
     return(datasets)
 
-  
 }
 
 # prepareDat() ------------------------------------------------------------
@@ -129,7 +128,18 @@ prepareDat <- function(datasets, condPrior, nIter){
         #prior = "SVNP",
         sigma = condCurrent$sigma
       )
-    }else if(condCurrent$prior == "RHSP"){
+    }else if(condCurrent$prior == "SVNP_hyper"){
+      
+      dataStanCondCurrent[[i]] <-  list(
+        N = nrow(Y),
+        cross = cross[i],
+        iter = iter[i],
+        P = ncol(Y),
+        Q = 2,
+        Y = (Y)
+        #prior = "SVNP",
+      )
+    } else if(condCurrent$prior == "RHSP"){
       dataStanCondCurrent[[i]] <- list(
         N = nrow(Y),
         cross = cross[i],
@@ -157,6 +167,11 @@ prepareDat <- function(datasets, condPrior, nIter){
 # function takes rstan object and saves the results 
 saveResults <- function(rstanObj, condPrior, condPop, modelPars){
   
+  # save sigma for SVNP_hyper
+  if(condPrior$prior == "SVNP_hyper"){
+    SigmaEstMean <- apply(as.matrix(rstanObj, pars = "sigma"), 2, mean)
+    SigmaEstMed <- apply(as.matrix(rstanObj, pars = "sigma"), 2, median)
+  }
   
   # save true cross loading based on condPop
   crossTrue <- numeric(6)
@@ -176,6 +191,7 @@ saveResults <- function(rstanObj, condPrior, condPop, modelPars){
   crossEstMed <-  apply(crossMatrix, 2, median)
   crossEstVar <-  apply(crossMatrix, 2, var)
   
+
   # estimates Theta
   thetaEstMean <- apply(as.matrix(rstanObj, pars = "theta"), 2, mean)
   thetaEstMed <- apply(as.matrix(rstanObj, pars = "theta"), 2, median)
@@ -250,10 +266,17 @@ saveResults <- function(rstanObj, condPrior, condPop, modelPars){
                isZero50CI) %>% 
         as_tibble()
   colnames(out)[1] <- "item"
+  
+
   # recode output into wide format and cbind convergence into it
   out <- tidyr::pivot_wider(out, 
                             names_from = item, 
                             values_from = colnames(out[-1])) 
+  # cbind in est Sigma foor SVNP_hyper
+  if (condPrior$prior == "SVNP_hyper") {
+    out <- cbind(out, SigmaEstMean)
+    out <- cbind(out, SigmaEstMed)
+  }
   
   # cbind estimates of corr (only 1 per six items) into output
   out <- cbind(out, 
@@ -321,7 +344,7 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars){
   if (prior == "SVNP"){
     
     # compile model (if already compiled this will just not be executed)
-      model <- cmdstan_model("~/1vs2StepBayesianRegSEM/stan/SVNP.stan")
+      model <- cmdstan_model("stan/SVNP.stan")
       
     # select current hyper-parameter conditions
     condPriorCurrent <- data.frame(
@@ -329,10 +352,19 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars){
                            sigma = datCurrent$sigma
                            )
       
-  }else if (prior == "RHSP"){
+  } else if (prior == "SVNP_hyper"){
     
     # compile model (if already compiled this will just not be executed)
-    model <- cmdstan_model("~/1vs2StepBayesianRegSEM/stan/RHSP.stan")
+    model <- cmdstan_model("stan/SVNP_hyper.stan")
+    
+    # select current hyper-parameter conditions
+    condPriorCurrent <- data.frame(
+      prior = "SVNP_hyper")
+
+    } else if (prior == "RHSP"){
+    
+    # compile model (if already compiled this will just not be executed)
+    model <- cmdstan_model("stan/RHSP.stan")
     
     # select current hyper-parameter conditions
     condPriorCurrent <- data.frame(prior = "RHSP",
@@ -350,7 +382,7 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars){
     cross = datCurrent$cross
   )
   
-  # Draw the Samples
+  # Draw the Samples 
   samples <- model$sample(data = datCurrent,
                           chains = samplePars$nChain, 
                           iter_warmup = samplePars$nWarmup,
@@ -377,67 +409,40 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars){
   conv$pos <- pos
     
   # Write output to disk (per set of conditions in an appending fashion)
-  ### THIS ONLY WORKS WHEN files dont already exist, so maybe delete them before?, e.g. in main.R
-  resultsName <- ifelse(condPriorCurrent$prior == "SVNP",
-                        "~/1vs2StepBayesianRegSEM/output/resultsSVNP.csv",
-                        "~/1vs2StepBayesianRegSEM/output/resultsRHSP.csv")
-                        
-  convName <- ifelse(condPriorCurrent$prior == "SVNP",
-                     "~/1vs2StepBayesianRegSEM/output/convSVNP.csv",
-                     "~/1vs2StepBayesianRegSEM/output/convRHSP.csv")
+  # Define file paths
+  resultsName <- paste0("output/",
+                        "results", 
+                        condPriorCurrent$prior,
+                        ".RDS")
   
-  write.table(output, 
-              file = resultsName,
-              append = TRUE,
-              row.names = FALSE,
-              col.names=!file.exists(resultsName))
-  write.table(conv,
-              file = convName,
-              append = TRUE,
-              row.names = FALSE,
-              col.names=!file.exists(convName))
+  convName <- paste0("output/",
+                     "conv", 
+                     condPriorCurrent$prior,
+                     ".RDS")
+  
+  # Function to append new results to existing file
+  append_rds <- function(new_data, file_name) {
+    if (file.exists(file_name)) {
+      # Read existing data
+      existing_data <- read_rds(file_name)
+      
+      # Combine old and new data
+      combined_data <- dplyr::bind_rows(existing_data, new_data) 
+      
+      # Write updated data back
+      write_rds(combined_data, file_name)
+    } else {
+      # If file doesn't exist, simply write new data
+      write_rds(new_data, file_name)
+    }
+  }
+  
+  # Save results in an appending manner
+  append_rds(output, resultsName)
+  append_rds(conv, convName)
  
   # return list with results and convergence diags
   return(list(results = output,
               convergence = conv))
   
 }
-################################################################################################
-# Part 2: Postprocessing Output of Simulation
-################################################################################################
-# selectConv -------------------------------------------------------------
-# function takes whole output and trims dataset such that only converged iterations are included
-#selectConv <- function(results){}
-### Opsplitsen in Strict en niet zo strict? Doe maar eerst gwn strict
-
-# computeOutcomes ---------------------------------------------------------
-# Takes as input the results of a study (minus non converged) and computes all main outcomes
-#computeOutcomes <- function(resultsTrimmed, modelPars){
-#  
-# 
-#  # cbind conditions into output
-#  out <- cbind(out, select(resultsTrimmed, prior:iteration))
-#  # return output
-#  return(out)
-#  
-#}
-
-# Plots -----------------------------------------------------------------
-# makes all required plots (generally? for AN outcome?) and saves them
-#### start with bias for now,ff litertuur weer induiken & Sara spreken over wat handig is
-#
-#plotsMeanBias <- function(output, parameterName, condition){
-#
-#      name <- paste0("mean", parameterName)
-#  
-#      out %>% 
-#        group_by(condition) %>% 
-#        summarise(name = mean(parameterName)) %>% 
-#        ggplot(mapping = aes(x = condition, y = name))+
-#        geom_point()
-#
-#}       
-        
-#plotsMeanBias(out, "biasFactCorr", condition= sigma)
-
-

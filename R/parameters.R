@@ -2,6 +2,9 @@
 # parameters.R                                            (c) J.M.B. Koch 2022
 ################################################################################
 # This file contains the specification of all relevant study parameters
+# setting seed for reproducibility ----------------------------------------
+set.seed(0704)
+
 # Packages ----------------------------------------------------------------
 # specify packages that are required for executing the simulation
 packages <- c("cmdstanr", # MCMC sampling using stan
@@ -42,7 +45,7 @@ modelPars <- list(
                   )
 
 # Hyper-Parameters: -------------------------------------------------------
-# Small Variance Normal Prior ---------------------------------------------
+# Small Variance Normal Prior fixed ---------------------------------------------
 sigma <- c(sqrt(0.1), # specified such that sigma^2 > sigma
            sqrt(0.01), 
            sqrt(0.001))
@@ -72,6 +75,9 @@ condSVNP <-
     sigma = sigma
   )
 
+condSVNP_hyper <- 
+  tibble(prior = "SVNP_hyper")
+
 condRHSP <- 
   expand.grid(
     prior = "RHSP",
@@ -92,11 +98,10 @@ samplePars <- list(
                 )
 
 # Parallelization Parameter -----------------------------------------------
-nClusters <- 8 # depending on machine, original study run with 12 for SVNP and 46 for RHSP
+nClusters <- 12 # depending on machine, original study run with 12 for SVNP and 46 for RHSP
 
 # other study parameters --------------------------------------------------
 nIter <- 200 # in paper(s) Iterations are referred to as "Replications"
-
 
 # Convergence Criteria ----------------------------------------------------
 convCriteria <- list(
