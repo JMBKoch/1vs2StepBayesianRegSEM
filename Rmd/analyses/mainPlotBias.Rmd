@@ -14,8 +14,8 @@ knitr::opts_chunk$set(echo = F, message = F)
 library(papaja)
 library(patchwork)
 #source required functions & parameters
-source('~/1vs2StepBayesianRegSEM/R/functions.R')
-source('~/1vs2StepBayesianRegSEM/R/parameters.R')
+source('../../R/functions.R')
+source('../../R/parameters.R')
 ```
 
 ```{r}
@@ -117,7 +117,7 @@ scale_cols <-
         guide = "legend"  # <-- Fix: Ensure shape is included in the legend
   ) 
 
-scale_line <- scale_linetype()
+scale_line <- scale_linetype(guide = "legend")
 scales <- list(scale_shapes, scale_cols, scale_line)
 
 
@@ -133,10 +133,11 @@ scales <- list(scale_shapes, scale_cols, scale_line)
 crossLoadingsLowBias <- 
 resultsComb %>%
   filter(N == 100) %>% 
-  select(biasCrossMean_2, cross, sigmaSqu) %>%
-  group_by(cross, sigmaSqu) %>% 
+  mutate(`Shrinkage prior` = sigmaSqu) %>% 
+  select(biasCrossMean_2, cross, `Shrinkage prior`) %>%
+  group_by(cross, `Shrinkage prior`) %>% 
   summarise(meanBiasCrossMean_2 = mean(biasCrossMean_2)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_2, group = sigmaSqu, col = sigmaSqu, linetype = sigmaSqu, shape = sigmaSqu))+
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_2, group = `Shrinkage prior`, col = `Shrinkage prior`, linetype = `Shrinkage prior`, shape = `Shrinkage prior`))+
   geom_point()+
   geom_line()+
   #facet_wrap(~N)+
@@ -156,9 +157,10 @@ crossLoadingHighBias <-
 resultsComb %>% 
   filter(N == 100) %>% 
   select(N, biasCrossMean_1, cross, sigmaSqu) %>%
-  group_by(cross, sigmaSqu) %>% 
+  mutate(`Shrinkage prior` = sigmaSqu) %>% 
+  group_by(cross, `Shrinkage prior`) %>% 
   summarise(meanBiasCrossMean_1 = mean(biasCrossMean_1)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_1, group = sigmaSqu, col = sigmaSqu, linetype = sigmaSqu, shape = sigmaSqu))+
+  ggplot(aes(x = as.factor(cross), y = meanBiasCrossMean_1, group = `Shrinkage prior`, col = `Shrinkage prior`, linetype = `Shrinkage prior`, shape = `Shrinkage prior`))+
   geom_point()+
   geom_line()+
   labs(
@@ -178,9 +180,11 @@ mainLoadingsLowBias <-
 resultsComb %>% 
   filter(N == 100) %>% 
   select(biasMainMean_1, cross, sigmaSqu) %>%
-  group_by(cross, sigmaSqu) %>% 
+  mutate(`Shrinkage prior` = sigmaSqu) %>% 
+  mutate(`Shrinkage prior` = `Shrinkage prior`) %>% 
+  group_by(cross, `Shrinkage prior`) %>% 
   summarise(meanBiasMainMean_1 = mean(biasMainMean_1)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_1, group = sigmaSqu, col = sigmaSqu, linetype = sigmaSqu, shape = sigmaSqu))+
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_1, group = `Shrinkage prior`, col = `Shrinkage prior`, linetype = `Shrinkage prior`, shape = `Shrinkage prior`))+
   geom_point()+
   geom_line()+
   labs(x = NULL,
@@ -198,9 +202,10 @@ mainLoadingsHighBias <-
 resultsComb %>% 
   filter(N == 100) %>% 
   select(biasMainMean_3, cross, sigmaSqu) %>%
-  group_by(cross, sigmaSqu) %>% 
+  mutate(`Shrinkage prior` = sigmaSqu) %>% 
+  group_by(cross, `Shrinkage prior`) %>% 
   summarise(meanBiasMainMean_3 = mean(biasMainMean_3)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_3, group = sigmaSqu, col = sigmaSqu, linetype = sigmaSqu, shape = sigmaSqu))+
+  ggplot(aes(x = as.factor(cross), y = meanBiasMainMean_3, group = `Shrinkage prior`, col = `Shrinkage prior`, linetype = `Shrinkage prior`, shape = `Shrinkage prior`))+
   geom_point()+
   geom_line()+
   labs(x = NULL,
@@ -218,9 +223,10 @@ factCorr <-
 resultsComb %>% 
   filter(N == 100) %>% 
   select(biasFactCorrMean, cross, sigmaSqu) %>%
-  group_by(cross, sigmaSqu) %>% 
+  mutate(`Shrinkage prior` = sigmaSqu) %>% 
+  group_by(cross, `Shrinkage prior`) %>% 
   summarise(meanBiasFactCorrMean = mean(biasFactCorrMean)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group = sigmaSqu, col = sigmaSqu, linetype = sigmaSqu, shape = sigmaSqu))+
+  ggplot(aes(x = as.factor(cross), y = meanBiasFactCorrMean, group = `Shrinkage prior`, col = `Shrinkage prior`, linetype = `Shrinkage prior`, shape = `Shrinkage prior`))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
@@ -238,9 +244,10 @@ thetas <-
 resultsComb %>% 
   filter(N == 100) %>% 
   select(biasThetaMean_1, cross, sigmaSqu) %>%
-  group_by(cross, sigmaSqu) %>% 
+  mutate(`Shrinkage prior` = sigmaSqu) %>% 
+  group_by(cross, `Shrinkage prior`) %>% 
   summarise(meanBiastheta1 = mean(biasThetaMean_1)) %>% 
-  ggplot(aes(x = as.factor(cross), y = meanBiastheta1, group = sigmaSqu, col = sigmaSqu, linetype = sigmaSqu, scale = sigmaSqu))+
+  ggplot(aes(x = as.factor(cross), y = meanBiastheta1, group = `Shrinkage prior`, col = `Shrinkage prior`, shape = `Shrinkage prior`,linetype = `Shrinkage prior`))+
   geom_point()+
   geom_line()+
   labs(x = "Size Cross Loading",
@@ -256,14 +263,12 @@ resultsComb %>%
 # saving plots
 
 
-```{r}
-allAtOnce <- (crossLoadingsLowBias + crossLoadingHighBias + mainLoadingsLowBias + mainLoadingsHighBias + factCorr + thetas) + 
-  plot_layout(guides = "collect") & 
-  theme(legend.position = "bottom", legend.title = element_blank(), legend.text = element_text(size = 7)) 
-allAtOnce +
-  labs(shape = "Shrinkage prior",
-       col =  "Shrinkage prior",
-       linetype = "Shrinkage prior")
+```{r, fig.height=10}
+allAtOnce <- (crossLoadingsLowBias + crossLoadingHighBias + mainLoadingsLowBias + mainLoadingsHighBias + factCorr + thetas)+ 
+  plot_layout(ncol = 2, guides = "collect") & theme(legend.position = "bottom", element_text(size = 7)) 
+
+
+
 ```
 
 legend.position
