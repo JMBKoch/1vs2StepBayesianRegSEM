@@ -265,7 +265,9 @@ resultsComb %>%
 
 ```{r, fig.height=10}
 allAtOnce <- (crossLoadingsLowBias + crossLoadingHighBias + mainLoadingsLowBias + mainLoadingsHighBias + factCorr + thetas)+ 
-  plot_layout(ncol = 2, guides = "collect") & theme(legend.position = "bottom", element_text(size = 7)) 
+  plot_layout(ncol = 2, guides = "collect") & 
+  theme(legend.position = "bottom", 
+        legend.title=element_blank()) 
 
 
 

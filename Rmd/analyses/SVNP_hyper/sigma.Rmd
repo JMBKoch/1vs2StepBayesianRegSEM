@@ -80,7 +80,10 @@ Sigma_squ_bias_100_05 <-
 resultsSVNP_hyper %>% 
   filter(N == 100, cross == 0.5) %>% 
   ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_1))+
-  geom_point()
+  geom_point(size = .5)+
+  labs(x = "\u03c3\u00B2",
+       y = "Bias Cross Loading 1 & 6")+
+  theme_apa()
 Sigma_squ_bias_100_05
 ```
 
@@ -89,7 +92,10 @@ Sigma_squ_bias_200_05 <-
 resultsSVNP_hyper %>% 
   filter(N == 200, cross == 0.5) %>% 
   ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_1))+
-  geom_point()
+  geom_point(size = .5)+
+  theme_apa()+
+  labs(x = "\u03c3\u00B2",
+       y = "Bias Cross Loading 1 & 6")
 Sigma_squ_bias_200_05
 ```
 

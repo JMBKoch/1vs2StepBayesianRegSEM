@@ -16,20 +16,26 @@ knitr::opts_chunk$set(echo = F, message = F)
 library(papaja)
 library(patchwork)
 #source required functions & parameters
-source('~/1vs2StepBayesianRegSEM/R/functions.R')
-source('~/1vs2StepBayesianRegSEM/R/parameters.R')
+source('../../../R/functions.R')
+source('../../../R/parameters.R')
 ```
 
 ```{r}
 # load results
-resultsSVNP <- read.csv("../../../output/resultsSVNP.csv", 
-                        sep = " ", 
-                        header = TRUE) %>% 
+
+resultsRHSP <- read_rds("../../../output/resultsRHSPFilter.Rds")
+colnames(resultsRHSP) <- gsub('(^"|"$)', '', colnames(resultsRHSP))
+
+
+resultsSVNP <- read_rds("../../../output/resultsSVNP.RDS")  
+colnames(resultsSVNP) <- gsub('(^"|"$)', '', colnames(resultsSVNP))
+
+resultsSVNP_hyper <- read_rds("../../../output/resultsSVNP_hyper.RDS") 
+colnames(resultsSVNP_hyper) <- gsub('(^"|"$)', '', colnames(resultsSVNP_hyper))
+
+resultsSVNP <- resultsSVNP%>% 
   mutate(sigmaSqu = sigma^2)
-convSVNP <- read.csv("~/1vs2StepBayesianRegSEM/output/convSVNP.csv",
-                     sep = " ",
-                     header = TRUE)
-resultsSVNP_hyper <- read_rds("../../../output/resultsSVNP_hyper.RDS")
+
 resultsSVNP_hyper <- 
 resultsSVNP_hyper %>% 
   mutate(sigmaSqu = -9999)
@@ -176,7 +182,7 @@ PowerSVNP %>%
     mutate(
     sigmaSqu = ifelse(
       sigmaSqu == -9999.000, "\u03c3 ~ Cauchy(0, 1)", 
-       paste0("\u03c3\u00B = ", sigmaSqu)
+       paste0("\u03c3\u00B2 = ", sigmaSqu)
       ),
     sigmaSqu = as.factor(sigmaSqu),
     N = as.factor(paste0("N = ", N))
@@ -217,7 +223,7 @@ TypeISVNP %>%
   select(N, sigmaSqu, cross, criterion, value) %>%   mutate(
     sigmaSqu = ifelse(
       sigmaSqu == -9999.000, "\u03c3 ~ Cauchy(0, 1)", 
-       paste0("\u03c3\u00B = ", sigmaSqu)
+       paste0("\u03c3\u00B2 = ", sigmaSqu)
       ),
     sigmaSqu = as.factor(sigmaSqu),
     N = as.factor(paste0("N = ", N))
