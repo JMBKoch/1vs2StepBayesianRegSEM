@@ -95,7 +95,7 @@ saveRDS(hist_est_sigma2, file = "../../figures/hist_meanest_sigmasqu.RDS")
 
 # plot bias against Sigma: 
 
-## cross-loading 1
+## cross-loading 1 & 6
 
 ```{r}
 cross_1_sigmabias <- 
@@ -107,7 +107,6 @@ resultsSVNP_hyper %>%
 cross_1_sigmabias
 ```
 
-## cross loading 6
 ```{r}
 cross6_sigmabias <- 
 resultsSVNP_hyper %>% 
@@ -295,5 +294,26 @@ resultsSVNP_hyper %>%
   facet_wrap(N~`Cross Loading`)+
   theme_apa()
 theta6_sigmabias
+```
+
+
+# save relevant plots
+
+```{r}
+cross_1_6_sigmabias <- 
+cross_1_sigmabias+
+  labs(x = "Mean Estimate \u03c3\u00B2",
+       y = "Absolute Bias Mean Estimate",
+       title = "Bias vs Estimate of \u03c3\u00B2 for SVNP: \u03c3 ~ Cauchy(0 , 1) - Cross Loading 1 & 6 ")
+write_rds(cross_1_6_sigmabias, "../../figures/cross_1_6_sigmabias")
+```
+
+```{r}
+cross_1_6_sigmabias <- 
+cross_1_sigmabias+
+  labs(x = "Mean Estimate \u03c3\u00B2",
+       y = "Absolute Bias Mean Estimate",
+       title = "Bias vs Estimate of \u03c3\u00B2 for SVNP: \u03c3 ~ Cauchy(0 , 1) - Cross Loading 1 & 6 ")
+write_rds(cross_1_6_sigmabias, "../../figures/cross_1_6_sigmabias")
 ```
 
