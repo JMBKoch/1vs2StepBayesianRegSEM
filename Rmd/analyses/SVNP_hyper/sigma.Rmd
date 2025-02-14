@@ -20,15 +20,19 @@ source('../../../R/parameters.R')
 
 ```{r}
 # load results
-resultsSVNP_hyper <- read_rds("../../../output/resultsSVNP_hyper.RDS")
+resultsSVNP_hyper <- read_rds("../../../output/resultsSVNP_hyper.RDS")%>% 
+    mutate(N = ifelse(N == 100, "N = 100", "N = 200"),
+         `Cross Loading` = as.character(cross)) 
+
 convSVNP_hyper <- read_rds("../../../output/convSVNP_hyper.RDS")
+
 
 ```
 
 ```{r}
 resultsSVNP_hyper <- 
   resultsSVNP_hyper %>% 
-  group_by(N, cross, iteration) %>% 
+  group_by(N, `Cross Loading`, iteration) %>% 
   mutate(
          biasCrossMean_1 = abs(crossEstMean_1 - cross),
          biasCrossMean_2 = abs(crossEstMean_2 - 0),
@@ -41,76 +45,255 @@ resultsSVNP_hyper <-
          SigmaSquEstMean = SigmaEstMean^2,
          SigmaSquEstMed = SigmaEstMed^2
          ) 
-
   
 ```
 
 # summarise mean sigmaSqu per condtion
 ```{r}
 resultsSVNP_hyper %>% 
-  group_by(N, cross)%>% 
-  summarise(sigmaSquMean = mean(SigmaSquEstMean),
-           SigmaSquEstMed = mean(SigmaSquEstMed)) 
+  group_by(N, `Cross Loading` )%>% 
+  summarise(`Mean Mean Estimate` = mean(SigmaSquEstMean),
+           `Mean Median Estimate`  = mean(SigmaSquEstMed)) %>% 
+  mutate(across(
+    where(is.numeric), 
+    ~ round(., 3)
+    )
+  )
 
 # write output for table 
 write_rds(resultsSVNP_hyper, "../../figures/sigmaSqu_per_cond.RDS")
 ```
-# plot bias against Sigma
+# histogram distribution sigma 
 
+
+## mean est
 ```{r}
-Sigma_squ_bias_100_02 <- 
-resultsSVNP_hyper %>% 
-  filter(N == 100, cross == 0.2) %>% 
-  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_1))+
-  geom_point()
-Sigma_squ_bias_100_02
+library(ggplot2)
+library(dplyr)
+library(glue)
+
+hist_est_sigma2 <- 
+resultsSVNP_hyper %>%
+  mutate(`Cross Loading` = glue("Cross Loading = {`Cross Loading`}")) %>%
+  group_by(N, `Cross Loading`) %>%
+  mutate(mean_SigmaSquEstMean = mean(SigmaSquEstMean, na.rm = TRUE)) %>%
+  ggplot(mapping = aes(x = SigmaSquEstMean)) +
+  geom_histogram() +
+  geom_vline(aes(xintercept = mean_SigmaSquEstMean), color = "red", linetype = "dashed") +
+  facet_wrap(N ~ `Cross Loading`,  scales = "fixed") +
+  theme_apa() +
+  labs(
+    x = " \u03c3\u00B2 (mean estimate)",
+    title = "Distribution of \u03c3\u00B2 in SVNP: \u03c3 ~ Cauchy(0 , 1) across population conditions"
+  )
+
 ```
 
 ```{r}
-Sigma_squ_bias_200_02 <- 
-resultsSVNP_hyper %>% 
-  filter(N == 200, cross == 0.2) %>% 
-  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_1))+
-  geom_point()
-Sigma_squ_bias_200_02
+saveRDS(hist_est_sigma2, file = "../../figures/hist_meanest_sigmasqu.RDS")
 ```
 
+# plot bias against Sigma: 
+
+## cross-loading 1
+
 ```{r}
-Sigma_squ_bias_100_05 <- 
+cross_1_sigmabias <- 
 resultsSVNP_hyper %>% 
-  filter(N == 100, cross == 0.5) %>% 
   ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_1))+
-  geom_point(size = .5)+
-  labs(x = "\u03c3\u00B2",
-       y = "Bias Cross Loading 1 & 6")+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
   theme_apa()
-Sigma_squ_bias_100_05
+cross_1_sigmabias
 ```
 
+## cross loading 6
 ```{r}
-Sigma_squ_bias_200_05 <- 
+cross6_sigmabias <- 
 resultsSVNP_hyper %>% 
-  filter(N == 200, cross == 0.5) %>% 
-  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_1))+
-  geom_point(size = .5)+
-  theme_apa()+
-  labs(x = "\u03c3\u00B2",
-       y = "Bias Cross Loading 1 & 6")
-Sigma_squ_bias_200_05
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_6))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+cross6_sigmabias
 ```
 
-# main plot bias
+## cross-loading 2-5
 
 ```{r}
-allAtOnce <- Sigma_squ_bias_100_02 + Sigma_squ_bias_200_02 + Sigma_squ_bias_100_05 + Sigma_squ_bias_200_05 
-allAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank())
+cross2_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_2))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+cross2_sigmabias
 ```
 
 
 ```{r}
-biasSigma <- allAtOnce + plot_layout(guides = "collect", ncol = 2) & theme(legend.position = "bottom", legend.title = element_blank())
-saveRDS(biasSigma, file = "../../figures/biasAllParsRHSPInc.Rds")
+cross3_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_3))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+cross3_sigmabias
 ```
 
+```{r}
+cross4_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_4))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+cross4_sigmabias
+```
 
+```{r}
+cross5_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasCrossMean_4))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+cross5_sigmabias
+```
+## main loading 1, 2, 5, 6
+
+
+```{r}
+main1_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasMainMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+main1_sigmabias
+```
+
+```{r}
+main2_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasMainMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+main2_sigmabias
+```
+```{r}
+main5_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasMainMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+main5_sigmabias
+```
+
+```{r}
+main6_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasMainMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+main6_sigmabias
+```
+
+##  main loading 3 & 4
+
+```{r}
+main3_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasMainMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+main3_sigmabias
+```
+
+```{r}
+main4_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasMainMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+main4_sigmabias
+```
+
+## factor corr
+
+```{r}
+factcorr_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasFactCorrMean))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+factcorr_sigmabias
+```
+
+## residual variances 1-6
+
+```{r}
+theta1_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasThetaMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+theta1_sigmabias
+```
+
+```{r}
+theta2_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasThetaMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+theta2_sigmabias
+```
+
+```{r}
+theta3_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasThetaMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+theta3_sigmabias
+```
+
+```{r}
+theta4_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasThetaMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+theta4_sigmabias
+```
+
+```{r}
+theta5_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasThetaMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+theta5_sigmabias
+```
+```{r}
+theta6_sigmabias <- 
+resultsSVNP_hyper %>% 
+  ggplot(mapping = aes(x = SigmaSquEstMean, y = biasThetaMean_1))+
+  geom_point(size = .3)+
+  facet_wrap(N~`Cross Loading`)+
+  theme_apa()
+theta6_sigmabias
+```
 
