@@ -158,7 +158,7 @@ regression [@piironen_sparsity_2017; @van_erp_shrinkage_2019]. However,
 systematic research on the performance of this shrinkage prior in
 Bayesian regularized SEM is lacking [see @van2023bayesian for an
 overview on the shrinkage priors previously used in Bayesian Regularized
-SEM]. A notable exception is the work by @zhang2023bayesian who
+SEM]. A notable exception is the work by @zhang_bayesian_2024 who
 investigated the horseshoe prior in a multiple indicator multiple causes
 (MIMIC) model [see also @yamaguchi2023fully for work on the Horseshoe
 Prior and its extension in variable selection in a two-parameter
@@ -506,7 +506,7 @@ $\lambda_{c,jk}$ approaches a slab $\mathcal{N}(0, c^2)$. Under the
 above specification, when c is no constant but a parameter for which an
 Inverse-Gamma hyper-prior is set, the slab becomes a t-distribution with
 $df_{slab}$ degrees of freedom, a mean of zero and a scale of
-$s_{slab}^2$ [@piironen_sparsity_2017]. @zhang2023bayesian showed that
+$s_{slab}^2$ [@piironen_sparsity_2017]. @zhang_bayesian_2024 showed that
 in MIMIC models, the RHSP indeed possesses the desired property of
 shrinking larger effects more than the regular Horseshoe Prior does,
 without negative consequences in terms of bias or parameter selection
@@ -1072,7 +1072,7 @@ frequentist variable selection methods are sensitive to sample size
 too]. At the same time, it is an important finding that both priors
 perform poorly under small sample sizes, as simple CFA models are often
 fitted with such small sample sizes in practice. Interestingly,
-@zhang2023bayesian found the RHSP to perform well in selecting
+@zhang_bayesian_2024 found the RHSP to perform well in selecting
 covariates in a MIMIC model as (non-)zero, even under a sample size of N
 = 200. This suggests that the small sample sizes in our study may not be
 the only reason for the poor selection performance of the RHSP. This is
@@ -1125,7 +1125,7 @@ residual co-variances separately rather than on top of cross loadings,
 as regularizing both parameters simultaneously can be challenging in
 practice [@zhang_criteria_2021]. It is also desirable to assess the
 performance of the RHSP in regularizing model parameters in more complex
-SEM models. For instance, extending the work by @zhang2023bayesian who
+SEM models. For instance, extending the work by @zhang_bayesian_2024 who
 regularized the causes (covariates) of latent variables, but not their
 indicators (i.e. factor loadings), may be a sensible step. Hereby,
 adding another latent variable and with it cross loading to their model
@@ -1141,7 +1141,7 @@ for instance @lu_bayesian_2016] may prove valuable in allowing for a
 more refined comparison between the SVNP and the RHSP. Note also that in
 the current study no direct comparison to other relevant shrinkage
 priors, such as the Bayesian LASSO or the Spike-And-Slab Prior was made.
-@van2023bayesian emphasizes the need for user-friendly software for
+@van_erp_bayesian_2023 emphasizes the need for user-friendly software for
 Bayesian Regularized SEM. In particular for more complex shrinkage
 priors software implementations are lacking. This also counts for the
 RSHP, which needs to be implemented into standard Bayesian SEM software

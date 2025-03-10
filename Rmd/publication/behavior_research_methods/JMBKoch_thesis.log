@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.4.21)  10 MAR 2025 12:21
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2024.4.21)  10 MAR 2025 13:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1082,24 +1082,24 @@ File: ~/1vs2StepBayesianRegSEM/Rmd/figures/model.png Graphic file (type bmp)
 [16]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[17] [18] [19] [20] [21] [22] [23]
+[17] [18] [19] [20] [21] [22]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-5-1.pdf>
-[24] [25]
+[23] [24] [25] [26]
 File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (typ
 e pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-6-1.pdf>
 
-LaTeX Warning: Float too large for page by 4.77895pt on input line 1124.
+LaTeX Warning: Float too large for page by 4.77895pt on input line 1129.
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[26] [27] [28] [29] [30] [31] [32]
+[27] [28]
 Underfull \vbox (badness 4752) has occurred while \output is active []
 
-[33]
+[29] [30]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[31] [32] [33]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [34] [35]
@@ -1116,11 +1116,14 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [38]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[39] [40] [41]
+[39]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[40] [41] [42]
 Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
 Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
 
-Overfull \hbox (6.64485pt too wide) in paragraph at lines 1589--1589
+Overfull \hbox (6.64485pt too wide) in paragraph at lines 1597--1597
 []\TU/lmtt/m/n/12 ## conversion failure on []Distribution of σ² in SVNP: σ ~ Ca
 uchy(0 , 1) across[] 
  []
@@ -1128,7 +1131,7 @@ uchy(0 , 1) across[]
 Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
 Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
 
-Overfull \hbox (6.64485pt too wide) in paragraph at lines 1595--1595
+Overfull \hbox (6.64485pt too wide) in paragraph at lines 1603--1603
 []\TU/lmtt/m/n/12 ## conversion failure on []Distribution of σ² in SVNP: σ ~ Ca
 uchy(0 , 1) across[] 
  []
@@ -1136,7 +1139,7 @@ uchy(0 , 1) across[]
 Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
 Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
 
-Overfull \hbox (6.64485pt too wide) in paragraph at lines 1601--1601
+Overfull \hbox (6.64485pt too wide) in paragraph at lines 1609--1609
 []\TU/lmtt/m/n/12 ## conversion failure on []Distribution of σ² in SVNP: σ ~ Ca
 uchy(0 , 1) across[] 
  []
@@ -1144,105 +1147,105 @@ uchy(0 , 1) across[]
 Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
 Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
 
-Overfull \hbox (6.64485pt too wide) in paragraph at lines 1607--1607
+Overfull \hbox (6.64485pt too wide) in paragraph at lines 1615--1615
 []\TU/lmtt/m/n/12 ## conversion failure on []Distribution of σ² in SVNP: σ ~ Ca
 uchy(0 , 1) across[] 
- []
-
-[42]
-Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
-
-Overfull \hbox (15.64487pt too wide) in paragraph at lines 1613--1613
-[]\TU/lmtt/m/n/12 ## conversion failure on [] σ² (mean estimate)[] in []mbcsToS
-bcs[]: dot substituted[] 
- []
-
-Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
-
-Overfull \hbox (15.64487pt too wide) in paragraph at lines 1619--1619
-[]\TU/lmtt/m/n/12 ## conversion failure on [] σ² (mean estimate)[] in []mbcsToS
-bcs[]: dot substituted[] 
- []
-
-
-Overfull \hbox (18.4649pt too wide) in paragraph at lines 1625--1625
-[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
-abel), x$x, x$y, :[] 
- []
-
-Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
-
-Overfull \hbox (15.64487pt too wide) in paragraph at lines 1625--1625
-[]\TU/lmtt/m/n/12 ## conversion failure on [] σ² (mean estimate)[] in []mbcsToS
-bcs[]: dot substituted[] 
- []
-
-
-Overfull \hbox (18.4649pt too wide) in paragraph at lines 1631--1631
-[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
-abel), x$x, x$y, :[] 
- []
-
-Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
-
-Overfull \hbox (15.64487pt too wide) in paragraph at lines 1631--1631
-[]\TU/lmtt/m/n/12 ## conversion failure on [] σ² (mean estimate)[] in []mbcsToS
-bcs[]: dot substituted[] 
- []
-
-
-Overfull \hbox (18.4649pt too wide) in paragraph at lines 1637--1637
-[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
-abel), x$x, x$y, :[] 
- []
-
-Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
-Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
-
-Overfull \hbox (6.64485pt too wide) in paragraph at lines 1637--1637
-[]\TU/lmtt/m/n/12 ## conversion failure on []Distribution of σ² in SVNP: σ ~ Ca
-uchy(0 , 1) across[] 
- []
-
-
-Overfull \hbox (18.4649pt too wide) in paragraph at lines 1643--1643
-[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
-abel), x$x, x$y, :[] 
- []
-
-Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
-Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
-
-Overfull \hbox (6.64485pt too wide) in paragraph at lines 1643--1643
-[]\TU/lmtt/m/n/12 ## conversion failure on []Distribution of σ² in SVNP: σ ~ Ca
-uchy(0 , 1) across[] 
- []
-
-
-Overfull \hbox (18.4649pt too wide) in paragraph at lines 1649--1649
-[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
-abel), x$x, x$y, :[] 
- []
-
-Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
-Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
-
-Overfull \hbox (6.64485pt too wide) in paragraph at lines 1649--1649
-[]\TU/lmtt/m/n/12 ## conversion failure on []Distribution of σ² in SVNP: σ ~ Ca
-uchy(0 , 1) across[] 
- []
-
-
-Overfull \hbox (18.4649pt too wide) in paragraph at lines 1655--1655
-[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
-abel), x$x, x$y, :[] 
  []
 
 [43]
 Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
+
+Overfull \hbox (15.64487pt too wide) in paragraph at lines 1621--1621
+[]\TU/lmtt/m/n/12 ## conversion failure on [] σ² (mean estimate)[] in []mbcsToS
+bcs[]: dot substituted[] 
+ []
+
 Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
 
-Overfull \hbox (6.64485pt too wide) in paragraph at lines 1655--1655
+Overfull \hbox (15.64487pt too wide) in paragraph at lines 1627--1627
+[]\TU/lmtt/m/n/12 ## conversion failure on [] σ² (mean estimate)[] in []mbcsToS
+bcs[]: dot substituted[] 
+ []
+
+
+Overfull \hbox (18.4649pt too wide) in paragraph at lines 1633--1633
+[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
+abel), x$x, x$y, :[] 
+ []
+
+Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
+
+Overfull \hbox (15.64487pt too wide) in paragraph at lines 1633--1633
+[]\TU/lmtt/m/n/12 ## conversion failure on [] σ² (mean estimate)[] in []mbcsToS
+bcs[]: dot substituted[] 
+ []
+
+
+Overfull \hbox (18.4649pt too wide) in paragraph at lines 1639--1639
+[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
+abel), x$x, x$y, :[] 
+ []
+
+Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
+
+Overfull \hbox (15.64487pt too wide) in paragraph at lines 1639--1639
+[]\TU/lmtt/m/n/12 ## conversion failure on [] σ² (mean estimate)[] in []mbcsToS
+bcs[]: dot substituted[] 
+ []
+
+
+Overfull \hbox (18.4649pt too wide) in paragraph at lines 1645--1645
+[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
+abel), x$x, x$y, :[] 
+ []
+
+Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
+Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
+
+Overfull \hbox (6.64485pt too wide) in paragraph at lines 1645--1645
+[]\TU/lmtt/m/n/12 ## conversion failure on []Distribution of σ² in SVNP: σ ~ Ca
+uchy(0 , 1) across[] 
+ []
+
+
+Overfull \hbox (18.4649pt too wide) in paragraph at lines 1651--1651
+[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
+abel), x$x, x$y, :[] 
+ []
+
+Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
+Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
+
+Overfull \hbox (6.64485pt too wide) in paragraph at lines 1651--1651
+[]\TU/lmtt/m/n/12 ## conversion failure on []Distribution of σ² in SVNP: σ ~ Ca
+uchy(0 , 1) across[] 
+ []
+
+
+Overfull \hbox (18.4649pt too wide) in paragraph at lines 1657--1657
+[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
+abel), x$x, x$y, :[] 
+ []
+
+Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
+Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
+
+Overfull \hbox (6.64485pt too wide) in paragraph at lines 1657--1657
+[]\TU/lmtt/m/n/12 ## conversion failure on []Distribution of σ² in SVNP: σ ~ Ca
+uchy(0 , 1) across[] 
+ []
+
+
+Overfull \hbox (18.4649pt too wide) in paragraph at lines 1663--1663
+[]\TU/lmtt/m/n/12 ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$l
+abel), x$x, x$y, :[] 
+ []
+
+[44]
+Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
+Missing character: There is no σ (U+03C3) in font [lmmono12-regular]:!
+
+Overfull \hbox (6.64485pt too wide) in paragraph at lines 1663--1663
 []\TU/lmtt/m/n/12 ## conversion failure on []Distribution of σ² in SVNP: σ ~ Ca
 uchy(0 , 1) across[] 
  []
@@ -1251,18 +1254,18 @@ File: JMBKoch_thesis_files/figure-latex/unnamed-chunk-24-1.pdf Graphic file (ty
 pe pdf)
 <use JMBKoch_thesis_files/figure-latex/unnamed-chunk-24-1.pdf>
 
-Overfull \hbox (22.89096pt too wide) in paragraph at lines 1657--1658
+Overfull \hbox (22.89096pt too wide) in paragraph at lines 1665--1666
 [][]  
  []
 
-AED endfloat: Processing end Figures and Tables [44] (./JMBKoch_thesis.aux) ) 
+AED endfloat: Processing end Figures and Tables [45] (./JMBKoch_thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 23947 strings out of 476191
- 440936 string characters out of 5812072
- 964202 words of memory out of 5000000
- 44261 multiletter control sequences out of 15000+600000
+ 23949 strings out of 476191
+ 440964 string characters out of 5812072
+ 955260 words of memory out of 5000000
+ 44263 multiletter control sequences out of 15000+600000
  503230 words of font info for 116 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  86i,12n,121p,2253b,722s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on JMBKoch_thesis.pdf (45 pages).
+Output written on JMBKoch_thesis.pdf (46 pages).
