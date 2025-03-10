@@ -273,7 +273,7 @@ empirical grounds (modification indices) to improve fit. This procedure
 is flawed, as it risks capitalization on chance and thereby over-fitting
 (MacCallum, Roznowski, \& Necowitz, 1992).
 
-As a Bayesian solution to this issue B. Muthén and Asparouhov (2012) proposed
+As a Bayesian solution to this issue Muthén and Asparouhov (2012) proposed
 identifying CFA models by setting the so-called \emph{Small Variance Normal
 Prior} (SVNP) for cross loadings, which is a normal distribution with
 mean zero and a very small variance (e.g., \(\sigma^2\) = 0.01). This is
@@ -287,7 +287,7 @@ undesired levels of bias to the model (Lu, Chow, \& Loken, 2016). Consequently,
 Bayesian CFA requires a two-step approach. First, the model is estimated
 with the SVNP set for the cross loadings and cross loadings are selected
 as non-zero when their 95\% credible intervals do not contain zero
-(B. Muthén \& Asparouhov, 2012). The model is then re-estimated, where cross
+(Muthén \& Asparouhov, 2012). The model is then re-estimated, where cross
 loadings that have been selected to be non-zero are freely estimated
 without shrinkage, and the remaining cross loadings are fixed to zero,
 avoiding the bias in the model of the previous step. Correctly selecting
@@ -476,7 +476,7 @@ Consequently, measurement structures may be selected that do not
 generalize well to other datasets from the same population, hence
 over-fitting may occur (MacCallum et al., 1992).
 
-As solution to this issue, B. Muthén and Asparouhov (2012), proposed a Bayesian
+As solution to this issue, Muthén and Asparouhov (2012), proposed a Bayesian
 way of identifying CFA models. They argued that fixing cross loadings of
 factor j on item k \(\lambda_{c,jk}\) to zero can be interpreted as
 setting a normal prior with both a mean and a variance of zero on each
@@ -509,7 +509,7 @@ occurs in the large cross loadings itself. However, also in other
 parameters, such as factor-correlations or main loadings, substantial
 bias can arise, as they are estimated conditionally on the cross
 loadings. To overcome this, the method is presented as a 2 step-approach
-(B. Muthén \& Asparouhov, 2012). First, the model is estimated with the
+(Muthén \& Asparouhov, 2012). First, the model is estimated with the
 shrinkage prior set for the cross loadings. Cross loadings are then
 selected as non-zero based on previously defined selection criteria, for
 instance if their 95\% credible interval does non contain zero. Then the
@@ -522,7 +522,7 @@ on the accuracy of the selection mechanism.
 \hypertarget{the-svnp-with-a-hyper-prior}{%
 \subsubsection{The SVNP with a hyper-prior}\label{the-svnp-with-a-hyper-prior}}
 
-The classical Bayesian CFA approach by B. Muthén and Asparouhov (2012) asks for a fixed variance parameter. However, it is common in regularization to set hyper-priors on the parameters of priors, in order to allow for more flexibility in model estimation (Van Erp et al., 2019) Such approach can lead to more sparsimonious models, as it allows for a more flexible model estimation, where not all parameters need to be shrunken in the same (heavy) amount. Software packages for Bayesian CFA such as Mplus (L. K. Muthén \& Muthén, 1998) and BLAVAAN (Merkle, Fitzsimmons, Uanhoro, \& Goodrich, 2020) have for the longest time not allowed to set hyper-priors for the variance of the SVNP. Only in probabilistic Bayesian modeling software such as Stan this possibility has been available (Stan Development Team, 2021; Van Erp, 2023). Since such software packages may not be a practical choice for applied researchers in terms of user-friendliness, the fixed-variance approaches has remained a relevant go-to approach (Van Erp, 2023). Recently, the BLAVAAN package has been updated to allow setting hyper-priors for the variance parameter of the SVNP. (\emph{Als ik het goed begreep kan je daar dus nu wel een hyper-prior bepalen? REF naar blavaan versie release notes o.i.d? Ik probeeder i.i.g. om duidelijk te maken dat de fixed-variance approach door z'n availability vergeleken met de hyper-prior approach nog steeds harstikke relevant is om te onderzoeken.}).
+The classical Bayesian CFA approach by Muthén and Asparouhov (2012) asks for a fixed variance parameter. However, it is common in regularization to set hyper-priors on the parameters of priors, in order to allow for more flexibility in model estimation (Van Erp et al., 2019) Such approach can lead to more sparsimonious models, as it allows for a more flexible model estimation, where not all parameters need to be shrunken in the same (heavy) amount. Software packages for Bayesian CFA such as Mplus (L. K. Muthén \& Muthén, 1998) and BLAVAAN (Merkle, Fitzsimmons, Uanhoro, \& Goodrich, 2020) have for the longest time not allowed to set hyper-priors for the variance of the SVNP. Only in probabilistic Bayesian modeling software such as \texttt{Stan} this possibility has been available (Stan Development Team, 2021; Van Erp, 2023). Since such software packages may not be a practical choice for applied researchers in terms of user-friendliness, the fixed-variance approaches has remained a relevant go-to approach (Van Erp, 2023). Recently, the BLAVAAN package has been updated to allow setting hyper-priors for the variance parameter of the SVNP. (\emph{Als ik het goed begreep kan je daar dus nu wel een hyper-prior bepalen? REF naar blavaan versie release notes o.i.d? Ik probeeder i.i.g. om duidelijk te maken dat de fixed-variance approach door z'n availability vergeleken met de hyper-prior approach nog steeds harstikke relevant is om te onderzoeken.}).
 
 \emph{Hier ben ik niet zeker wat handig is om op te schrijven\ldots Lijkt me een goed idee om dit meer stapsgewijs op te bouwen}
 
@@ -578,7 +578,7 @@ suited to estimate CFA models without substantial bias within a single
 estimation step, due to its refined nature in differentiating between
 large and small cross loadings. However, the Spike-and-Slab Prior cannot
 be implemented in Stan, one of the most popular software package for
-MCMC-sampling, as Stan does not allow for discrete mixture priors
+MCMC-sampling, as \texttt{Stan} does not allow for discrete mixture priors
 (Betancourt, 2018; Stan Development Team, 2021). This
 calls for a \emph{non-discrete} alternative shrinkage prior that also
 outperforms the SVNP within a single estimation step.
@@ -587,7 +587,7 @@ outperforms the SVNP within a single estimation step.
 \subsection{The Regularized Horseshoe Prior (RHSP)}\label{the-regularized-horseshoe-prior-rhsp}}
 
 A fully continuous alternative to the Spike-and-Slab Prior that is
-implementable in Stan is the so-called \emph{Regularized Horseshoe Prior}
+implementable in \texttt{Stan} is the so-called \emph{Regularized Horseshoe Prior}
 (RHSP, Piironen \& Vehtari, 2017a, 2017b). This prior
 is an extension of the Horseshoe Prior (Carvalho, Polson, \& Scott, 2010). The
 main idea of the original Horseshoe Prior is that there is a \emph{global
@@ -681,7 +681,7 @@ within a single estimation step.
 
 A Monte Carlo simulation study was conducted using Stan
 (Stan Development Team, 2021) and R (R Core Team, 2021). We used
-\texttt{cmdstandr} to interface Stan with R (Gabry \& Češnovar, 2022), while also
+\texttt{cmdstandr} to interface \texttt{Stan} with R (Gabry \& Češnovar, 2022), while also
 heavily relying on \texttt{rstan} (Stan Development Team, 2022) and
 \texttt{bayesplot} (Gabry \& Mahr, 2022) for the post-processing of the
 posterior samples. Results were further post-processed using \texttt{tidyr}
@@ -712,7 +712,7 @@ SVNP in order to ensure a fair comparison.
 The datasets were simulated based on a true 2-factor model, with three
 items per factor, and a factor correlation of 0.5. The true model is
 summarized below, both in equations (Appendix A) and graphically (Figure
-2).\footnote{The Stan code of the model can be found on
+2).\footnote{The \texttt{Stan} code of the model can be found on
   \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/blob/main/stan/}.} The factors were scaled by fixing their means to zero and their
 variances to 1. All main loadings were set to 0.75, and all residual
 variances to 0.3, to ensure that the largest proportion of variance in
@@ -735,13 +735,13 @@ For all parameters except the cross loadings, non-informative priors
 were set: for the main loadings a normal prior with mean of zero and a
 variance of 25, for the residual variances a half-Cauchy-prior with a
 location-parameter of 0 and a scale of 5, and for the factor-correlation
-Stan's default uniform prior.
+\texttt{Stan}'s default uniform prior.
 
 \hypertarget{svnp-prior-conditions}{%
 \subsubsection{SVNP: Prior Conditions}\label{svnp-prior-conditions}}
 
 We varied the hyperparameter of the SVNP, \(\sigma^2\), between 0.001,
-0.01 and 0.1, based on B. Muthén and Asparouhov (2012). For the SVNP this left us
+0.01 and 0.1, based on Muthén and Asparouhov (2012). For the SVNP this left us
 with a total number of 2 (size cross loading) x 2 (N) x 3
 (hyperparameter \(\sigma^2\)) = 12 individual conditions. Per condition,
 200 replications were run, yielding a total of 2400 replications for
@@ -757,7 +757,7 @@ Model.}
 \hypertarget{svnp-with-hyperior}{%
 \subsubsection{SVNP with Hyperior}\label{svnp-with-hyperior}}
 
-We included a configuration of the SVNP where a half-Cauchy prior centered around 0 and with a scale of 1 was set as hyper-prior for the standard-deviation \(\sigma\) (not the variance \(\sigma^2\))\footnote{Note that a hyper-prior was set for \(\sigma\) and not \(\sigma^2\) as this is the way to specify a normal distribution Stan. We chose to refer to \(\sigma^2\) in the general introduction of this shrinkage prior as it aligns more closely with the classical introduction of this approach by B. Muthén and Asparouhov (2012).}. We deemed this relatively simple specification to be suitable for assessing the benefits of a hyper-prior over a fixed variance, given the simple nature of the model studied.
+We included a configuration of the SVNP where a half-Cauchy prior centered around 0 and with a scale of 1 was set as hyper-prior for the standard-deviation \(\sigma\) (not the variance \(\sigma^2\))\footnote{Note that a hyper-prior was set for \(\sigma\) and not \(\sigma^2\) as this is the way to specify a normal distribution Stan. We chose to refer to \(\sigma^2\) in the general introduction of this shrinkage prior as it aligns more closely with the classical introduction of this approach by Muthén and Asparouhov (2012).}. We deemed this relatively simple specification to be suitable for assessing the benefits of a hyper-prior over a fixed variance, given the simple nature of the model studied.
 
 \hypertarget{rhsp-prior-conditions}{%
 \subsubsection{RHSP: Prior Conditions}\label{rhsp-prior-conditions}}
@@ -1133,7 +1133,7 @@ Again, the outcomes are presented for the first parameter of an
 identical set of parameters (e.g., \(\lambda_{c,1}\) is presented
 representative for the two truly non-zero cross loadings). Moreover, results of the RHSP are again presented with all hyperparameters set to
 one, and we focus on the results for N = 100\footnote{The results for N = 200 of the RSHP, and for the other hyperparmatersettings, can be found on \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP}. The results for the SVNP with n = 200 can be found on \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP}. The results for the SVNP with hyper-prior and n = 200 can be found on \url{https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP_hyper}.}. In the plots summarizing the Power the horizontal red dashed line
-indicates the minimum power of .80 recommended by B. Muthén and Asparouhov (2012).
+indicates the minimum power of .80 recommended by Muthén and Asparouhov (2012).
 According to Cham, West, Ma, and Aiken (2012), the maximally acceptable
 Type-I-Error rate is the upper-bound of a 95\% interval of a binomial
 distribution, in this case
@@ -1162,7 +1162,7 @@ SVNP performed best in terms of power when \(\sigma^2 = 0.1\). With N =
 the desired Power. With N = 100, all selection rules except for the 95\%
 and 90\% credible intervals exceeded a power of .80. For the RHSP, in
 general the Power did also not live up to the standards by
-B. Muthén and Asparouhov (2012). The desired power was exclusively reached in
+Muthén and Asparouhov (2012). The desired power was exclusively reached in
 selecting cross loadings that were truly 0.5, when using 50\% credible
 intervals or the three thresholds. Especially the widest (90\% and 95\%)
 credible intervals performed very poorly, which is explained by the fact
@@ -1195,7 +1195,7 @@ loadings correctly as non-zero.
 \section{Conclusions and Discussion}\label{conclusions-and-discussion}}
 
 This was the first study to apply the Regularized Horseshoe Prior (RHSP, Piironen \& Vehtari, 2017b) to select cross loadings in CFA. A comparison
-to the Bayesian CFA approach by B. Muthén and Asparouhov (2012) was made, where
+to the Bayesian CFA approach by Muthén and Asparouhov (2012) was made, where
 cross loadings are regularized with the Small Variance Normal Prior
 (SVNP).
 
@@ -1219,8 +1219,8 @@ variance still allowed for enough deviations from zero in the cross
 loadings to yield relatively accurate estimates of the non-zero cross
 loadings itself and, consequently, the other model parameters. Both the SVNP with hyper-prior and the RHSP performed very similar to the SVNP with \(\sigma^2 = 0.1\).
 
-While the RHSP and the SVNP were both able to estimate the simple CFA
-model of this study with little bias, only the two priors with a hyper-prior were able to do so consistently. This illustrate the fundamental of using a hyper-prior approach over using fixed parameters. The RHSP did not outperform the SVNP with a hyper-prior and showed substantially poorer convergence. Hence, for this particular model the SVNP with hyperprior struk the most ideal balance in model simplicity and model complexity, by yielding most accurate solutions with little estimation complexity. In more complex models the refined nature of the RHSP with its several hyperpriors may ultimately prove advantegous even over the SVNP with hyper-prior, as it allows for even more flexibility. Future research may compare the SVNP, also with more refined hyper-prior configurations, to the RHSP in regularization of more complex SEM models. The current results do suggest, however, that for simple CFA model, using a RHSP is an overkill solution that may lead to more problems in terms of actually being able to estimate the model than benefits in terms of accurate shrinkage.
+While the SVNP with a sufficiently large fixed variance estimated the simple CFA
+model of this study with little bias, only the two priors with a hyper-prior were able to do so consistently. This illustrate the key advantage of using a hyper-prior approach over using fixed shrinkage parameters. The RHSP did not outperform the SVNP with a hyper-prior and showed substantially poorer convergence. Hence, for the simple CFA model in this study, the SVNP with hyper-prior struk the most ideal balance in model simplicity and model complexity, by yielding accurate solutions without sacrificing reliable estimation. In more complex models the refined nature of the RHSP with its several hyperpriors may ultimately prove advantegous even over the SVNP with hyper-prior, as it allows for even more flexibility. Future research may compare the SVNP to the RHSP in regularization of more complex SEM models. It is advised to include more refined hyper-prior configurations for the SVNP (REF needed) in such research to allow for a fair comparison. The current results do suggest, however, that for simple CFA model, using a RHSP is an overkill solution that may lead to more problems in terms of actually being able to estimate the model than benefits in terms of accurate shrinkage.
 
 The convergence issues of the RHSP followed a clear pattern, with issues arising with large cross loadings, small sample sizes and small scales for the local and global shrinkage parameter. While this may suggest that one should simply avoid using small values for the scales, using larger scales that shrink parameters less may lead to identification problems in more complex SEM models. Future research is
 required that incorporates more complex models, in order to assess the
@@ -1228,27 +1228,26 @@ performance of the RHSP in terms of convergence in more depth.
 Ultimately, it is desirable to be able to formulate clear guidelines on
 which hyperparameter configurations to use in which situations to avoid
 convergence issues, to make the RHSP a practical approach. Such research
-may also incorporate different configurations of \texttt{stan}'s
+may also incorporate different configurations of `Stan's
 No-U-Turn-Sampler, as well as larger burnin-periods, which help to
-overcome convergence issues partially. In the absence of user-friendly
+overcome convergence issues partially. Next to this, the RHSP may thus work more reliably with larger sample sizes. In sum, there remain thus plenty of potential use-cases for the RHSP over the SVNP with hyper-prior in regularizing more complex models on larger datasets. In the absence of user-friendly
 software automating regularization with the RSHP it is, however,
 unlikely that further refining the configuration of the complex
 No-U-Turn-Sampler is a fruitful route in making the RHSP a practical
-approach for applied researchers. Next to this, the RHSP may thus work more reliably with larger sample sizes. In sum, there remain thus plenty of potential use-cases for the RHSP over the SVNP with hyper-prior in regularizing more complex models on larger datasets.
+approach for applied researchers. Especially since the SVNP can be used with a hyperprior in BLAVAAN nowadays (REF), using the RHSP may only be worth the effort for applied research in specific edge cases, where model complexity and data-availability make the RHSP the most effecient approach.
 
 Under simple models such as the one employed in this study
-using the least complex version of SVNP, with the variance fixed to a relatively large value of \(\sigma^2\) may also be advisable. This approach performed as well as both hyper-prior approaches. It also remains the most accessible appraoch, due to it's simpleness and availabilty across Bayesian CFA software However, simply using larger values of \(\sigma^2\) with the SVNP is
+using the least complex version of SVNP, with the variance fixed to a relatively large value of \(\sigma^2\) may also be advisable. This approach performed as well as both hyper-prior approaches. It also remains the most accessible approach, due to it's simpleness and availability across Bayesian CFA software However, simply using larger values of \(\sigma^2\) with the SVNP is
 no general solution. In practice, models may include more structural
 parameters, even more cross loadings, or a number of residual
 co-variances. Under these circumstances, large values of \(\sigma^2\) may
 lead to identification issues. Moreover, the larger \(\sigma^2\), the more
 cross loadings will be selected as non-zero, which may ultimately lead
-to over-fitting. Because of this, the SVNP with hyperprior or the RHSP might prove as more advisable for more complex models. In particular the RHSP with its refined nature in giving prior mass only where strictly
+to over-fitting. Because of this, the SVNP with hyper-prior or the RHSP might prove as more advisable for more complex models. In particular the RHSP with its refined nature in giving prior mass only where strictly
 desired (see Figure 1) might allow for a more efficient identification
 of complex models than the SVNP, at least for some hyperparameter
 settings. Using the RHSP may thus turn out to be the approach of choice
-in situations where identification is hard to achieve with the SVNP.
-However, future research comparing the SVNP both with and without, and for several hyper-prior setting, to the RHSP in regularizing
+in situations where identification is hard to achieve with the SVNP. Future research comparing the SVNP with fixed variances and with a variety of hyper-prior setting to the RHSP in regularizing
 more complex SEM-models is yet to investigate this directly.
 
 Regarding the Power and Type-I-Error rate in selecting cross loadings as
@@ -1286,7 +1285,7 @@ that meets the desired balance in Power and Type-I-Error rate.
 The large levels of bias found in the SVNP (for the majority of
 hyperparameter settings) are not surprising, given the original approach
 explicitly asking for a second step to circumvent bias
-(B. Muthén \& Asparouhov, 2012). However, the fact that the SVNP performed so
+(Muthén \& Asparouhov, 2012). However, the fact that the SVNP performed so
 poorly in selecting the cross loadings across selection rules suggests
 that in practice the 2-step approach, which heavily relies on a correct
 selection of cross loadings as non-zero, is not advisable. This,
@@ -1308,7 +1307,7 @@ include factor models with more factors. Within CFA models, another
 important set of parameters that can be identified through the usage of
 shrinkage priors are residual co-variances (i.e., the off-diagonal
 elements of \(\Theta\)), which are usually fixed to zero in classic CFA
-(B. Muthén \& Asparouhov, 2012). An important next step is thus to assess the
+(Muthén \& Asparouhov, 2012). An important next step is thus to assess the
 performance of the RHSP in selecting residual co-variances on top of
 cross loadings. Hereby, it is advisable to start by regularizing
 residual co-variances separately rather than on top of cross loadings,
@@ -1445,11 +1444,11 @@ Merkle, E. C., Fitzsimmons, E., Uanhoro, J., \& Goodrich, B. (2020). Efficient {
 \leavevmode\vadjust pre{\hypertarget{ref-mitchell_bayesian_1988}{}}%
 Mitchell, T. J., \& Beauchamp, J. J. (1988). Bayesian {Variable} {Selection} in {Linear} {Regression}. \emph{Journal of the American Statistical Association}, \emph{83}(404), 1023--1032. \url{https://doi.org/10.2307/2290129}
 
-\leavevmode\vadjust pre{\hypertarget{ref-muthen_bayesian_2012}{}}%
-Muthén, B., \& Asparouhov, T. (2012). \emph{Bayesian {SEM}: {A} more ﬂexible representation of substantive theory}. 78. \url{https://doi.org/10.1037/a0026802}
-
 \leavevmode\vadjust pre{\hypertarget{ref-muthen_mplus_1998}{}}%
 Muthén, L. K., \& Muthén, B. O. (1998). \emph{Mplus {User}'s {Guide}}. Retrieved from \url{https://www.statmodel.com/html_ug.shtml}
+
+\leavevmode\vadjust pre{\hypertarget{ref-muthen_bayesian_2012}{}}%
+Muthén, \& Asparouhov, T. (2012). \emph{Bayesian {SEM}: {A} more ﬂexible representation of substantive theory}. 78. \url{https://doi.org/10.1037/a0026802}
 
 \leavevmode\vadjust pre{\hypertarget{ref-park_bayesian_2008}{}}%
 Park, T., \& Casella, G. (2008). The {Bayesian} {Lasso}. \emph{Journal of the American Statistical Association}, \emph{103}(482), 681--686. \url{https://doi.org/10.1198/016214508000000337}
