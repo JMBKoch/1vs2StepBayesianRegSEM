@@ -27,16 +27,9 @@ $$\Psi =
 ,$$ and
 $$\Theta = diag[0.3, 0.3, 0.3, 0.3, 0.3, 0.3].$$
 
-## Appendix B: Figures and tables on 
-$$\sigma^2$$
-
-```{r}
-readr::read_rds("../../figures/sigmaSqu_per_cond.RDS")
-```
 
 
-```{r}
-readr::read_rds( "../../figures/hist_meanest_sigmasqu.RDS")
-```
+
+
 
 

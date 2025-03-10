@@ -28,6 +28,7 @@ editor_options:
     wrap: 72
 appendix: 
   - "appendixA.Rmd"
+  - "appendixB.Rmd"
 ---
 
 ```{=tex}
@@ -156,7 +157,7 @@ let large parameters escape shrinkage to zero. The RHSP has been shown
 to perform excellently in the selection of relevant predictors in
 regression [@piironen_sparsity_2017; @van_erp_shrinkage_2019]. However,
 systematic research on the performance of this shrinkage prior in
-Bayesian regularized SEM is lacking [see @van2023bayesian for an
+Bayesian regularized SEM is lacking [see @van_erp_bayesian_2023 for an
 overview on the shrinkage priors previously used in Bayesian Regularized
 SEM]. A notable exception is the work by @zhang_bayesian_2024 who
 investigated the horseshoe prior in a multiple indicator multiple causes
@@ -164,7 +165,7 @@ investigated the horseshoe prior in a multiple indicator multiple causes
 Prior and its extension in variable selection in a two-parameter
 logistic item response theory model]. Empirical examples in which the
 performance of the RHSP in regularizing parameters in CFA models is
-illustrated exist [@van2023bayesian; @jacobucci2018comparison]. However,
+illustrated exist [@van_erp_bayesian_2023; @jacobucci_comparison_2018]. However,
 no previous research has validated its performance in regularizing cross
 loadings in CFA under a varying set of conditions with a Monte Carlo
 simulation study. We therefore aim to compare the RHSP to the SVNP in
@@ -249,7 +250,7 @@ regression coefficients in MIMIC models [@jacobucci_regularized_2016;
 continuous [@serang_exploratory_2017] or dichotomous outcomes
 [@serang_exploratory_2020], have successfully been regularized through
 the usage of penalties such as the LASSO or ridge penalty. R-packages
-such as `lslx`  [@lslxpackage] or `regsem` 
+such as `lslx`  [@huang2020lslx] or `regsem` 
 [@li2021tutorial] have implemented classical penalties in various SEMs.
 
 The key disadvantage of the frequentist regularization approach is that
@@ -1170,3 +1171,6 @@ research.
 
 ```{r child = "appendixA.Rmd"}
 ```
+```{r child = "appendixB.Rmd"}
+```
+
