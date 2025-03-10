@@ -756,7 +756,6 @@ included in the results.
 
 With the hyperprior, the SVNP showed weaker but still acceptable convergence. There were ten replications yielded no posterior samples at all, indicating sever convergence issues. Seven out of these ten chains belonged to the condition set $N = 100, \ \lambda_{c1,6} = 0.2$, two $N = 200, \ \lambda_{c1,6} = 0.2$ and one chain $N = 100, \ \lambda_{c1,6} = 0.5$. There was no set of conditions for which, on average, the proportion of divergent transitions exceeded 5%. There were no replications that did not satisfy our convergence criteria regarding the effecitve sample size  $N_{Eff}$  and $\hat{R}$.
 
-
 ### RHSP
 
 The RHSP showed weaker performance in terms of convergence than the
@@ -859,7 +858,7 @@ pronounced (e.g., $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.14$). Here
 $\sigma^2$ was large enough to estimate the cross loadings closer to
 their true value, e.g., $\bar{\lambda}_{c 1} = 0.37$. The bias of the
 RHSP was again almost entirely identical to that of the SVNP with
-$\sigma^2 = 0.1$.
+$\sigma^2 = 0.1$ and to the SVNP with hyperprior.
 
 Also the estimates of the main loadings of factor 1 on item 3
 ($\bar{\lambda}_{m 3}$) and of factor 2 on item 4
@@ -872,8 +871,8 @@ the same two items as the two non-zero cross loadings
 cross loadings were shrunken to zero, these main loadings now also
 accounted for the variance in the items that was truly explained by the
 cross loadings. Consequently, the two main loadings were over-estimated,
-e.g., $\bar{\lambda}_{m 3} = 1.15$. Both the RHSP and the SVNP with
-$\sigma^2 = 0.1$ had low levels of bias for the main loadings both with
+e.g., $\bar{\lambda}_{m 3} = 1.15$. Both the RHSP, the SVNP with
+$\sigma^2 = 0.1$ and SVNP with hyperprior had low levels of bias for the main loadings both with
 true cross loadings of 0.2 and 0.5.
 
 In the factor correlation $\bar{\Psi}_{1,2}$ the bias was relatively
@@ -886,7 +885,7 @@ situation the factor correlation was heavily over-estimated
 ($\bar{\Psi}_{1,2} = 0.84$). This can be explained by the fact that the
 covariance between item 3 and 4 that arose from the two cross loadings,
 was misattributed to the factor-correlation, as the cross loadings were
-shrunken to zero. For both the SVNP with $\sigma^2 = 0.1$ and the RHSP,
+shrunken to zero. For the SVNP with $\sigma^2 = 0.1$, the SVNP with hyperprior and the RHSP,
 the bias in the factor correlation was much lower, although there was
 still a noticeable increase between true cross loadings of 0.2 and 0.5.
 
