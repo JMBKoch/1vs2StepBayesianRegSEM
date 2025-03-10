@@ -269,7 +269,7 @@ Power
 ```{r}
 # plot juist for N = 100 for final pub
 Power_100 <- 
-PowerLong %>% 
+PowerLong_hyper %>% 
   filter(N == 100) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group= criterion, col = criterion, linetype = criterion, shape = criterion))+
   geom_line()+
@@ -283,7 +283,6 @@ PowerLong %>%
        shape = "Selection Criterion",
        )+
 custom_scales+
-  facet_wrap()+
   theme_apa()+
   theme(panel.border = element_rect(fill = NA))
 Power_100
@@ -297,35 +296,9 @@ Power_100
 # compute upper bound of acceptable type I error rate, based on Zhang ert al p. 6
 upper <- 0.05 + 1.96 * sqrt(0.05 * (1-0.05)/ nIter) # 0.08
 TypeI <- 
-TypeILong %>% 
-  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu)),
+TypeILong_hyper %>% 
+    mutate(
          N = as.factor(paste0("N = ", N))) %>% 
-  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = criterion))+
-  geom_line(size = 0.1)+
-  geom_point()+
-  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
-  labs(x = "Size Cross-Loading",
-       y = "Type-I Error Rate",
-       #group = "Selection Criteria",
-       col = "Selection Criterion",
-       linetype = "Selection Criterion",
-       scale = "Selection Criterion"
-       )+
-custom_scales+
-  facet_grid(cols = vars(sigmaSqu),
-             rows = vars(N))+
-  theme_apa( )+
-  theme(panel.border = element_rect(fill = NA))
-TypeI
-```
-
- 
-```{r}
-# filter on N = 100 for final pub
-TypeI_100 <- 
-TypeILong %>% 
-  filter(N == 100) %>% 
-  mutate(sigmaSqu = as.factor(paste0("\u03c3\u00B2 = ", sigmaSqu))) %>% 
   ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = criterion))+
   geom_line()+
   geom_point()+
@@ -338,23 +311,35 @@ TypeILong %>%
        scale = "Selection Criterion"
        )+
 custom_scales+
-  facet_wrap(~sigmaSqu)+
+  facet_grid(
+             rows = vars(N))+
+  theme_apa()+
+  theme(panel.border = element_rect(fill = NA))
+TypeI
+```
+
+ 
+```{r}
+# filter on N = 100 for final pub
+TypeI_100 <- 
+TypeILong_hyper %>% 
+  filter(N == 100) %>% 
+  ggplot(mapping = aes(x = as.factor(cross), y = value, group = criterion, col = criterion, linetype = criterion, shape = criterion))+
+  geom_line()+
+  geom_point()+
+  geom_hline(yintercept = upper, col = "red", linetype = "dashed", size = .1)+
+  labs(x = "Size Cross-Loading",
+       y = "Type-I Error Rate",
+       #group = "Selection Criteria",
+       col = "Selection Criterion",
+       linetype = "Selection Criterion",
+       scale = "Selection Criterion"
+       )+
+custom_scales+
   theme_apa( )+
   theme(panel.border = element_rect(fill = NA))
 TypeI_100
 ```
  
- 
-```{r, fig.height=6}
-# Save with Title but without X-Axis label
-TypeISVNP_hyper_100 <- 
-TypeI_100+
-  labs(title = "Type-I-Error Rate SVNP")
-PowerSVNP_hyper_100 <- 
-Power_100+
-  labs(title = "Power SVNP",
-       x = NULL)  
-readr::write_rds(TypeISVNP_hyper_100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/TypeISVNP_hyper.Rds")
-readr::write_rds(PowerSVNP_hyper_100, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/PowerSVNP_hyper.Rds")
-```
+
 

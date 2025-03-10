@@ -934,12 +934,10 @@ the model at hand and the research goal. In general, one should aim for
 a balance between both, with high enough levels of Power and low enough
 Type-I-Error rates co-occuring.
 
-[^8]: The results for N = 200 of the RSHP, and for the other hyperparmatersettings, can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP>. The results for the SVNP with n = 100 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP>. 
+[^8]: The results for N = 200 of the RSHP, and for the other hyperparmatersettings, can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP>. The results for the SVNP with n = 200 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP>. The results for the SVNP with hyperprior and n = 200 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP_hyper>. 
 
 For both priors and across most conditions, the Power fell under the
-desired threshold of .80. For the SVNP with $\sigma^2 = 0.001$ non-zero
-cross loadings were always over-shrunken so much that they were never
-selected as non-zero. Under $\sigma^2 = 0.01$, the situation improved
+desired threshold of .80. For the SVNP with hyperprior, under all selection rules, and for both $N = 100$ and $N = 200$ the power fell under the treshold when the true size of the cross loading was 0.2. With cross loadings of 0.5, however, all selection rules except for the wider credible intervals (80%, 90% and 95%) did reach the desired power. For the SVNP with $\sigma^2 = 0.001$ non-zero cross loadings were always over-shrunken so much that they were never selected as non-zero. Under $\sigma^2 = 0.01$, the situation improved
 somewhat, with now cross loadings of 0.5 being correctly selected as
 non-zero for all selection rules when N = 200. For N = 100, thresholds
 of 0.05, and 50% credible intervals also had the desired levels of
@@ -956,7 +954,7 @@ credible intervals performed very poorly, which is explained by the fact
 that the lower bounds of these intervals (almost) always exceeded zero.
 
 In general, under most conditions the Type-I-Error rate of both the SVNP
-and the RHSP exceeded the desired maximum. For the SVNP, with
+and the RHSP exceeded the desired maximum. The SVNP with hyperprior reached the desired threshold with all section rules except for the three widest credible intervals (80%, 90% and 95%), both for $N = 100$ and $N = 200$. For the SVNP, with
 $\sigma^2 = 0.001$ and N = 100, the Type-I-Error rate stayed very low
 for all selection critera (up to the 0.00 threshold), as under this
 condition all cross loadings, including the truly zero ones, were always
