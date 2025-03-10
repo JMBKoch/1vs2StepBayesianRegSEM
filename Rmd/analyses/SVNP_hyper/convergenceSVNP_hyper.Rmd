@@ -52,26 +52,27 @@ dataStan = dataStanSVNP_hyper, prior = "SVNP_hyper", modelPars = modelPars,
 samplePars = samplePars)
 
 ```{r}
-resultsSVNP_hyper %>% 
-  select(N, cross) %>% 
-  View()
+dataStanSVNP_hyper <- readr::read_rds("../../../data/dataStanSVNP_hyper.RDS")
+n_cond <- length(dataStanSVNP_hyper)
 ```
 
 
 ```{r}
-comp <- 1:800
+comp <- 1:n_cond
 failedChainIndex <- which((comp %in% resultsSVNP_hyper$pos) == FALSE)
 length(failedChainIndex)
 failedChainIndex
 ```
 
-These indices don't seem to belong to a certain conditionset. We can simply find the set of conditions belong to this by subsetting the first row of the results object.
-
 ```{r}
-resultsSVNP_hyper %>% 
-  select(N, cross, iteration)
+tibble(
+  failedChainIndex = failedChainIndex,
+  N = sapply(failedChainIndex, function(i) dataStanSVNP_hyper[[i]]$N),
+  cross = sapply(failedChainIndex, function(i) dataStanSVNP_hyper[[i]]$cross)
+)
 ```
 
+The coondiitons under which it failed is almost always in 7/10 cases with N = 100 and cross = 0.2. once with N = 100 and cross = 0.5 and twice with N = 200 and cross = 0.2
 
 # Convergence
 
@@ -85,14 +86,7 @@ totalSumDiv
 totalSumDiv / (2000*nrow(convSVNP_hyper)/2)
 ```
 
-In total, there are a gazillion divergent transition, but only a fraction of all transitions were divergent. Let's start by computing the percentage per individual replication. And then we can check how big that is on average per set of conditions.
-
-```{r}
-convSVNP_hyper %>% 
-  filter(parameter == "Rhat") %>%
-  select(sumDiv) %>% 
-  max()
-```
+In total, there are a 32851 divergent transition, but only a fraction of all transitions (0.0052) were divergent. Let's start by computing the percentage per individual replication. And then we can check how big that is on average per set of conditions.
 
 
 ```{r}
@@ -105,7 +99,7 @@ convSVNP_hyper %>%
 meanPropDiv
 ```
 
-On average, they appear to be quite low. There appears to be no set of conditions where the proportion of divergent transition is lager than 0.005. 
+On average, they appear to be quite low. With N = 100 and cross = 0.2 the proportion is larger than for the rest, but still only at 0.5 % 
 
 Let's find the indices of the runs where the divergent transitions exceeded 5%.
 
@@ -121,14 +115,19 @@ convSVNP_hyper %>%
 length(indicesDIVHigher5Perc)
 ```
 
-This would remove 19 runs
+This would remove 19 runs:
+
+```{r}
+tibble(
+  indicesDIVHigher5Perc = indicesDIVHigher5Perc,
+  N = sapply(failedChainIndex, function(i) dataStanSVNP_hyper[[i]]$N),
+  cross = sapply(failedChainIndex, function(i) dataStanSVNP_hyper[[i]]$cross)
+)
+```
+
 
 ## on average, this happened under no set of conditions.
 
-```{r}
-# match conditions on run-indices
-pos
-```
 
 
 ```{r}
@@ -157,7 +156,7 @@ convSVNP_hyper %>%
 length(indicesNEffTooSmall)
 ```
 
-By this you would lose 0 rows, which does not seem so bad.
+By this you would lose 0 rows.
 
 
 ### R-Hat
@@ -180,107 +179,6 @@ length(indicesRHatTooSmall)
 ```
 
 there are none.
-
-
-## Table Conditions Removed rows
-
-Let's make a table summarizing the rows that we removed based on Rhat and Neff.
-
-```{r}
-rowsRemovedLarger5Perc <- 
-convSVNP_hyper %>% 
-  filter(parameter == "n_eff") %>% 
-  select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos, lambdaMainC.1.:theta.6.) %>%
-  mutate_at(.vars = vars(-(scaleGlobal:pos)), .funs = function(x){x/samplePars$nSampling}) %>% 
-  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x < convCriteria$strict$minPropNEFF) %>% 
-  count(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross) %>% 
-  arrange(n) %>% 
-  filter(n >= 0.05*nIter)
-# make colnames nice
-colnames(rowsRemovedLarger5Perc)[1] <- "$s_{global}$"
-colnames(rowsRemovedLarger5Perc)[2] <- "$df_{global}$"
-colnames(rowsRemovedLarger5Perc)[3] <- "$s_{local}$"
-colnames(rowsRemovedLarger5Perc)[4] <- "$df_{local}$"
-colnames(rowsRemovedLarger5Perc)[5] <- "$s_{slab}$"
-colnames(rowsRemovedLarger5Perc)[6] <- "$df_{slab}$"
-colnames(rowsRemovedLarger5Perc)[8] <- "Size $\\lambda_{c1 , 6}$"
-colnames(rowsRemovedLarger5Perc)[9] <- "N removed Rep."
-
-rowsRemovedLarger5Perc 
-```
-
-```{r}
-readr::write_rds(rowsRemovedLarger5Perc, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/rowsRemovedLarger5Perc.Rds")
-```
-
-# Post-process
-
-Here, I can subset the data based on the indices accquired above.
-Next, I arrange the data based on conditions and iterations and recaculate the bias of the cross-loadings, which went wrong. 
-
-
-```{r}
-resultsSVNP_hyperFiltered <- 
-  resultsSVNP_hyper %>% 
-  filter(!(pos%in% indicesCombined)) %>% 
-  arrange(scaleGlobal, scaleLocal, dfGlobal, dfLocal, nu, scaleSlab, N, cross, iteration) %>%  
-  mutate(biasCrossMean_1 =abs(crossEstMean_1 - cross),
-         biasCrossMean_2 = abs(crossEstMean_2 - 0),
-         biasCrossMean_3 = abs(crossEstMean_3 - 0),
-         biasCrossMean_4 = abs(crossEstMean_4 - 0),
-         biasCrossMean_5 = abs(crossEstMean_5 - 0),
-         biasCrossMean_6 = abs(crossEstMean_6 - cross))
-nrow(resultsSVNP_hyperFiltered) + length(indicesCombined)
-# Save filtered data as .Rds file for further analysis
-saveRDS(resultsSVNP_hyperFiltered, file = "~/1vs2StepBayesianRegSEM/output/resultsSVNP_hyperFilter.Rds")
-```
-
-```{r}
-nrow(resultsSVNP_hyperFiltered)
-```
-
-# Making a selection of one combination of conditions
-
-It's also useful for presenting results to make a choice of one configuration of conditions. N needs to be 100 to match the SVNP, and for the rest it might be smart to chose all hyper-parameters on 1. Let's see, how the convergence is in this case:
-
-```{r}
-#indicesNEffTooSmallAllOne <- 
-convSVNP_hyper %>% 
-  filter(parameter == "n_eff") %>%
-  filter(scaleGlobal == 1 & dfGlobal == 1 & scaleLocal == 1 & dfLocal == 1 & scaleSlab == 1 & nu == 1) %>% 
-  select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos, lambdaMainC.1.:theta.6.) %>% 
-  mutate_at(.vars = vars(-(scaleGlobal:pos)), .funs = function(x){x/samplePars$nSampling}) %>% 
-  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x < .90) 
-```
-
-1 replication where the effiective sample size is smaller than 10% of the chain-length (is automatically removed trough the filtering step). Only 7 rows where it's smaller than 50% , 24 75%, 36 90%.
-
-## Rhat
-```{r}
-#indicesRHatTooSmallAllOne <- 
-convSVNP_hyper %>% 
-  filter(parameter == "Rhat") %>% 
-  filter(scaleGlobal == 1 & dfGlobal == 1 & scaleLocal == 1 & dfLocal == 1 & scaleSlab == 1 & nu == 1 & N == 100) %>% 
-  select(scaleGlobal, dfGlobal, scaleLocal, dfLocal, scaleSlab, nu, N, cross, pos, lambdaMainC.1.:theta.6.) %>% 
-  # get indices of all iterations where for any parameter 
-  filter_at(.vars = vars(lambdaMainC.1.:theta.6.), ~.x >= convCriteria$strict$maxRhat) 
-```
-
-Not a single row where Rhat >= 1.05
-
-```{r}
-#indicesDIVHigher5PercAllOne <- 
-convSVNP_hyper %>% 
-  filter(parameter == "Rhat") %>% # doesn't matter which you pick here
-  filter(scaleGlobal == 1 & dfGlobal == 1 & scaleLocal == 1 & dfLocal == 1 & scaleSlab == 1 & nu == 1 & N == 100) %>% 
-  mutate(propDIV = sumDiv/ samplePars$nSampling) %>% 
-  filter(propDIV >= convCriteria$strict$maxPropDIV)  
-```
-
-13 rows where percentage div transitions > 5% (not removed).
-
-These conditions, which are a logical default, appear to work well for presenting results. Let's therefore save this subset of the results for further analysis. 
-
 
 
 

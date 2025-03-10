@@ -307,15 +307,15 @@ let large parameters escape shrinkage to zero. The RHSP has been shown
 to perform excellently in the selection of relevant predictors in
 regression (Piironen \& Vehtari, 2017b; Van Erp, Oberski, \& Mulder, 2019). However,
 systematic research on the performance of this shrinkage prior in
-Bayesian regularized SEM is lacking (see Van Erp, 2023 for an
+Bayesian regularized SEM is lacking (see \textbf{van2023bayesian?} for an
 overview on the shrinkage priors previously used in Bayesian Regularized
-SEM). A notable exception is the work by Zhang and Liang (2023) who
+SEM). A notable exception is the work by (\textbf{zhang2023bayesian?}) who
 investigated the horseshoe prior in a multiple indicator multiple causes
-(MIMIC) model (see also Yamaguchi \& Zhang, 2023 for work on the Horseshoe
+(MIMIC) model (see also \textbf{yamaguchi2023fully?} for work on the Horseshoe
 Prior and its extension in variable selection in a two-parameter
 logistic item response theory model). Empirical examples in which the
 performance of the RHSP in regularizing parameters in CFA models is
-illustrated exist (Jacobucci \& Grimm, 2018a; Van Erp, 2023). However,
+illustrated exist (\textbf{van2023bayesian?}; \textbf{jacobucci2018comparison?}). However,
 no previous research has validated its performance in regularizing cross
 loadings in CFA under a varying set of conditions with a Monte Carlo
 simulation study. We therefore aim to compare the RHSP to the SVNP in
@@ -401,17 +401,17 @@ regression coefficients in MIMIC models (Jacobucci, Brandmaier, \& Kievit, 2019;
 continuous (Serang, Jacobucci, Brimhall, \& Grimm, 2017) or dichotomous outcomes
 (Serang \& Jacobucci, 2020), have successfully been regularized through
 the usage of penalties such as the LASSO or ridge penalty. R-packages
-such as \texttt{lslx} (Huang, 2020) or \texttt{regsem}
-(Li, Jacobucci, \& Ammerman, 2021) have implemented classical penalties in various SEMs.
+such as \texttt{lslx} (\textbf{lslxpackage?}) or \texttt{regsem}
+(\textbf{li2021tutorial?}) have implemented classical penalties in various SEMs.
 
 The key disadvantage of the frequentist regularization approach is that
 it depends on optimization. With more complicated penalties, and in
 particular for complex models, it can be hard to derive optimizable cost
 functions in practice. Also the derivation of unbiased standard errors
 is often challenging under such circumstances, which hinders reliable
-inference (Jacobucci \& Grimm, 2018b; Jacobucci et al., 2016).
+inference (Jacobucci \& Grimm, 2018; Jacobucci et al., 2016).
 Bayesian approaches to regularization overcome these obstacles
-(Jacobucci \& Grimm, 2018b). In Bayesian model estimation, the
+(Jacobucci \& Grimm, 2018). In Bayesian model estimation, the
 so-called joint posterior distribution of the model parameters given the
 data is a combination of the data given the model parameters (the
 likelihood) and the prior distribution of the model parameters, i.e.,
@@ -519,6 +519,19 @@ of the previous step. The as zero selected cross loadings are fixed to
 zero. In this two-step approach, the final results are thus conditional
 on the accuracy of the selection mechanism.
 
+\hypertarget{the-svnp-with-a-hyperprior}{%
+\subsubsection{The SVNP with a hyperprior}\label{the-svnp-with-a-hyperprior}}
+
+The classical Bayesian CFA approach by Muthén and Asparouhov (2012) asks for a fixed variance parameter. However, it is common in regularization to set hyperpriors on the parameters of priors, in order to allow for more flexibility in model estimation (Van Erp et al., 2019) Such approach can lead to more sparsimonious models, as it allows for a more flexible model estimation, where not all parameters need to be shrunken in the same (heavy) amount. Software packages for Bayesian CFA such as Mplus (Muthén \& Muthén, 1998-2017) and BLAVAAN (Merkle, Fitzsimmons, Uanhoro, \& Goodrich, 2020) have for the longest time not allowed to set hyperpriors for the variance of the SVNP. Only in probabilistic Bayesian modeling software such as Stan this possibility has been available (Stan Development Team, 2021; Van Erp, 2023). Since such software packages may not be a practical choice for applied researchers in terms of user-friendliness, the fixed-variance approaches has remained a relevant go-to approach (Van Erp, 2023). Recently, the BLAVAAN package has been updated to allow setting hyperpriors for the variance parameter of the SVNP. (\emph{Als ik het goed begreep kan je daar dus nu wel een hyperprior bepalen? REF naar blavaan versie release notes o.i.d? Ik probeeder i.i.g. om duidelijk te maken dat de fixed-variance approach door z'n availability vergeleken met de hyperprior approach nog steeds harstikke relevant is om te onderzoeken.}).
+
+\emph{Hier ben ik niet zeker wat handig is om op te schrijven\ldots Lijkt me een goed idee om dit meer stapsgewijs op te bouwen}
+
+In it's most simple form, one can set a half-Cauchy prior centered around 0 and with a scale of 1 on the standard deviation \(\sigma\) of the SVNP. In summary, the SVNP for a cross-loading \(\lambda_{c,jk} \lambda_{c,jk}\) is then specified as:
+
+\[\lambda_{c,jk}  \sim \mathcal{N}(0, \sigma^2), where\]
+
+\[\sigma \sim half-Cauchy(0, 1).\]
+
 \hypertarget{alternative-shrinkage-priors}{%
 \subsection{Alternative Shrinkage Priors}\label{alternative-shrinkage-priors}}
 
@@ -600,7 +613,7 @@ very few parameters that are shrunken in a non-extreme fashion.
 
 The Horseshoe Prior was found consistently to possess the theoretical
 properties of not shrinking large parameters while shrinking small
-parameters substantially to zero in practice (Carvalho et al., 2010; Datta \& Ghosh, 2013; Polson \& Scott, 2010; Van Der Pas, Kleijn, \& Van Der Vaart, 2014; Yamaguchi \& Zhang, 2023). However, due to its
+parameters substantially to zero in practice (Carvalho et al., 2010; Datta \& Ghosh, 2013; Polson \& Scott, 2010; Van Der Pas, Kleijn, \& Van Der Vaart, 2014). However, due to its
 heavy Cauchy tails it suffers from the same issues as a Cauchy prior.
 Specifically, not shrinking large parameters at all can lead to
 estimation issues, especially when parameters are weakly identified.
@@ -640,7 +653,7 @@ from zero, hence under large true cross loadings,
 above specification, when c is no constant but a parameter for which an
 Inverse-Gamma hyper-prior is set, the slab becomes a t-distribution with
 \(df_{slab}\) degrees of freedom, a mean of zero and a scale of
-\(s_{slab}^2\) (Piironen \& Vehtari, 2017b). Zhang and Liang (2023) showed that
+\(s_{slab}^2\) (Piironen \& Vehtari, 2017b). (\textbf{zhang2023bayesian?}) showed that
 in MIMIC models, the RHSP indeed possesses the desired property of
 shrinking larger effects more than the regular Horseshoe Prior does,
 without negative consequences in terms of bias or parameter selection
@@ -742,11 +755,9 @@ Model.}
 \end{figure}
 
 \hypertarget{svnp-with-hyperior}{%
-\paragraph{SVNP with Hyperior}\label{svnp-with-hyperior}}
+\subsubsection{SVNP with Hyperior}\label{svnp-with-hyperior}}
 
-We included a configuration of the SVNP where a Cauchy-prior with a .. of 0 and a .. of .. as hyperprior for the standard-deviation \(\sigma\) (not the variance \(\sigma^2\)): . This corresponds to a t-prior with .. .. . Given the simple nature of the model and the parameters to shrink, we chose to only include one hyper-parameter configuration of this prior in the study.
-
-\[ \]
+We included a configuration of the SVNP where a half-Cauchy prior centered around 0 and with a scale of 1 was set as hyperprior for the standard-deviation \(\sigma\) (not the variance \(\sigma^2\))\footnote{Note that a hyper-prior was set for \(\sigma\) and not \(\sigma^2\) as this is the way to specify a normal distribution Stan. We chose to refer to \(\sigma^2\) in the general introduction of this shrinkage prior as it aligns more closely with the classical introduction of this approach by Muthén and Asparouhov (2012).}. We deemed this relatively simple specification to be suitable for assessing the benefits of a hyperprior over a fixed variance, given the simple nature of the model studied.
 
 \hypertarget{rhsp-prior-conditions}{%
 \subsubsection{RHSP: Prior Conditions}\label{rhsp-prior-conditions}}
@@ -1269,7 +1280,7 @@ frequentist variable selection methods are sensitive to sample size
 too). At the same time, it is an important finding that both priors
 perform poorly under small sample sizes, as simple CFA models are often
 fitted with such small sample sizes in practice. Interestingly,
-Zhang and Liang (2023) found the RHSP to perform well in selecting
+(\textbf{zhang2023bayesian?}) found the RHSP to perform well in selecting
 covariates in a MIMIC model as (non-)zero, even under a sample size of N
 = 200. This suggests that the small sample sizes in our study may not be
 the only reason for the poor selection performance of the RHSP. This is
@@ -1322,7 +1333,7 @@ residual co-variances separately rather than on top of cross loadings,
 as regularizing both parameters simultaneously can be challenging in
 practice (Zhang et al., 2021). It is also desirable to assess the
 performance of the RHSP in regularizing model parameters in more complex
-SEM models. For instance, extending the work by Zhang and Liang (2023) who
+SEM models. For instance, extending the work by (\textbf{zhang2023bayesian?}) who
 regularized the causes (covariates) of latent variables, but not their
 indicators (i.e.~factor loadings), may be a sensible step. Hereby,
 adding another latent variable and with it cross loading to their model
@@ -1338,11 +1349,11 @@ for instance Lu et al., 2016) may prove valuable in allowing for a
 more refined comparison between the SVNP and the RHSP. Note also that in
 the current study no direct comparison to other relevant shrinkage
 priors, such as the Bayesian LASSO or the Spike-And-Slab Prior was made.
-Van Erp (2023) emphasizes the need for user-friendly software for
+(\textbf{van2023bayesian?}) emphasizes the need for user-friendly software for
 Bayesian Regularized SEM. In particular for more complex shrinkage
 priors software implementations are lacking. This also counts for the
 RSHP, which needs to be implemented into standard Bayesian SEM software
-(e.g., by adding it to the \texttt{BLAVAAN} package, Merkle, Fitzsimmons, Uanhoro, \& Goodrich, 2020).
+(e.g., by adding it to the \texttt{BLAVAAN} package, Merkle et al., 2020).
 Only then applied researchers can actually use it in practice. Here, a
 particular challenge that the RHSP has such a large number of
 hyperparameters which may differ in results based on the data and model
@@ -1419,9 +1430,6 @@ Homan, M. D., \& Gelman, A. (2014). The {No}-{U}-turn sampler: Adaptively settin
 \leavevmode\vadjust pre{\hypertarget{ref-hsiang_bayesian_1975}{}}%
 Hsiang, T. C. (1975). A {Bayesian} {View} on {Ridge} {Regression}. \emph{Journal of the Royal Statistical Society. Series D (The Statistician)}, \emph{24}(4), 267--268. \url{https://doi.org/10.2307/2987923}
 
-\leavevmode\vadjust pre{\hypertarget{ref-lslxpackage}{}}%
-Huang, P.-H. (2020). {lslx}: Semi-confirmatory structural equation modeling via penalized likelihood. \emph{Journal of Statistical Software}, \emph{93}(7), 1--37. \url{https://doi.org/10.18637/jss.v093.i07}
-
 \leavevmode\vadjust pre{\hypertarget{ref-ishwaran_spike_2005}{}}%
 Ishwaran, H., \& Rao, J. S. (2005). Spike and slab variable selection: {Frequentist} and {Bayesian} strategies. \emph{The Annals of Statistics}, \emph{33}(2), 730--773. \url{https://doi.org/10.1214/009053604000001147}
 
@@ -1429,19 +1437,13 @@ Ishwaran, H., \& Rao, J. S. (2005). Spike and slab variable selection: {Frequent
 Jacobucci, R., Brandmaier, A. M., \& Kievit, R. A. (2019). A {Practical} {Guide} to {Variable} {Selection} in {Structural} {Equation} {Modeling} by {Using} {Regularized} {Multiple}-{Indicators}, {Multiple}-{Causes} {Models}. \emph{Advances in Methods and Practices in Psychological Science}, \emph{2}(1), 55--76. \url{https://doi.org/10.1177/2515245919826527}
 
 \leavevmode\vadjust pre{\hypertarget{ref-jacobucci_comparison_2018}{}}%
-Jacobucci, R., \& Grimm, K. J. (2018b). Comparison of {Frequentist} and {Bayesian} {Regularization} in {Structural} {Equation} {Modeling}. \emph{Structural Equation Modeling: A Multidisciplinary Journal}, \emph{25}(4), 639--649. \url{https://doi.org/10.1080/10705511.2017.1410822}
-
-\leavevmode\vadjust pre{\hypertarget{ref-jacobucci2018comparison}{}}%
-Jacobucci, R., \& Grimm, K. J. (2018a). Comparison of frequentist and bayesian regularization in structural equation modeling. \emph{Structural Equation Modeling: A Multidisciplinary Journal}, \emph{25}(4), 639--649.
+Jacobucci, R., \& Grimm, K. J. (2018). Comparison of {Frequentist} and {Bayesian} {Regularization} in {Structural} {Equation} {Modeling}. \emph{Structural Equation Modeling: A Multidisciplinary Journal}, \emph{25}(4), 639--649. \url{https://doi.org/10.1080/10705511.2017.1410822}
 
 \leavevmode\vadjust pre{\hypertarget{ref-jacobucci_regularized_2016}{}}%
 Jacobucci, R., Grimm, K. J., \& McArdle, J. J. (2016). Regularized {Structural} {Equation} {Modeling}. \emph{Structural Equation Modeling: A Multidisciplinary Journal}, \emph{23}(4), 555--566. \url{https://doi.org/10.1080/10705511.2016.1154793}
 
 \leavevmode\vadjust pre{\hypertarget{ref-james_introduction_2021}{}}%
 James, G., Witten, D., Hastie, T., \& Tibshirani, R. (2021). \emph{An {Introduction} to {Statistical} {Learning}: With {Applications} in {R}}. New York, NY: Springer US. \url{https://doi.org/10.1007/978-1-0716-1418-1}
-
-\leavevmode\vadjust pre{\hypertarget{ref-li2021tutorial}{}}%
-Li, X., Jacobucci, R., \& Ammerman, B. A. (2021). Tutorial on the use of the regsem package in r. \emph{Psych}, \emph{3}(4), 579--592.
 
 \leavevmode\vadjust pre{\hypertarget{ref-lu_bayesian_2016}{}}%
 Lu, Z.-H., Chow, S.-M., \& Loken, E. (2016). Bayesian {Factor} {Analysis} as a {Variable}-{Selection} {Problem}: {Alternative} {Priors} and {Consequences}. \emph{Multivariate Behavioral Research}, \emph{51}(4), 519--539. \url{https://doi.org/10.1080/00273171.2016.1168279}
@@ -1456,7 +1458,10 @@ Merkle, E. C., Fitzsimmons, E., Uanhoro, J., \& Goodrich, B. (2020). Efficient {
 Mitchell, T. J., \& Beauchamp, J. J. (1988). Bayesian {Variable} {Selection} in {Linear} {Regression}. \emph{Journal of the American Statistical Association}, \emph{83}(404), 1023--1032. \url{https://doi.org/10.2307/2290129}
 
 \leavevmode\vadjust pre{\hypertarget{ref-muthen_bayesian_2012}{}}%
-Muthén, B., \& Asparouhov, T. (2012). \emph{Bayesian {SEM}: {A} more ﬂexible representation of substantive theory}. 78. \url{https://doi.org/10.1037/a0026802}
+Muthén, \& Asparouhov, T. (2012). \emph{Bayesian {SEM}: {A} more ﬂexible representation of substantive theory}. 78. \url{https://doi.org/10.1037/a0026802}
+
+\leavevmode\vadjust pre{\hypertarget{ref-muthen_mplus_1998}{}}%
+Muthén, \& Muthén, B. O. (1998-2017). \emph{Mplus {User}'s {Guide}}. Retrieved from \url{https://www.statmodel.com/html_ug.shtml}
 
 \leavevmode\vadjust pre{\hypertarget{ref-park_bayesian_2008}{}}%
 Park, T., \& Casella, G. (2008). The {Bayesian} {Lasso}. \emph{Journal of the American Statistical Association}, \emph{103}(482), 681--686. \url{https://doi.org/10.1198/016214508000000337}
@@ -1497,8 +1502,8 @@ Tibshirani, R. (2011). Regression shrinkage and selection via the lasso: A retro
 \leavevmode\vadjust pre{\hypertarget{ref-van_der_pas_horseshoe_2014}{}}%
 Van Der Pas, S. L., Kleijn, B. J., \& Van Der Vaart, A. W. (2014). The horseshoe estimator: {Posterior} concentration around nearly black vectors. \emph{Electronic Journal of Statistics}, \emph{8}(2), 2585--2618.
 
-\leavevmode\vadjust pre{\hypertarget{ref-van2023bayesian}{}}%
-Van Erp, S. (2023). Bayesian regularized SEM: Current capabilities and constraints. \emph{Psych}, \emph{5}(3), 814--835.
+\leavevmode\vadjust pre{\hypertarget{ref-van_erp_bayesian_2023}{}}%
+Van Erp, S. (2023). Bayesian {Regularized} {SEM}: {Current} {Capabilities} and {Constraints}. \emph{Psych}, \emph{5}(3), 814--835. \url{https://doi.org/10.3390/psych5030054}
 
 \leavevmode\vadjust pre{\hypertarget{ref-van_erp_shrinkage_2019}{}}%
 Van Erp, S., Oberski, D. L., \& Mulder, J. (2019). Shrinkage priors for {Bayesian} penalized regression. \emph{Journal of Mathematical Psychology}, \emph{89}, 31--50. \url{https://doi.org/10.1016/j.jmp.2018.12.004}
@@ -1511,12 +1516,6 @@ Wickham, H., François, R., \& Müller, K. (2022). \emph{Dplyr: {A} {Grammer} of
 
 \leavevmode\vadjust pre{\hypertarget{ref-wickham_tidyr_2022}{}}%
 Wickham, H., \& Girlich, M. (2022). \emph{Tidyr: {Tidy} {Messy} {Data}}. Retrieved from \href{https://tidyr.tidyverse.org,\%20https://github.com/tidyverse/tidyr}{https://tidyr.tidyverse.org, https://github.com/tidyverse/tidyr}
-
-\leavevmode\vadjust pre{\hypertarget{ref-yamaguchi2023fully}{}}%
-Yamaguchi, K., \& Zhang, J. (2023). Fully gibbs sampling algorithms for bayesian variable selection in latent regression models. \emph{Journal of Educational Measurement}, \emph{60}(2), 202--234.
-
-\leavevmode\vadjust pre{\hypertarget{ref-zhang2023bayesian}{}}%
-Zhang, L., \& Liang, X. (2023). Bayesian regularization in multiple-indicators multiple-causes models. \emph{Psychological Methods}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-zhang_criteria_2021}{}}%
 Zhang, L., Pan, J., \& Ip, E. H. (2021). Criteria for {Parameter} {Identification} in {Bayesian} {Lasso} {Methods} for {Covariance} {Analysis}: {Comparing} {Rules} for {Thresholding}, \emph{p} -value, and {Credible} {Interval}. \emph{Structural Equation Modeling: A Multidisciplinary Journal}, 1--10. \url{https://doi.org/10.1080/10705511.2021.1945456}

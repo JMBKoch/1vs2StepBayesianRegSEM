@@ -369,7 +369,7 @@ on the accuracy of the selection mechanism.
 
 ### The SVNP with a hyperprior 
 
-The classical Bayesian CFA approach by @muthen_bayesian_2012 asks for a fixed variance parameter. However, it is common in  regularization to set hyperpriors on the parameters of priors, in order to allow for more flexibility in model estimation (@van_erp_shrinkage_2019) Such approach can lead to more sparsimonious models, as it allows for a more flexible model estimation, where not all parameters need to be shrunken in the same (heavy) amount. Software packages for Bayesian CFA such as Mplus (@muthen_mplus_1998) and BLAVAAN (@merkle_efficient_2020) have for the longest time not allowed to set hyperpriors for the variance of the SVNP. Only in probabilistic Bayesian modeling software such as STAN this possibility has been available. Since such software packages may often not be the most suitable choice for applied researchers in terms of user-friendly sofware, the fixed-variance approaches has remained a relevant go-to approach (@van_erp_bayesian_2023). Recently, the BLAVAAN package has been updated to allow setting hyperpriors for the variance parameter of the SVNP. (*Als ik het goed begreep kan je daar dus nu wel een hyperprior bepalen? REF naar release notes o.i.d?*). 
+The classical Bayesian CFA approach by @muthen_bayesian_2012 asks for a fixed variance parameter. However, it is common in  regularization to set hyperpriors on the parameters of priors, in order to allow for more flexibility in model estimation [@van_erp_shrinkage_2019] Such approach can lead to more sparsimonious models, as it allows for a more flexible model estimation, where not all parameters need to be shrunken in the same (heavy) amount. Software packages for Bayesian CFA such as Mplus [@muthen_mplus_1998] and BLAVAAN [@merkle_efficient_2020] have for the longest time not allowed to set hyperpriors for the variance of the SVNP. Only in probabilistic Bayesian modeling software such as Stan this possibility has been available [@stan_development_team_stan_2021; @van_erp_bayesian_2023]. Since such software packages may not be a practical choice for applied researchers in terms of user-friendliness, the fixed-variance approaches has remained a relevant go-to approach [@van_erp_bayesian_2023]. Recently, the BLAVAAN package has been updated to allow setting hyperpriors for the variance parameter of the SVNP. (*Als ik het goed begreep kan je daar dus nu wel een hyperprior bepalen? REF naar blavaan versie release notes o.i.d? Ik probeeder i.i.g. om duidelijk te maken dat de fixed-variance approach door z'n availability vergeleken met de hyperprior approach nog steeds harstikke relevant is om te onderzoeken.*). 
 
 *Hier ben ik niet zeker wat handig is om op te schrijven...Lijkt me een goed idee om dit meer stapsgewijs op te bouwen*
 
@@ -466,7 +466,7 @@ The Horseshoe Prior was found consistently to possess the theoretical
 properties of not shrinking large parameters while shrinking small
 parameters substantially to zero in practice [@carvalho_horseshoe_2010;
 @polson_shrink_2010; @datta_asymptotic_2013;
-@van_der_pas_horseshoe_2014; @yamaguchi2023fully]. However, due to its
+@van_der_pas_horseshoe_2014]. However, due to its
 heavy Cauchy tails it suffers from the same issues as a Cauchy prior.
 Specifically, not shrinking large parameters at all can lead to
 estimation issues, especially when parameters are weakly identified.
@@ -626,9 +626,9 @@ this prior.
 ![Graphical Representation of the True
 Model.](~/1vs2StepBayesianRegSEM/Rmd/figures/model.png)
 
-#### SVNP with Hyperior
+### SVNP with Hyperior
 
-We included a configuration of the SVNP where a half-Cauchy prior centered around 0 and with a scale of 1 was set as hyperprior for the standard-deviation $\sigma$[^4]. (not the variance $\sigma^2$). Given the relatively simple nature of the model and the parameters to shrink, we chose to only include one hyper-parameter configuration of this prior in the study. We deemed this to be sufficient to assess potential benefits of a hyperprior approach over using a fixed variance, given the simple nature of the model studied. 
+We included a configuration of the SVNP where a half-Cauchy prior centered around 0 and with a scale of 1 was set as hyperprior for the standard-deviation $\sigma$ (not the variance $\sigma^2$)[^4]. We deemed this relatively simple specification to be suitable for assessing the benefits of a hyperprior over a fixed variance, given the simple nature of the model studied. 
 
 [^4]: Note that a hyper-prior was set for $\sigma$ and not $\sigma^2$ as this is the way to specify a normal distribution Stan. We chose to refer to $\sigma^2$ in the general introduction of this shrinkage prior as it aligns more closely with the classical introduction of this approach by @muthen_bayesian_2012.
 
@@ -752,10 +752,15 @@ outlined above. Moreover, across all runs there was not a single
 divergent transition. All 2400 replications of this prior were therefore
 included in the results.
 
+### SVNP with hyperprior
+
+With the hyperprior, the SVNP showed weaker but still acceptable convergence. There were ten replications yielded no posterior samples at all, indicating sever convergence issues. Seven out of these ten chains belonged to the condition set $N = 100, \ \lambda_{c1,6} = 0.2$, two $N = 200, \ \lambda_{c1,6} = 0.2$ and one chain $N = 100, \ \lambda_{c1,6} = 0.5$. There was no set of conditions for which, on average, the proportion of divergent transitions exceeded 5%. There were no replications that did not satisfy our convergence criteria regarding the effecitve sample size  $N_{Eff}$  and $\hat{R}$.
+
+
 ### RHSP
 
 The RHSP showed weaker performance in terms of convergence than the
-SVNP. In total 742 replications were removed for not reaching
+SVNP in general. In total 742 replications were removed for not reaching
 convergence.
 
 All replications of one condition were removed, because more than 50%
