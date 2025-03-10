@@ -31,12 +31,12 @@ $$\Theta = diag[0.3, 0.3, 0.3, 0.3, 0.3, 0.3].$$
 $$\sigma^2$$
 
 ```{r}
-read_rds(resultsSVNP_hyper, "../../figures/sigmaSqu_per_cond.RDS")
+readr::read_rds("../../figures/sigmaSqu_per_cond.RDS")
 ```
 
 
 ```{r}
-readr::read_rds(allAtOnce, file = "../../figures/hist_meanest_sigmasqu.RDS")
+readr::read_rds( "../../figures/hist_meanest_sigmasqu.RDS")
 ```
 
 
