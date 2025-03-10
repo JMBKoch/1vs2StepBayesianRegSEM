@@ -367,9 +367,9 @@ of the previous step. The as zero selected cross loadings are fixed to
 zero. In this two-step approach, the final results are thus conditional
 on the accuracy of the selection mechanism.
 
-### The SVNP with a hyperprior 
+### The SVNP with a hyper-prior 
 
-The classical Bayesian CFA approach by @muthen_bayesian_2012 asks for a fixed variance parameter. However, it is common in  regularization to set hyperpriors on the parameters of priors, in order to allow for more flexibility in model estimation [@van_erp_shrinkage_2019] Such approach can lead to more sparsimonious models, as it allows for a more flexible model estimation, where not all parameters need to be shrunken in the same (heavy) amount. Software packages for Bayesian CFA such as Mplus [@muthen_mplus_1998] and BLAVAAN [@merkle_efficient_2020] have for the longest time not allowed to set hyperpriors for the variance of the SVNP. Only in probabilistic Bayesian modeling software such as Stan this possibility has been available [@stan_development_team_stan_2021; @van_erp_bayesian_2023]. Since such software packages may not be a practical choice for applied researchers in terms of user-friendliness, the fixed-variance approaches has remained a relevant go-to approach [@van_erp_bayesian_2023]. Recently, the BLAVAAN package has been updated to allow setting hyperpriors for the variance parameter of the SVNP. (*Als ik het goed begreep kan je daar dus nu wel een hyperprior bepalen? REF naar blavaan versie release notes o.i.d? Ik probeeder i.i.g. om duidelijk te maken dat de fixed-variance approach door z'n availability vergeleken met de hyperprior approach nog steeds harstikke relevant is om te onderzoeken.*). 
+The classical Bayesian CFA approach by @muthen_bayesian_2012 asks for a fixed variance parameter. However, it is common in  regularization to set hyper-priors on the parameters of priors, in order to allow for more flexibility in model estimation [@van_erp_shrinkage_2019] Such approach can lead to more sparsimonious models, as it allows for a more flexible model estimation, where not all parameters need to be shrunken in the same (heavy) amount. Software packages for Bayesian CFA such as Mplus [@muthen_mplus_1998] and BLAVAAN [@merkle_efficient_2020] have for the longest time not allowed to set hyper-priors for the variance of the SVNP. Only in probabilistic Bayesian modeling software such as Stan this possibility has been available [@stan_development_team_stan_2021; @van_erp_bayesian_2023]. Since such software packages may not be a practical choice for applied researchers in terms of user-friendliness, the fixed-variance approaches has remained a relevant go-to approach [@van_erp_bayesian_2023]. Recently, the BLAVAAN package has been updated to allow setting hyper-priors for the variance parameter of the SVNP. (*Als ik het goed begreep kan je daar dus nu wel een hyper-prior bepalen? REF naar blavaan versie release notes o.i.d? Ik probeeder i.i.g. om duidelijk te maken dat de fixed-variance approach door z'n availability vergeleken met de hyper-prior approach nog steeds harstikke relevant is om te onderzoeken.*). 
 
 *Hier ben ik niet zeker wat handig is om op te schrijven...Lijkt me een goed idee om dit meer stapsgewijs op te bouwen*
 
@@ -628,7 +628,7 @@ Model.](~/1vs2StepBayesianRegSEM/Rmd/figures/model.png)
 
 ### SVNP with Hyperior
 
-We included a configuration of the SVNP where a half-Cauchy prior centered around 0 and with a scale of 1 was set as hyperprior for the standard-deviation $\sigma$ (not the variance $\sigma^2$)[^4]. We deemed this relatively simple specification to be suitable for assessing the benefits of a hyperprior over a fixed variance, given the simple nature of the model studied. 
+We included a configuration of the SVNP where a half-Cauchy prior centered around 0 and with a scale of 1 was set as hyper-prior for the standard-deviation $\sigma$ (not the variance $\sigma^2$)[^4]. We deemed this relatively simple specification to be suitable for assessing the benefits of a hyper-prior over a fixed variance, given the simple nature of the model studied. 
 
 [^4]: Note that a hyper-prior was set for $\sigma$ and not $\sigma^2$ as this is the way to specify a normal distribution Stan. We chose to refer to $\sigma^2$ in the general introduction of this shrinkage prior as it aligns more closely with the classical introduction of this approach by @muthen_bayesian_2012.
 
@@ -752,9 +752,9 @@ outlined above. Moreover, across all runs there was not a single
 divergent transition. All 2400 replications of this prior were therefore
 included in the results.
 
-### SVNP with hyperprior
+### SVNP with hyper-prior
 
-With the hyperprior, the SVNP showed weaker but still acceptable convergence. There were ten replications yielded no posterior samples at all, indicating sever convergence issues. Seven out of these ten chains belonged to the condition set $N = 100, \ \lambda_{c1,6} = 0.2$, two $N = 200, \ \lambda_{c1,6} = 0.2$ and one chain $N = 100, \ \lambda_{c1,6} = 0.5$. There was no set of conditions for which, on average, the proportion of divergent transitions exceeded 5%. There were no replications that did not satisfy our convergence criteria regarding the effecitve sample size  $N_{Eff}$  and $\hat{R}$.
+With the hyper-prior, the SVNP showed weaker but still acceptable convergence. There were ten replications yielded no posterior samples at all, indicating sever convergence issues. Seven out of these ten chains belonged to the condition set $N = 100, \ \lambda_{c1,6} = 0.2$, two $N = 200, \ \lambda_{c1,6} = 0.2$ and one chain $N = 100, \ \lambda_{c1,6} = 0.5$. There was no set of conditions for which, on average, the proportion of divergent transitions exceeded 5%. There were no replications that did not satisfy our convergence criteria regarding the effecitve sample size  $N_{Eff}$  and $\hat{R}$.
 
 ### RHSP
 
@@ -858,7 +858,7 @@ pronounced (e.g., $\bar{Bias}_{\bar{\lambda}_{c 1}} = 0.14$). Here
 $\sigma^2$ was large enough to estimate the cross loadings closer to
 their true value, e.g., $\bar{\lambda}_{c 1} = 0.37$. The bias of the
 RHSP was again almost entirely identical to that of the SVNP with
-$\sigma^2 = 0.1$ and to the SVNP with hyperprior.
+$\sigma^2 = 0.1$ and to the SVNP with hyper-prior.
 
 Also the estimates of the main loadings of factor 1 on item 3
 ($\bar{\lambda}_{m 3}$) and of factor 2 on item 4
@@ -872,7 +872,7 @@ cross loadings were shrunken to zero, these main loadings now also
 accounted for the variance in the items that was truly explained by the
 cross loadings. Consequently, the two main loadings were over-estimated,
 e.g., $\bar{\lambda}_{m 3} = 1.15$. Both the RHSP, the SVNP with
-$\sigma^2 = 0.1$ and SVNP with hyperprior had low levels of bias for the main loadings both with
+$\sigma^2 = 0.1$ and SVNP with hyper-prior had low levels of bias for the main loadings both with
 true cross loadings of 0.2 and 0.5.
 
 In the factor correlation $\bar{\Psi}_{1,2}$ the bias was relatively
@@ -885,7 +885,7 @@ situation the factor correlation was heavily over-estimated
 ($\bar{\Psi}_{1,2} = 0.84$). This can be explained by the fact that the
 covariance between item 3 and 4 that arose from the two cross loadings,
 was misattributed to the factor-correlation, as the cross loadings were
-shrunken to zero. For the SVNP with $\sigma^2 = 0.1$, the SVNP with hyperprior and the RHSP,
+shrunken to zero. For the SVNP with $\sigma^2 = 0.1$, the SVNP with hyper-prior and the RHSP,
 the bias in the factor correlation was much lower, although there was
 still a noticeable increase between true cross loadings of 0.2 and 0.5.
 
@@ -934,10 +934,10 @@ the model at hand and the research goal. In general, one should aim for
 a balance between both, with high enough levels of Power and low enough
 Type-I-Error rates co-occuring.
 
-[^8]: The results for N = 200 of the RSHP, and for the other hyperparmatersettings, can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP>. The results for the SVNP with n = 200 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP>. The results for the SVNP with hyperprior and n = 200 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP_hyper>. 
+[^8]: The results for N = 200 of the RSHP, and for the other hyperparmatersettings, can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP>. The results for the SVNP with n = 200 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP>. The results for the SVNP with hyper-prior and n = 200 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP_hyper>. 
 
 For both priors and across most conditions, the Power fell under the
-desired threshold of .80. For the SVNP with hyperprior, under all selection rules, and for both $N = 100$ and $N = 200$ the power fell under the treshold when the true size of the cross loading was 0.2. With cross loadings of 0.5, however, all selection rules except for the wider credible intervals (80%, 90% and 95%) did reach the desired power. For the SVNP with $\sigma^2 = 0.001$ non-zero cross loadings were always over-shrunken so much that they were never selected as non-zero. Under $\sigma^2 = 0.01$, the situation improved
+desired threshold of .80. For the SVNP with hyper-prior, under all selection rules, and for both $N = 100$ and $N = 200$ the power fell under the treshold when the true size of the cross loading was 0.2. With cross loadings of 0.5, however, all selection rules except for the wider credible intervals (80%, 90% and 95%) did reach the desired power. For the SVNP with $\sigma^2 = 0.001$ non-zero cross loadings were always over-shrunken so much that they were never selected as non-zero. Under $\sigma^2 = 0.01$, the situation improved
 somewhat, with now cross loadings of 0.5 being correctly selected as
 non-zero for all selection rules when N = 200. For N = 100, thresholds
 of 0.05, and 50% credible intervals also had the desired levels of
@@ -954,7 +954,7 @@ credible intervals performed very poorly, which is explained by the fact
 that the lower bounds of these intervals (almost) always exceeded zero.
 
 In general, under most conditions the Type-I-Error rate of both the SVNP
-and the RHSP exceeded the desired maximum. The SVNP with hyperprior reached the desired threshold with all section rules except for the three widest credible intervals (80%, 90% and 95%), both for $N = 100$ and $N = 200$. For the SVNP, with
+and the RHSP exceeded the desired maximum. The SVNP with hyper-prior reached the desired threshold with all section rules except for the three widest credible intervals (80%, 90% and 95%), both for $N = 100$ and $N = 200$. For the SVNP, with
 $\sigma^2 = 0.001$ and N = 100, the Type-I-Error rate stayed very low
 for all selection critera (up to the 0.00 threshold), as under this
 condition all cross loadings, including the truly zero ones, were always
@@ -1002,26 +1002,12 @@ between latent constructs. With $\sigma^2 = 0.1$, the SVNP was able to
 estimate the model parameters with little bias. Such relatively large
 variance still allowed for enough deviations from zero in the cross
 loadings to yield relatively accurate estimates of the non-zero cross
-loadings itself and, consequently, the other model parameters. The RHSP
-performed very similar to the SVNP with $\sigma^2 = 0.1$.
+loadings itself and, consequently, the other model parameters. Both the SVNP with hyper-prior and the RHSP performed very similar to the SVNP with $\sigma^2 = 0.1$.
 
 While the RHSP and the SVNP were both able to estimate the simple CFA
-model of this study with little bias, only the RHSP was able to do so
-consistently across different hyperparameter settings. This poses a
-central advantage over the SVNP. Being robust to different
-hyperparameter settings, which is achieved though the complex nature of
-the RHSP that sets hyper-priors on all parameters, may ultimately allow
-researchers to apply the RHSP without having to worry about choosing
-optimal values for the hyperparameters. However, the other side of the
-coin is that the complex nature of the RHSP makes it sensitive to
-hyperparameter settings regarding its performance in terms of
-convergence, in contrast to the SVNP that had excellent convergence
-across all conditions. Hereby, a clear pattern arose, with convergence
-issues arising with large cross loadings, small sample sizes and small
-scales for the local and global shrinkage parameter. While this may
-suggest that one should simply avoid using small values for the scales,
-using larger scales that shrink parameters less may lead to
-identification problems in more complex SEM models. Future research is
+model of this study with little bias, only the two priors with a hyper-prior were able to do so consistently. This illustrate the fundamental of using a hyper-prior approach over using fixed parameters. The RHSP did not outperform the SVNP with a hyper-prior and showed substantially poorer convergence. Hence, for this particular model the SVNP with hyperprior struk the most ideal balance in model simplicity and model complexity, by yielding most accurate solutions with little estimation complexity. In more complex models the refined nature of the RHSP with its several hyperpriors may ultimately prove advantegous even over the SVNP with hyper-prior, as it allows for even more flexibility. Future research may compare the SVNP, also with more refined hyper-prior configurations, to the RHSP in regularization of more complex SEM models. The current results do suggest, however, that for simple CFA model, using a RHSP is an overkill solution that may lead to more problems in terms of actually being able to estimate the model than benefits in terms of accurate shrinkage.  
+
+The convergence issues of the RHSP followed a clear pattern, with issues arising with large cross loadings, small sample sizes and small scales for the local and global shrinkage parameter. While this may suggest that one should simply avoid using small values for the scales, using larger scales that shrink parameters less may lead to identification problems in more complex SEM models. Future research is
 required that incorporates more complex models, in order to assess the
 performance of the RHSP in terms of convergence in more depth.
 Ultimately, it is desirable to be able to formulate clear guidelines on
@@ -1033,28 +1019,21 @@ overcome convergence issues partially. In the absence of user-friendly
 software automating regularization with the RSHP it is, however,
 unlikely that further refining the configuration of the complex
 No-U-Turn-Sampler is a fruitful route in making the RHSP a practical
-approach for applied researchers.
+approach for applied researchers. Next to this, the RHSP may thus work more reliably with larger sample sizes. In sum, there remain thus plenty of potential use-cases for the RHSP over the SVNP with hyper-prior in regularizing more complex models on larger datasets.
 
-Particularly under simple models such as the one employed in this study
-using the less complex SVNP with a relatively large value of $\sigma^2$
-may thus prove advantageous in practice, to avoid risking bias stemming
-from non-convergence and divergent transitions. Next to this, the
-simpler SVNP is easier to implement and takes substantially less time to
-run. However, simply using larger values of $\sigma^2$ with the SVNP is
+Under simple models such as the one employed in this study
+using the least complex version of SVNP, with the variance fixed to a relatively large value of $\sigma^2$ may also be advisable. This approach performed as well as both hyper-prior approaches. It also remains the most accessible appraoch, due to it's simpleness and availabilty across Bayesian CFA software   However, simply using larger values of $\sigma^2$ with the SVNP is
 no general solution. In practice, models may include more structural
 parameters, even more cross loadings, or a number of residual
 co-variances. Under these circumstances, large values of $\sigma^2$ may
 lead to identification issues. Moreover, the larger $\sigma^2$, the more
 cross loadings will be selected as non-zero, which may ultimately lead
-to over-fitting. Because of this, the RHSP might prove as more advisable
-for more complex models. While the RHSP, as the SVNP, can be assumed to
-run into more and more identification issues with increasing model
-complexity, its refined nature in giving prior mass only where strictly
+to over-fitting. Because of this, the SVNP with hyperprior or the RHSP might prove as more advisable for more complex models. In particular the RHSP with its refined nature in giving prior mass only where strictly
 desired (see Figure 1) might allow for a more efficient identification
 of complex models than the SVNP, at least for some hyperparameter
 settings. Using the RHSP may thus turn out to be the approach of choice
 in situations where identification is hard to achieve with the SVNP.
-However, future research comparing the SVNP to the RHSP in regularizing
+However, future research comparing the SVNP both with and without, and for several hyper-prior setting, to the RHSP in regularizing
 more complex SEM-models is yet to investigate this directly.
 
 Regarding the Power and Type-I-Error rate in selecting cross loadings as
