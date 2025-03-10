@@ -367,6 +367,19 @@ of the previous step. The as zero selected cross loadings are fixed to
 zero. In this two-step approach, the final results are thus conditional
 on the accuracy of the selection mechanism.
 
+### The SVNP with a hyperprior 
+
+The classical Bayesian CFA approach by @muthen_bayesian_2012 asks for a fixed variance parameter. However, it is common in  regularization to set hyperpriors on the parameters of priors, in order to allow for more flexibility in model estimation (@van_erp_shrinkage_2019) Such approach can lead to more sparsimonious models, as it allows for a more flexible model estimation, where not all parameters need to be shrunken in the same (heavy) amount. Software packages for Bayesian CFA such as Mplus (@muthen_mplus_1998) and BLAVAAN (@merkle_efficient_2020) have for the longest time not allowed to set hyperpriors for the variance of the SVNP. Only in probabilistic Bayesian modeling software such as STAN this possibility has been available. Since such software packages may often not be the most suitable choice for applied researchers in terms of user-friendly sofware, the fixed-variance approaches has remained a relevant go-to approach (@van_erp_bayesian_2023). Recently, the BLAVAAN package has been updated to allow setting hyperpriors for the variance parameter of the SVNP. (*Als ik het goed begreep kan je daar dus nu wel een hyperprior bepalen? REF naar release notes o.i.d?*). 
+
+*Hier ben ik niet zeker wat handig is om op te schrijven...Lijkt me een goed idee om dit meer stapsgewijs op te bouwen*
+
+In it's most simple form, one can set a half-Cauchy prior centered around 0 and with a scale of 1 on the standard deviation $\sigma$ of the SVNP. In summary, the SVNP for a cross-loading $\lambda_{c,jk} \lambda_{c,jk}$ is then specified as:
+
+$$\lambda_{c,jk}  \sim \mathcal{N}(0, \sigma^2), where$$
+
+$$\sigma \sim half-Cauchy(0, 1).$$ 
+
+
 ## Alternative Shrinkage Priors
 
 One alternative to the SVNP is the Bayesian LASSO, which has
@@ -615,9 +628,9 @@ Model.](~/1vs2StepBayesianRegSEM/Rmd/figures/model.png)
 
 #### SVNP with Hyperior
 
-We included a configuration of the SVNP where a Cauchy-prior with a .. of 0 and a .. of .. as hyperprior for the standard-deviation $\sigma$ (not the variance $\sigma^2$): . This corresponds to a t-prior with .. .. . Given the simple nature of the model and the parameters to shrink, we chose to only include one hyper-parameter configuration of this prior in the study. 
+We included a configuration of the SVNP where a half-Cauchy prior centered around 0 and with a scale of 1 was set as hyperprior for the standard-deviation $\sigma$[^4]. (not the variance $\sigma^2$). Given the relatively simple nature of the model and the parameters to shrink, we chose to only include one hyper-parameter configuration of this prior in the study. We deemed this to be sufficient to assess potential benefits of a hyperprior approach over using a fixed variance, given the simple nature of the model studied. 
 
-$$ $$
+[^4]: Note that a hyper-prior was set for $\sigma$ and not $\sigma^2$ as this is the way to specify a normal distribution Stan. We chose to refer to $\sigma^2$ in the general introduction of this shrinkage prior as it aligns more closely with the classical introduction of this approach by @muthen_bayesian_2012.
 
 ### RHSP: Prior Conditions
 
@@ -658,9 +671,9 @@ apa_table(tableCond, escape = F, caption = "Overview study conditions.", note = 
 All outcomes were computed based on both mean and median posterior
 estimates of the model parameters. We only present the results of the
 mean estimates, as the median estimates provided no relevant additional
-information[^4].
+information[^5].
 
-[^4]: see
+[^5]: see
     <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/medianEstimates>
 
 ### Mean Absolute Bias
@@ -691,9 +704,9 @@ $$MSE_{\bar{\theta}} = \frac{1}{N_{rep}} \Sigma_{i = 1}^{N_{rep}} (\bar{\theta_i
 Another way to express the MSE is as the sum of the bias and the
 variance of a model parameter, which explains its added value over the
 Mean Absolute Bias alone. As with the Relative Bias the general pattern
-of results do not differ significantly for the MSE[^5].
+of results do not differ significantly for the MSE[^6].
 
-[^5]: see
+[^6]: see
     <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses>
 
 ### Power and Type-I-Error Rate
@@ -806,11 +819,11 @@ here, to not distract from our main comparison to the SVNP. We decided
 to present the findings with all hyperparameters set to one, as this is
 a logical default hyperparameter configuration under the scale of a
 standardized CFA model. This is appropriate, as the results generally
-did not differ between different hyperparameter configurations[^6]. The
+did not differ between different hyperparameter configurations[^7]. The
 replications for this hyperparameter configuration showed good
 convergence, such that only a single replication had to be removed.
 
-[^6]: See <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP> for the results of the RHSP with different hyperparameter settings.
+[^7]: See <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP> for the results of the RHSP with different hyperparameter settings.
 
 ```{r, dev='cairo_pdf', include=T, echo=F, warning=F, fig.cap="Mean Absolute Bias in the Model Parameters (N = 100). Per set of parameters that showed an identical pattern, the first parameter was used to represent all other parameters, e.g.,  cross loading 2 was plotted representative for cross loading 3-5. All hyperparameters of the RHSP are set to 1 in the results presented here. ", fig.height=7}
 # load plot
@@ -898,7 +911,7 @@ Figure 4 summarizes the Power and the Type-I-Error rate of both priors.
 Again, the outcomes are presented for the first parameter of an
 identical set of parameters (e.g., $\lambda_{c,1}$ is presented
 representative for the two truly non-zero cross loadings). Moreover, results of the RHSP are again presented with all hyperparameters set to
-one, and we focus on the results for N = 100[^7]. In the plots summarizing the Power the horizontal red dashed line
+one, and we focus on the results for N = 100[^8]. In the plots summarizing the Power the horizontal red dashed line
 indicates the minimum power of .80 recommended by @muthen_bayesian_2012.
 According to @cham_estimating_2012, the maximally acceptable
 Type-I-Error rate is the upper-bound of a 95% interval of a binomial
@@ -917,7 +930,7 @@ the model at hand and the research goal. In general, one should aim for
 a balance between both, with high enough levels of Power and low enough
 Type-I-Error rates co-occuring.
 
-[^7]: The results for N = 200 of the RSHP, and for the other hyperparmatersettings, can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP>. The results for the SVNP with n = 100 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP>. 
+[^8]: The results for N = 200 of the RSHP, and for the other hyperparmatersettings, can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP>. The results for the SVNP with n = 100 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP>. 
 
 For both priors and across most conditions, the Power fell under the
 desired threshold of .80. For the SVNP with $\sigma^2 = 0.001$ non-zero
