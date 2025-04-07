@@ -133,7 +133,7 @@ mean zero and a very small variance (e.g., $\sigma^2$ = 0.01). As a result,
 the simple structure assumption of exact zero cross-loadings is relaxed 
 to allow approximately zero cross-loadings in the model. This is
 an instance of *regularization*, with the SVNP being used as the
-*shrinkage prior* [@hastie_statistical_2015]. This prior attaches large
+*shrinkage prior*. This prior attaches large
 prior mass to cross loadings of or near zero, while attaching almost no
 prior mass to cross loadings further from zero, such that all cross
 loadings in the model are shrunken. However, shrinking also the cross
@@ -208,7 +208,7 @@ $$e_i \sim \mathcal{N}(0, \sigma^2). $$ The Ordinary Least Squared
 Residuals estimates of $\beta$ are obtained by minimizing the sum of
 squared residuals:
 $$ \hat{\beta} = \underset{\beta}{argmin} \{ \Sigma_{i=1}^N(y_i - \beta x_{i} )^2 \}.$$
-Penalized regression adds a a penalty term to this cost function, which
+Penalized regression adds a penalty term to this cost function, which
 is generally denoted as $||\beta||_L$:
 $$ \hat{\beta} = \underset{\beta}{argmin} \{ \Sigma_{i=1}^N(y_i - \beta x_{i} )^2 + \lambda ||\beta||_{L} \}.$$
 When L = 1, we speak of the so-called L1 norm. In this case the penalty
@@ -223,7 +223,7 @@ model parameters with minimally small residuals, minimizing the
 (absolute) sum of the regression coefficients results in smaller values
 of the regression coefficients. The larger $\lambda$, the more weight
 the penalty has, and thereby the higher the amount of shrinkage to zero.
-In practice the hyper-parameter $\lambda$ is often determined by means of
+In practice the penalty-parameter $\lambda$ is often determined by means of
 cross-validation. When L = 2 (the so-called L2 norm),
 $||\beta||_2 = \sqrt{\Sigma_{j=1}^p \beta_j^2}$. This is the famous
 ridge penalty [@hoerl_ridge_2000]. Here, the same general principle is
@@ -245,7 +245,7 @@ $$F_{ML, \ penalized} = F_{ML} \ + \lambda P(\theta).$$ Again the
 penalty function can take on different forms, such as the ridge (the
 square root of the sum of squares of the regularized parameters) or the
 LASSO (the sum of the absolute values of the regularized parameters),
-and $\lambda$ is again a hyper-parameter that determines the amount of
+and $\lambda$ is again a penalty-parameter that determines the amount of
 shrinkage. Regularized SEM has successfully been applied in selecting
 cross loadings and residual covariances in CFA, especially under
 favorable conditions such as large sample sizes
@@ -309,7 +309,7 @@ to one another that are theoretically expected to have a relationship.
 Cross loadings are factor loadings that relate factors to items that are
 not intended to measure that specific construct. One key property of CFA
 is that a clear expectation on the factor structure, i.e., which factor
-loads on which items, is assumed. This allows to formulate clear
+loads on which items, is assumed. This makes it possible to formulate clear
 expectations on which items can be viewed as cross loadings.
 Consequently, a natural way of identifying a confirmatory factor model
 (on top of other relevant identification constraints, such as scaling
@@ -319,7 +319,7 @@ also ensures that the measurement structure is easy to interpret.
 However, in practice, fixing all cross loadings to zero often results in
 poor model fit. So-called modification indices can be derived, which
 indicate how much model fit improves when adding or removing a certain
-parameter (for instance, a cross loading) to the model. Based on
+parameter (for instance, a cross loading) to or from the model. Based on
 modification indices, researchers often re-add some cross loadings to
 the model, until a desired level of fit is reached. However, a core
 property of modification indices is that they are only based on the
@@ -360,7 +360,7 @@ SVNP, however, the estimates of large cross loadings are also shrunken
 substantially towards zero, as the prior with its thin tails attaches
 very little prior mass to them. This causes bias. First, bias naturally
 occurs in the large cross loadings itself. However, also in other
-parameters, such as factor-correlations or main loadings, substantial
+parameters, such as factor correlations or main loadings, substantial
 bias can arise, as they are estimated conditionally on the cross
 loadings. To overcome this, the method is presented as a 2 step-approach
 [@muthen_bayesian_2012]. First, the model is estimated with the
@@ -375,7 +375,7 @@ on the accuracy of the selection mechanism.
 
 ### The SVNP with hyper-prior 
 
-TIn classical penalization, the optimal penalty parameter $\lambda$ (not to be confused with the $\lambda$'s representing factor loadings in CFA) is determined via cross-validation. In the Bayesian framework, an alternative approach is possible in which a hyper-prior is specified for the variance parameter in the SVNP. As a result, the optimal value for the variance, which determines the amount of shrinkage similar to the classical penalty parameter, is estimated simultaneously with the model. This removes the arbitrary and choice of setting the prior variance in the SVNP approach. Moreover, when such a hyper-prior is specified, the ridge prior shows more desirable shrinkage behavior compared to a setting in which the variance is fixed [see Figures 5 and 6 in @van_erp_shrinkage_2018]. An often used choice for the hyper-prior is a half-Cauchy, leading to the following specification for a cross-loading $\lambda_{c,jk}$:
+In classical penalization, the optimal hyper parameter $\lambda$ (not to be confused with the $\lambda$'s representing factor loadings in CFA) is determined via cross-validation. In the Bayesian framework, an alternative approach is possible in which a hyper-prior is specified for the variance parameter in the SVNP. As a result, the optimal value for the variance, which determines the amount of shrinkage similar to the classical penalty parameter, is estimated simultaneously with the model. This removes the arbitrary choice of setting the prior variance in the SVNP approach. Moreover, when such a hyper-prior is specified, the ridge prior shows more desirable shrinkage behavior compared to a setting in which the variance is fixed [see Figures 5 and 6 in @van_erp_shrinkage_2018]. An often used choice for the hyper-prior is a half-Cauchy, leading to the following specification for a cross-loading $\lambda_{c,jk}$:
 $$\lambda_{c,jk}  \sim \mathcal{N}(0, \sigma^2), \ where$$
 $$ \sigma \sim half-Cauchy(0, 1).$$ 
 
@@ -419,14 +419,14 @@ $\lambda_{c,jk} \sim \delta_0$. In this case, the cross loading is thus
 assigned to a point-mass at zero, i.e., it is assigned to the spike.
 This ensures that large cross loadings that are relevant are not
 shrunken while small, negligible cross loadings are shrunken to zero. Lu
-et al. (2016) found that Spike-and-Slab Prior performs well in shrinking
+et al. (2016) found that the Spike-and-Slab Prior performs well in shrinking
 truly zero cross loadings to zero, while not shrinking (relevant) large
 cross loadings to avoid bias, especially under favorable conditions with
 large sample sizes and cross loadings. The prior is thus in general more
 suited to estimate CFA models without substantial bias within a single
 estimation step, due to its refined nature in differentiating between
 large and small cross loadings. However, the Spike-and-Slab Prior cannot
-be implemented in Stan, one of the most popular software package for
+be implemented in `Stan`, one of the most popular software packages for
 MCMC-sampling, as `Stan` does not allow for discrete mixture priors
 [@stan_development_team_stan_2021; @betancourt_conceptual_2018]. This
 calls for a *non-discrete* alternative shrinkage prior that also
@@ -490,7 +490,7 @@ RHSP in its most general form. Setting the degrees of freedom of the
 half-t-distributions to 1 results in half-Cauchy distributions. Strictly
 speaking, the prior is only a Regularized *Horseshoe* Prior when this is
 the case. In the current study we vary the degrees of freedoms of all
-scale parameters to assess the extent to which the sparcifying
+scale parameters to assess the extent to which the sparsifying
 properties as well as the convergence of the RHSP are influenced by its
 hyper-parameters.
 
@@ -560,7 +560,7 @@ A Monte Carlo simulation study was conducted using Stan
 heavily relying on `rstan` [@stan_development_team_rstan_2022] and
 `bayesplot` [@gabry_bayesplot_2022] for the post-processing of the
 posterior samples. Results were further post-processed using `tidyr`
-[@wickham_tidyr_2022] & `dplyr` [@wickham_dplyr_2022]. All plots were
+[@wickham_tidyr_2022] and `dplyr` [@wickham_dplyr_2022]. All plots were
 made using `ggplot2` [@wickham_ggplot2_2016]. We ran up to 46
 replications in parallel using the `parallel` package
 [@r_core_team_package_2022]. This manuscript was written using R
@@ -611,7 +611,7 @@ differences between the SVNP and RHSP will diminish with growing N.
 For all parameters except the cross loadings, non-informative priors
 were set: for the main loadings a normal prior with mean of zero and a
 variance of 25, for the residual variances a half-Cauchy-prior with a
-location-parameter of 0 and a scale of 5, and for the factor-correlation
+location-parameter of 0 and a scale of 5, and for the factor correlation
 `Stan`'s default uniform prior.
 
 ### SVNP: Prior Conditions
@@ -881,7 +881,7 @@ $\sigma^2 = 0.001$ ($\bar{Bias}_{\bar{\Psi}_{1,2}} = 0.34$). In this
 situation the factor correlation was heavily over-estimated
 ($\bar{\Psi}_{1,2} = 0.84$). This can be explained by the fact that the
 covariance between item 3 and 4 that arose from the two cross loadings,
-was misattributed to the factor-correlation, as the cross loadings were
+was misattributed to the factor correlation, as the cross loadings were
 shrunken to zero. For the SVNP with $\sigma^2 = 0.1$, the SVNP with hyper-prior and the RHSP,
 the bias in the factor correlation was much lower, although there was
 still a noticeable increase between true cross loadings of 0.2 and 0.5.
@@ -893,7 +893,7 @@ of 0.2 and 0.5 when $\sigma^2 = 0.001$.
 
 ### Power and Type-I-Error Rate
 
-```{r, dev='cairo_pdf', include = T, warning = F, fig.cap='Mean Power and Type-I-Error Rates in Selecting non-zero Crossloadings (N = 100). All hyper-parameters of the RHSP are set to 1 in the results presented here. The red dashed horizontal lines represents a power level of 0.80.', fig.height=10, fig.width=8}
+```{r, dev='cairo_pdf', include = T, warning = F, fig.cap='Mean Power and Type-I-Error Rates in Selecting non-zero Cross Loadings (N = 100). All hyper-parameters of the RHSP are set to 1 in the results presented here. The red dashed horizontal lines represents a Power level of 0.80.', fig.height=10, fig.width=8}
 library(patchwork)
 library(ggplot2)
 
@@ -934,17 +934,17 @@ Type-I-Error rates co-occuring.
 [^8]: The results for N = 200 of the RSHP, and for the other hyperparmatersettings, can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/RHSP>. The results for the SVNP with n = 200 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP>. The results for the SVNP with hyper-prior and n = 200 can be found on <https://github.com/JMBKoch/1vs2StepBayesianRegSEM/tree/main/Rmd/analyses/SVNP_hyper>. 
 
 For both priors and across most conditions, the Power fell under the
-desired threshold of .80. For the SVNP with hyper-prior, under all selection rules, and for both $N = 100$ and $N = 200$ the power fell under the treshold when the true size of the cross loading was 0.2. With cross loadings of 0.5, however, all selection rules except for the wider credible intervals (80%, 90% and 95%) did reach the desired power. For the SVNP with $\sigma^2 = 0.001$ non-zero cross loadings were always over-shrunken so much that they were never selected as non-zero. Under $\sigma^2 = 0.01$, the situation improved
+desired threshold of .80. For the SVNP with hyper-prior, under all selection rules, and for both $N = 100$ and $N = 200$ the Power fell under the treshold when the true size of the cross loading was 0.2. With cross loadings of 0.5, however, all selection rules except for the wider credible intervals (80%, 90% and 95%) did reach the desired Power. For the SVNP with $\sigma^2 = 0.001$ non-zero cross loadings were always over-shrunken so much that they were never selected as non-zero. Under $\sigma^2 = 0.01$, the situation improved
 somewhat, with now cross loadings of 0.5 being correctly selected as
 non-zero for all selection rules when N = 200. For N = 100, thresholds
 of 0.05, and 50% credible intervals also had the desired levels of
-power, with thresholds of 0.10 also almost reaching a power of .80. The
-SVNP performed best in terms of power when $\sigma^2 = 0.1$. With N =
+Power, with thresholds of 0.10 also almost reaching a Power of .80. The
+SVNP performed best in terms of Power when $\sigma^2 = 0.1$. With N =
 200, all selection rules except for the 95% credible intervals reached
 the desired Power. With N = 100, all selection rules except for the 95%
-and 90% credible intervals exceeded a power of .80. For the RHSP, in
+and 90% credible intervals exceeded a Power of .80. For the RHSP, in
 general the Power did also not live up to the standards by
-@muthen_bayesian_2012. The desired power was exclusively reached in
+@muthen_bayesian_2012. The desired Power was exclusively reached in
 selecting cross loadings that were truly 0.5, when using 50% credible
 intervals or the three thresholds. Especially the widest (90% and 95%)
 credible intervals performed very poorly, which is explained by the fact
@@ -956,7 +956,7 @@ $\sigma^2 = 0.001$ and N = 100, the Type-I-Error rate stayed very low
 for all selection critera (up to the 0.00 threshold), as under this
 condition all cross loadings, including the truly zero ones, were always
 shrunken almost entirely to zero. With N = 200, the 50% credible
-intervals lead to an undesired large Type-I error rate. With
+intervals lead to an undesirablelarge Type-I error rate. With
 $\sigma^2 = 0.01$ and N = 100, some selection rules (90% & 95% credible
 intervals, a threshold of 0.15) had an acceptable Type-I-Error rate even
 with large true cross loadings of 0.5, but they quickly became
@@ -965,7 +965,7 @@ rules except for 90% and 95% credible intervals had unacceptably high
 Type-I-Error rates for both sizes of non-zero cross loadings, even
 though pronounced differences between cross loadings of 0.2 and 0.5
 occured. This was the condition under which the SVNP had the best levels
-of power, indicating that the good performance in Power comes with the
+of Power, indicating that the good performance in Power comes with the
 caveat of a poor Type-I-Error rate. The RHSP performed even worse than
 the SVNP in terms of its Type-I-Error rate. Only the 90% and 95%
 credible intervals stayed within the desired boundary, as they always
@@ -1004,17 +1004,12 @@ loadings itself and, consequently, the other model parameters. Both the SVNP wit
 The SVNP with a fixed variance of $\sigma^2 = 0.1$, the SVNP with hyper-prior and the RHSP were all able to estimate the model parameters with little bias. The RHSP did not outperform the SVNP with hyper-prior and showed substantially poorer convergence. Hence, for the simple CFA model in this study, the SVNP with hyper-prior struck the most ideal balance in model simplicity and model complexity by (1) yielding accurate solutions; (2) not sacrificing reliable estimation (3) not requiring a sensible a priori choice about the right amount of shrinkage (in contrast to the SVNP with fixed variance). In more complex models the refined nature of the RHSP with its several hyper-priors may ultimately prove advantageous, even over the SVNP with hyper-prior, as it allows for even more flexibility. Future research may compare the SVNP to the RHSP in the regularization of more complex SEM models.
 
 Under simple models such as the one employed in this study
-using the least complex version of SVNP, with the variance fixed to a relatively large value of $\sigma^2$ may also be advisable. This approach performed as well as both hyper-prior approaches. It also remains the most accessible approach, due to it's simpleness and availability across Bayesian CFA software  However, simply using larger values of $\sigma^2$ with the SVNP is
-no general solution. In practice, models may include more structural
+using the least complex version of SVNP, with the variance fixed to a relatively large value of $\sigma^2$ may also be advisable. This approach performed as well as both hyper-prior approaches. It also remains the most accessible approach, due to it's simpleness and availability across Bayesian CFA software. However, simply using larger values of $\sigma^2$ with the SVNP is no general solution. In practice, models may include more structural
 parameters, even more cross loadings, or a number of residual
 co-variances. Under these circumstances, large values of $\sigma^2$ may
 lead to identification issues. Moreover, the larger $\sigma^2$, the more
 cross loadings will be selected as non-zero, which may ultimately lead
-to over-fitting. Because of this, and based on our results, we advise against the use of SVNP with fixed variance and instead recommend a SVNP with a hyperprior or the RHSP. In particular the RHSP with its refined nature in giving prior mass only where strictly desired (see Figure 1) might allow for a more efficient identification
-of complex models than the SVNP, at least for some hyper-parameter
-settings. Using the RHSP may thus turn out to be the approach of choice
-in situations where identification is hard to achieve with the SVNP. Future research comparing the SVNP with fixed variances and with a variety of hyper-prior setting to the RHSP in regularizing
-more complex SEM-models is yet to investigate this directly.
+to over-fitting. Because of this, and based on our results, we advise against the use of SVNP with fixed variance and instead recommend a SVNP with a hyperprior or the RHSP. 
 
 Regarding the Power and Type-I-Error rate in selecting cross loadings as
 non-zero, both priors performed poorly across a range of selection
@@ -1044,12 +1039,11 @@ measurement structure to test structural hypotheses. For this purpose,
 the question of whether or not cross loadings are zero is not as
 relevant, as long as the structural model parameters are estimated
 without substantial bias. Next to this, different selection methods,
-such as Highest Posterior Density (HPD) intervals
-[@zhang_criteria_2021], or projection predictive inference
+such as projection predictive inference
 [@piironen_sparsity_2017] may be more successful in making a selection
 that meets the desired balance in Power and Type-I-Error rate.
 
-The large levels of bias found in for the majority of fixed-variance configurations of the SVNP are not surprising, given the original approach
+The large levels of bias found for the majority of fixed-variance configurations of the SVNP are not surprising, given the original approach
 explicitly asking for a second step to circumvent bias
 [@muthen_bayesian_2012]. However, the fact that the SVNP performed so
 poorly in selecting the cross loadings across selection rules suggests
@@ -1083,10 +1077,10 @@ performance of the RHSP in regularizing model parameters in more complex
 SEM models. For instance, extending the work by @zhang_bayesian_2024 who
 regularized the causes (covariates) of latent variables, but not their
 indicators (i.e. factor loadings), may be a sensible step. Hereby,
-adding another latent variable and with it cross loading to their model
+adding another latent variable and with it another cross loading to their model
 would shed more light onto the properties of the RHSP in regularizing
 both latent and structural parameters simultaneously. Also the
-regularization of other structural parameters, such indirect effects in
+regularization of other structural parameters, such as indirect effects in
 mediation models is an interesting research direction. Moreover,
 applying the RHSP in measurement models with non-continuous (i.e.,
 binary, ordinal or nominal) outcomes would be an interesting way of
@@ -1137,7 +1131,5 @@ contribution to the current literature. We illustrate limitations of the current
 # (APPENDIX) Appendix {.unnumbered}
 
 ```{r child = "appendixA.Rmd"}
-```
-```{r child = "appendixB.Rmd"}
 ```
 
