@@ -20,8 +20,7 @@ output            :
   papaja::apa6_pdf:
     includes:
       in_header: "preamble.tex"
-#      before_body: "frontmatter.tex"
- #   latex_engine: xelatex
+      before_body: "frontmatter.tex"
     latex_engine: xelatex
 editor_options: 
   markdown: 
