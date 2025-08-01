@@ -13,16 +13,16 @@ output: html_document
 # load packages outside of simulation
 library(papaja)
 #source required functions & parameters
-source('~/1vs2StepBayesianRegSEM/R/functions.R')
-source('~/1vs2StepBayesianRegSEM/R/parameters.R')
+source('../../../R/functions.R')
+source('../../../R/parameters.R')
 ```
 
 ```{r, cache = T}
 # load results
-resultsRHSP <- read.csv("~/1vs2StepBayesianRegSEM/output/resultsRHSP.csv", 
+resultsRHSP <- read.csv("../../../output/resultsRHSP.csv", 
                         sep = " ", 
                         header = TRUE)
-convRHSP <- read.csv("~/1vs2StepBayesianRegSEM/output/convRHSP.csv",
+convRHSP <- read.csv("../../../output/convRHSP.csv",
                      sep = " ",
                      header = TRUE)
 ```
@@ -153,7 +153,7 @@ meanPropDIVlarger5
 ```
 
 ```{r}
-readr::write_rds(meanPropDIVlarger5, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/meanPropDIVlarger5.Rds")
+readr::write_rds(meanPropDIVlarger5, file = "../../../Rmd/figures/meanPropDIVlarger5.Rds")
 ```
 
 ## Effective Sample Size
@@ -245,7 +245,7 @@ rowsRemovedLarger5Perc
 ```
 
 ```{r}
-readr::write_rds(rowsRemovedLarger5Perc, file = "~/1vs2StepBayesianRegSEM/Rmd/figures/rowsRemovedLarger5Perc.Rds")
+readr::write_rds(rowsRemovedLarger5Perc, file = "../../../Rmd/figures/rowsRemovedLarger5Perc.Rds")
 ```
 
 # Post-process
@@ -267,7 +267,7 @@ resultsRHSPFiltered <-
          biasCrossMean_6 = abs(crossEstMean_6 - cross))
 nrow(resultsRHSPFiltered) + length(indicesCombined)
 # Save filtered data as .Rds file for further analysis
-saveRDS(resultsRHSPFiltered, file = "~/1vs2StepBayesianRegSEM/output/resultsRHSPFilter.Rds")
+saveRDS(resultsRHSPFiltered, file = "../../../output/resultsRHSPFilter.Rds")
 ```
 
 ```{r}
