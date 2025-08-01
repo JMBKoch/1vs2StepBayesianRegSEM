@@ -776,6 +776,7 @@ removed. The conditions had in common that they had an N of 100, true
 cross loadings of 0.50, and a $s_{global}$ and $s_{local}$ of 0.1.
 
 ```{r}
+getwd()
 rowsRemovedLarger5Perc <- readr::read_rds("~/1vs2StepBayesianRegSEM/Rmd/figures/rowsRemovedLarger5Perc.Rds")
 papaja::apa_table(rowsRemovedLarger5Perc, escape = F, 
                   caption = "Conditions of the RHSP under which more than 5\\% of replications were removed for not having reached convergence (N = 542).",
