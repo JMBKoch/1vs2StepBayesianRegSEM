@@ -1104,6 +1104,43 @@ contribution to the current literature. We illustrate limitations of the current
 \end{itemize}
 ```
 
+
+# Declarations
+
+## Funding
+
+This research was supported by a NWO Veni Grant (Vl.Veni.221G.005) to Sara Van Erp.
+
+## Conflicts of interest/Competing interests
+
+Not applicable
+
+## Ethics approval
+
+Not applicable
+
+## Consent to participate
+
+Not applicable
+
+## Consent for publication
+
+Not applicable
+
+## Availability of data and materials (data transparency)
+
+Data and materials are available at the github repository that is cited throughout the text: https://github.com/JMBKoch/1vs2StepBayesianRegSEM/.
+
+## Code availability (software application or custom code)
+
+Data and materials are available at the github repository that is cited throughout the
+text: https://github.com/JMBKoch/1vs2StepBayesianRegSEM/
+
+## Authors’ contributions
+
+Not applicable
+
+
 ```{=tex}
 \begingroup
 \setlength{\parindent}{-0.5in}
