@@ -334,7 +334,7 @@ convergence <- function(rstanObj, condPrior, condPop) {
 # sampling() --------------------------------------------------------------
 # takes as input the conditions chain-length, warmup, n_chains, n_parallel chains &
 #   all hyperparameters sourced from parameters.R
-sampling <- function(pos, prior, dataStan, modelPars, samplePars){
+sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALSE){
   
   
   # select current data
@@ -344,7 +344,10 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars){
   if (prior == "SVNP"){
     
     # compile model (if already compiled this will just not be executed)
-      model <- cmdstan_model("stan/SVNP.stan")
+      model <- ifelse(wishart, 
+                      cmdstan_model("stan/SVNP_wishart.stan"),
+                      cmdstan_model("stan/SVNP.stan")
+                      )
       
     # select current hyper-parameter conditions
     condPriorCurrent <- data.frame(
