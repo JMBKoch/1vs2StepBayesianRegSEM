@@ -8,12 +8,10 @@
 source('R/functions.R')
 source('R/parameters.R')
 
-
 # check on right cmdstanr config -----------------------------------------
 if (!as.package_version(cmdstanr::cmdstan_version()) <= as.package_version("2.34.0")){
   cli::cli_abort("cmdstanr version must be 2.34.0 (or lower) due to this bug: {.url https://github.com/stan-dev/rstan/issues/1133?utm_source=chatgpt.com}")
 }
-
 
 # Prepare data SVNP ------------------------------------------------------------
 # simulate data
@@ -48,8 +46,10 @@ startTimeSVNP <- Sys.time()
 # create clusters
 clusters <- makePSOCKcluster(nClusters) 
 
-# export variables from gloval env sourced/ created above
-clusterExport(clusters, varlist = c("packages", "dataStanSVNP", "sampling", "modelPars", "samplePars"))
+# source functions and params in clusterenvs
+clusterCall(clusters, function() source('R/functions.R'))
+clusterCall(clusters, function() source('R/parameters.R'))
+
 # Load packages per cluster
 clusterCall(clusters, 
             function() lapply(packages, library, character.only = TRUE)
@@ -75,7 +75,9 @@ elapsedTimesSVNP <- endTimeSVNP-startTimeSVNP
 
 # Prepare data for SVNP wishart ------------------------------------------------------------
 # We can simply transform all simulated datasets to the empirical covariance matrix
-# this is a somewhat akward approach over just simulating the cov-matrix immediately, but 
+# this is a somewhat akward approach over just simulating the cov-matrix immediately, but this is done
+# since this approach was only added during revision at Behavior research methods thanks to suggestions by reviewes
+#   to enable larger sample sizes (this approach avoid loop)
 dataStanSVNP_wishart <- purrr::imap(dataStanSVNP, 
                                    ~ { .x$Y <- cov(.x$Y) 
                                        return(.x)
