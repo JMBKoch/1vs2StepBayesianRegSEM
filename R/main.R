@@ -63,60 +63,49 @@ outputFinalSVNP <- future_lapply(pos, future.seed=TRUE, function(i) {
 endTimeSVNP <- Sys.time()
 #  measure elapsed time
 elapsedTimesSVNP <- endTimeSVNP-startTimeSVNP
+elapsedTimesSVNP
 
 # Prepare data for SVNP wishart ------------------------------------------------------------
 # We can simply transform all simulated datasets to the empirical covariance matrix
-# this is a somewhat akward approach over just simulating the cov-matrix immediately, but this is done
-# since this approach was only added during revision at Behavior research methods thanks to suggestions by reviewes
-#   to enable larger sample sizes (this approach avoid loop)
 dataStanSVNP_wishart <- purrr::imap(dataStanSVNP, 
-                                   ~ { .x$Y <- cov(.x$Y) 
+                                   ~ { .x$S <- cov(.x$Y) 
+                                       .x$Y <- NULL
                                        return(.x)
                                       } )
 
-# ## Execute simulation for SVNP wishart ---------------------------------------------
-# # This does everything identically to doe SVNP (in terms of params and data) 
-# if( file.exists("output/resultsSVNP_wishart.RDS")){
-#   stop("output already exists. Please remove or backup before proceeding.")
-# }else if (length(dataStanSVNP) != (nIter*nrow(condSVNP) * nrow(condPop)){
-#   stop("something went wrong with simulating the data!")
-# }else{
-#   # do the sampling where every available core (nWorkers in condtions.R) does 
-#   #    one unique combination of conditions
-#   # measure start time
-#   startTimeSVNP <- Sys.time()
-#   # create clusters
-#   clusters <- makePSOCKcluster(nClusters) 
-#   # source functions & parameters within clusters
-#   clusterCall(clusters, 
-#               function() source('R/functions.R'))
-#   clusterCall(clusters, 
-#               function() source('R/parameters.R'))
-#   # Load packages per cluster
-#   clusterCall(clusters, 
-#               function() lapply(packages, library, character.only = TRUE))
-#   # read in stan-ready data within clusters
-#   clusterCall(clusters,
-#               function() readr::read_rds("data/dataStanSVNP.RDS"))
-#   
-#   # run functon in clustered way where it's clustered over individual combo's of 
-#   #  iteration, condPop and condPrior
-#   outputFinalSVNP <- clusterApplyLB(clusters, 
-#                                     1:length(dataStanSVNP),
-#                                     sampling,
-#                                     dataStan = dataStanSVNP, 
-#                                     prior = "SVNP",
-#                                     modelPars = modelPars, 
-#                                     samplePars = samplePars,
-#                                     # makes it use wishart
-#                                     wishart = TRUE)
-#   # close clusters
-#   stopCluster(clusters) 
-#   # measure end time
-#   endTimeSVNP <- Sys.time()
-#   # measure elapsed time
-#   elapsedTimesSVNP <- endTimeSVNP-startTimeSVNP
-# }
+## Execute simulation for SVNP wishart ---------------------------------------------
+# This does everything identically to doe SVNP (in terms of params and data)
+if( file.exists("output/resultsSVNP_wishart.RDS")){
+  stop("output already exists. Please remove or backup before proceeding.")
+}else if (length(dataStanSVNP_wishart) != (nIter*nrow(condSVNP) * nrow(condPop))){
+  stop("something went wrong with simulating the data!")
+}
+
+# measure start time
+startTimeSVNP_wishart <- Sys.time()
+
+# Set up parallel plan with 6 workers
+plan(multisession, workers = nClusters)
+
+# Vector of pos indices to run over
+#pos <- seq_along(dataStanSVNP)  # or any large vector of positions
+pos <- 1:2
+
+outputFinalSVNP_wishart <- future_lapply(pos, future.seed=TRUE, function(i) {
+  sampling(pos = i,
+           dataStan = dataStanSVNP_wishart,
+           prior = "SVNP", # stays the same
+           modelPars = modelPars,
+           samplePars = samplePars,
+           wishart = TRUE) # this arg handles wishart specification
+})
+
+# measure end time
+endTimeSVNP_wishart <- Sys.time()
+#  measure elapsed time
+elapsedTimesSVNP_wishart <- endTimeSVNP_wishart-startTimeSVNP_wishart
+elapsedTimesSVNP_wishart
+
 
 # # Prepare data SVNP hyper ------------------------------------------------------------
 # # simulate data

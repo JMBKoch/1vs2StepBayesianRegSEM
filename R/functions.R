@@ -417,14 +417,17 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
     message("creating output dir because it doesn't exist")
   }
   # Define file paths
+  spec_suffix <- ifelse(wishart, "wishart", "")
   resultsName <- paste0("output/",
                         "results", 
                         condPriorCurrent$prior,
+                        spec_suffix,
                         ".RDS")
   
   convName <- paste0("output/",
                      "conv", 
                      condPriorCurrent$prior,
+                     spec_suffix,
                      ".RDS")
   
   # Function to append new results to existing file
