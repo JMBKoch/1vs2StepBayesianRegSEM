@@ -11,7 +11,7 @@ packages <- c("cmdstanr", # MCMC sampling using stan
               "rstan", # postprocessing of samples
               "tidyverse", # data wrangling, plotting, pipes
               "mvtnorm", # data simulation
-              "parallel", # parallelization
+              "future.apply", # parallelization
               "bayesplot" # convergence diagnostics 
               )
 # make sure that packages are installed if not present
@@ -19,7 +19,7 @@ package.check <- lapply(
   packages,
   FUN = function(x) {
     if (!require(x, character.only = TRUE)) {
-      install.packages(x, dependencies = TRUE)
+      install.packages(x, dependencies = TRUE, repos = "https://cloud.r-project.org")
     }
   }
 )

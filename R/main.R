@@ -38,40 +38,30 @@ if( file.exists("output/resultsSVNP.RDS")){
   stop("output already exists. Please remove or backup before proceeding.")
 }else if (length(dataStanSVNP) != (nIter*nrow(condSVNP) * nrow(condPop))){
   stop("something went wrong with simulating the data!")
-}else{
-# do the sampling where every available core (nWorkers in condtions.R) does 
-#    one unique combination of conditions
+}
+
 # measure start time
 startTimeSVNP <- Sys.time()
-# create clusters
-clusters <- makePSOCKcluster(nClusters) 
 
-# source functions and params in clusterenvs
-clusterCall(clusters, function() source('R/functions.R'))
-clusterCall(clusters, function() source('R/parameters.R'))
+# Set up parallel plan with 6 workers
+plan(multisession, workers = nClusters)
 
-# Load packages per cluster
-clusterCall(clusters, 
-            function() lapply(packages, library, character.only = TRUE)
-            )
+# Vector of pos indices to run over
+#pos <- seq_along(dataStanSVNP)  # or any large vector of positions
+pos <- 1:2
 
-# run functon in clustered way where it's clustered over individual combo's of 
-#  iteration, condPop and condPrior
-outputFinalSVNP <- clusterApplyLB(clusters, 
-                                  #1:length(dataStanSVNP),
-                                  1:2,
-                                  sampling,
-                                  dataStan = dataStanSVNP, 
-                                  prior = "SVNP",
-                                  modelPars = modelPars, 
-                                  samplePars = samplePars)
-# close clusters
-stopCluster(clusters) 
+outputFinalSVNP <- future_lapply(pos, function(i) {
+  sampling(pos = i,
+           dataStan = dataStanSVNP,
+           prior = "SVNP",
+           modelPars = modelPars,
+           samplePars = samplePars)
+})
+
 # measure end time
 endTimeSVNP <- Sys.time()
-# measure elapsed time
+#  measure elapsed time
 elapsedTimesSVNP <- endTimeSVNP-startTimeSVNP
-}
 
 # Prepare data for SVNP wishart ------------------------------------------------------------
 # We can simply transform all simulated datasets to the empirical covariance matrix
