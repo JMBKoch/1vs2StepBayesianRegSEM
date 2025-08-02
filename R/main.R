@@ -50,12 +50,13 @@ plan(multisession, workers = nClusters)
 #pos <- seq_along(dataStanSVNP)  # or any large vector of positions
 pos <- 1:2
 
-outputFinalSVNP <- future_lapply(pos, function(i) {
+outputFinalSVNP <- future_lapply(pos, future.seed=TRUE, function(i) {
   sampling(pos = i,
            dataStan = dataStanSVNP,
            prior = "SVNP",
            modelPars = modelPars,
-           samplePars = samplePars)
+           samplePars = samplePars,
+           wishart = FALSE)
 })
 
 # measure end time
