@@ -11,21 +11,23 @@ source('R/parameters.R')
 # Prepare data SVNP ------------------------------------------------------------
 # simulate data
 if (!file.exists('data/datasets.RDS')){
-datasets <- simDatasets(condPop = condPop, modelPars = modelPars, nIter = nIter)
-# save raw data
-readr::write_rds(datasets, file = 'data/datasets.RDS' )
+  datasets <- simDatasets(condPop = condPop, modelPars = modelPars, nIter = nIter)
+  # save raw data
+  readr::write_rds(datasets, file = 'data/datasets.RDS' )
 }else {
   datasets <- readr::read_rds('data/datasets.RDS')
 }
+
 # prepare data for stan
 if (!file.exists('data/dataStanSVNP.RDS')){
-dataStanSVNP <- prepareDat(datasets, condSVNP, nIter)
-# save stan-ready data
-readr::write_rds(dataStanSVNP, file = "data/dataStanSVNP.RDS")
+  dataStanSVNP <- prepareDat(datasets, condSVNP, nIter)
+  # save stan-ready data
+  readr::write_rds(dataStanSVNP, file = "data/dataStanSVNP.RDS")
 } else{
 # load stan-ready data generally
   dataStanSVNP <- readr::read_rds("data/dataStanSVNP.RDS")
 }
+
 ## Execute simulation for SVNP ---------------------------------------------
 if( file.exists("output/resultsSVNP.RDS")){
   stop("output already exists. Please remove or backup before proceeding.")
@@ -48,7 +50,7 @@ clusterCall(clusters,
             function() lapply(packages, library, character.only = TRUE))
 # read in stan-ready data within clusters
 clusterCall(clusters,
-            function() load("data/dataStanSVNP.RDS"))
+            function() readr::read_rds("data/dataStanSVNP.RDS"))
 
 # run functon in clustered way where it's clustered over individual combo's of 
 #  iteration, condPop and condPrior
@@ -91,7 +93,7 @@ if( file.exists("output/resultsSVNP_wishart.RDS")){
               function() lapply(packages, library, character.only = TRUE))
   # read in stan-ready data within clusters
   clusterCall(clusters,
-              function() load("data/dataStanSVNP.RDS"))
+              function() readr::read_rds("data/dataStanSVNP.RDS"))
   
   # run functon in clustered way where it's clustered over individual combo's of 
   #  iteration, condPop and condPrior
@@ -177,7 +179,7 @@ if( file.exists("output/resultsSVNP_hyper.RDS")){
 
 # load data if it exists, else make it
 if (file.exists("data/dataStanRHSP.RDS")) {
-  dataStanRHSP <- read_rds("data/dataStanRHSP.RDS")
+  dataStanRHSP <- readr::read_rds("data/dataStanRHSP.RDS")
 }else{
 # prepare data for stan
 dataStanRHSP <- prepareDat(datasets, condRHSP, nIter)
