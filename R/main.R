@@ -29,7 +29,7 @@ readr::write_rds(dataStanSVNP, file = "data/dataStanSVNP.RDS")
 ## Execute simulation for SVNP ---------------------------------------------
 if( file.exists("output/resultsSVNP.RDS")){
   stop("output already exists. Please remove or backup before proceeding.")
-}else if (length(dataStanSVNP) != (nIter*condSVNP)){
+}else if (length(dataStanSVNP) != (nIter*nrow(condSVNP) * nrow(condPop))){
   stop("something went wrong with simulating the data!")
 }else{
 # do the sampling where every available core (nWorkers in condtions.R) does 
@@ -72,7 +72,7 @@ elapsedTimesSVNP <- endTimeSVNP-startTimeSVNP
 #   uses an alternative specification of the model 
 if( file.exists("output/resultsSVNP_wishart.RDS")){
   stop("output already exists. Please remove or backup before proceeding.")
-}else if (length(dataStanSVNP) != (nIter*condSVNP)){
+}else if (length(dataStanSVNP) != (nIter*nrow(condSVNP) * nrow(condPop)){
   stop("something went wrong with simulating the data!")
 }else{
   # do the sampling where every available core (nWorkers in condtions.R) does 
@@ -135,7 +135,7 @@ if (!file.exists('data/dataStanSVNP_hyper.RDS')){
 # breaks
 if( file.exists("output/resultsSVNP_hyper.RDS")){
   stop("output already exists. Please remove or backup before proceeding.")
-}else if (length(dataStanSVNP_hyper) != (nIter*condSVNP_hyper)){
+}else if (length(dataStanSVNP_hyper) != (nIter*nrow(condSVNP_hyper) * nrow(condPop))){
     stop("something went wrong with simulating the data!")
 }else{
   # do the sampling where every available core (nWorkers in condtions.R) does 
@@ -189,7 +189,7 @@ save(dataStanRHSP, file = "~/data/dataStanRHSP.RDS")
 if( file.exists("output/resultsRHSP.RDS")){
   stop("output already exists. Please remove or backup before proceeding.")
 }else {
-if (length(dataStanRHSP) != (nIter*condRHSP)){
+if (length(dataStanRHSP) != (nIter*nrow(condRHSP) * nrow(condPop))){
   stop("something went wrong with simulating the data!")
 }
 # do the sampling where every available core (nWorkers in condtions.R) does

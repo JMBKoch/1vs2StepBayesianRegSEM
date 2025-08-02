@@ -98,7 +98,7 @@ samplePars <- list(
                 )
 
 # Parallelization Parameter -----------------------------------------------
-nClusters <- 12 # depending on machine, original study run with 12 for SVNP and 46 for RHSP
+nClusters <- 6 # depending on machine, original study run with 12 for SVNP and 46 for RHSP
 
 # other study parameters --------------------------------------------------
 nIter <- 200 # in paper(s) Iterations are referred to as "Replications"
