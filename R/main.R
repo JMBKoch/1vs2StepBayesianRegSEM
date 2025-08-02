@@ -8,6 +8,13 @@
 source('R/functions.R')
 source('R/parameters.R')
 
+
+# check on right cmdstanr config -----------------------------------------
+if (!as.package_version(cmdstanr::cmdstan_version()) <= as.package_version("2.34.0")){
+  cli::cli_abort("cmdstanr version must be 2.34.0 (or lower) due to this bug: {.url https://github.com/stan-dev/rstan/issues/1133?utm_source=chatgpt.com}")
+}
+
+
 # Prepare data SVNP ------------------------------------------------------------
 # simulate data
 if (!file.exists('data/datasets.RDS')){
@@ -40,23 +47,19 @@ if( file.exists("output/resultsSVNP.RDS")){
 startTimeSVNP <- Sys.time()
 # create clusters
 clusters <- makePSOCKcluster(nClusters) 
-# source functions & parameters within clusters
-clusterCall(clusters, 
-            function() source('R/functions.R'))
-clusterCall(clusters, 
-            function() source('R/parameters.R'))
+
+# export variables from gloval env sourced/ created above
+clusterExport(clusters, varlist = c("packages", "dataStanSVNP", "sampling", "modelPars", "samplePars"))
 # Load packages per cluster
 clusterCall(clusters, 
-            function() lapply(packages, library, character.only = TRUE))
-# read in stan-ready data within clusters
-clusterCall(clusters, function() {
-  dataStanSVNP <<- readr::read_rds("data/dataStanSVNP.RDS")
-})
+            function() lapply(packages, library, character.only = TRUE)
+            )
 
 # run functon in clustered way where it's clustered over individual combo's of 
 #  iteration, condPop and condPrior
 outputFinalSVNP <- clusterApplyLB(clusters, 
-                                  1:length(dataStanSVNP),
+                                  #1:length(dataStanSVNP),
+                                  1:2,
                                   sampling,
                                   dataStan = dataStanSVNP, 
                                   prior = "SVNP",
@@ -72,14 +75,14 @@ elapsedTimesSVNP <- endTimeSVNP-startTimeSVNP
 
 # Prepare data for SVNP wishart ------------------------------------------------------------
 # We can simply transform all simulated datasets to the empirical covariance matrix
+# this is a somewhat akward approach over just simulating the cov-matrix immediately, but 
 dataStanSVNP_wishart <- purrr::imap(dataStanSVNP, 
                                    ~ { .x$Y <- cov(.x$Y) 
                                        return(.x)
                                       } )
 
 # ## Execute simulation for SVNP wishart ---------------------------------------------
-# # This does everything identically to doe SVNP (in terms of params and data) but
-# #   uses an alternative specification of the model 
+# # This does everything identically to doe SVNP (in terms of params and data) 
 # if( file.exists("output/resultsSVNP_wishart.RDS")){
 #   stop("output already exists. Please remove or backup before proceeding.")
 # }else if (length(dataStanSVNP) != (nIter*nrow(condSVNP) * nrow(condPop)){

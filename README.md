@@ -15,8 +15,8 @@ You can clone the repository by running:
 
 - Packages should be installed automatically, if they are not yet. However, this may not work on all systems/ versions of R. Hence, if the script does not run checking if the packages are installed correctly may be a sensible first step in the debugging process. An overview of the required packages can be found at the top (line 7-13) of [`R/parameters.R`](R/parameters.R). 
 
-- In order for `cmdstanr` to work, it is required to run `cmdstanr::install_cmdstan()` a single time. 
-
+- In order for `cmdstanr` to work, it is required to run `cmdstanr::install_cmdstan(version = "2.34.0")` a single time. UPDATE AUGUST '25: the legacy version of
+`cmdstanr` is used as to [this issue](https://github.com/stan-dev/rstan/issues/1133?utm_source=chatgpt.com)
 - Note that if the model is adjusted, the code in [`stan`](stan) needs to be adjusted accordingly as well. 
 
 - [`data`](data) contains the raw datasets that were simulated based on the population conditions. It will be simulated and saved again when running [`R/main.R`](R/main.R).
