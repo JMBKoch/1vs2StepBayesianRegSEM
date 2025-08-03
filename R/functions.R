@@ -359,7 +359,11 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
   } else if (prior == "SVNP_hyper"){
     
     # compile model (if already compiled this will just not be executed)
-    model <- cmdstan_model("stan/SVNP_hyper.stan")
+    if (wishart) {
+      model <- cmdstan_model("stan/SVNP_hyper_wishart.stan")
+    } else{
+      model <- cmdstan_model("stan/SVNP_hyper.stan")
+    }
     
     # select current hyper-parameter conditions
     condPriorCurrent <- data.frame(

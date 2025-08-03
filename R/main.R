@@ -2,7 +2,7 @@
 # This is the main script running the simulation 
 # Dependencies: functions.R; parameters.R; 
 
-# source functions and conditions outside clusters ------------------------
+# source functions and conditions in global scope ------------------------
 source('R/functions.R')
 source('R/parameters.R')
 
@@ -176,7 +176,7 @@ elapsedTimesSVNP_hyper
 
 # SVNP hyper wishart ------------------------------------------------------
 ## prepare data voor SVNP hyper wishart ------------------------------------
-dataStanSVNP_hyper_wishart <- purrr::imap(dataStan_hyper, 
+dataStanSVNP_hyper_wishart <- purrr::imap(dataStanSVNP_hyper, 
                                       ~ { .x$S <- cov(.x$Y) 
                                       .x$Y <- NULL
                                       return(.x)
@@ -202,7 +202,8 @@ clusterExport(clusters,
               varlist = c("dataStanSVNP_hyper_wishart"))
 # sample
 outputFinalSVNP_hyper_wishart  <- clusterApplyLB(clusters,
-                                         1:length(dataStanSVNP_hyper_wishart),
+                                         #seq_along(dataStanSVNP_hyper_wishart),
+                                         1:2,
                                          sampling,
                                          dataStan = dataStanSVNP_hyper_wishart,
                                          prior = "SVNP_hyper",
