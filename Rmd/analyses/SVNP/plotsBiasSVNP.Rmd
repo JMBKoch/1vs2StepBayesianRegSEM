@@ -21,12 +21,8 @@ source('~/1vs2StepBayesianRegSEM/R/parameters.R')
 
 ```{r}
 # load results
-resultsSVNP <- read.csv("~/1vs2StepBayesianRegSEM/output/resultsSVNP.csv", 
-                        sep = " ", 
-                        header = TRUE)
-convSVNP <- read.csv("~/1vs2StepBayesianRegSEM/output/convSVNP.csv",
-                     sep = " ",
-                     header = TRUE)
+resultsSVNP <- read_rds("~/1vs2StepBayesianRegSEM/output_unrevised/resultsSVNP.RDS")
+convSVNP <- read_rds(file = "~/1vs2StepBayesianRegSEM/output_unrevised/convSVNP.RDS")
 ```
 
 
