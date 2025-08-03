@@ -5,5 +5,5 @@
 *.pdf
 *.csv
 **/.DS_Store
-stan/debug.R
+./stan/debug.R
 data/dataStanRHSP.RDS
