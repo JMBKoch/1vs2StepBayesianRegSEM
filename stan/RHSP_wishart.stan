@@ -1,4 +1,4 @@
-// 2 Factor Model, Cross-Loadings regularized with Regularized Horseshoe Prior
+// 2 Factor Model, Cross-Loadings regularized with Regularized Horseshoe Prior wishart spec
 
 data{
   int<lower=0> N; // Sample Size
@@ -106,5 +106,4 @@ generated quantities{
        PsiC[2, 1] = -1*Psi[1, 2];
     }
   }
- 
 }
