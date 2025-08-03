@@ -312,4 +312,4 @@ stopCluster(clusters)
 # measure end time
 endTimeRHSP_wishart <- Sys.time()
 #measure elapsed time
-elapsedTimesRHSP_wishart <- endTimeRHSP_wishart-startTimeRHPS_wishart
+elapsedTimesRHSP_wishart <- endTimeRHSP_wishart-startTimeRHSP_wishart
