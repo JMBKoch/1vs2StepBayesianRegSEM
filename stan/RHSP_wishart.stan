@@ -4,7 +4,7 @@ data{
   int<lower=0> N; // Sample Size
   int<lower=1> P; // Number of Outcomes/ items
   int<lower=1> Q; // Number of Factor
-  matrix[N, P] Y; // outcome matrix
+  matrix[P, P] S; // cov matrix
   real<lower=1> dfGlobal; // df for half-t prior omega
   real<lower=1> dfLocal; // df for half-t prior tau_j
   real<lower=0> scaleGlobal;
