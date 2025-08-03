@@ -40,28 +40,35 @@ if( file.exists("output/resultsSVNP.RDS")){
   stop("something went wrong with simulating the data!")
 }
 
-# measure start time
-startTimeSVNP <- Sys.time()
-
-# Set up parallel plan with 6 workers
-plan(multisession, workers = nClusters)
-
-# Vector of pos indices to run over
-#pos <- seq_along(dataStanSVNP)  # or any large vector of positions
-pos <- 1:2
-
-outputFinalSVNP <- future_lapply(pos, future.seed=TRUE, function(i) {
-  sampling(pos = i,
-           dataStan = dataStanSVNP,
-           prior = "SVNP",
-           modelPars = modelPars,
-           samplePars = samplePars,
-           wishart = FALSE)
-})
-
+startTimeSVNP<- Sys.time()
+# create clusters
+clusters <- makePSOCKcluster(nClusters)
+# source functions & parameters within clusters
+clusterCall(clusters,
+            function() source('R/functions.R'))
+clusterCall(clusters,
+            function() source('R/parameters.R'))
+# Load packages per cluster
+clusterCall(clusters,
+            function() lapply(packages, library, character.only = TRUE))
+# read in stan-ready data within clusters
+clusterCall(clusters,
+            function() dataStanSVNP_wishart <- readr::read_rds("data/dataStanSVNP.RDS"))
+# run function clustered over individual combo's of
+#  iteration, condPop and condPrior
+outputFinalSVNP_hyper  <- clusterApplyLB(clusters,
+                                         1:length(dataStanSVNP),
+                                         sampling,
+                                         dataStan = dataStanSVNP,
+                                         prior = "SVNP",
+                                         modelPars = modelPars,
+                                         samplePars = samplePars,
+                                         wishart = FALSE)
+# close clusters
+stopCluster(clusters)
 # measure end time
 endTimeSVNP <- Sys.time()
-#  measure elapsed time
+# measure elapsed time
 elapsedTimesSVNP <- endTimeSVNP-startTimeSVNP
 elapsedTimesSVNP
 
@@ -74,103 +81,114 @@ dataStanSVNP_wishart <- purrr::imap(dataStanSVNP,
                                       } )
 
 ## Execute simulation for SVNP wishart ---------------------------------------------
-# This does everything identically to doe SVNP (in terms of params and data)
-if( file.exists("output/resultsSVNP_wishart.RDS")){
+# breaks
+if (file.exists("output/resultsSVNP_wishart.RDS")){
   stop("output already exists. Please remove or backup before proceeding.")
-}else if (length(dataStanSVNP_wishart) != (nIter*nrow(condSVNP) * nrow(condPop))){
+} else if (length(dataStanSVNP_wishart) != (nIter*nrow(condSVNP) * nrow(condPop))){
   stop("something went wrong with simulating the data!")
 }
 
+# do the sampling where every available core (nWorkers in condtions.R) does
+#    one unique combination of conditions
 # measure start time
 startTimeSVNP_wishart <- Sys.time()
-
-# Set up parallel plan with 6 workers
-plan(multisession, workers = nClusters)
-
-# Vector of pos indices to run over
-#pos <- seq_along(dataStanSVNP)  # or any large vector of positions
-pos <- 1:2
-
-outputFinalSVNP_wishart <- future_lapply(pos, future.seed=TRUE, function(i) {
-  sampling(pos = i,
-           dataStan = dataStanSVNP_wishart,
-           prior = "SVNP", # stays the same
-           modelPars = modelPars,
-           samplePars = samplePars,
-           wishart = TRUE) # this arg handles wishart specification
-})
-
+# create clusters
+clusters <- makePSOCKcluster(nClusters)
+# source functions & parameters within clusters
+clusterCall(clusters,
+            function() source('R/functions.R'))
+clusterCall(clusters,
+            function() source('R/parameters.R'))
+# Load packages per cluster
+clusterCall(clusters,
+            function() lapply(packages, library, character.only = TRUE))
+# read in stan-ready data within clusters
+clusterCall(clusters,
+            function() dataStanSVNP_wishart <- readr::read_rds("data/dataStanSVNP_wishart.RDS"))
+# run function clustered over individual combo's of
+#  iteration, condPop and condPrior
+outputFinalSVNP_hyper  <- clusterApplyLB(clusters,
+                                         1:length(dataStanSVNP_wishart),
+                                         sampling,
+                                         dataStan = dataStanSVNP_wishart,
+                                         prior = "SVNP",
+                                         modelPars = modelPars,
+                                         samplePars = samplePars,
+                                         wishart = TRUE)
+# close clusters
+stopCluster(clusters)
 # measure end time
-endTimeSVNP_wishart <- Sys.time()
-#  measure elapsed time
-elapsedTimesSVNP_wishart <- endTimeSVNP_wishart-startTimeSVNP_wishart
+endTimeSVNP_wishart  <- Sys.time()
+# measure elapsed time
+elapsedTimesSVNP_wishart<- endTimeSVNP_wishart-startTimeSVNP_wishart
 elapsedTimesSVNP_wishart
 
 
 # # Prepare data SVNP hyper ------------------------------------------------------------
-# # simulate data
-# if (!file.exists('data/datasets.RDS')){
-#   datasets <- simDatasets(condPop = condPop, modelPars = modelPars, nIter = nIter)
-#   # save raw data
-#   readr::write_rds(datasets, file = 'data/datasets.RDS ' )
-# }else {
-#   datasets <- readr::read_rds('data/datasets.RDS')
-# }
-# # prepare data for stan
-# if (!file.exists('data/dataStanSVNP_hyper.RDS')){
-#   dataStanSVNP_hyper <- prepareDat(datasets, condSVNP_hyper, nIter)
-#   # save stan-ready data
-#   readr::write_rds(dataStanSVNP_hyper, file = "data/dataStanSVNP_hyper.RDS")
-# } else{
-#   # load stan-ready data generally
-#   dataStanSVNP_hyper <- readr::read_rds("data/dataStanSVNP_hyper.RDS")
-# }
-# 
-# ## Execute simulation for SVNP hyper ---------------------------------------------
-# # breaks
-# if( file.exists("output/resultsSVNP_hyper.RDS")){
-#   stop("output already exists. Please remove or backup before proceeding.")
-# }else if (length(dataStanSVNP_hyper) != (nIter*nrow(condSVNP_hyper) * nrow(condPop))){
-#     stop("something went wrong with simulating the data!")
-# }else{
-#   # do the sampling where every available core (nWorkers in condtions.R) does 
-#   #    one unique combination of conditions
-#   # measure start time
-#   startTimeSVNP <- Sys.time()
-#   # create clusters
-#   clusters <- makePSOCKcluster(nClusters) 
-#   # source functions & parameters within clusters
-#   clusterCall(clusters, 
-#               function() source('R/functions.R'))
-#   clusterCall(clusters, 
-#               function() source('R/parameters.R'))
-#   # Load packages per cluster
-#   clusterCall(clusters, 
-#               function() lapply(packages, library, character.only = TRUE))
-#   # read in stan-ready data within clusters
-#   clusterCall(clusters,
-#               function() dataStanSVNP_hyper <- readr::read_rds("data/dataStanSVNP_hyper.RDS"))
-#   
-#   # run function clustered over individual combo's of 
-#   #  iteration, condPop and condPrior
-#   outputFinalSVNP_hyper  <- clusterApplyLB(clusters, 
-#                                           1:length(dataStanSVNP_hyper),
-#                                           sampling,
-#                                           dataStan = dataStanSVNP_hyper, 
-#                                           prior = "SVNP_hyper",
-#                                           modelPars = modelPars, 
-#                                           samplePars = samplePars)
-#   # close clusters
-#   stopCluster(clusters) 
-#   # measure end time
-#   endTimeSVNP_hyper  <- Sys.time()
-#   # measure elapsed time
-#   elapsedTimesSVNP_hyper <- endTimeSVNP_hyper-startTimeSVNP_hyper
-# }
-# 
-# # Execute simulation for RHSP ---------------------------------------------
-# 
-# # load data if it exists, else make it
+# simulate data
+if (!file.exists('data/datasets.RDS')){
+  datasets <- simDatasets(condPop = condPop, modelPars = modelPars, nIter = nIter)
+  # save raw data
+  readr::write_rds(datasets, file = 'data/datasets.RDS ' )
+}else {
+  datasets <- readr::read_rds('data/datasets.RDS')
+}
+# prepare data for stan
+if (!file.exists('data/dataStanSVNP_hyper.RDS')){
+  dataStanSVNP_hyper <- prepareDat(datasets, condSVNP_hyper, nIter)
+  # save stan-ready data
+  readr::write_rds(dataStanSVNP_hyper, file = "data/dataStanSVNP_hyper.RDS")
+} else{
+  # load stan-ready data generally
+  dataStanSVNP_hyper <- readr::read_rds("data/dataStanSVNP_hyper.RDS")
+}
+
+## Execute simulation for SVNP hyper ---------------------------------------------
+# breaks
+if (file.exists("output/resultsSVNP_hyper.RDS")){
+    stop("output already exists. Please remove or backup before proceeding.")
+} else if (length(dataStanSVNP_hyper) != (nIter*nrow(condSVNP_hyper) * nrow(condPop))){
+    stop("something went wrong with simulating the data!")
+}
+
+# do the sampling where every available core (nWorkers in condtions.R) does
+#    one unique combination of conditions
+# measure start time
+startTimeSVNP_hyper <- Sys.time()
+# create clusters
+clusters <- makePSOCKcluster(nClusters)
+# source functions & parameters within clusters
+clusterCall(clusters,
+            function() source('R/functions.R'))
+clusterCall(clusters,
+            function() source('R/parameters.R'))
+# Load packages per cluster
+clusterCall(clusters,
+            function() lapply(packages, library, character.only = TRUE))
+# read in stan-ready data within clusters
+clusterCall(clusters,
+            function() dataStanSVNP_hyper <- readr::read_rds("data/dataStanSVNP_hyper.RDS"))
+# run function clustered over individual combo's of
+#  iteration, condPop and condPrior
+outputFinalSVNP_hyper  <- clusterApplyLB(clusters,
+                                        1:length(dataStanSVNP_hyper),
+                                        sampling,
+                                        dataStan = dataStanSVNP_hyper,
+                                        prior = "SVNP_hyper",
+                                        modelPars = modelPars,
+                                        samplePars = samplePars,
+                                        wishart = FALSE)
+# close clusters
+stopCluster(clusters)
+# measure end time
+endTimeSVNP_hyper  <- Sys.time()
+# measure elapsed time
+elapsedTimesSVNP_hyper <- endTimeSVNP_hyper-startTimeSVNP_hyper
+elapsedTimesSVNP_hyper
+
+# Prepare data voor RHSP ---------------------------------------------
+
+# load data if it exists, else make it
 # if (file.exists("data/dataStanRHSP.RDS")) {
 #   dataStanRHSP <- readr::read_rds("data/dataStanRHSP.RDS")
 # }else{
@@ -179,16 +197,15 @@ elapsedTimesSVNP_wishart
 # # save stan-ready data
 # save(dataStanRHSP, file = "~/data/dataStanRHSP.RDS")
 # }
-# 
-# ## Execute simulation for RHSP ---------------------------------------------
+
+## Execute simulation for RHSP ---------------------------------------------
 # if( file.exists("output/resultsRHSP.RDS")){
 #   stop("output already exists. Please remove or backup before proceeding.")
 # }else {
 # if (length(dataStanRHSP) != (nIter*nrow(condRHSP) * nrow(condPop))){
 #   stop("something went wrong with simulating the data!")
 # }
-# # do the sampling where every available core (nWorkers in condtions.R) does
-# #    one unique combination of conditions
+# 
 # # measure start time
 # startTimeRHSP <- Sys.time()
 # # create clusters
@@ -220,10 +237,45 @@ elapsedTimesSVNP_wishart
 # endTimeRHSP <- Sys.time()
 # #measure elapsed time
 # elapsedTimesRHSP <- endTimeRHSP-startTimeRHPS
-# }
+
+# Prepare data voor RHSP wishart ---------------------------------------------
+# dataStanSVNP_wishart <- purrr::imap(dataStanRHSP, 
+#                                     ~ { .x$S <- cov(.x$Y) 
+#                                     .x$Y <- NULL
+#                                     return(.x)
+#                                     } )
+
+## Execute simulation for RHSP wishart ---------------------------------------------
+
+# # measure start time
+# startTimeRHSP <- Sys.time()
+# # create clusters
+# clusters <- makePSOCKcluster(nClusters)
+# # source functions & parameters within clusters
+# clusterCall(clusters,
+#             function() source('~/1vs2StepBayesianRegSEM/R/functions.R'))
+# clusterCall(clusters,
+#             function() source('~/1vs2StepBayesianRegSEM/R/parameters.R'))
+# # Load packages per cluster
+# clusterCall(clusters,
+#             function() lapply(packages, library, character.only = TRUE))
+# # read in stan-ready data within clusters
+# clusterCall(clusters,
+#             function() load("~/1vs2StepBayesianRegSEM/data/dataStanRHSP_wishart.RDS"))
 # 
-# 
-# 
-# 
-# 
-# 
+# # run functon in clustered way where it's clustered over individual combo's of
+# #  iteration, condPop and condPrior
+# outputFinalRHSP_wishart <- clusterApplyLB(clusters,
+#                                   1:length(dataStanRHSP_wishart),
+#                                   sampling,
+#                                   dataStan = dataStanRHSP_wishart,
+#                                   prior = "RHSP",
+#                                   modelPars = modelPars,
+#                                   samplePars = samplePars,
+#                                   wishart = TRUE)
+# # close clusters
+# stopCluster(clusters)
+# # measure end time
+# endTimeRHSP_wishart <- Sys.time()
+# #measure elapsed time
+# elapsedTimesRHSP_wishart <- endTimeRHSP_wishart-startTimeRHPS_wishart

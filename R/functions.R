@@ -417,7 +417,7 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
     message("creating output dir because it doesn't exist")
   }
   # Define file paths
-  spec_suffix <- ifelse(wishart, "wishart", "")
+  spec_suffix <- ifelse(wishart, "_wishart", "")
   resultsName <- paste0("output/",
                         "results", 
                         condPriorCurrent$prior,

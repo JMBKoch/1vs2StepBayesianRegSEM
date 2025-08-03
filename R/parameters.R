@@ -12,6 +12,7 @@ packages <- c("cmdstanr", # MCMC sampling using stan
               "tidyverse", # data wrangling, plotting, pipes
               "mvtnorm", # data simulation
               "future.apply", # parallelization;
+              "parallel",
               # was done using parallel but doesnt work anymore
               "bayesplot" # convergence diagnostics 
               )
