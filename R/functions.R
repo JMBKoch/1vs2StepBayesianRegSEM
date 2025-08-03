@@ -371,8 +371,11 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
 
     } else if (prior == "RHSP"){
     
-    # compile model (if already compiled this will just not be executed)
-    model <- cmdstan_model("stan/RHSP.stan")
+    if (wishart) {
+        model <- cmdstan_model("stan/RHSP_wishart.stan")
+    } else{
+        model <- cmdstan_model("stan/RHSP.stan")
+      }
     
     # select current hyper-parameter conditions
     condPriorCurrent <- data.frame(prior = "RHSP",
