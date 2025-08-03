@@ -5,3 +5,4 @@
 *.pdf
 *.csv
 *.DS_Store
+stan/debug.R
