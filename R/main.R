@@ -275,7 +275,7 @@ if (file.exists("data/dataStanRHSP.RDS")) {
 # RHSP wishart ------------------------------------------------------------
 
 ## Prepare data voor RHSP wishart ---------------------------------------------
-dataStanSVNP_wishart <- purrr::imap(dataStanRHSP,
+dataStanRHSP_wishart <- purrr::imap(dataStanRHSP,
                                      ~ { .x$S <- cov(.x$Y)
                                      .x$Y <- NULL
                                      return(.x)
