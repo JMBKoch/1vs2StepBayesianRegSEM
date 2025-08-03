@@ -6,14 +6,6 @@
 source('R/functions.R')
 source('R/parameters.R')
 
-# check on right cmdstanr config -----------------------------------------
-if (!as.package_version(cmdstanr::cmdstan_version()) <= as.package_version("2.34.0")){
-  cli::cli_abort("cmdstanr version must be 2.34.0 (or lower) due to this bug: {.url https://github.com/stan-dev/rstan/issues/1133?utm_source=chatgpt.com}")
-}
-
-# SVNP  ------------------------------------------------------------
-
-## Prepare data SVNP ------------------------------------------------------------
 # simulate data
 if (!file.exists('data/datasets.RDS')){
   datasets <- simDatasets(condPop = condPop, modelPars = modelPars, nIter = nIter)
@@ -23,7 +15,14 @@ if (!file.exists('data/datasets.RDS')){
   datasets <- readr::read_rds('data/datasets.RDS')
 }
 
-# prepare data for stan
+# check on right cmdstanr config -----------------------------------------
+if (!as.package_version(cmdstanr::cmdstan_version()) <= as.package_version("2.34.0")){
+  cli::cli_abort("cmdstanr version must be 2.34.0 (or lower) due to this bug: {.url https://github.com/stan-dev/rstan/issues/1133?utm_source=chatgpt.com}")
+}
+
+# SVNP  ------------------------------------------------------------
+
+## Prepare data SVNP ------------------------------------------------------------
 if (!file.exists('data/dataStanSVNP.RDS')){
   dataStanSVNP <- prepareDat(datasets, condSVNP, nIter)
   # save stan-ready data
@@ -223,14 +222,14 @@ elapsedTimesSVNP_hyper_wishart
 ## Prepare data voor RHSP ---------------------------------------------
 
 # load data if it exists, else make it
-# if (file.exists("data/dataStanRHSP.RDS")) {
-#   dataStanRHSP <- readr::read_rds("data/dataStanRHSP.RDS")
-# }else{
-# # prepare data for stan
-# dataStanRHSP <- prepareDat(datasets, condRHSP, nIter)
-# # save stan-ready data
-# save(dataStanRHSP, file = "~/data/dataStanRHSP.RDS")
-# }
+if (file.exists("data/dataStanRHSP.RDS")) {
+   dataStanRHSP <- readr::read_rds("data/dataStanRHSP.RDS")
+}else{
+     # prepare data for stan
+    dataStanRHSP <- prepareDat(datasets, condRHSP, nIter)
+    # save stan-ready data
+    saveRDS(dataStanRHSP, file = "data/dataStanRHSP.RDS")
+}
 
 ## Execute simulation for RHSP ---------------------------------------------
 # if( file.exists("output/resultsRHSP.RDS")){
@@ -275,45 +274,42 @@ elapsedTimesSVNP_hyper_wishart
 
 # RHSP wishart ------------------------------------------------------------
 
-
 ## Prepare data voor RHSP wishart ---------------------------------------------
-# dataStanSVNP_wishart <- purrr::imap(dataStanRHSP, 
-#                                     ~ { .x$S <- cov(.x$Y) 
-#                                     .x$Y <- NULL
-#                                     return(.x)
-#                                     } )
+dataStanSVNP_wishart <- purrr::imap(dataStanRHSP,
+                                     ~ { .x$S <- cov(.x$Y)
+                                     .x$Y <- NULL
+                                     return(.x)
+                                     } )
 
-## Execute simulation for RHSP wishart ---------------------------------------------
-
-# # measure start time
-# startTimeRHSP <- Sys.time()
-# # create clusters
-# clusters <- makePSOCKcluster(nClusters)
-# # source functions & parameters within clusters
-# clusterCall(clusters,
-#             function() source('~/1vs2StepBayesianRegSEM/R/functions.R'))
-# clusterCall(clusters,
-#             function() source('~/1vs2StepBayesianRegSEM/R/parameters.R'))
-# # Load packages per cluster
-# clusterCall(clusters,
-#             function() lapply(packages, library, character.only = TRUE))
-# export stan-ready data to cluster scope
-# clusterExport(clusters,
-#               varlist = c("dataStanRHSP_wishart"))
-# 
-# # run functon in clustered way where it's clustered over individual combo's of
-# #  iteration, condPop and condPrior
-# outputFinalRHSP_wishart <- clusterApplyLB(clusters,
-#                                   1:length(dataStanRHSP_wishart),
-#                                   sampling,
-#                                   dataStan = dataStanRHSP_wishart,
-#                                   prior = "RHSP",
-#                                   modelPars = modelPars,
-#                                   samplePars = samplePars,
-#                                   wishart = TRUE)
-# # close clusters
-# stopCluster(clusters)
-# # measure end time
-# endTimeRHSP_wishart <- Sys.time()
-# #measure elapsed time
-# elapsedTimesRHSP_wishart <- endTimeRHSP_wishart-startTimeRHPS_wishart
+#Execute simulation for RHSP wishart ---------------------------------------------# measure start time
+startTimeRHSP_wishart <- Sys.time()
+# create clusters
+clusters <- makePSOCKcluster(nClusters)
+# source functions & parameters within clusters
+clusterCall(clusters,
+           function() source('~/1vs2StepBayesianRegSEM/R/functions.R'))
+clusterCall(clusters,
+           function() source('~/1vs2StepBayesianRegSEM/R/parameters.R'))
+# Load packages per cluster
+clusterCall(clusters,
+           function() lapply(packages, library, character.only = TRUE))
+#export stan-ready data to cluster scope
+clusterExport(clusters,
+             varlist = c("dataStanRHSP_wishart"))
+# run functon in clustered way where it's clustered over individual combo's of
+#  iteration, condPop and condPrior
+outputFinalRHSP_wishart <- clusterApplyLB(clusters,
+                                 #1:length(dataStanRHSP_wishart),
+                                 23:24,
+                                 sampling,
+                                 dataStan = dataStanRHSP_wishart,
+                                 prior = "RHSP",
+                                 modelPars = modelPars,
+                                 samplePars = samplePars,
+                                 wishart = TRUE)
+# close clusters
+stopCluster(clusters)
+# measure end time
+endTimeRHSP_wishart <- Sys.time()
+#measure elapsed time
+elapsedTimesRHSP_wishart <- endTimeRHSP_wishart-startTimeRHPS_wishart
