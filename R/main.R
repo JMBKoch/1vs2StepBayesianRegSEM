@@ -174,7 +174,6 @@ endTimeSVNP_hyper  <- Sys.time()
 elapsedTimesSVNP_hyper <- endTimeSVNP_hyper-startTimeSVNP_hyper
 elapsedTimesSVNP_hyper
 
-
 # SVNP hyper wishart ------------------------------------------------------
 ## prepare data voor SVNP hyper wishart ------------------------------------
 dataStanSVNP_hyper_wishart <- purrr::imap(dataStan_hyper, 
@@ -182,7 +181,6 @@ dataStanSVNP_hyper_wishart <- purrr::imap(dataStan_hyper,
                                       .x$Y <- NULL
                                       return(.x)
                                       } )
-
 
 ## Execute simulation for SVNP hyper wishart ---------------------------------------------
 
@@ -202,8 +200,7 @@ clusterCall(clusters,
 # export stan-ready data to cluster scope
 clusterExport(clusters,
               varlist = c("dataStanSVNP_hyper_wishart"))
-# run function clustered over individual combo's of
-#  iteration, condPop and condPrior
+# sample
 outputFinalSVNP_hyper_wishart  <- clusterApplyLB(clusters,
                                          1:length(dataStanSVNP_hyper_wishart),
                                          sampling,
@@ -219,7 +216,6 @@ endTimeSVNP_hyper_wishart  <- Sys.time()
 # measure elapsed time
 elapsedTimesSVNP_hyper_wishart <- endTimeSVNP_hyper_wishart-startTimeSVNP_hyper_wishart
 elapsedTimesSVNP_hyper_wishart
-
 
 # RHSP --------------------------------------------------------------------
 
@@ -259,8 +255,7 @@ elapsedTimesSVNP_hyper_wishart
 # clusterCall(clusters,
 #            function() load("~/1vs2StepBayesianRegSEM/data/dataStanRHSP.RDS"))
 # 
-# # run functon in clustered way where it's clustered over individual combo's of
-# #  iteration, condPop and condPrior
+## sample
 # outputFinalRHSP <- clusterApplyLB(clusters,
 #                                  1:length(dataStanRHSP),
 #                                  sampling,
