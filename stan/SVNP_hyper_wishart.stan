@@ -4,7 +4,7 @@ data{
   int<lower=0> N; // Sample Size
   int<lower=1> P; // Number of Outcomes/ items
   int<lower=1> Q; // Number of Factor
-  matrix[N, P] Y; // outcome matrix
+  matrix[P, P] S; // outcome matrix
 }
 
 parameters{
