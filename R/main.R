@@ -6,7 +6,7 @@
 source('R/functions.R')
 source('R/parameters.R')
 
-# simulate data
+# simulate data  ------------------------
 if (!file.exists('data/datasets.RDS')){
   datasets <- simDatasets(condPop = condPop, modelPars = modelPars, nIter = nIter)
   # save raw data
