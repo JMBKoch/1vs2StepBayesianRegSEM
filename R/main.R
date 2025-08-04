@@ -299,8 +299,7 @@ clusterExport(clusters,
 # run functon in clustered way where it's clustered over individual combo's of
 #  iteration, condPop and condPrior
 outputFinalRHSP_wishart <- clusterApplyLB(clusters,
-                                 #1:length(dataStanRHSP_wishart),
-                                 23:24,
+                                 seq_along(dataStanRHSP_wishart),
                                  sampling,
                                  dataStan = dataStanRHSP_wishart,
                                  prior = "RHSP",
