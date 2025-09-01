@@ -12,7 +12,6 @@ packages <- c("cmdstanr", # MCMC sampling using stan
               "tidyverse", # data wrangling, plotting, pipes
               "mvtnorm", # data simulation
               "parallel",
-              # was done using parallel but doesnt work anymore
               "bayesplot" # convergence diagnostics 
               )
 # make sure that packages are installed if not present
@@ -28,7 +27,8 @@ package.check <- lapply(
 # Model--------------------------------------------------------------------
 # Lambda
 main <- c(.75, .75, .75, .75, .75, .75)
-cross2 <- c(.2, 0, 0, 0, 0, .2) # TBA: make this more generalizable?
+cross1 <- c(.1, 0, 0, 0, 0, .1)
+cross2 <- c(.2, 0, 0, 0, 0, .2)
 cross5 <- c(.5, 0, 0, 0, 0, .5)
 # Psi
 Psi <- matrix(rep(NA, 4), ncol = 2)
@@ -39,6 +39,7 @@ Theta <- diag(rep(0.3, 6))
 # save all in one object for easier passing to functions
 modelPars <- list(
                 main = main,
+                cross1 = cross1,
                 cross2 = cross2,
                 cross5 = cross5,
                 Psi = Psi,
@@ -60,8 +61,8 @@ nu <- c(1, 3) # df IG for c^2 (slab)
 scaleSlab <- c(0.1, 1, 5) # scale of slab
 
 # Population conditions ----------------------------------------------------
-N <- c(100, 200)
-cross <- c(0.2, 0.5)
+N <- c(100, 200, 500)
+cross <- c(0.1, 0.2, 0.5)
 
 # Making condition objects ------------------------------------------------
 condPop   <- 
