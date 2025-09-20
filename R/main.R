@@ -3,6 +3,7 @@
 # Dependencies: functions.R; parameters.R; 
 
 # source functions and conditions in global scope ------------------------
+source('R/packages.R')
 source('R/functions.R')
 source('R/parameters.R')
 
