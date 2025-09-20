@@ -16,13 +16,7 @@ if (!file.exists('data/datasets.RDS')){
   datasets <- readr::read_rds('data/datasets.RDS')
 }
 
-# check on right cmdstanr config -----------------------------------------
-if (!as.package_version(cmdstanr::cmdstan_version()) <= as.package_version("2.34.0")){
-  cli::cli_abort("cmdstanr version must be 2.34.0 (or lower) due to this bug: {.url https://github.com/stan-dev/rstan/issues/1133?utm_source=chatgpt.com}")
-}
-
 # SVNP  ------------------------------------------------------------
-
 ## Prepare data SVNP ------------------------------------------------------------
 if (!file.exists('data/dataStanSVNP.RDS')){
   dataStanSVNP <- prepareDat(datasets, condSVNP, nIter)
