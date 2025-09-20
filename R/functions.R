@@ -472,14 +472,16 @@ runPipeline <- function(model, wishart = TRUE){
                             modelPars = modelPars, 
                             nIter = nIter)
     readr::write_rds(datasets, file = here::here('data/datasets.RDS'))
+  } else {
+    datasets <- readr::read_rds(here::here('data/datasets.RDS'))
   }
   
   # simulate data for current model if it doesnt exist yet
   # read in data for current model if it already exists
-  datModelPath <- file.path(projRoot, "dataStan", model, ".RDS")
-  if (!file.exists(dataModelPath)){
-    datModel <- prepareDat(datasets, condSVNP, nIter)
-    readr::write_rds(datModel, file = datModelPath)
+  datModelPath <- paste0(projRoot, model, ".RDS")
+  if (!file.exists(datModelPath)){
+    datStanModel <- prepareDat(datasets, condSVNP, nIter)
+    readr::write_rds(datStanModel, file = datModelPath)
   } else {
     datStanModel <- readr::read_rds(datModelPath)
   }
@@ -494,22 +496,25 @@ runPipeline <- function(model, wishart = TRUE){
   }
   
   # execute simulation for current model
-  outputPath <- file.path(projRoot, "output", model, ".RDS")
-  startTimeSVNP<- Sys.time()
+  outputPath <- paste0(here("output"), model, ".RDS")
+  startTime <- Sys.time()
+  
   
   clusters <- makePSOCKcluster(nClusters)
-  clusterCall(clusters,
-              function() source(file.path(projRoot, 'R/functions.R')))
-  clusterCall(clusters,
-              function() source(file.path(projRoot, 'R/parameters.R')))
-  # Load packages per cluster
-  clusterCall(clusters,
-              function() lapply(packages, library, character.only = TRUE))
-  # read in stan-ready data within clusters
-  clusterCall(clusters,
-              function() dataStanModelCluster <- readr::read_rds(
-                file.path(projRoot, datModelPath)
-              ))
+  
+  clusterExport(clusters, varlist = c("datModelPath", "modelPars", "samplePars"), envir = environment())
+  
+  clusterEvalQ(clusters, {
+    
+    # packages
+    library(here)
+    source(here('R/packages.R'))
+    # functions & params
+    source(here('R/functions.R'))
+    source(here('R/parameters.R'))
+  })
+  
+  dataStanModelCluster <- readr::read_rds(datModelPath)
   
   # run function clustered over individual combo's of
   #  iteration, condPop and condPrior
@@ -517,7 +522,7 @@ runPipeline <- function(model, wishart = TRUE){
                                       1:length(dataStanModelCluster),
                                       sampling,
                                       dataStan = dataStanModelCluster,
-                                      prior = "SVNP",
+                                      prior = "SVNP_hyper",
                                       modelPars = modelPars,
                                       samplePars = samplePars,
                                       wishart = FALSE)

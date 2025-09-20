@@ -1,38 +1,32 @@
-# Packages ----------------------------------------------------------------
-# packages ----------------------------------------------------------------
-# install renv if its not installed
-if (!require(renv, quietly = TRUE)){
-  install.packages("renv")
+# required packages
+pkgRequ <- c(
+  "rstan", "tidyverse", "mvtnorm", "parallel", "bayesplot", "here", "cmdstanr"
+)
+
+# missing packages
+missing <- pkgRequ[!vapply(pkgRequ, requireNamespace, logical(1), quietly = TRUE)]
+
+# github packages lookup
+pkgGithubLookup <- list('cmdstanr' =  "stan-dev/cmdstanr")
+# overwrite missing github names with their repo
+missing[which(missing == names(pkgGithubLookup))] <- pkgGithubLookup[which(missing == names(pkgGithubLookup))]
+
+if (length(missing) >= 1) {
+  message("Installing missing packages ...")
+  renv::install(missing, prompt = FALSE)
 }
-# activate renv env in current session
-renv::activate()  
-# restore current renv packages & versions
-renv::restore(prompt = FALSE)
 
-
-# cmdstanR setup ----------------------------------------------------------
+# ---- CmdStan installation if needed ----
 cmdstanVersionReq <- "2.34.0"
 cmdstanVersionInstalled <- tryCatch(
   cmdstanr::cmdstan_version(),
   error = function(e) NA
 )
-
 if(!cmdstanVersionReq %in% cmdstanVersionInstalled || is.na(cmdstanVersionInstalled)){
   cmdstanr::install_cmdstan(version = cmdstanVersionReq)
 }
 
-
-# load all packages -------------------------------------------------------
-packages <- c("cmdstanr", # MCMC sampling using stan
-                "rstan", # postprocessing of samples
-                "tidyverse", # data wrangling, plotting, pipes
-                "mvtnorm", # data simulation
-                "parallel",
-                "bayesplot", # convergence diagnostics 
-                "here"
-              )
-
-# Attach all packages
-invisible(lapply(cran_packages, function(pkg) {
-  suppressPackageStartupMessages(library(pkg, character.only = TRUE))
-}))
+# ---- Load all packages ----
+for (pkg in pkgRequ) {
+  library(pkg, character.only = TRUE)
+}
