@@ -8,3 +8,5 @@
 ./stan/debug.R
 data/dataStanRHSP.RDS
 .temp/
+renv/
+
