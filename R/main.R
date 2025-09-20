@@ -7,11 +7,9 @@ source(here::here('R/packages.R'))
 source(here::here('R/functions.R'))
 source(here::here('R/parameters.R'))
 
-
 # SVNP --------------------------------------------------------------------
 SVNP <- runPipeline("SVNP_wishart")
 SVNP$timeElapsed
-
 
 # SVNP hyper --------------------------------------------------------------
 SVNP_hyper <- runPipeline("SVNP_hyper_wishart")
