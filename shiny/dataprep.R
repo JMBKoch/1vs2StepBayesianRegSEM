@@ -51,7 +51,7 @@ for (dfSlab in dfSlabs) {
 
 
 # Save pre-drawn samples
-saveRDS(svnp_samples, file.path("svnp_samples.Rds"))
-saveRDS(rhsp_samples, file.path("rhsp_samples.Rds"))
+saveRDS(svnp_samples, file.path(here::here("data/shiny/svnp_samples.Rds")))
+saveRDS(rhsp_samples, file.path(here::here("data/shiny/rhsp_samples.Rds")))
 
 

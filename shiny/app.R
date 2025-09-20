@@ -6,12 +6,12 @@ library(papaja)
 
 if(!file.exists("svnp_samples.Rds") && !file.exists("rhsp_samples.Rds")){
 message("generating samples. This may take a while.")
-  source("dataprep.R")
-  svnp_samples <- readRDS("svnp_samples.Rds")
-  rhsp_samples <- readRDS("rhsp_samples.Rds")
+  source(here::here("dataprep.R"))
+  svnp_samples <- readRDS(here::here("shiny/data/svnp_samples.Rds"))
+  rhsp_samples <- readRDS(here::here("shiny/data/rhsp_samples.Rds"))
 }else{
-  svnp_samples <- readRDS("svnp_samples.Rds")
-  rhsp_samples <- readRDS("rhsp_samples.Rds") 
+  svnp_samples <- readRDS(here::here("shiny/data/svnp_samples.Rds"))
+  rhsp_samples <- readRDS(here::here("shiny/data/rhsp_samples.Rds") )
 }
 
 # Define UI

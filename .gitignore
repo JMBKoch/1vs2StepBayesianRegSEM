@@ -9,4 +9,5 @@
 data/dataStanRHSP.RDS
 .temp/
 renv/
+shiny/data
 

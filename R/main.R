@@ -3,9 +3,9 @@
 # Dependencies: functions.R; parameters.R; 
 
 # source functions and conditions in global scope ------------------------
-source('R/packages.R')
-source('R/functions.R')
-source('R/parameters.R')
+source(here::here('R/packages.R'))
+source(here::here('R/functions.R'))
+source(here::here('R/parameters.R'))
 
 # simulate data  ------------------------
 if (!file.exists('data/datasets.RDS')){
@@ -39,15 +39,15 @@ startTimeSVNP<- Sys.time()
 clusters <- makePSOCKcluster(nClusters)
 # source functions & parameters within clusters
 clusterCall(clusters,
-            function() source('R/functions.R'))
+            function() source(here::here('R/functions.R')))
 clusterCall(clusters,
-            function() source('R/parameters.R'))
+            function() source(here::here('R/parameters.R')))
 # Load packages per cluster
 clusterCall(clusters,
             function() lapply(packages, library, character.only = TRUE))
 # read in stan-ready data within clusters
 clusterCall(clusters,
-            function() dataStanSVNP_wishart <- readr::read_rds("data/dataStanSVNP.RDS"))
+            function() dataStanSVNP_wishart <- readr::read_rds(here::here("data/dataStanSVNP.RDS")))
 # run function clustered over individual combo's of
 #  iteration, condPop and condPrior
 outputFinalSVNP_hyper  <- clusterApplyLB(clusters,
@@ -85,9 +85,9 @@ startTimeSVNP_wishart <- Sys.time()
 clusters <- makePSOCKcluster(nClusters)
 # source functions & parameters within clusters
 clusterCall(clusters,
-            function() source('R/functions.R'))
+            function() source(here::here('R/functions.R')))
 clusterCall(clusters,
-            function() source('R/parameters.R'))
+            function() source(here::here('R/parameters.R')))
 # Load packages per cluster
 clusterCall(clusters,
             function() lapply(packages, library, character.only = TRUE))
@@ -116,13 +116,13 @@ elapsedTimesSVNP_wishart
 # SVNP hyper ------------------------------------------------------------
 ## Prepare data SVNP hyper ------------------------------------------------------------
 # prepare data for stan
-if (!file.exists('data/dataStanSVNP_hyper.RDS')){
+if (!file.exists(here::here('data/dataStanSVNP_hyper.RDS'))){
   dataStanSVNP_hyper <- prepareDat(datasets, condSVNP_hyper, nIter)
   # save stan-ready data
-  readr::write_rds(dataStanSVNP_hyper, file = "data/dataStanSVNP_hyper.RDS")
+  readr::write_rds(dataStanSVNP_hyper, file = here::here("data/dataStanSVNP_hyper.RDS"))
 } else{
   # load stan-ready data generally
-  dataStanSVNP_hyper <- readr::read_rds("data/dataStanSVNP_hyper.RDS")
+  dataStanSVNP_hyper <- readr::read_rds(file = here::here("data/dataStanSVNP_hyper.RDS")))
 }
 
 ## Execute simulation for SVNP hyper ---------------------------------------------
@@ -141,9 +141,9 @@ startTimeSVNP_hyper <- Sys.time()
 clusters <- makePSOCKcluster(nClusters)
 # source functions & parameters within clusters
 clusterCall(clusters,
-            function() source('R/functions.R'))
+            function() source(here::here('R/functions.R')))
 clusterCall(clusters,
-            function() source('R/parameters.R'))
+            function() source(here::here('R/parameters.R')))
 # Load packages per cluster
 clusterCall(clusters,
             function() lapply(packages, library, character.only = TRUE))
@@ -185,9 +185,9 @@ startTimeSVNP_hyper_wishart <- Sys.time()
 clusters <- makePSOCKcluster(nClusters)
 # source functions & parameters within clusters
 clusterCall(clusters,
-            function() source('R/functions.R'))
+            function() source(here::here('R/functions.R')))
 clusterCall(clusters,
-            function() source('R/parameters.R'))
+            function() source(here::here('R/parameters.R')))
 # Load packages per cluster
 clusterCall(clusters,
             function() lapply(packages, library, character.only = TRUE))
@@ -217,13 +217,13 @@ elapsedTimesSVNP_hyper_wishart
 ## Prepare data voor RHSP ---------------------------------------------
 
 # load data if it exists, else make it
-if (file.exists("data/dataStanRHSP.RDS")) {
-   dataStanRHSP <- readr::read_rds("data/dataStanRHSP.RDS")
+if (file.exists(here::here("data/dataStanRHSP.RDS"))) {
+   dataStanRHSP <- readr::read_rds(here::here("data/dataStanRHSP.RDS"))
 }else{
      # prepare data for stan
     dataStanRHSP <- prepareDat(datasets, condRHSP, nIter)
     # save stan-ready data
-    saveRDS(dataStanRHSP, file = "data/dataStanRHSP.RDS")
+    saveRDS(dataStanRHSP, file = here::here("data/dataStanRHSP.RDS"))
 }
 
 ## Execute simulation for RHSP ---------------------------------------------
@@ -240,15 +240,15 @@ if (file.exists("data/dataStanRHSP.RDS")) {
 # clusters <- makePSOCKcluster(nClusters)
 # # source functions & parameters within clusters
 # clusterCall(clusters,
-#            function() source('~/1vs2StepBayesianRegSEM/R/functions.R'))
+#            function() source(here::here('R/functions.R')))
 # clusterCall(clusters,
-#            function() source('~/1vs2StepBayesianRegSEM/R/parameters.R'))
+#            function() source(here::here('~/1vs2StepBayesianRegSEM/R/parameters.R')))
 # # Load packages per cluster
 # clusterCall(clusters,
 #            function() lapply(packages, library, character.only = TRUE))
 # # read in stan-ready data within clusters
 # clusterCall(clusters,
-#            function() load("~/1vs2StepBayesianRegSEM/data/dataStanRHSP.RDS"))
+#            function() load(here::here("~/1vs2StepBayesianRegSEM/data/dataStanRHSP.RDS")))
 # 
 ## sample
 # outputFinalRHSP <- clusterApplyLB(clusters,
@@ -282,9 +282,9 @@ startTimeRHSP_wishart <- Sys.time()
 clusters <- makePSOCKcluster(nClusters)
 # source functions & parameters within clusters
 clusterCall(clusters,
-           function() source('~/1vs2StepBayesianRegSEM/R/functions.R'))
+           function() source(here::here('~/1vs2StepBayesianRegSEM/R/functions.R')))
 clusterCall(clusters,
-           function() source('~/1vs2StepBayesianRegSEM/R/parameters.R'))
+           function() source(here::here('~/1vs2StepBayesianRegSEM/R/parameters.R')))
 # Load packages per cluster
 clusterCall(clusters,
            function() lapply(packages, library, character.only = TRUE))

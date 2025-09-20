@@ -21,3 +21,18 @@ if(!cmdstanVersionReq %in% cmdstanVersionInstalled || is.na(cmdstanVersionInstal
   cmdstanr::install_cmdstan(version = cmdstanVersionReq)
 }
 
+
+# load all packages -------------------------------------------------------
+packages <- c("cmdstanr", # MCMC sampling using stan
+                "rstan", # postprocessing of samples
+                "tidyverse", # data wrangling, plotting, pipes
+                "mvtnorm", # data simulation
+                "parallel",
+                "bayesplot", # convergence diagnostics 
+                "here"
+              )
+
+# Attach all packages
+invisible(lapply(cran_packages, function(pkg) {
+  suppressPackageStartupMessages(library(pkg, character.only = TRUE))
+}))
