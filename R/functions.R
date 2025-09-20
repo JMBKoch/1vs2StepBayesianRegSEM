@@ -1,12 +1,8 @@
-################################################################################
 # functions.R                                             (c) J.M.B. Koch 2022
-################################################################################
 # All functions used in main.R
 # dependencies: tidyverse (magrittr, tidyr, dplyr, ggplot2), mvtnorm, bayesplot
 
-################################################################################
 # Part 1: functions for executing simulation study
-################################################################################
 # simDatasets() -----------------------------------------------------------
 # function that prepares a list with (nIter X nrow(cond)) datasets 
 simDatasets <- function(condPop, nIter, modelPars){
@@ -345,9 +341,9 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
     
     # compile model (if already compiled this will just not be executed)
     if (wishart) {
-      model <- cmdstan_model("stan/SVNP_wishart.stan")
+      model <- cmdstan_model(here::here("stan/SVNP_wishart.stan"))
     } else{
-      model <- cmdstan_model("stan/SVNP.stan")
+      model <- cmdstan_model(here::here("stan/SVNP.stan"))
     }
 
     # select current hyper-parameter conditions
@@ -360,9 +356,9 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
     
     # compile model (if already compiled this will just not be executed)
     if (wishart) {
-      model <- cmdstan_model("stan/SVNP_hyper_wishart.stan")
+      model <- cmdstan_model(here::here("stan/SVNP_hyper_wishart.stan"))
     } else{
-      model <- cmdstan_model("stan/SVNP_hyper.stan")
+      model <- cmdstan_model(here::here("stan/SVNP_hyper.stan"))
     }
     
     # select current hyper-parameter conditions
@@ -372,9 +368,9 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
     } else if (prior == "RHSP"){
     
     if (wishart) {
-        model <- cmdstan_model("stan/RHSP_wishart.stan")
+        model <- cmdstan_model(here::here("stan/RHSP_wishart.stan"))
     } else{
-        model <- cmdstan_model("stan/RHSP.stan")
+        model <- cmdstan_model(here::here("stan/RHSP.stan"))
       }
     
     # select current hyper-parameter conditions
@@ -420,18 +416,18 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
   conv$pos <- pos
     
   # Write output to disk (per set of conditions in an appending fashion)
-  if (!dir.exists("output/")){
+  if (!dir.exists(here::here("output/"))){
     message("creating output dir because it doesn't exist")
   }
   # Define file paths
   spec_suffix <- ifelse(wishart, "_wishart", "")
-  resultsName <- paste0("output/",
+  resultsPath <- paste0(here::here("output/"),
                         "results", 
                         condPriorCurrent$prior,
                         spec_suffix,
                         ".RDS")
   
-  convName <- paste0("output/",
+  convPath<- paste0(here::here("output/"),
                      "conv", 
                      condPriorCurrent$prior,
                      spec_suffix,
@@ -455,11 +451,87 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
   }
   
   # Save results in an appending manner
-  append_rds(output, resultsName)
-  append_rds(conv, convName)
+  append_rds(output, resultsPath)
+  append_rds(conv, convPath)
  
   # return list with results and convergence diags
   return(list(results = output,
               convergence = conv))
   
 }
+
+
+# runPipeline() - function for wrapping it all up --------------------------------
+runPipeline <- function(model, wishart = TRUE){
+  
+  projRoot <- here::here()
+  
+  # simulate pop data if it doesnt exist yet
+  if (!file.exists(here::here('data/datasets.RDS'))){
+    datasets <- simDatasets(condPop = condPop, 
+                            modelPars = modelPars, 
+                            nIter = nIter)
+    readr::write_rds(datasets, file = here::here('data/datasets.RDS'))
+  }
+  
+  # simulate data for current model if it doesnt exist yet
+  # read in data for current model if it already exists
+  datModelPath <- file.path(projRoot, "dataStan", model, ".RDS")
+  if (!file.exists(dataModelPath)){
+    datModel <- prepareDat(datasets, condSVNP, nIter)
+    readr::write_rds(datModel, file = datModelPath)
+  } else {
+    datStanModel <- readr::read_rds(datModelPath)
+  }
+  
+  # transform data to wishart format
+  if (wishart) {
+    datStanModel <- purrr::imap(datStanModel, 
+                            ~ { .x$S <- cov(.x$Y) 
+                                .x$Y <- NULL
+                                return(.x)
+                              })
+  }
+  
+  # execute simulation for current model
+  outputPath <- file.path(projRoot, "output", model, ".RDS")
+  startTimeSVNP<- Sys.time()
+  
+  clusters <- makePSOCKcluster(nClusters)
+  clusterCall(clusters,
+              function() source(file.path(projRoot, 'R/functions.R')))
+  clusterCall(clusters,
+              function() source(file.path(projRoot, 'R/parameters.R')))
+  # Load packages per cluster
+  clusterCall(clusters,
+              function() lapply(packages, library, character.only = TRUE))
+  # read in stan-ready data within clusters
+  clusterCall(clusters,
+              function() dataStanModelCluster <- readr::read_rds(
+                file.path(projRoot, datModelPath)
+              ))
+  
+  # run function clustered over individual combo's of
+  #  iteration, condPop and condPrior
+  outputFinalModel <- clusterApplyLB(clusters,
+                                      1:length(dataStanModelCluster),
+                                      sampling,
+                                      dataStan = dataStanModelCluster,
+                                      prior = "SVNP",
+                                      modelPars = modelPars,
+                                      samplePars = samplePars,
+                                      wishart = FALSE)
+  # close clusters
+  stopCluster(clusters)
+  # measure end time
+  endTime <- Sys.time()
+  # measure elapsed time
+  elapsedTime <- endTime-startTime
+  elapsedTime
+  
+  return(list(model= model,
+              wishart = wishart,
+              elapsedTime = elapsedTime, 
+              output = outputFinalModel))
+}
+

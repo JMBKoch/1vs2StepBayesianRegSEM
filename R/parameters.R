@@ -5,7 +5,6 @@
 # setting seed for reproducibility ----------------------------------------
 set.seed(0704)
 
-cmdstanr::check_cmdstan_toolchain()
 # Model--------------------------------------------------------------------
 # Lambda
 main <- c(.75, .75, .75, .75, .75, .75)
