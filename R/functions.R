@@ -533,5 +533,6 @@ runPipeline <- function(model, wishart = TRUE){
               wishart = wishart,
               elapsedTime = elapsedTime, 
               output = outputFinalModel))
+  
 }
 
