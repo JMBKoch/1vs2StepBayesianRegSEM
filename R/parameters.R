@@ -5,25 +5,7 @@
 # setting seed for reproducibility ----------------------------------------
 set.seed(0704)
 
-# Packages ----------------------------------------------------------------
-# specify packages that are required for executing the simulation
-packages <- c("cmdstanr", # MCMC sampling using stan
-              "rstan", # postprocessing of samples
-              "tidyverse", # data wrangling, plotting, pipes
-              "mvtnorm", # data simulation
-              "parallel",
-              "bayesplot" # convergence diagnostics 
-              )
-# make sure that packages are installed if not present
-package.check <- lapply(
-  packages,
-  FUN = function(x) {
-    if (!require(x, character.only = TRUE)) {
-      install.packages(x, dependencies = TRUE, repos = "https://cloud.r-project.org")
-    }
-  }
-)
-
+cmdstanr::check_cmdstan_toolchain()
 # Model--------------------------------------------------------------------
 # Lambda
 main <- c(.75, .75, .75, .75, .75, .75)
