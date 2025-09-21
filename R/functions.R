@@ -418,6 +418,7 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart){
   # Write output to disk (per set of conditions in an appending fashion)
   if (!dir.exists(here::here("output/"))){
     message("creating output dir because it doesn't exist")
+    dir.create(here::here("output/"))
   }
   # Define file paths
   spec_suffix <- ifelse(wishart, "_wishart", "")
