@@ -330,7 +330,7 @@ convergence <- function(rstanObj, condPrior, condPop) {
 # sampling() --------------------------------------------------------------
 # takes as input the conditions chain-length, warmup, n_chains, n_parallel chains &
 #   all hyperparameters sourced from parameters.R
-sampling <- function(pos, prior, model, dataStan, modelPars, samplePars, wishart){
+sampling <- function(pos, prior, model, dataStan, modelPars, samplePars, wishart=TRUE){
   
   
   # select current data
@@ -441,96 +441,96 @@ sampling <- function(pos, prior, model, dataStan, modelPars, samplePars, wishart
   
 }
 
+sampling_catcher <- function(i, dataStan, prior, model, modelPars, samplePars, wishart) {
+  withCallingHandlers(
+    {
+      result <- tryCatch(
+        sampling(i, dataStan = dataStan, prior = prior, model = model,
+                 modelPars = modelPars, samplePars = samplePars, 
+                 wishart = wishart),
+        error = function(e) {
+          message(sprintf("Error in iteration %s: %s", i, conditionMessage(e)))
+          return(NULL)
+        }
+      )
+      return(result)
+    },
+    warning = function(w) {
+      message(sprintf("Warning in iteration %s: %s", i, conditionMessage(w)))
+      invokeRestart("muffleWarning") # prevent duplication
+    },
+    message = function(m) {
+      message(sprintf("Message in iteration %s: %s", i, conditionMessage(m)))
+      invokeRestart("muffleMessage")
+    }
+  )
+}
+
 # runPipeline()  --------------------------------
 runPipeline <- function(prior, 
                         wishart, 
                         condPop,
                         modelPars,
+                        condPrior,
                         nIter,
-                        condPrior
-                        ){
+                        nClusters) {
   
   projRoot <- here::here()
-  # simulate pop data if it doesnt exist yet
-  if (!file.exists(here::here('data/datasets.RDS'))){
-  # create data dir if it doesnt exist
-    if (!dir.exists(here::here('data/'))){
-        dir.create(here::here('data/'))
-    }	    
-    datasets <- simDatasets(condPop, 
-                            modelPars, 
-                            nIter)
-    message('Population data generated and saved to data/datasets.RDS')
-    readr::write_rds(datasets, here::here('data/datasets.RDS'))
+  
+  # 1. Prepare datasets
+  dataFile <- here('data/datasets.RDS')
+  if (!file.exists(dataFile)) {
+    if (!dir.exists(here('data'))) dir.create(here('data'))
+    datasets <- simDatasets(condPop, modelPars, nIter)
+    message('\n Population data generated and saved to data/datasets.RDS')
+    write_rds(datasets, dataFile)
   } else {
-    datasets <- readr::read_rds(here::here('data/datasets.RDS'))
-    message('Population data read in from data/datasets.RDS')
+    datasets <- read_rds(dataFile)
+    message('\n Population data read in from data/datasets.RDS')
   }
   
-  # simulate data for current prior if it doesnt exist yet
-  # read in data for current prior if it already exists
-  
+  # 2. Prepare Stan data
   datModelPath <- paste0(projRoot, '/data/data', prior, ".RDS")
-  if (!file.exists(datModelPath)){
+  if (!file.exists(datModelPath)) {
     datStanModel <- prepareDat(datasets, condPrior, nIter)
-    
-    readr::write_rds(datStanModel, file = datModelPath)
-    message(
-      paste0('Data for ' , prior, ' generated and saved to ', datModelPath)
-    )
+    write_rds(datStanModel, file = datModelPath)
+    message(paste0('\n Data for ', prior, ' generated and saved to ', datModelPath))
   } else {
-    datStanModel <- readr::read_rds(datModelPath)
+    datStanModel <- read_rds(datModelPath)
   }
   
-  # transform data to wishart format
+  # Wishart transformation if needed
   if (wishart) {
-    datStanModel <- purrr::imap(datStanModel, 
-                            ~ { .x$S <- cov(.x$Y) 
-                                .x$Y <- NULL
-                                return(.x)
-                              })
+    datStanModel <- imap(datStanModel, ~ {
+      .x$S <- cov(.x$Y)
+      .x$Y <- NULL
+      .x
+    })
   }
   
-  # execute simulation for current prior
+  # 3. Compile Stan model
   suffix <- ifelse(wishart, "_wishart", "")
-  outputPath <- paste0(here("output/"), prior, suffix, ".RDS")
+  stanFile <- here::here("stan", paste0(prior, suffix, ".stan"))
+  modelCompiled <- cmdstan_model(stanFile, force_recompile = TRUE)
   
-  modelCompiled <- cmdstan_model(here::here("stan", paste0(prior, suffix, '.stan')), force_recompile = TRUE)
+  # 4. Set up furrr plan
+  plan(multisession, workers = nClusters)
   
-  clusters <- makePSOCKcluster(nClusters)
+  message(paste0('\n Executing sampling for ', prior))
   
-  clusterExport(clusters, varlist = c("datStanModel", "modelCompiled"), 
-                envir = environment())
+  # 5. Run parallel sampling
+  outputFinalModel <- future_map(
+    1:length(datStanModel),
+    ~ sampling_catcher(.x, datStanModel, prior, modelCompiled, modelPars, samplePars, wishart),
+    .options = furrr_options(seed = TRUE)
+  )
+
+  return(list(
+    prior = prior,
+    wishart = wishart,
+    output = outputFinalModel
+  ))
   
-  clusterEvalQ(clusters, {
-    
-    # packages
-    library(here)
-    source(here('R/packages.R'))
-    # functions & params
-    source(here('R/functions.R'))
-    source(here('R/parameters.R'))
-  })
-  
-  # run function clustered over individual combo's of
-  #  iteration, condPop and condPrior
-  
-  message(paste0('Executing sampling for ', prior))
-  
-  outputFinalModel <- clusterApplyLB(clusters,
-                                      1:length(datStanModel),
-                                      sampling,
-                                      dataStan = datStanModel,
-                                      prior = prior,
-                                      model = modelCompiled,
-                                      modelPars = modelPars,
-                                      samplePars = samplePars,
-                                      wishart = wishart)
-  # close clusters
-  stopCluster(clusters)
-  
-  return(list(prior= prior,
-              wishart = wishart,
-              output = outputFinalModel))
-  
+  message(paste0('\n Succes: sampling done for', prior))
+
 }

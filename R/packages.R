@@ -1,6 +1,6 @@
 # required packages
 pkgRequ <- c(
-  "rstan", "tidyverse", "mvtnorm", "parallel", "bayesplot", "here", "cmdstanr"
+  "rstan", "tidyverse", "mvtnorm", "parallel", "bayesplot", "here", "cmdstanr", "furrr"
 )
 
 # missing packages
