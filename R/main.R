@@ -19,16 +19,19 @@ SVNP <- runPipeline(prior = "SVNP",
                     wishart = TRUE, 
                     condPop,
                     modelPars,
+                    condPrior = condSVNP,
                     nIter,
-                    condPrior = condSVNP)
+                    nClusters)
+  
 
 # SVNP hyper --------------------------------------------------------------
 SVNP_hyper <- runPipeline(prior = "SVNP_hyper", 
                           wishart = TRUE, 
                           condPop,
                           modelPars,
+                          condPrior = condSVNP_hyper,
                           nIter,
-                          condPrior = condSVNP_hyper)
+                          nClusters)
 
 
 # RHSP --------------------------------------------------------------------
@@ -36,6 +39,7 @@ RHSP <- runPipeline("RHSP",
                     wishart = TRUE, 
                     condPop,
                     modelPars,
+                    condPrior = condRHSP,
                     nIter,
-                    condPrior = condRHSP)
+                    nClusters)
 
