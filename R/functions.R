@@ -330,7 +330,7 @@ convergence <- function(rstanObj, condPrior, condPop) {
 # sampling() --------------------------------------------------------------
 # takes as input the conditions chain-length, warmup, n_chains, n_parallel chains &
 #   all hyperparameters sourced from parameters.R
-sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart){
+sampling <- function(pos, prior, model, dataStan, modelPars, samplePars, wishart){
   
   
   # select current data
@@ -339,13 +339,6 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart){
   # Execute prior-specific steps
   if (prior == "SVNP"){
     
-    # compile model (if already compiled this will just not be executed)
-    if (wishart) {
-      model <- cmdstan_model(here::here("stan/SVNP_wishart.stan"), force_recompile = TRUE)
-    } else{
-      model <- cmdstan_model(here::here("stan/SVNP.stan"), force_recompile = TRUE)
-    }
-
     # select current hyper-parameter conditions
     condPriorCurrent <- data.frame(
                            prior = "SVNP",
@@ -354,24 +347,11 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart){
       
   } else if (prior == "SVNP_hyper"){
     
-    # compile model (if already compiled this will just not be executed)
-    if (wishart) {
-      model <- cmdstan_model(here::here("stan/SVNP_hyper_wishart.stan"), force_recompile = TRUE)
-    } else{
-      model <- cmdstan_model(here::here("stan/SVNP_hyper.stan"), force_recompile = TRUE)
-    }
-    
     # select current hyper-parameter conditions
     condPriorCurrent <- data.frame(
       prior = "SVNP_hyper")
 
     } else if (prior == "RHSP"){
-    
-    if (wishart) {
-        model <- cmdstan_model(here::here("stan/RHSP_wishart.stan"), force_recompile = TRUE)
-    } else{
-        model <- cmdstan_model(here::here("stan/RHSP.stan"), force_recompile = TRUE)
-      }
     
     # select current hyper-parameter conditions
     condPriorCurrent <- data.frame(prior = "RHSP",
@@ -515,9 +495,11 @@ runPipeline <- function(prior,
   suffix <- ifelse(wishart, "_wishart", "")
   outputPath <- paste0(here("output/"), prior, suffix, ".RDS")
   
+  modelCompiled <- cmdstan_model(here::here("stan", paste0(prior, suffix, '.stan')), force_recompile = TRUE)
+  
   clusters <- makePSOCKcluster(nClusters)
   
-  clusterExport(clusters, varlist = c("datStanModel"), 
+  clusterExport(clusters, varlist = c("datStanModel", "modelCompiled"), 
                 envir = environment())
   
   clusterEvalQ(clusters, {
@@ -540,6 +522,7 @@ runPipeline <- function(prior,
                                       sampling,
                                       dataStan = datStanModel,
                                       prior = prior,
+                                      model = modelCompiled,
                                       modelPars = modelPars,
                                       samplePars = samplePars,
                                       wishart = wishart)

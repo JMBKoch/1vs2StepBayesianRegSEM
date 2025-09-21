@@ -7,7 +7,7 @@ set.seed(0704)
 
 # Parallelization Parameter -----------------------------------------------
 # Hoeft voor testrun niet aangepast te worden
-nClusters <- 10 # depending on machine, original study run with 12 for SVNP and 46 for RHSP
+nClusters <- 6 # depending on machine, original study run with 12 for SVNP and 46 for RHSP
 
 # Model--------------------------------------------------------------------
 # Lambda
