@@ -8,6 +8,6 @@
 ./stan/debug.R
 data/dataStanRHSP.RDS
 .temp/
-renv/
+renv/library
 shiny/data
 
