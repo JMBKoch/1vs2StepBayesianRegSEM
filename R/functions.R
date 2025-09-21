@@ -389,6 +389,7 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
     cross = datCurrent$cross
   )
   
+  message(paste0('Executing sampling for ', prior))
   # Draw the Samples 
   samples <- model$sample(data = datCurrent,
                           chains = samplePars$nChain, 
@@ -471,17 +472,22 @@ runPipeline <- function(model, wishart = TRUE){
     datasets <- simDatasets(condPop = condPop, 
                             modelPars = modelPars, 
                             nIter = nIter)
-    readr::write_rds(datasets, file = here::here('data/datasets.RDS'))
+    message('Population data generated and saved to data/datasets.RDS')
+    readr::write_rds(datasets, here::here('data/datasets.RDS'))
   } else {
     datasets <- readr::read_rds(here::here('data/datasets.RDS'))
+    message('Population data read in from data/datasets.RDS')
   }
   
   # simulate data for current model if it doesnt exist yet
   # read in data for current model if it already exists
-  datModelPath <- paste0(projRoot, model, ".RDS")
+  datModelPath <- paste0(projRoot, '/data/data', model, ".RDS")
   if (!file.exists(datModelPath)){
     datStanModel <- prepareDat(datasets, condSVNP, nIter)
     readr::write_rds(datStanModel, file = datModelPath)
+    message(
+      paste0('Data for ' , model, '  generated and saved to ', datModelPath)
+    )
   } else {
     datStanModel <- readr::read_rds(datModelPath)
   }
@@ -497,8 +503,6 @@ runPipeline <- function(model, wishart = TRUE){
   
   # execute simulation for current model
   outputPath <- paste0(here("output"), model, ".RDS")
-  startTime <- Sys.time()
-  
   
   clusters <- makePSOCKcluster(nClusters)
   
@@ -518,6 +522,7 @@ runPipeline <- function(model, wishart = TRUE){
   
   # run function clustered over individual combo's of
   #  iteration, condPop and condPrior
+  
   outputFinalModel <- clusterApplyLB(clusters,
                                       1:length(dataStanModelCluster),
                                       sampling,
@@ -528,15 +533,9 @@ runPipeline <- function(model, wishart = TRUE){
                                       wishart = FALSE)
   # close clusters
   stopCluster(clusters)
-  # measure end time
-  endTime <- Sys.time()
-  # measure elapsed time
-  elapsedTime <- endTime-startTime
-  elapsedTime
   
   return(list(model= model,
               wishart = wishart,
-              elapsedTime = elapsedTime, 
               output = outputFinalModel))
   
 }

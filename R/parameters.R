@@ -78,7 +78,7 @@ samplePars <- list(
 nClusters <- 6 # depending on machine, original study run with 12 for SVNP and 46 for RHSP
 
 # other study parameters --------------------------------------------------
-nIter <- 10 # in paper(s) Iterations are referred to as "Replications"
+nIter <- 1 # in paper(s) Iterations are referred to as "Replications"
 
 # Convergence Criteria ----------------------------------------------------
 convCriteria <- list(

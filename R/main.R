@@ -19,9 +19,9 @@ SVNP <- runPipeline("SVNP_wishart")
 SVNP$timeElapsed
 
 # SVNP hyper --------------------------------------------------------------
-SVNP_hyper <- runPipeline("SVNP_hyper_wishart")
-SVNP_hyper$timeElapsed
+# SVNP_hyper <- runPipeline("SVNP_hyper_wishart")
+# SVNP_hyper$timeElapsed
 
 # RHSP --------------------------------------------------------------------
-RHSP <- runPipeline("RHSP_wishart")
-RHSP$timeElapsed
+# RHSP <- runPipeline("RHSP_wishart")
+# RHSP$timeElapsed
