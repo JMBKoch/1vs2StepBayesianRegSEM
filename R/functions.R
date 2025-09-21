@@ -341,9 +341,9 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart){
     
     # compile model (if already compiled this will just not be executed)
     if (wishart) {
-      model <- cmdstan_model(here::here("stan/SVNP_wishart.stan"))
+      model <- cmdstan_model(here::here("stan/SVNP_wishart.stan"), force_recompile = TRUE)
     } else{
-      model <- cmdstan_model(here::here("stan/SVNP.stan"))
+      model <- cmdstan_model(here::here("stan/SVNP.stan"), force_recompile = TRUE)
     }
 
     # select current hyper-parameter conditions
@@ -356,9 +356,9 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart){
     
     # compile model (if already compiled this will just not be executed)
     if (wishart) {
-      model <- cmdstan_model(here::here("stan/SVNP_hyper_wishart.stan"))
+      model <- cmdstan_model(here::here("stan/SVNP_hyper_wishart.stan"), force_recompile = TRUE)
     } else{
-      model <- cmdstan_model(here::here("stan/SVNP_hyper.stan"))
+      model <- cmdstan_model(here::here("stan/SVNP_hyper.stan"), force_recompile = TRUE)
     }
     
     # select current hyper-parameter conditions
@@ -368,9 +368,9 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart){
     } else if (prior == "RHSP"){
     
     if (wishart) {
-        model <- cmdstan_model(here::here("stan/RHSP_wishart.stan"))
+        model <- cmdstan_model(here::here("stan/RHSP_wishart.stan"), force_recompile = TRUE)
     } else{
-        model <- cmdstan_model(here::here("stan/RHSP.stan"))
+        model <- cmdstan_model(here::here("stan/RHSP.stan"), force_recompile = TRUE)
       }
     
     # select current hyper-parameter conditions
@@ -460,7 +460,6 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart){
               convergence = conv))
   
 }
-
 
 # runPipeline()  --------------------------------
 runPipeline <- function(prior, 
@@ -552,4 +551,3 @@ runPipeline <- function(prior,
               output = outputFinalModel))
   
 }
-
