@@ -472,9 +472,12 @@ runPipeline <- function(prior,
                         ){
   
   projRoot <- here::here()
-  
   # simulate pop data if it doesnt exist yet
   if (!file.exists(here::here('data/datasets.RDS'))){
+  # create data dir if it doesnt exist
+    if (!dir.exists(here::here('data/'))){
+        dir.create(here::here('data/'))
+    }	    
     datasets <- simDatasets(condPop, 
                             modelPars, 
                             nIter)
