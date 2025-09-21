@@ -1,8 +1,8 @@
-# main.R                                              (c) J.M.B. Koch 2022
+# main.R (c) J.M.B. Koch 2022
 # This is the main script running the simulation 
 # Dependencies: functions.R; parameters.R; 
 
-# load the renv project ---------------------------------------------------
+# renv setup  ---------------------------------------------------
 # install renv if its not installed
 if (!require(renv, quietly = TRUE)){
   install.packages("renv")
