@@ -19,12 +19,23 @@ SVNP <- runPipeline(prior = "SVNP",
                     wishart = TRUE, 
                     condPop,
                     modelPars,
-                    nIter)
+                    nIter,
+                    condPrior = condSVNP)
 
 # SVNP hyper --------------------------------------------------------------
-# SVNP_hyper <- runPipeline("SVNP_hyper", wishart = TRUE, 
+SVNP_hyper <- runPipeline(prior = "SVNP_hyper", 
+                          wishart = TRUE, 
+                          condPop,
+                          modelPars,
+                          nIter,
+                          condPrior = condSVNP_hyper)
 
 
 # RHSP --------------------------------------------------------------------
-# RHSP <- runPipeline("RHSP", , wishart = TRUE, 
+RHSP <- runPipeline("RHSP", 
+                    wishart = TRUE, 
+                    condPop,
+                    modelPars,
+                    nIter,
+                    condPrior = condRHSP)
 

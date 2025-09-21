@@ -4,7 +4,19 @@ source('R/parameters.R')
 
 model <- cmdstan_model("stan/RHSP_wishart.stan")
 
-datCurrent <- dataStanRHSP_wishart[[23]]
+datSVNP <- readr::read_rds("data/dataSVNP.RDS")
+
+datRHSP <- readr::read_rds("data/dataRHSP.RDS")
+wishart <- TRUE
+if (wishart) {
+  datStanModel <- purrr::imap(datRHSP, 
+                              ~ { .x$S <- cov(.x$Y) 
+                              .x$Y <- NULL
+                              return(.x)
+                              })
+}
+
+datCurrent <- datStanModel[[1]]
 samples <- model$sample(data = datCurrent,
                         chains = samplePars$nChain, 
                         iter_warmup = samplePars$nWarmup,

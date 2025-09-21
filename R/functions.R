@@ -466,7 +466,8 @@ runPipeline <- function(prior,
                         wishart, 
                         condPop,
                         modelPars,
-                        nIter
+                        nIter,
+                        condPrior
                         ){
   
   projRoot <- here::here()
@@ -485,13 +486,14 @@ runPipeline <- function(prior,
   
   # simulate data for current prior if it doesnt exist yet
   # read in data for current prior if it already exists
+  
   datModelPath <- paste0(projRoot, '/data/data', prior, ".RDS")
   if (!file.exists(datModelPath)){
-    datStanModel <- prepareDat(datasets, condSVNP, nIter)
+    datStanModel <- prepareDat(datasets, condPrior, nIter)
     
     readr::write_rds(datStanModel, file = datModelPath)
     message(
-      paste0('Data for ' , prior, '  generated and saved to ', datModelPath)
+      paste0('Data for ' , prior, ' generated and saved to ', datModelPath)
     )
   } else {
     datStanModel <- readr::read_rds(datModelPath)
