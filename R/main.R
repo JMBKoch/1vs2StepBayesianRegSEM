@@ -4,13 +4,12 @@
 
 # renv setup  ---------------------------------------------------
 # install renv if its not installed
-if (!require(renv, quietly = TRUE)){
-  install.packages("renv")
-}
-renv::activate()  
+source('renv/activate.R')
 renv::restore(prompt = FALSE)
 
+# load packages and handle cmdstan install
 source(here::here('R/packages.R'))
+
 # source functions and conditions in global scope ------------------------
 source(here::here('R/functions.R'))
 source(here::here('R/parameters.R'))
