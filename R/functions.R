@@ -5,7 +5,7 @@
 # Part 1: functions for executing simulation study
 # simDatasets() -----------------------------------------------------------
 # function that prepares a list with (nIter X nrow(cond)) datasets 
-simDatasets <- function(condPop, nIter, modelPars){
+simDatasets <- function(condPop, modelPars, nIter){
    
     ### TBA: work with different levels of cross-loadings!!!
     simY <- function(main, cross, Psi, Theta, N){
@@ -330,7 +330,7 @@ convergence <- function(rstanObj, condPrior, condPop) {
 # sampling() --------------------------------------------------------------
 # takes as input the conditions chain-length, warmup, n_chains, n_parallel chains &
 #   all hyperparameters sourced from parameters.R
-sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALSE){
+sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart){
   
   
   # select current data
@@ -389,7 +389,6 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
     cross = datCurrent$cross
   )
   
-  message(paste0('Executing sampling for ', prior))
   # Draw the Samples 
   samples <- model$sample(data = datCurrent,
                           chains = samplePars$nChain, 
@@ -462,16 +461,21 @@ sampling <- function(pos, prior, dataStan, modelPars, samplePars, wishart = FALS
 }
 
 
-# runPipeline() - function for wrapping it all up --------------------------------
-runPipeline <- function(model, wishart = TRUE){
+# runPipeline()  --------------------------------
+runPipeline <- function(prior, 
+                        wishart, 
+                        condPop,
+                        modelPars,
+                        nIter
+                        ){
   
   projRoot <- here::here()
   
   # simulate pop data if it doesnt exist yet
   if (!file.exists(here::here('data/datasets.RDS'))){
-    datasets <- simDatasets(condPop = condPop, 
-                            modelPars = modelPars, 
-                            nIter = nIter)
+    datasets <- simDatasets(condPop, 
+                            modelPars, 
+                            nIter)
     message('Population data generated and saved to data/datasets.RDS')
     readr::write_rds(datasets, here::here('data/datasets.RDS'))
   } else {
@@ -479,14 +483,15 @@ runPipeline <- function(model, wishart = TRUE){
     message('Population data read in from data/datasets.RDS')
   }
   
-  # simulate data for current model if it doesnt exist yet
-  # read in data for current model if it already exists
-  datModelPath <- paste0(projRoot, '/data/data', model, ".RDS")
+  # simulate data for current prior if it doesnt exist yet
+  # read in data for current prior if it already exists
+  datModelPath <- paste0(projRoot, '/data/data', prior, ".RDS")
   if (!file.exists(datModelPath)){
     datStanModel <- prepareDat(datasets, condSVNP, nIter)
+    
     readr::write_rds(datStanModel, file = datModelPath)
     message(
-      paste0('Data for ' , model, '  generated and saved to ', datModelPath)
+      paste0('Data for ' , prior, '  generated and saved to ', datModelPath)
     )
   } else {
     datStanModel <- readr::read_rds(datModelPath)
@@ -501,12 +506,14 @@ runPipeline <- function(model, wishart = TRUE){
                               })
   }
   
-  # execute simulation for current model
-  outputPath <- paste0(here("output"), model, ".RDS")
+  # execute simulation for current prior
+  suffix <- ifelse(wishart, "_wishart", "")
+  outputPath <- paste0(here("output/"), prior, suffix, ".RDS")
   
   clusters <- makePSOCKcluster(nClusters)
   
-  clusterExport(clusters, varlist = c("datModelPath", "modelPars", "samplePars"), envir = environment())
+  clusterExport(clusters, varlist = c("datStanModel"), 
+                envir = environment())
   
   clusterEvalQ(clusters, {
     
@@ -518,23 +525,23 @@ runPipeline <- function(model, wishart = TRUE){
     source(here('R/parameters.R'))
   })
   
-  dataStanModelCluster <- readr::read_rds(datModelPath)
-  
   # run function clustered over individual combo's of
   #  iteration, condPop and condPrior
   
+  message(paste0('Executing sampling for ', prior))
+  
   outputFinalModel <- clusterApplyLB(clusters,
-                                      1:length(dataStanModelCluster),
+                                      1:length(datStanModel),
                                       sampling,
-                                      dataStan = dataStanModelCluster,
-                                      prior = "SVNP_hyper",
+                                      dataStan = datStanModel,
+                                      prior = prior,
                                       modelPars = modelPars,
                                       samplePars = samplePars,
-                                      wishart = FALSE)
+                                      wishart = wishart)
   # close clusters
   stopCluster(clusters)
   
-  return(list(model= model,
+  return(list(prior= prior,
               wishart = wishart,
               output = outputFinalModel))
   

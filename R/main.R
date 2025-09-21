@@ -15,13 +15,16 @@ source(here::here('R/functions.R'))
 source(here::here('R/parameters.R'))
 
 # SVNP --------------------------------------------------------------------
-SVNP <- runPipeline("SVNP_wishart")
-SVNP$timeElapsed
+SVNP <- runPipeline(prior = "SVNP", 
+                    wishart = TRUE, 
+                    condPop,
+                    modelPars,
+                    nIter)
 
 # SVNP hyper --------------------------------------------------------------
-# SVNP_hyper <- runPipeline("SVNP_hyper_wishart")
-# SVNP_hyper$timeElapsed
+# SVNP_hyper <- runPipeline("SVNP_hyper", wishart = TRUE, 
+
 
 # RHSP --------------------------------------------------------------------
-# RHSP <- runPipeline("RHSP_wishart")
-# RHSP$timeElapsed
+# RHSP <- runPipeline("RHSP", , wishart = TRUE, 
+
