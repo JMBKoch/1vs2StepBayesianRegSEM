@@ -1,13 +1,11 @@
-// 2 Factor Model, Cross-Loadings regularized with lasso prior with hyper prior on lambda
+// 2 Factor Model, Cross-Loadings regularized with lasso prior in wishart spec
 
 data{
   int<lower=0> N; // Sample Size
   int<lower=1> P; // Number of Outcomes/ items
   int<lower=1> Q; // Number of Factor
-  matrix[N, P] Y; // outcome matrix
-  // hyperparameters hyper prior lambda
-  int<lower=1> a;
-  int<lower=1> b;
+  matrix[P, P] S; // outcome: cov matrix: 
+  real<lower=0> lambda; // shrinkage parameter: hyperparameter
 }
 
 parameters{
@@ -17,9 +15,6 @@ parameters{
   real<lower=-1,upper=1> factCor;
   // local scale parameter
   vector<lower=0>[P] tau; 
-  // shrinkage parameter
-  real<lower=0> lambda; 
-
 }
 
 transformed parameters{
@@ -38,7 +33,6 @@ transformed parameters{
   
   LambdaUnc[4:6, 1] = lambdaCross[1:3];
   LambdaUnc[1:3, 2] = lambdaCross[4:6];
-
   
   // make Psi manually; TODO: automate
   Psi[1, 1] = 1;
@@ -55,13 +49,11 @@ model{
  lambdaMain ~ normal(0, 5);
  
  // hierarchical specification
- lambda ~ gamma(a, b);
  tau ~ exponential(lambda^2 / 2);
  mu ~ normal(0, tau);
  
- for(i in 1:N)
-
-  Y[i,] ~ multi_normal(mu, Sigma);
+ // S is covmatrix hier. This specification avoid loop over N
+ target += wishart_lpdf((N - 1) * S | (N - 1), Sigma);
 }
 
 // sign switchting correction
