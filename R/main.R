@@ -39,20 +39,18 @@ LASSO <- runPipeline(prior = "LASSO",
                      wishart = TRUE, 
                      condPop,
                      modelPars,
-                     condPrior = cond_,
+                     condPrior = condLASSO,
                      nIter,
                      nClusters)
 
 # lasso hyper -------------------------------------------------------------
-lasso_hyper <- runPipeline(prior = "LASSO_hyper", 
+LASSO_hyper <- runPipeline(prior = "LASSO_hyper", 
                            wishart = TRUE, 
                            condPop,
                            modelPars,
-                           condPrior = condSVNP_hyper,
+                           condPrior = condLASSO_hyper,
                            nIter,
                            nClusters)
-
-
 
 # RHSP --------------------------------------------------------------------
 RHSP <- runPipeline("RHSP", 
