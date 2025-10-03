@@ -7,7 +7,9 @@ set.seed(0704)
 
 # Model--------------------------------------------------------------------
 # Lambda
-main <- c(.75, .75, .75, .75, .75, .75)
+main <- rep(.75, 6)
+# cross dynamically construed based on cross in popCond
+
 # Psi
 Psi <- matrix(rep(NA, 4), ncol = 2)
 diag(Psi) <- 1
@@ -27,9 +29,8 @@ sigma <- c(sqrt(0.1), # specified such that sigma^2 > sigma
            sqrt(0.01), 
            sqrt(0.001))
 
-
 # LASSO prior fixed -------------------------------------------------------------------
-lambda <- c(1)
+lambda <- c(0.1, 1, 5, 10)
 
 # Regularized Horseshoe Prior ---------------------------------------------
 scaleGlobal <- c(0.1, 1) # scale for half-t prior omega
@@ -40,8 +41,8 @@ nu <- c(1, 3) # df IG for c^2 (slab)
 scaleSlab <- c(0.1, 1, 5) # scale of slab
 
 # Population conditions ----------------------------------------------------
-N <- c(200)
-cross <- c(0.2)
+N <- c(100, 200, 500)
+cross <- c(0.01, 0.1, 0.2, 0.5, 1)
 
 # Making condition objects ------------------------------------------------
 condPop   <- 
@@ -93,7 +94,7 @@ samplePars <- list(
 nClusters <- 6 # depending on machine, original study run with 12 for SVNP and 46 for RHSP
 
 # other study parameters --------------------------------------------------
-nIter <- 2 # in paper(s) Iterations are referred to as "Replications"
+nIter <- 200 # in paper(s) Iterations are referred to as "Replications"
 
 # Convergence Criteria ----------------------------------------------------
 convCriteria <- list(
