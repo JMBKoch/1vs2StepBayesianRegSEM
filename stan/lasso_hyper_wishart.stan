@@ -13,7 +13,8 @@ parameters{
   vector[P] lambdaCross;
   real<lower=-1,upper=1> factCor;
   // local scale parameter
-  vector<lower=0>[P] tau; 
+  real<lower=0> tau; 
+  real<lower=0> lambda;
 }
 
 transformed parameters{

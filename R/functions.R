@@ -196,7 +196,6 @@ saveResults <- function(rstanObj, condPrior, condPop, modelPars){
   }
   
   # save true cross loading based on condPop
-  
   crossCurrSing <- condPop$cross 
   crossTrue <- c(crossCurrSing, rep(0, 4), crossCurrSing)
   # save in format that's convenient for computing quantiles below
