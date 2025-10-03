@@ -318,6 +318,7 @@ convergence <- function(rstanObj, condPrior, condPop) {
   conv$warmupT2 <- time["chain:2", "warmup"]
   conv$sampleT1 <- time["chain:1", "sample"]
   conv$sampleT2 <- time["chain:2", "sample"]
+  conv$runtime_mean  <- mean(rowSums(time))   # average across chains
   # cbind conditions into output
   conv <- cbind(conv, 
                 rbind(condPrior, condPrior), #rbinding to avoid warning of short variable row names
