@@ -7,9 +7,9 @@ set.seed(0704)
 
 # Model--------------------------------------------------------------------
 # Lambda
-main <- c(.75, .75, .75, .75, .75, .75)
-cross2 <- c(.2, 0, 0, 0, 0, .2) # TBA: make this more generalizable?
-cross5 <- c(.5, 0, 0, 0, 0, .5)
+main <- rep(.75, 6)
+# cross dynamically construed based on cross in popCond
+
 # Psi
 Psi <- matrix(rep(NA, 4), ncol = 2)
 diag(Psi) <- 1
@@ -19,8 +19,6 @@ Theta <- diag(rep(0.3, 6))
 # save all in one object for easier passing to functions
 modelPars <- list(
                 main = main,
-                cross2 = cross2,
-                cross5 = cross5,
                 Psi = Psi,
                 Theta = Theta
                   )
@@ -30,7 +28,6 @@ modelPars <- list(
 sigma <- c(sqrt(0.1), # specified such that sigma^2 > sigma
            sqrt(0.01), 
            sqrt(0.001))
-
 
 # LASSO prior fixed -------------------------------------------------------------------
 lambda <- c(0.1, 1, 5, 10)
@@ -45,7 +42,7 @@ scaleSlab <- c(0.1, 1, 5) # scale of slab
 
 # Population conditions ----------------------------------------------------
 N <- c(100, 200, 500)
-cross <- c(0.01, 0.1, 0.2, 0.5)
+cross <- c(0.01, 0.1, 0.2, 0.5, 1)
 
 # Making condition objects ------------------------------------------------
 condPop   <- 
