@@ -54,7 +54,7 @@ model{
  // hierarchical specification
  lambda ~ gamma(1, 1);
  tau ~ exponential(lambda^2 / 2);
- mu ~ normal(0, tau);
+ lambdaCross ~ normal(0, tau);
  
  for(i in 1:N)
 

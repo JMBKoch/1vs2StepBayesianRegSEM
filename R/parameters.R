@@ -8,8 +8,6 @@ set.seed(0704)
 # Model--------------------------------------------------------------------
 # Lambda
 main <- c(.75, .75, .75, .75, .75, .75)
-cross2 <- c(.2, 0, 0, 0, 0, .2) # TBA: make this more generalizable?
-cross5 <- c(.5, 0, 0, 0, 0, .5)
 # Psi
 Psi <- matrix(rep(NA, 4), ncol = 2)
 diag(Psi) <- 1
@@ -19,8 +17,6 @@ Theta <- diag(rep(0.3, 6))
 # save all in one object for easier passing to functions
 modelPars <- list(
                 main = main,
-                cross2 = cross2,
-                cross5 = cross5,
                 Psi = Psi,
                 Theta = Theta
                   )

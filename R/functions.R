@@ -3,7 +3,7 @@
 # dependencies: tidyverse (magrittr, tidyr, dplyr, ggplot2), mvtnorm, bayesplot
 
 # Part 1: functions for executing simulation study
-if# simDatasets() -----------------------------------------------------------
+# simDatasets() -----------------------------------------------------------
 # function that prepares a list with (nIter X nrow(cond)) datasets 
 simDatasets <- function(condPop, modelPars, nIter){
    
@@ -23,10 +23,10 @@ simDatasets <- function(condPop, modelPars, nIter){
     datasets <- list()
     
     # prepare nIter x "# unique combination of conditions" datasets
-    for (i in 1:nrow(condPop)){
+    for (i in seq_along(1:nrow(condPop))){
       # simulate & prepare data 50x per set of conditions (row of conditionsRHSP)
       dat <- list()
-      for (j in 1:nIter){
+      for (j in seq_along(1:nIter)){
         
         crossCurrSing <- condPop[i, ]$cross 
         crossCurrVec <- c(crossCurrSing, rep(0, 4), crossCurrSing)
@@ -131,6 +131,30 @@ prepareDat <- function(datasets, condPrior, nIter){
         Y = (Y)
         #prior = "SVNP",
       )
+      
+    } else if (condCurrent$prior == "LASSO") {
+      
+      dataStanCondCurrent[[i]] <- list(
+        N = nrow(Y),
+        cross = cross[i],
+        iter = iter[i],
+        P = ncol(Y),
+        Q = 2,
+        Y = Y, 
+        lambda = condCurrent$lambda
+      )
+      
+    } else if (condCurrent$prior == "LASSO_hyper"){
+      
+      dataStanCondCurrent[[i]] <-  list(
+        N = nrow(Y),
+        cross = cross[i],
+        iter = iter[i],
+        P = ncol(Y),
+        Q = 2,
+        Y = (Y)
+      )
+      
     } else if(condCurrent$prior == "RHSP"){
       dataStanCondCurrent[[i]] <- list(
         N = nrow(Y),
@@ -165,13 +189,16 @@ saveResults <- function(rstanObj, condPrior, condPop, modelPars){
     SigmaEstMed <- apply(as.matrix(rstanObj, pars = "sigma"), 2, median)
   }
   
-  # save true cross loading based on condPop
-  crossTrue <- numeric(6)
-  if (condPop$cross == 0.5){
-    crossTrue <- c(0.5, 0, 0, 0, 0, 0.5)
-  }else if (condPop$cross == 0.2){
-    crossTrue <- c(0.2, 0, 0, 0, 0, 0.2)
+  # save lambda for LASSO_hyper
+  if(condPrior$prior == "SVNP_hyper"){
+    LambdaEstMean <- apply(as.matrix(rstanObj, pars = "lambda"), 2, mean)
+    LambdaEstMed <- apply(as.matrix(rstanObj, pars = "lambda"), 2, median)
   }
+  
+  # save true cross loading based on condPop
+  
+  crossCurrSing <- condPop$cross 
+  crossTrue <- c(crossCurrSing, rep(0, 4), crossCurrSing)
   # save in format that's convenient for computing quantiles below
   crossMatrix <- as.matrix(rstanObj, pars = "lambdaCrossC") 
   
@@ -266,6 +293,11 @@ saveResults <- function(rstanObj, condPrior, condPop, modelPars){
   if (condPrior$prior == "SVNP_hyper") {
     out <- cbind(out, SigmaEstMean)
     out <- cbind(out, SigmaEstMed)
+  }
+  
+  if (condPrior$prior == "LASSO_hyper"){
+    out <- cbind(out, LambdaEstMean)
+    out <- cbind(out, LambdaEstMed)
   }
   
   # cbind estimates of corr (only 1 per six items) into output
