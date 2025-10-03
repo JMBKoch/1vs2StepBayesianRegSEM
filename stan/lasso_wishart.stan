@@ -14,7 +14,7 @@ parameters{
   vector[P] lambdaCross;
   real<lower=-1,upper=1> factCor;
   // local scale parameter
-  vector<lower=0>[P] tau; 
+  real<lower=0> tau; 
 }
 
 transformed parameters{
@@ -47,10 +47,9 @@ model{
  //priors
  theta ~ cauchy(0, 5);
  lambdaMain ~ normal(0, 5);
- 
  // hierarchical specification
  tau ~ exponential(lambda^2 / 2);
- mu ~ normal(0, tau);
+ lambdaCross ~ normal(0, tau);
  
  // S is covmatrix hier. This specification avoid loop over N
  target += wishart_lpdf((N - 1) * S | (N - 1), Sigma);
