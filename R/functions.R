@@ -351,7 +351,20 @@ sampling <- function(pos, prior, model, dataStan, modelPars, samplePars, wishart
     condPriorCurrent <- data.frame(
       prior = "SVNP_hyper")
 
-    } else if (prior == "RHSP"){
+  } else if (prior == "LASSO"){
+    
+    condPriorCurrent <- data.frame(
+      prior = "LASSO",
+      lambda = datCurrent$lambda
+      )
+    
+  } else if (prior == "LASSO_hyper"){
+    
+    condPriorCurrent <- data.frame(
+      prior = "LASSO_hyper"
+    )
+    
+  } else if (prior == "RHSP"){
     
     # select current hyper-parameter conditions
     condPriorCurrent <- data.frame(prior = "RHSP",

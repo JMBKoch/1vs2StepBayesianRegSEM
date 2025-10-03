@@ -31,6 +31,10 @@ sigma <- c(sqrt(0.1), # specified such that sigma^2 > sigma
            sqrt(0.01), 
            sqrt(0.001))
 
+
+# LASSO prior fixed -------------------------------------------------------------------
+lambda <- c(0.1, 1, 5, 10)
+
 # Regularized Horseshoe Prior ---------------------------------------------
 scaleGlobal <- c(0.1, 1) # scale for half-t prior omega
 scaleLocal <- c(0.1, 1) # scale for half-t prior tau_j
@@ -58,6 +62,17 @@ condSVNP <-
 
 condSVNP_hyper <- 
   tibble(prior = "SVNP_hyper")
+
+condLASSO <-
+  expand.grid(
+    prior = "LASSO",
+    lambda = lambda
+  )
+
+condLASSO_hyper <-
+  tibble(
+    prior = "LASSO_hyper"
+  )
 
 condRHSP <- 
   expand.grid(

@@ -5,9 +5,6 @@ data{
   int<lower=1> P; // Number of Outcomes/ items
   int<lower=1> Q; // Number of Factor
   matrix[N, P] Y; // outcome matrix
-  // hyperparameters hyper prior lambda
-  int<lower=1> a;
-  int<lower=1> b;
 }
 
 parameters{
@@ -55,7 +52,7 @@ model{
  lambdaMain ~ normal(0, 5);
  
  // hierarchical specification
- lambda ~ gamma(a, b);
+ lambda ~ gamma(1, 1);
  tau ~ exponential(lambda^2 / 2);
  mu ~ normal(0, tau);
  
