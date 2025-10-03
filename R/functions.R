@@ -3,7 +3,7 @@
 # dependencies: tidyverse (magrittr, tidyr, dplyr, ggplot2), mvtnorm, bayesplot
 
 # Part 1: functions for executing simulation study
-# simDatasets() -----------------------------------------------------------
+if# simDatasets() -----------------------------------------------------------
 # function that prepares a list with (nIter X nrow(cond)) datasets 
 simDatasets <- function(condPop, modelPars, nIter){
    
@@ -28,16 +28,12 @@ simDatasets <- function(condPop, modelPars, nIter){
       dat <- list()
       for (j in 1:nIter){
         
-        # specify crossloadings & N based on conditions
-        if(condPop[i, ]$cross == 0.2){
-          cross <- modelPars$cross2
-        } else{
-          cross <- modelPars$cross5
-        }
-        
+        crossCurrSing <- condPop[i, ]$cross 
+        crossCurrVec <- c(crossCurrSing, rep(0, 4), crossCurrSing)
+
         N <- condPop[i, ]$N
         
-        dat[[j]] <- simY(modelPars$main, cross = cross, modelPars$Psi, modelPars$Theta, N)
+        dat[[j]] <- simY(modelPars$main, cross = crossCurrVec, modelPars$Psi, modelPars$Theta, N)
       }
       # save data in appropriate element of final output
       datasets[[i]] <- list(dat)
@@ -187,7 +183,6 @@ saveResults <- function(rstanObj, condPrior, condPop, modelPars){
   crossEstMed <-  apply(crossMatrix, 2, median)
   crossEstVar <-  apply(crossMatrix, 2, var)
   
-
   # estimates Theta
   thetaEstMean <- apply(as.matrix(rstanObj, pars = "theta"), 2, mean)
   thetaEstMed <- apply(as.matrix(rstanObj, pars = "theta"), 2, median)
@@ -210,7 +205,6 @@ saveResults <- function(rstanObj, condPrior, condPop, modelPars){
   biasCrossMed <-    abs(factCorrEstMed - crossTrue)
   biasThetaMed <-    abs(thetaEstMed - diag(modelPars$Theta))
   biasFactCorrMed <- abs(factCorrEstMed - modelPars$Psi[2, 1])
-  
   
   ## Selection part of CrossLoadings, i.e. different configs of credible intervals
   # compute Quantiles of Cross loadings
