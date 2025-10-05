@@ -6,7 +6,7 @@
 # install renv if its not installed
 source('renv/activate.R')
 #install.packages("renv")       # ensure renv exists
-#renv::restore(prompt = FALSE)
+renv::restore()
 
 # load packages and handle cmdstan install
 source(here::here('R/packages.R'))

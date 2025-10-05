@@ -5,15 +5,15 @@ pkgRequ <- c(
 
 # missing packages
 
+pkgGithubLookup <- list('cmdstanr' = "stan-dev/cmdstanr")
+
+# Only replace if the package is actually missing
 for (pkg in names(pkgGithubLookup)) {
-  idx <- which(missing == pkg)
-  if (length(idx) > 0) {
+  if (pkg %in% missing) {
+    idx <- which(missing == pkg)
     missing[idx] <- pkgGithubLookup[[pkg]]
   }
 }
-
-missing <- missing[missing != "" & !is.na(missing)]
-
 
 # github packages lookup
 pkgGithubLookup <- list('cmdstanr' =  "stan-dev/cmdstanr")
