@@ -2,14 +2,36 @@
 # This is the main script running the simulation 
 # Dependencies: functions.R; parameters.R; 
 
-# renv setup  ---------------------------------------------------
+# package setup  ---------------------------------------------------
 # install renv if its not installed
 source('renv/activate.R')
-#install.packages("renv")       # ensure renv exists
-renv::restore()
+# required packages
+pkgRequ <- c(
+  "rstan", "tidyverse", "mvtnorm", "parallel", "bayesplot", "here", "cmdstanr", "furrr"
+)
 
-# load packages and handle cmdstan install
-source(here::here('R/packages.R'))
+# install manually (renv::restore() is unreliable)
+renv::install(pkgRequ)
+pkgGithub <- c("cmdstanr" = "stan-dev/cmdstanr")
+
+for (pkg in names(pkgGithub)) {
+  renv::install(pkgGithub[[pkg]])
+}
+
+# ---- CmdStan installation if needed ----
+cmdstanVersionReq <- "2.34.0"
+cmdstanVersionInstalled <- tryCatch(
+  cmdstanr::cmdstan_version(),
+  error = function(e) NA
+)
+if(!cmdstanVersionReq %in% cmdstanVersionInstalled || is.na(cmdstanVersionInstalled)){
+  cmdstanr::install_cmdstan(version = cmdstanVersionReq)
+}
+
+# ---- Load all packages ----
+for (pkg in pkgRequ) {
+  library(pkg, character.only = TRUE)
+}
 
 # source functions and conditions in global scope ------------------------
 source(here::here('R/functions.R'))
@@ -23,7 +45,6 @@ SVNP <- runPipeline(prior = "SVNP",
                     condPrior = condSVNP,
                     nIter,
                     nClusters)
-  
 
 # SVNP hyper --------------------------------------------------------------
 SVNP_hyper <- runPipeline(prior = "SVNP_hyper", 
