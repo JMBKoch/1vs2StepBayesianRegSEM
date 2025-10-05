@@ -29,7 +29,7 @@ if(!cmdstanVersionReq %in% cmdstanVersionInstalled || is.na(cmdstanVersionInstal
 }
 
 # ---- Load all packages ----
-for (pkg in pkgRequ) {
+for (pkg in c(pkgReq, pkgGithub)) {
   library(pkg, character.only = TRUE)
 }
 
