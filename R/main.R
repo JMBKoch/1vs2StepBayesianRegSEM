@@ -7,7 +7,7 @@
 source('renv/activate.R')
 # required packages
 pkgRequ <- c(
-  "rstan", "tidyverse", "mvtnorm", "parallel", "bayesplot", "here", "cmdstanr", "furrr"
+  "rstan", "tidyverse", "mvtnorm", "parallel", "bayesplot", "here", "furrr"
 )
 
 # install manually (renv::restore() is unreliable)
