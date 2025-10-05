@@ -3,6 +3,14 @@ pkgRequ <- c(
   "rstan", "tidyverse", "mvtnorm", "parallel", "bayesplot", "here", "cmdstanr", "furrr"
 )
 
+# install manually (renv::restore() is unreliable)
+renv::install(pkgRequ)
+pkgGithub <- c("cmdstanr" = "stan-dev/cmdstanr")
+
+for (pkg in names(pkgGithub)) {
+  renv::install(pkgGithub[[pkg]])
+}
+
 # ---- CmdStan installation if needed ----
 cmdstanVersionReq <- "2.34.0"
 cmdstanVersionInstalled <- tryCatch(
