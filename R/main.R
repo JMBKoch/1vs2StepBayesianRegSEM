@@ -2,17 +2,16 @@
 # This is the main script running the simulation 
 # Dependencies: functions.R; parameters.R; 
 
-# renv setup  ---------------------------------------------------
-# install renv if its not installed
-source('renv/activate.R')
-renv::restore(prompt = FALSE)
-
-# load packages and handle cmdstan install
+# pkg setup --------------------------------------------------------------
+if (!requireNamespace("here", quietly = TRUE) ){
+  install.packages("here")
+}
 source(here::here('R/packages.R'))
 
 # source functions and conditions in global scope ------------------------
 source(here::here('R/functions.R'))
 source(here::here('R/parameters.R'))
+
 
 # SVNP --------------------------------------------------------------------
 SVNP <- runPipeline(prior = "SVNP", 
