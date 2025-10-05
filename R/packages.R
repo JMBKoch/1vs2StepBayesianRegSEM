@@ -4,7 +4,16 @@ pkgRequ <- c(
 )
 
 # missing packages
-missing <- pkgRequ[!vapply(pkgRequ, requireNamespace, logical(1), quietly = TRUE)]
+
+for (pkg in names(pkgGithubLookup)) {
+  idx <- which(missing == pkg)
+  if (length(idx) > 0) {
+    missing[idx] <- pkgGithubLookup[[pkg]]
+  }
+}
+
+missing <- missing[missing != "" & !is.na(missing)]
+
 
 # github packages lookup
 pkgGithubLookup <- list('cmdstanr' =  "stan-dev/cmdstanr")
