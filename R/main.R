@@ -2,36 +2,11 @@
 # This is the main script running the simulation 
 # Dependencies: functions.R; parameters.R; 
 
-# package setup  ---------------------------------------------------
-# install renv if its not installed
-source('renv/activate.R')
-# required packages
-pkgRequ <- c(
-  "rstan", "tidyverse", "mvtnorm", "parallel", "bayesplot", "here", "furrr"
-)
-
-# install manually (renv::restore() is unreliable)
-renv::install(pkgRequ)
-pkgGithub <- c("cmdstanr" = "stan-dev/cmdstanr")
-
-for (pkg in names(pkgGithub)) {
-  renv::install(pkgGithub[[pkg]])
+# pkg setup --------------------------------------------------------------
+if (!requireNamespace("here", quietly = TRUE) ){
+  install.packages("here")
 }
-
-# ---- CmdStan installation if needed ----
-cmdstanVersionReq <- "2.34.0"
-cmdstanVersionInstalled <- tryCatch(
-  cmdstanr::cmdstan_version(),
-  error = function(e) NA
-)
-if(!cmdstanVersionReq %in% cmdstanVersionInstalled || is.na(cmdstanVersionInstalled)){
-  cmdstanr::install_cmdstan(version = cmdstanVersionReq)
-}
-
-# ---- Load all packages ----
-for (pkg in c(pkgReq, pkgGithub)) {
-  library(pkg, character.only = TRUE)
-}
+source(here::here('R/packages.R'))
 
 # source functions and conditions in global scope ------------------------
 source(here::here('R/functions.R'))
