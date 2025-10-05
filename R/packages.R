@@ -1,22 +1,40 @@
-# required packages
-pkgRequ <- c(
-  "rstan", "tidyverse", "mvtnorm", "parallel", "bayesplot", "here", "cmdstanr", "furrr"
+# ---------------- Package setup -------------------
+# bootstrap renv
+source('renv/activate.R')
+
+# ----- Required packages -----
+pkgCRAN <- c(
+  "rstan", "tidyverse", "mvtnorm", "parallel", 
+  "bayesplot", "here", "furrr"
 )
 
-# missing packages
-missing <- pkgRequ[!vapply(pkgRequ, requireNamespace, logical(1), quietly = TRUE)]
+pkgGithub <- c(
+  "cmdstanr" = "stan-dev/cmdstanr"
+)
 
-# github packages lookup
-pkgGithubLookup <- list('cmdstanr' =  "stan-dev/cmdstanr")
-# overwrite missing github names with their repo
-missing[which(missing == names(pkgGithubLookup))] <- pkgGithubLookup[which(missing == names(pkgGithubLookup))]
+# ----- Install missing CRAN packages -----
+missingCRAN <- pkgCRAN[!sapply(pkgCRAN, function(pkg) {
+  suppressWarnings(requireNamespace(pkg, quietly = TRUE))
+})]
 
-if (length(missing) >= 1) {
-  message("Installing missing packages ...")
-  renv::install(missing, prompt = FALSE)
+if(length(missingCRAN) > 0){
+  message("Installing missing CRAN packages: ", paste(missingCRAN, collapse = ", "))
+  renv::install(missingCRAN)
 }
 
-# ---- CmdStan installation if needed ----
+# ----- Install missing GitHub packages -----
+missingGH <- names(pkgGithub)[!sapply(names(pkgGithub), function(pkg) {
+  suppressWarnings(requireNamespace(pkg, quietly = TRUE))
+})]
+
+if(length(missingGH) > 0){
+  for(pkg in missingGH){
+    message("Installing GitHub package: ", pkgGithub[[pkg]])
+    renv::install(pkgGithub[[pkg]])
+  }
+}
+
+# ----- CmdStan installation if needed -----
 cmdstanVersionReq <- "2.34.0"
 cmdstanVersionInstalled <- tryCatch(
   cmdstanr::cmdstan_version(),
@@ -26,7 +44,8 @@ if(!cmdstanVersionReq %in% cmdstanVersionInstalled || is.na(cmdstanVersionInstal
   cmdstanr::install_cmdstan(version = cmdstanVersionReq)
 }
 
-# ---- Load all packages ----
-for (pkg in pkgRequ) {
+# ----- Load all packages -----
+allPkgs <- c(pkgCRAN, names(pkgGithub))
+for(pkg in allPkgs){
   library(pkg, character.only = TRUE)
 }
