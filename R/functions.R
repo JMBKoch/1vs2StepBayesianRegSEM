@@ -48,7 +48,7 @@ simDatasets <- function(condPop, modelPars, nIter){
 
 # function to prepare stan data object from a unique element of the output of simDat()
 # based on a unique combination of hyper-pars
-prepareDat <- function(datasets, condPrior, nIter){ 
+prepareDat <- function(datasets, condPrior, nIter, wishart=TRUE){ 
   
   # helper function for unlisting on only first level;
   #  (c) Heibl 2016 (https://github.com/heibl/ips/blob/master/R/unlistFirstLevel.R)
@@ -177,7 +177,8 @@ prepareDat <- function(datasets, condPrior, nIter){
     dataStan[[pos]] <- dataStanCondCurrent
   }
   #return unnested output, such that it can be looped over in sampling()
-  unlistFirstLevel(dataStan)
+  out <- unlistFirstLevel(dataStan)
+  return(out)
 }
 
 # saveResults() ------------------------------------------------------------
@@ -191,7 +192,7 @@ saveResults <- function(rstanObj, condPrior, condPop, modelPars){
   }
   
   # save lambda for LASSO_hyper
-  if(condPrior$prior == "SVNP_hyper"){
+  if(condPrior$prior == "LASSO_hyper"){
     LambdaEstMean <- apply(as.matrix(rstanObj, pars = "lambda"), 2, mean)
     LambdaEstMed <- apply(as.matrix(rstanObj, pars = "lambda"), 2, median)
   }
@@ -533,20 +534,23 @@ runPipeline <- function(prior,
   datModelPath <- paste0(projRoot, '/data/data', prior, ".RDS")
   if (!file.exists(datModelPath)) {
     datStanModel <- prepareDat(datasets, condPrior, nIter)
+    
+    # Wishart transformation if needed
+    if (wishart) {
+      datStanModel <- purrr::imap(datStanModel, ~ {
+        .x$S <- cov(.x$Y)
+        .x$Y <- NULL
+        .x
+      })
+    }
+    
     write_rds(datStanModel, file = datModelPath)
     message(paste0('\n Data for ', prior, ' generated and saved to ', datModelPath))
   } else {
     datStanModel <- read_rds(datModelPath)
   }
   
-  # Wishart transformation if needed
-  if (wishart) {
-    datStanModel <- imap(datStanModel, ~ {
-      .x$S <- cov(.x$Y)
-      .x$Y <- NULL
-      .x
-    })
-  }
+
   
   # 3. Compile Stan model
   suffix <- ifelse(wishart, "_wishart", "")
@@ -560,10 +564,19 @@ runPipeline <- function(prior,
   
   # 5. Run parallel sampling
   outputFinalModel <- future_map(
-    1:length(datStanModel),
+    seq_along(datStanModel),
     ~ sampling_catcher(.x, datStanModel, prior, modelCompiled, modelPars, samplePars, wishart),
-    .options = furrr_options(seed = TRUE)
+    .options = furrr_options(seed = TRUE), globals = list(
+      datStanModel = datStanModel,
+      prior = prior,
+      modelCompiled = modelCompiled,
+      modelPars = modelPars,
+      samplePars = samplePars,
+      wishart = wishart
+    )
   )
+  
+  message(paste0('\n Succes: sampling done for ', prior))
 
   return(list(
     prior = prior,
@@ -571,6 +584,5 @@ runPipeline <- function(prior,
     output = outputFinalModel
   ))
   
-  message(paste0('\n Succes: sampling done for', prior))
 
 }
