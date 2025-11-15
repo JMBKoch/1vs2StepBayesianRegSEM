@@ -1,4 +1,0 @@
-load("/Users/michi/1vs2StepBayesianRegSEM/data/dataSVNP.RDS")
-load("/Users/michi/1vs2StepBayesianRegSEM/data/dataRHSP.RDS")
-load("/Users/michi/1vs2StepBayesianRegSEM/data/datasets.RDS")
-load("/Users/michi/1vs2StepBayesianRegSEM/data/dataSVNP_hyper.RDS")

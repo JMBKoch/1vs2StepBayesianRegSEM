@@ -20,6 +20,7 @@ missingCRAN <- pkgCRAN[!sapply(pkgCRAN, function(pkg) {
 if(length(missingCRAN) > 0){
   message("Installing missing CRAN packages: ", paste(missingCRAN, collapse = ", "))
   renv::install(missingCRAN)
+  # install.packages(missingCRAN)
 }
 
 # ----- Install missing GitHub packages -----
@@ -31,6 +32,7 @@ if(length(missingGH) > 0){
   for(pkg in missingGH){
     message("Installing GitHub package: ", pkgGithub[[pkg]])
     renv::install(pkgGithub[[pkg]])
+    # install.packages(missingCRAN)
   }
 }
 

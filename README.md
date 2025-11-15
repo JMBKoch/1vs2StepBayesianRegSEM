@@ -1,25 +1,59 @@
-# Getting A Step Ahead: Using the Regularized Horseshoe Prior to Select Cross-Loadings in Bayesian Regularized Structural Equation Modeling (SEM)
+# Testrun Introductie
 
+Deze branch is een minimale versie van de repo voor testdoeleinden. Ik heb deze testrun zelf succesvol uitgevoerd
+op mijn mac en op mijn linux-server (debian bookworm).
 
-This repository contains the code of my Master's Thesis in Methodology & Statistics at Utrecht University (September '21 - June '22). 
+# Overzicht branch
 
-You can clone the repository by running:
+- [R](./R): Hier zijn de R scripts om de analyse te draaien.
+  - [R/parameters.R](R/parameters.R): Hier zitten 2 reeks parameters, waarvan er eentje is uitgecommented. De uitgecommente
+   is de versie van parameters die ik stand vandaag obv de review zou gebruiken. Kijk hiernaar en
+   geef feedback in de mail of het working document.
+- [stan](./stan): Hier is de stan code van alle modellen. Nu nog en in wishart en in loop-over-1-t/m-N
+specificatie
+  - Relevant om te checken: [LASSO.stan](./stan/LASSO.stan), [LASSO_wishart.stan](./stan/LASSO_wishart.stan),
+  [LASSO_hyper.stan](./stan/LASSO_hyper.stan) & [LASSO_hyper_wishart.stan](./stan/LASSO_hyper_wishart.stan)
+- [renv](./renv): R-package dependency environment voor deze repo met `renv::`. Hier hoef je niets mee te doen. 
+- [renv.lock](./renv.lock): `renv::` houdt hier de dependencies bij. Hoef je niets mee te doen.
 
-`git clone https://github.com/JMBKoch/1vs2StepBayesianRegSEM/`.
+# Testrun Instructies
 
-- The most recent version of the research article reporting the results of this project can be found on [`/Rmd/thesis`](/Rmd/thesis).
+## 1. Clone deze branch
 
-- Note that all scripts assume that this repository has been cloned to the home directory of a unix-based system. Hence, if you're on Windows or you want to work from a different path, you will have to adjust the paths in [`R/main.R`](/R/main.R) and in [`Rmd/analyses`](Rmd/analyses) manually. 
+```bash
+git clone -b testrun-sara --single-branch --depth 1 https://github.com/JMBKoch/1vs2StepBayesianRegSEM 
+```
 
-- The simulation study can be conducted by sourcing or running [`R/main.R`](/R/main.R). Note that all study-parameters, including the MCMC sampling parameters, and the number of clusters used in the parallelization are specified in [`R/parameters.R`](R/parameters.R).  [`R/functions.R`](R/functions.R) contains all functions that are used in [`R/main.R`](/R/main.R). If you want to re-run the simulation, please first uncomment line 28 & 29 in [`R/main.R`](/R/main.R). This ensures that the output is removed and newly saved. Otherwise the new results will be appended to the old ones. 
+## 2. Run main-script 
 
-- Packages should be installed automatically, if they are not yet. However, this may not work on all systems/ versions of R. Hence, if the script does not run checking if the packages are installed correctly may be a sensible first step in the debugging process. An overview of the required packages can be found at the top (line 7-13) of [`R/parameters.R`](R/parameters.R). 
+Run in de linux shell, **vanuit de root van deze repo**:
 
-- In order for `cmdstanr` to work, it is required to run `cmdstanr::install_cmdstan(version = "2.34.0")` a single time. UPDATE AUGUST '25: the legacy version of
-`cmdstanr` is used as to [this issue](https://github.com/stan-dev/rstan/issues/1133?utm_source=chatgpt.com)
-- Note that if the model is adjusted, the code in [`stan`](stan) needs to be adjusted accordingly as well. 
+```bash
+Rscript R/main.R
+```
 
-- [`data`](data) contains the raw datasets that were simulated based on the population conditions. It will be simulated and saved again when running [`R/main.R`](R/main.R).
+of laad [1vs2StepBayesianRegSEM.Rproj](./1vs2StepBayesianRegSEM.Rproj) in RStudio 
+en source [R/main.R](/.R/main.R).
 
+De run was succesvol wanneer er geen errors zijn en per prior in [R/main.R](/.R/main.R) en 
+resultaten en convergence-resultaten in [output](./output) komen te staan. 
 
-(c) J.M.B. Koch, 2022 (updated 2024)
+Er zitten nu 5 priors in [R/main.R](/.R/main.R):
+
+1. SVNP (wishart)
+2. SVNP met hyper prior (wishart)
+3. LASSO (wishart)
+4. LASSO met hyper prior (wishart)
+5. RSHP (wishart)
+
+In totaal wil je dus 5 x 2 = 10 .RDS-bestanden in de output-map hebben zitten.
+
+## Checks Programmatuur
+
+- Zijn de uitgecommente parameters in  [R/parameters.R](R/parameters.R) zinvole keuzes voor de finale draai?
+
+- Zijn de specificaties van de LASSO-prior (en met en zonder hyperprior, en met en zonder wishart specificatie) correct?
+
+## Optioneel: Check Resultaten
+
+Voel je vrij om zelf parameters aan te passen en hierdoor bijvoorbeeld te gaan checken of de wishart specificatie wel klopt.

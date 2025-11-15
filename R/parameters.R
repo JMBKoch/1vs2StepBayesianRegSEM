@@ -146,7 +146,7 @@ convCriteria <- list(
 # scaleSlab <- c(0.1, 1, 5) # scale of slab
 # 
 # # Population conditions ----------------------------------------------------
-# N <- c(100, 200, 500)
+# N <- seq(100, 1000, 100)
 # cross <- c(0.01, 0.1, 0.2, 0.5, 1)
 # 
 # # Making condition objects ------------------------------------------------
@@ -199,7 +199,7 @@ convCriteria <- list(
 # nClusters <- 6 # depending on machine, original study run with 12 for SVNP and 46 for RHSP
 # 
 # # other study parameters --------------------------------------------------
-# nIter <- 200 # in paper(s) Iterations are referred to as "Replications"
+# nIter <- 400 # in paper(s) Iterations are referred to as "Replications"
 # 
 # # Convergence Criteria ----------------------------------------------------
 # convCriteria <- list(
